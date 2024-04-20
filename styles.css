@@ -1,0 +1,74 @@
+/* Title styles */
+.confession-title {
+    text-align: center; /* Center align text */
+    font-size: 2rem; /* Font size */
+    margin-bottom: 20px; /* Bottom margin */
+    color: #6b2737; /* Text color */
+}
+
+/* MMU's MM text color set to blue */
+.mmu-m {
+    color: blue;
+}
+
+/* MMU's U text color set to red */
+.mmu-u {
+    color: red;
+}
+
+/* Grid container styles */
+.grid-container {
+    display: grid; /* Use grid layout */
+    grid-template-columns: repeat(2, 1fr); /* Two columns with equal width */
+    grid-gap: 20px; /* Gap between grids */
+    margin-top: 20px; /* Top margin */
+    position: relative; /* Relative positioning */
+}
+
+/* Grid item styles */
+.grid-item {
+    border: 1px solid #ccc; /* Border style */
+    text-align: center; /* Center align text */
+    position: relative; /* Relative positioning */
+    overflow: hidden; /* Overflow hidden */
+    border-radius: 10px; /* Border radius */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    transition: transform 0.3s ease; /* Smooth transition effect on hover */
+    background-color: #f7d9e5; /* Background color for the box */
+    color: #6b2737; /* Text color */
+}
+
+/* Hover effect on grid item */
+.grid-item:hover {
+    transform: scale(1.05); /* Scale effect */
+}
+
+/* Image styles in grid item */
+.grid-item img {
+    width: 80%; /* Image width */
+    height: 80%; /* Image height */
+    object-fit: cover; /* Image fit */
+    border-radius: 10px; /* Border radius for image */
+}
+
+/* Image grayscale effect */
+.grid-item img {
+    filter: grayscale(100%); /* Image grayscale */
+    transition: filter 0.5s; /* Transition effect */
+}
+
+/* Hover effect on image */
+.grid-item:hover img {
+    filter: grayscale(0%); /* Revert image to color */
+}
+
+/* Message box styles */
+.message {
+    opacity: 0; /* Initial opacity set to 0 */
+    transition: opacity 0.5s; /* Transition effect */
+}
+
+/* Show message box on hover */
+.grid-item:hover .message {
+    opacity: 1; /* Opacity set to 1 to show message box */
+}
