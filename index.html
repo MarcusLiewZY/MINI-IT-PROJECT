@@ -1,49 +1,64 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MMU Confession</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Confession title -->
-    <h1 class="confession-title"><span class="mmu-m" style="color: blue;">MM</span><span class="mmu-u" style="color: red;">U</span> Confession</h1>
+    <!-- Header Section -->
+    <div class="mmu-header">
+        MMU Confession
+    </div>
+
+    <!-- Menu Section -->
+    <div class="menu">
+        <!-- Search Box -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search...">
+            <button onclick="search()">Search</button>
+        </div>
+
+        <!-- Menu Links -->
+        <div class="menu-links">
+            <a href="#about-section">About</a>
+            <a href="#posts-section">Posts</a>
+            <a href="#info-section">Info</a>
+            <a href="#faq-section">FAQ</a>
+        </div>
+
+        <!-- Start Box -->
+        <div class="start-box">
+            <a href="start.html" class="start-link">Start</a>
+        </div>
+    </div>
     
-    <!-- Grid for campuses -->
-    <div id="home">
-        <div class="grid-container">
-            <div class="grid-item">
-                <a href="MMUcyber.html"><img src="mmucyber.png" alt="MMU Cyberjaya"></a>
-                <div class="location"><span style="font-size: 1.2rem;">MMU Cyberjaya</span></div>
-                <div class="message">
-                    <p>Multimedia University, Persiaran Multimedia, 63100 Cyberjaya, Selangor, Malaysia</p>
-                </div>
-            </div>
-            <div class="grid-item">
-                <a href="MMUmelaka.html"><img src="mmumelaka.png" alt="MMU Melaka"></a>
-                <div class="location"><span style="font-size: 1.2rem;">MMU Melaka</span></div>
-                <div class="message">
-                    <p>Multimedia University, Jalan Ayer Keroh Lama, 75450 Bukit Beruang, Melaka, Malaysia</p>
-                </div>
-            </div>
+    <!-- Image Section -->
+    <div class="image-container">
+        <img src="main1.png" alt="Main Image">
+        <div class="text-overlay">
+            <p class="begin-journey">Begin Your Journey</p>
+            <p class="connect-like">Connect with Like-Minded Travelers</p>
         </div>
     </div>
 
-        <div class="grid-item about-us">
-        <h2>About Us</h2>
-        <p>Welcome to MMU Confession, a platform dedicated to fostering a vibrant and inclusive campus community. Here's what you can expect from us:</p>
-        <ul>
-            <li><strong>Our Mission and Vision:</strong> At MMU Confession, we strive to provide a safe and anonymous space for students to share, connect, and express themselves. Our vision is to enhance campus solidarity and engagement through open dialogue and mutual respect.</li>
-            <li><strong>User Benefits:</strong> Your privacy and security are our top priorities. We encourage free expression while fostering an environment of understanding and empathy.</li>
-            <li><strong>User Stories or Case Studies:</strong> Share some real user stories or case studies to demonstrate how they have found support, solved problems, or expressed emotions through MMU Confession.</li>
-            <li><strong>Campus News and Anecdotes</strong> Share interesting campus news, anecdotes, or exclusive campus reports to increase user attention and visit frequency to the platform.</li>
-            <li><strong>Community Values:</strong> Integrity, inclusivity, respect, and unity are the cornerstones of our community. Together, let's create a positive and supportive campus environment where every voice is heard and valued.</li>
-        </ul>
+    <!-- About Section -->
+    <div id="about-section" class="about-section animated">
+        <div class="about-text">
+            <p>About</p>
+        </div>
     </div>
-    
-    <script>
-        function scrollToElement(id) {
-            var element = document.getElementById(id);
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-    </script>
-</body>
+
+    <!-- Pic Description Section -->
+    <div class="pic-description">
+        <img src="pic1.png" alt="Pic 1" class="pic1">
+        <div class="pic-text">
+            <p>We're all about human connections that rock and conversations that make you go, "Sheesh!" This isn't just any spot to spill your thoughts—it's a virtual playground where humans collide to share wisdom, swap stories, and maybe even share a lame joke or two.</p>
+            <p>Join us in building a platform where every voice is heard, every story is valued, and every interaction leaves an impact. So, what are you waiting for? Dive into the rabbit hole, join the party, and let's build memories together in this wild ride! Every voice counts, every story rocks, and every interaction is a virtual high-five. See you on the flip side! </p>
+        </div>
+    </div>  
+
+    <script src="script.js"></script>
+</body> 
 </html>
