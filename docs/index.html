@@ -14,26 +14,21 @@
 
     <!-- Menu Section -->
     <div class="menu">
-        <!-- Search Box -->
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Search...">
-            <button onclick="search()">Search</button>
+
+         <!-- Start Box -->
+         <div class="start-box">
+            <img src="mmulogo.png" alt="MMU Logo" class="mmulogo">
+            <a href="signup.html" class="signup-link"><img src="signup-pic.png" alt="Signup"></a>
         </div>
 
         <!-- Menu Links -->
         <div class="menu-links">
-            <a href="#about-section">About</a>
+            <a href="#about-section" class="active">About</a>
             <a href="#posts-section">Posts</a>
             <a href="#info-section">Info</a>
             <a href="#faq-section">FAQ</a>
         </div>
-
-        <!-- Start Box -->
-        <div class="start-box">
-            <a href="start.html" class="start-link">Start</a>
-        </div>
     </div>
-    
     <!-- Image Section -->
     <div class="image-container">
         <img src="main1.png" alt="Main Image">
@@ -55,10 +50,58 @@
         <img src="pic1.png" alt="Pic 1" class="pic1">
         <div class="pic-text">
             <p>We're all about human connections that rock and conversations that make you go, "Sheesh!" This isn't just any spot to spill your thoughts—it's a virtual playground where humans collide to share wisdom, swap stories, and maybe even share a lame joke or two.</p>
-            <p>Join us in building a platform where every voice is heard, every story is valued, and every interaction leaves an impact. So, what are you waiting for? Dive into the rabbit hole, join the party, and let's build memories together in this wild ride! Every voice counts, every story rocks, and every interaction is a virtual high-five. See you on the flip side! </p>
+            <p>Join us in building a platform where every voice is heard, every story is valued, and every  interaction leaves an impact. So, what are you waiting for? Dive into the rabbit hole, join the party, and let's build memories together in this wild ride! Every voice counts, every story rocks, and every interaction is a virtual high-five. See you on the flip side! </p>
         </div>
     </div>  
 
-    <script src="script.js"></script>
-</body> 
+<!-- Post Section -->
+<div id="posts-section" class="posts-section animated">
+    <div class="post-text">
+        <p>Posts</p>
+    </div>
+
+    <!-- Grid Layout for Posts -->
+       <div class="post-grid">
+       <!-- Post 1 -->
+        <div class="post-box" id="post1">
+            <img src="post1.png" alt="Post 1 Image">
+            <h2>Establishing a Community: Join MMU Confession</h2>
+            <p>In recent years, social media has become an essential channel for many individuals to express ideas, share experiences, and seek support. However, there are times when we may need a more anonymous, unbiased platform to share our inner world. MMU Confession is precisely such a place that allows you to do just that.</p>
+            <div class="like-share">
+              <button id="post1-like" onclick="likePost('post1')">❤️</button>
+              <span id="post1-like-count">0</span>
+              <span class="likes-text">LIKES</span>
+            </div>
+       </div>
+
+        <!-- Post 2 -->
+        <div class="post-box" id="post2">
+            <img src="post2.png" alt="Post 2 Image">
+            <h2>MMU Confession: Anonymously Share Your Thoughts</h2>
+            <p>MMU Confession is an anonymous sharing platform crafted for the university community. The mission of this website is to provide a safe, open space for students and staff to share their thoughts, experiences, and ideas while also listening to the stories of others and building connections.Came sharing moments of joy </p>
+            <div class="like-share">
+              <button id="post2-like" onclick="likePost('post2')">❤️</button>
+              <span id="post2-like-count">0</span>
+              <span class="likes-text">LIKES</span>
+            </div>
+        </div>
+
+        <!-- Post 3 -->
+        <div class="post-box" id="post3">
+            <img src="post3.png" alt="Post 3 Image">
+            <h2>Voices of Stories: MMU Confession Platform</h2>
+            <p>We would like to share with you a website about community communication. This is a very interesting platform called MMU Confession. The site is designed to allow people to anonymously share their thoughts and stories or find like-minded people to connect with."Community Exchange, Every Voice Matters," </p>
+            <div class="like-share">
+              <button id="post3-like" onclick="likePost('post3')">❤️</button>
+              <span id="post3-like-count">0</span>
+              <span class="likes-text">LIKES</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Post Interactions -->
+<script src="post-interactions.js"></script>
+
+</body>  
 </html>
