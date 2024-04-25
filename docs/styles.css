@@ -459,13 +459,14 @@ body {
 .about-us li {
     margin-bottom: 5px; /* Add space between list items */
 }
+}
 .circle {
     width: 50px;
     height: 50px;
     background-color: #007BFF;
     border-radius: 50%;
     position: fixed;
-    top: 20px;
+    top: 10px;
     right: 20px;
     display: flex;
     align-items: center;
@@ -477,15 +478,37 @@ body {
 
 .divider {
     width: 100%;
-    border-top: 1px solid #000;
+    height: 2px;
+    background: linear-gradient(to right, #00000000 0%, #000000 25%, #000000 75%, #00000000 100%); /* 渐变背景 */
     margin: 20px 0;
+    position: relative;
 }
+
+.divider::before,
+.divider::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -5px;
+    width: 5%;
+    height: 10px;
+    background-color: #000000; /* 上下部分小矩形的颜色 */
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
 
 .search-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .search-input {
@@ -507,9 +530,10 @@ body {
 .search-button:hover {
     background-color: #0056b3;
 }
-.home-title {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #000000;
+.tablehome {
+    width: 100%;
+}
+.imghomemmulogo {
+    max-width: 150px;
+    max-height: 200px;
 }
