@@ -1,31 +1,16 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
     <title>Home page</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        th {
-            text-align: center;
-        }
-        img {
-            max-width: 100px;
-            max-height: 100px;
-        }
-    </style>
 </head>
 <body>
-    <header>
-        <h1 class="home-title">WELCOME TO <span class="mmu-m" style="color: blue;">MM</span><span class="mmu-u" style="color: red;">U</span> Confession</h1>
-    </header>
-
     <a href="profile.html" class="circle">Profile</a>
-    <div class="divider"></div>
-</body>
-<body>
-    <table class = "hometable">
-        
+
+    <table class="tablehome">
         <tr>
-            <th><a href=".html"><img src="home.png" alt="HOME"></a></th>
-            <th><a href=".html"><img src="notification.png" alt="RING"></a></th>
+            <th><img src="mmulogo.png" class="imghomemmulogo"></th>
+            <th><a href=".html"><img src="notification.jpg" alt="Notification"></a></th>
             <th><a href=".html"><img src="help.png" alt="HELP"></a></th>
             <th>
                 <div class="search-container">
@@ -36,8 +21,6 @@
                     </form>
                 </div>
             </th>
-            <th><a href="index.html"><img src="logout.png" alt="LOGOUT"></a></th>
-        </tr>
     </table>
     <div class="divider"></div>
 
@@ -48,4 +31,5 @@
             console.log("Performing search for: " + searchInput);
         }
     </script>
+</body>
 </html>
