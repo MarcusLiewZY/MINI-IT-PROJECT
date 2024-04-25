@@ -1,35 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home page</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            background-color:#cee4ff;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <a href="profile.html" class="circle">Profile</a>
-
     <table class="tablehome">
         <tr>
-            <th><img src="mmulogo.png" class="imghomemmulogo"></th>
-            <th><a href=".html"><img src="notification.jpg" alt="Notification"></a></th>
-            <th><a href=".html"><img src="help.png" alt="HELP"></a></th>
+            <th><img src="{{ url_for('static', filename='mmulogo.png') }}" class="imghomemmulogo"></th>
+            <th><a href="notification.html"><span class="homeword">Notification</span></a></th>
+            <th><a href="Try.html"><span class="homeword">Try</span></a></th>
             <th>
                 <div class="search-container">
-                    <form id="searchForm">
+                    <form action="{{ url_for('search') }}" method="POST">
                         <label for="searchInput"></label>
                         <input type="text" id="searchInput" name="searchInput" class="search-input">
-                        <button type="button" onclick="performSearch()" class="search-button">Search</button>
+                        <button type="submit" class="search-button">Search</button>
                     </form>
                 </div>
             </th>
+        </tr>
     </table>
     <div class="divider"></div>
-
-    <script>
-        function performSearch() {
-            var searchInput = document.getElementById("searchInput").value.trim();
-            // Your search logic here
-            console.log("Performing search for: " + searchInput);
-        }
-    </script>
+    <table class="tablehome2">
+        <tr>
+            <td><button class="popup-btn" id="popupBtn"><i class="fas fa-plus"></i></button></td>
+            <td><input type="text" class="inputpost" placeholder="Enter Apa lanjiao you want"></td>
+            <td><button class="post-btn">Post</button></td>
+    </table>
+    <div class="popup-container" id="popupContainer">
+        <div class="popup-content">
+            <button class="popup-close-btn" id="popupCloseBtn">&times;</button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
