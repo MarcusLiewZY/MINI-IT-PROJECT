@@ -463,7 +463,7 @@ body {
 .circle {
     width: 50px;
     height: 50px;
-    background-color: #007BFF;
+    background-color: #ffffff;
     border-radius: 50%;
     position: fixed;
     top: 10px;
@@ -478,29 +478,10 @@ body {
 
 .divider {
     width: 100%;
-    height: 2px;
-    background: linear-gradient(to right, #00000000 0%, #000000 25%, #000000 75%, #00000000 100%); /* 渐变背景 */
+    height: 0px;
+    background-color: #cee4ff;
     margin: 20px 0;
     position: relative;
-}
-
-.divider::before,
-.divider::after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: -5px;
-    width: 5%;
-    height: 10px;
-    background-color: #000000; /* 上下部分小矩形的颜色 */
-}
-
-.divider::before {
-    left: 0;
-}
-
-.divider::after {
-    right: 0;
 }
 
 
@@ -532,8 +513,136 @@ body {
 }
 .tablehome {
     width: 100%;
+    margin-top: 0px;
+    margin-bottom: 40px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    color: #6b2737;
+    margin:0 auto;;
+    padding: 5px;
 }
 .imghomemmulogo {
     max-width: 150px;
-    max-height: 200px;
+    max-height: 400px;
+}
+.homeword {
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+  }
+
+.homeword::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0%;
+    height: 3px;
+    background-color: black;
+    transition: width 0.5s ease;
+  }
+
+.homeword:hover::after {
+    width: 100%;
+  }
+
+.hometitle {
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    color: black;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+}
+.tablehome2 {
+    width: 35%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    color: #6b2737;
+    margin:0 auto;;
+    padding: 5px;
+}
+
+/* 样式 */
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.popup-content {
+    background-color: rgb(255, 255, 255);
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 26, 255, 0);
+    border: 1px solid rgb(0, 13, 255); 
+    position: relative;
+}
+
+/* 按钮样式 */
+.popup-btn {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 25px; /* 图标大小 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.popup-btn:hover {
+    background-color: #0056b3;
+}
+
+.popup-close-btn {
+    /* 其他样式 */
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.inputpost {
+    background-color: #f2f2f2; 
+    border: 1px solid #ccc; 
+    color: #333; 
+    border-radius: 4px; 
+    padding: 8px; 
+    width: 90%; 
+    height: auto; 
+}
+
+.post-btn {
+    background-color: #007bff; 
+    color: white;
+    border: 1px solid #ffffff; 
+    border-radius: 4px;/
+    padding: 8px 16px; 
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+.post-btn:hover {
+    background-color: #0056b3; 
 }
