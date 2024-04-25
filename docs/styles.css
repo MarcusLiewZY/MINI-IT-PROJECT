@@ -17,55 +17,113 @@ body {
 /* Menu Styles */
 .menu {
     background-color: #0b070a;
-    text-align: center;
+    text-align: left;
     padding: 10px 20px;
     display: flex;
     align-items: center;
-}
-
-/* Search Box Styles */
-.search-box {
-    display: flex;
-    align-items: center;
-}
-
-.search-box input[type="text"] {
-    padding: 5px;
-    margin-right: 5px;
-}
-
-.search-box button {
-    background-color: transparent;
-    border: none;
+    justify-content: space-between;
 }
 
 /* Menu Links Styles */
 .menu-links {
-    flex-grow: 1;
+    display: flex;
+    align-items: center;
 }
 
 .menu a {
-    color:#92897d;
-    text-decoration: underline;
+    color: #92897d;
+    text-decoration: none;
     margin-right: 20px;
-    font-size: 20px;
-    transition: color 0.3s ease;
+    font-size: 24px;
+    transition: color 0.3s ease, border-bottom-color 0.3s ease; /* 添加过渡效果 */
 }
 
 .menu a:hover {
     color: #fff;
+    border-bottom-color: #fff; /* 悬停时添加底部边框 */
+}
+
+/* Divider Styles */
+.divider {
+    color: #92897d;
+    margin: 0 10px;
+}
+
+/* Larger Font Size */
+.menu a {
+    font-size: 28px;
+}
+
+/* Hover Box Shadow Effect */
+.menu a {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 初始时无阴影 */
+}
+
+.menu a:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* 悬停时添加阴影 */
+}
+
+/* Menu Link Bottom Border */
+.menu a {
+    position: relative; /* 设置相对定位 */
+}
+
+.menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; /* 将线条放在链接底部 */
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #fff; /* 横线颜色 */
+    transition: width 0.3s ease; /* 过渡效果 */
+}
+
+.menu a:hover::after,
+.menu a.active::after {
+    width: 100%; /* 悬停或激活时显示横线 */
+}
+
+/* Signup Link Animation */
+.signup-link img {
+    transition: transform 0.3s ease; /* 添加动画效果 */
+}
+
+.signup-link:hover img {
+    transform: scale(1.1); /* 悬停时放大图标 */
 }
 
 /* Start Box Styles */
 .start-box {
-    background-color: #262625;
-    padding: 10px 20px;
+    display: flex;
+    align-items: center; /* Center items vertically */
 }
 
-.start-link {
-    color: rgb(0, 0, 0);
-    text-decoration: none;
-    font-size: 20px;
+/* Signup Link Styles */
+.signup-link {
+    margin-right: 10px; /* Adjust spacing between signup link and logo */
+}
+
+/* MMU Logo Styles */
+.mmulogo {
+    width: 150px; /* Adjust size of the MMU logo */
+}
+
+.start-link img {
+    width: 50px; /* 调整图片宽度 */
+    height: auto; /* 让高度自适应 */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1); /* 在动画的中间点放大 */
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* Image Styles */
@@ -202,10 +260,100 @@ body {
     font-size : 24px;
 }
 
+/* Post Section Styles */
+.posts-section {
+    background-color: #92897d; /* Same color as the About section */
+    color: white;
+    font-size: 36px;
+    padding: 10px;
+    text-align: center;
+    margin: 10px auto;
+    animation: fadeInPosts 2s ease;
+}
 
+@keyframes fadeInPosts {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
 
+/* Post Section Styles */
+.posts-section {
+    background-color: #262625; /* Same color as the About section */
+    color: white;
+    text-align: left; /* Align text to the left */
+    animation: fadeInPosts 2s ease;
+}
+ 
+.post-text p:first-child {
+    font-size: 100px;
+    position: relative; /* Add position relative */
+}
 
+.post-text p:first-child::after {
+    content: ''; /* Add content */
+    position: absolute; /* Position it absolutely */
+    left: 0; /* Align it with the text */
+    bottom: 0px; /* Adjust its position */
+    width: 90%; /* Make it span the width of the container */
+    height: 1px; /* Set the height */
+    background-color: white; /* Color of the line */
+}
 
+.post-box img {
+    width: 100%; /* Make the images fill the box */
+    height: auto; /* Maintain aspect ratio */
+    border: 1px solid #ccc; /* Add border to images */
+    border-radius: 5px; /* Add some border radius */
+}
+
+/* Post Box Styles */
+/* Post Box Styles */
+.post-box {
+    width: calc(32% - 20px); /* Set width for each box, subtracting margin */
+    display: inline-block; /* Display boxes in a row */
+    margin: 20px 10px; /* Adjust margin */
+    vertical-align: top; /* Align boxes to the top */
+    text-align: left; /* Align text to the left */
+    padding: 20px; /* Add padding */
+    background-color: #fff; /* Add background color */
+    border-radius: 10px; /* Add border radius */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add box shadow */
+    box-sizing: border-box; /* Include padding and border in the box's total width */
+}
+
+.post-box img {
+    width: 100%; /* Make the images fill the box */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Add border radius */
+}
+
+.post-box h2 {
+    font-size: 24px; /* Increase font size for titles */
+    margin-bottom: 10px; /* Add some space below the titles */
+    color: #333; /* Change the font color to dark gray */
+}
+
+.post-box p {
+    font-size: 20px; /* Increase font size for paragraphs */
+    margin-bottom: 10px; /* Add some space below the paragraphs */
+    color: #333; /* Change the font color to dark gray */
+}
+
+/* Like and Share Symbol Styles */
+.like-share {
+    font-size: 16px; /* Set font size */
+    color: #333; /* Set color */
+}
+
+/* Like Text Styles */
+.likes-text {
+    font-size: 12px; /* 设置 "Likes" 文字的字体大小 */
+    color: #333; /* 设置 "Likes" 文字的颜色 */
+}
 
 
 
