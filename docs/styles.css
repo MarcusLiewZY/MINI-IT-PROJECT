@@ -507,3 +507,9 @@ body {
 .search-button:hover {
     background-color: #0056b3;
 }
+.home-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #000000;
+}
