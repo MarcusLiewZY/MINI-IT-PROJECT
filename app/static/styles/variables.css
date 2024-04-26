@@ -1,0 +1,51 @@
+:root {
+  /* Color styles */
+  --color---base---active: #2563eb;
+  --color---base---error: #ba1a1a;
+  --color---base---white: #ffffff;
+  --color---base---black: #000000;
+  --color---base---active-hover: #0050ff;
+  --color---base---brown: #78350f;
+  --color---neutral--neutral100: #ffffff;
+  --color---neutral--neutral99: #fffbff;
+  --color---neutral--neutral95: #f4f0ef;
+  --color---neutral--neutral90: #e5e1e1;
+  --color---neutral--neutral80: #c9c6c5;
+  --color---neutral--neutral70: #adaaaa;
+  --color---neutral--neutral60: #939090;
+  --color---neutral--neutral50: #797676;
+  --color---neutral--neutral40: #605e5e;
+  --color---neutral--neutral20: #313030;
+  --color---neutral--neutral10: #1c1b1c;
+  --color---neutral--neutral0: #000000;
+  --color---purple---purple90: #65558f;
+  --color---purple---purple10: #eaddff;
+  --color---status---pending: #9ca3af;
+  --color---status---approved: #4ade80;
+  --color---status---rejected: #f87171;
+
+  /* Text-size styles */
+  /* base size: color--body--medium (14px) */
+  --text--display--large: 4.07rem;
+  --text--display--medium: 3.21rem;
+  --text--display--small: 2.57rem;
+  --text--headline--large: 2.29rem;
+  --text--headline--medium: 2rem;
+  --text--headline--small: 1.71rem;
+  --text--body--large: 1.14rem;
+  --text--body--medium: 1rem;
+  --text--body--small: 0.86rem;
+  --text--label--large: 1rem;
+  --text--label--medium: 0.86rem;
+  --text--label--small: 0.79rem;
+  --text--title--large: 1.57rem;
+  --text--title--medium: 1.14rem;
+  --text--title--small: 1rem;
+
+  /* Effect styles */
+  --small-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3),
+    0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+  --card-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 4px 8px rgba(0, 0, 0, 0.05);
+  --modal-shadow: 0px 8px 16px rgba(0, 0, 0, 0.05),
+    0px 2px 4px rgba(0, 0, 0, 0.25);
+}
