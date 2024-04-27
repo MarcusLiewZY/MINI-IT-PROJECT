@@ -3,7 +3,7 @@ from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import UUID
 from enum import Enum
 
-from app import db, bcrypt
+from app import db, bcrypt, login_manager
 
 
 class Campus(Enum):
@@ -44,3 +44,13 @@ class User(UserMixin, db.Model):
     def generate_anon_no(self):
         random_no = [random.randint(0, 9) for _ in range(4)]
         return "".join(map(str, random_no))
+
+
+@login_manager.user_loader
+def user_loader(user_id):
+    try:
+        user_id = uuid.UUID(user_id)
+    except ValueError:
+        return None  # Return None if user_id is not a valid UUID
+
+    return User.query.filter(User.id == user_id).first()

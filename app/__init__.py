@@ -43,16 +43,3 @@ from app.user.views import user
 
 app.register_blueprint(main)
 app.register_blueprint(user)
-
-from app.models.user import User
-import uuid
-
-
-@login_manager.user_loader
-def user_loader(user_id):
-    try:
-        user_id = uuid.UUID(user_id)
-    except ValueError:
-        return None  # Return None if user_id is not a valid UUID
-
-    return User.query.filter(User.id == user_id).first()

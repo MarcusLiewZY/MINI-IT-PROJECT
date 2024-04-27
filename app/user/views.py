@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import url_for, redirect
+from flask import url_for, redirect, flash
 from flask_login import login_required, login_user, logout_user
 
 from app import oauth, db
@@ -28,9 +28,14 @@ def google_auth():
 
     if user:
         login_user(user)
+        flash("Successfully logged in", "success")
         return redirect(url_for("main.index"))
     else:
-        print(user_info)
+        # check user email endwith mmu.edu.my
+        if not user_info["email"].endswith("mmu.edu.my"):
+            flash("Please use your MMU email to sign up", "warning")
+            return redirect(url_for("main.landing"))
+
         user = User(
             {
                 "email": user_info["email"],
@@ -43,6 +48,7 @@ def google_auth():
         db.session.add(user)
         db.session.commit()
         login_user(user)
+        flash("Account created successfully", "success")
         return redirect(url_for("main.index"))
 
 
