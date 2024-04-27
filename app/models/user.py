@@ -26,6 +26,11 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=False)
 
+    # relationship
+    posts = db.relationship(
+        "Post", backref="post", cascade="all, delete-orphan", lazy=True
+    )
+
     def __init__(self, user_dist, *args, **kwargs):
         self.email = user_dist.get("email")
         self.anon_no = self.generate_anon_no()
