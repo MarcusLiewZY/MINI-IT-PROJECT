@@ -12,6 +12,25 @@ class Campus(Enum):
     NONE = "None"
 
 
+PostLike = db.Table(
+    "PostLike",
+    db.Column("user_id", UUID(as_uuid=True), db.ForeignKey("User.id")),
+    db.Column("post_id", UUID(as_uuid=True), db.ForeignKey("Post.id")),
+)
+
+PostBookmark = db.Table(
+    "PostBookmark",
+    db.Column("user_id", UUID(as_uuid=True), db.ForeignKey("User.id")),
+    db.Column("post_id", UUID(as_uuid=True), db.ForeignKey("Post.id")),
+)
+
+CommentLike = db.Table(
+    "CommentLike",
+    db.Column("user_id", UUID(as_uuid=True), db.ForeignKey("User.id")),
+    db.Column("comment_id ", UUID(as_uuid=True), db.ForeignKey("Comment.id")),
+)
+
+
 class User(UserMixin, db.Model):
     __tablename__ = "User"
 
@@ -29,6 +48,24 @@ class User(UserMixin, db.Model):
     # relationship
     posts = db.relationship(
         "Post", backref="post", cascade="all, delete-orphan", lazy=True
+    )
+    liked_posts = db.relationship(
+        "Post", secondary=PostLike, backref="liked_by", lazy=True
+    )
+    bookmarked_posts = db.relationship(
+        "Post", secondary=PostBookmark, backref="bookmarked_by", lazy=True
+    )
+    comments = db.relationship(
+        "Comment", backref="post", cascade="all, delete-orphan", lazy=True
+    )
+    liked_comments = db.relationship(
+        "Comment", secondary=CommentLike, backref="liked_by", lazy=True
+    )
+    post_notifications = db.relationship(
+        "PostNotification", backref="user", cascade="all, delete-orphan", lazy=True
+    )
+    comment_notifications = db.relationship(
+        "CommentNotification", backref="user", cascade="all, delete-orphan", lazy=True
     )
 
     def __init__(self, user_dist, *args, **kwargs):

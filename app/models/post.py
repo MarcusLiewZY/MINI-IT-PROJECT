@@ -5,7 +5,7 @@ from enum import Enum
 from app import db
 
 
-
+            
 class Status(Enum):
     PENDING = "Pending"
     APPROVED = "Approved"
@@ -21,7 +21,7 @@ PostTag = db.Table(
 
 class Post(db.Model):
     __tablename__ = "Post"
-
+    
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     title = db.Column(db.String(120), nullable=False)
     content = db.Column(db.String, nullable=False)
@@ -30,18 +30,30 @@ class Post(db.Model):
     status = db.Column(db.Enum(Status), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     updated_at = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id"))
 
     # relationship
-    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id"))
     tags = db.relationship(
-        "Tag",
+        "Tag",   
         secondary=PostTag,
         backref="posts",
         lazy=True,
     )
+    comments = db.relationship(
+        "Comment",
+        backref = "post",
+        cascade= "all, delete-orphan",
+        lazy = True
+    )
+    post_notifications = db.relationship(
+        "PostNotification",
+        backref = "post",
+        cascade = "all, delete-orphan",
+        lazy = True
+    )
 
     def __init__(self, post_dist, *args, **kwargs):
-        self.title = post_dist.get("title")
+        self.title = post_dist.get("title") 
         self.content = post_dist.get("content")
         self.image_url = post_dist.get("image_url")
         self.status = Status.PENDING
