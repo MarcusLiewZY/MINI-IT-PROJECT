@@ -1,0 +1,10 @@
+/* variables */
+@import url('variables.css');
+
+/* utilities */
+@import url('utilities.css');
+
+h1 {
+  color: red;
+  font-weight: bold;
+}

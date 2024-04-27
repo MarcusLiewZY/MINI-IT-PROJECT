@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}{% endblock title %} - MMU confession</title>
+
+    <!-- meta -->
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <!-- styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}" />
+    {% block css %}{% endblock %}
+  </head>
+  <body>
+    {# {% include "navigation.html" %} #}
+    <div>Hello base!!!</div>
+    {% block content %} {% endblock content %}
+
+    <!-- scripts -->
+    {% block js %}{% endblock %}
+  </body>
+</html>

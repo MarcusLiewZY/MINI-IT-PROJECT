@@ -1,0 +1,36 @@
+Note: Not sure how this thing works fully in industry standard, so this policy is edited and filled in according to template given by ChatGPT, hopefully is enough, or we'll just make changes along the way I guess. 
+
+
+Privacy Policy for [Mini IT Project Name]
+1. Introduction:
+[Mini IT Project Name] is dedicated to safeguarding the privacy of our users and ensuring the security of their personal information. This privacy policy outlines how we collect, use, store, and protect the information you provide when using our platform.
+
+2. Information We Collect:
+We collect various types of information from users to improve their experience on our platform. This includes:
+-Personal Information: When you create an account, we may collect your name, email address, and other contact information. This information is used for account authentication and communication purposes.
+-Usage Data: We automatically collect data about your interactions with our platform, such as log files and cookies. This information helps us analyse user behaviour, improve our services, and personalize your experience.
+-User-Generated Content: Any content you voluntarily share on our platform, such as posts, comments, or messages, may be collected and stored to facilitate community engagement and communication.
+
+3. How We Use Information:
+The information we collect is used for various purposes, including:
+-Providing and personalizing your user experience on our platform.
+-Communicating with you about platform updates, notifications, and relevant information.
+-Analysing usage patterns and trends to improve our services, features, and overall user experience.
+
+4. Data Security:
+We take the security of your personal information seriously and employ industry-standard measures to protect it from unauthorized access, disclosure, alteration, or destruction. These measures include encryption, secure storage practices, access controls, and regular security audits.
+
+5. Data Sharing and Disclosure:
+We may share your information with trusted third-party service providers or partners who assist us in operating our platform, such as hosting providers, analytics services, and customer support tools. We may also disclose information in response to legal requests, court orders, or to comply with applicable laws and regulations.
+
+6. Third-Party Links and Services:
+Our platform may contain links to third-party websites, services, or applications that are not owned or controlled by [Mini IT Project Name]. Please note that we are not responsible for the privacy practices or content of these external sites. We encourage you to review their privacy policies before providing any personal information.
+
+7. Your Rights and Choices:
+You have certain rights regarding your personal information, including the right to access, update, or delete your data. You may also have the right to object to certain processing activities or request restrictions on how your information is used. To exercise your rights or make inquiries about your personal data, please contact us at putouremail@gmail.com.
+
+8. Changes to This Privacy Policy:
+We reserve the right to update or revise this privacy policy at any time to reflect changes in our practices, legal requirements, or industry standards. We will notify users of any significant changes by posting a prominent notice on our platform or by sending a direct communication. Continued use of our platform after such changes constitutes acceptance of the revised privacy policy.
+
+9. Contact Us:
+If you have any questions, concerns, or requests regarding our privacy policy or the handling of your personal information, please don't hesitate to contact us at putouremail@gmail.com, or through other channels in the "Follow Us" section. We strive to respond to all inquiries promptly.
