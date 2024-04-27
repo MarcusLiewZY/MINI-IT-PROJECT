@@ -43,3 +43,17 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     DEBUG = False
     DEBUG_TB_ENABLED = False
+
+
+admin_users = [
+    {
+        "email": "lalalaa3045@gmail.com",
+        "username": "LaLaLand",
+        "password": "Pass1234",
+    },
+    {
+        "email": "lee.desmond2016@gmail.com",
+        "username": "Desmond Lee",
+        "password": "Pass1234",
+    },
+]

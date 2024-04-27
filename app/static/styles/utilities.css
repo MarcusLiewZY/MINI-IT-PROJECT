@@ -1,7 +1,6 @@
-/* reset & normalize */
-
-/* 
-h1 {
-  color: inherit;
-  font-weight: bold;
-} */
+.container {
+  max-width: 1128px;
+  margin: 0 auto;
+  overflow: auto;
+  padding: 0 40px;
+}

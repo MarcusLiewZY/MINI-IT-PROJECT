@@ -2,21 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>{% block title %}{% endblock title %} - MMU confession</title>
+    <title>{% block title %}{% endblock title %} - MMU Confession</title>
 
-    <!-- meta -->
+    {# meta #}
     <meta name="description" content="" />
     <meta name="author" content="" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <!-- styles -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}" />
+    {# styles #}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/main.css') }}"
+    />
     {% block css %}{% endblock %}
   </head>
   <body>
     {# {% include "navigation.html" %} #}
     <div>Hello base!!!</div>
-    {% block content %} {% endblock content %}
+    {% with messages = get_flashed_messages(with_categories = true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    {% block content %}
+    {% endblock content %}
 
     <!-- scripts -->
     {% block js %}{% endblock %}
