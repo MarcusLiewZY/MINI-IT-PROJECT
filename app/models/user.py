@@ -13,7 +13,7 @@ class Campus(Enum):
 
 
 class User(UserMixin, db.Model):
-    __tablename__ = "user"
+    __tablename__ = "User"
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     email = db.Column(db.String(60), unique=True, nullable=False)

@@ -1,9 +1,9 @@
 import uuid
-
 from sqlalchemy.dialects.postgresql import UUID
 from enum import Enum
 
 from app import db
+
 
 
 class Status(Enum):
@@ -12,11 +12,18 @@ class Status(Enum):
     REJECTED = "Rejected"
 
 
+PostTag = db.Table(
+    "PostTag",
+    db.Column("post_id", UUID(as_uuid=True), db.ForeignKey("Post.id")),
+    db.Column("tag_id", UUID(as_uuid=True), db.ForeignKey("Tag.id")),
+)
+
+
 class Post(db.Model):
-    __tablename__ = "post"
+    __tablename__ = "Post"
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    title = db.Column(db.String(60), nullable=False)
+    title = db.Column(db.String(120), nullable=False)
     content = db.Column(db.String, nullable=False)
     image_url = db.Column(db.String(120))
     is_delete = db.Column(db.Boolean, default=False)
@@ -25,7 +32,13 @@ class Post(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False)
 
     # relationship
-    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("user.id"))
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id"))
+    tags = db.relationship(
+        "Tag",
+        secondary=PostTag,
+        backref="posts",
+        lazy=True,
+    )
 
     def __init__(self, post_dist, *args, **kwargs):
         self.title = post_dist.get("title")
@@ -36,4 +49,5 @@ class Post(db.Model):
         self.updated_at = self.created_at
 
     def __repr__(self):
-        return f"<{self.status} - {self.title[:40]}...>"
+        return f"<{self.status} - {self.title[:40]}{"..." if len(self.title) >= 40 else ""}>"
+
