@@ -3,6 +3,11 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
+  {{ user.__dict__}}
+  <img src="{{ user.avatar_url }}" alt="">
+  <a href="{{ url_for('user.logout')}}">Sign Out</a>
+{% endblock content %}
+
   {# testing #}
   {# <div class="container">
     <h1>this is home page</h1>
@@ -10,4 +15,3 @@
     {# import svg from static/svg folder  #}
     <img src="{{ url_for('static', filename = 'svg/Admin.svg') }}" alt="" />
   </div> #}
-{% endblock content %}

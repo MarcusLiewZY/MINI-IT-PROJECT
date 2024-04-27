@@ -1,6 +1,7 @@
 from flask.cli import FlaskGroup
 
 from app import app, db
+from app.utils.cliColor import Colors
 
 import getpass
 
@@ -26,7 +27,7 @@ def recreate_db():
     db.drop_all()
     db.create_all()
     db.session.commit()
-    print("Database recreated successfully!")
+    print(Colors.fg.cyan, "Database recreated successfully!")
 
 
 if __name__ == "__main__":
