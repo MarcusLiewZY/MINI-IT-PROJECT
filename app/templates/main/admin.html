@@ -4,6 +4,8 @@
 
 {% block content %}
   {{ user.__dict__ }}
-  <img src="{{ user.avatar_url }}" alt="" />
-  <a href="{{ url_for('user.logout') }}">Sign Out</a>
+  <img
+    src="{{ user.avatar_url or url_for('static', filename = 'img/default-avatar.png') }}"
+    alt=""
+  />
 {% endblock content %}

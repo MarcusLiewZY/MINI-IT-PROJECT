@@ -8,6 +8,8 @@ charset-normalizer==3.3.2
 click==8.1.7
 colorama==0.4.6
 cryptography==42.0.5
+dnspython==2.6.1
+email_validator==2.1.1
 Flask==3.0.3
 Flask-Bcrypt==1.0.1
 Flask-Login==0.6.3

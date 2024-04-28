@@ -1,0 +1,16 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+  Welcome
+{% endblock title %}
+
+{% block content %}
+  <button onclick="window.location.href='{{ url_for('user.google_login') }}'">
+    Sign up
+  </button>
+
+  {# admin login #}
+  <button onclick="window.location.href='{{ url_for('admin.admin_login') }}'">
+    Admin Sign up
+  </button>
+{% endblock content %}

@@ -12,12 +12,14 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  /* border: 1px solid rgba(255, 0, 0, 0.5); */
 }
 
 body {
   font-family: "Roboto", sans-serif;
-  background-color: #f4f0ef;
+  background-color: var(--color---base---white);
   line-height: 1.6;
+  color: var(--color---base---gray);
 }
 
 ul {
@@ -26,7 +28,6 @@ ul {
 
 a {
   text-decoration: none;
-  color: #333;
 }
 
 h1,
@@ -47,4 +48,185 @@ img {
 .hidden {
   visibility: hidden;
   height: 0;
+}
+
+/* flash message */
+/* display at top center */
+.flash {
+  position: fixed;
+  top: 3vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  padding: 0.25rem 1rem;
+  color: var(--color---base---white);
+  border-radius: 8px;
+  box-shadow: var(--modal-shadow);
+  opacity: 0;
+
+  animation: fadeIn 0.25s forwards;
+
+  &.flash-success {
+    background-color: var(--color---alert---success);
+  }
+
+  &.flash-info {
+    background-color: var(--color---alert---info);
+  }
+
+  &.flash-warning {
+    background-color: var(--color---alert---warning);
+  }
+
+  &.flash-error {
+    background-color: var(--color---alert---error);
+  }
+}
+
+.flash.fade-out {
+  animation: fadeOut 0.5s forwards;
+}
+
+/* link */
+.link {
+  text-decoration: none;
+  color: var(--color---base---black);
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: var(--color---base---active);
+  }
+
+  &:disabled {
+    color: var(--color---neutral--neutral50);
+  }
+}
+
+/* icon */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.1875rem; /* 3px */
+  flex-shrink: 0;
+}
+
+/* avatar */
+.avatar {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.avatar-lg {
+  width: 80px;
+  height: 80px;
+}
+
+/* campus tag */
+.campus-tag {
+  background: #e1e3e3;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 8px;
+  padding: 0px 1rem;
+}
+
+/* button */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: var(--color---base---active);
+  color: var(--color---base---white);
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--color---base---active-hover);
+    opacity: 0.8;
+  }
+}
+
+.btn-error {
+  background-color: var(--color---base---error);
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--color---base---error);
+    opacity: 0.8;
+  }
+}
+
+.btn-muted {
+  background-color: transparent;
+  color: var(--color---neutral--neutral70);
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--color---neutral--neutral95);
+    /* background-color: red; */
+    color: var(--color---neutral--neutral50);
+  }
+}
+
+/* post status */
+.post-status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  height: fit-content;
+  height: fit-content;
+  overflow: hidden;
+
+  &.post-status-pending {
+    background-color: var(--color---status---pending);
+  }
+
+  &.post-status-approved {
+    background-color: var(--color---status---approved);
+  }
+
+  &.post-status-rejected {
+    background-color: var(--color---status---rejected);
+  }
+}
+
+/* post tag */
+.post-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0px 6px;
+  border-radius: 8px;
+  background: #fecaca;
+  overflow: hidden;
+  height: fit-content;
+
+  &.post-tag-lg {
+    padding: 8px 16px;
+    border-radius: 24px;
+  }
+
+  & svg {
+    fill: red; /* Change the color of the SVG */
+    /* Add any other CSS properties you want to style the SVG */
+  }
 }
