@@ -54,16 +54,17 @@ img {
 /* display at top center */
 .flash {
   position: fixed;
-  top: 5vh;
+  top: 3vh;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 1rem;
   color: var(--color---base---white);
   border-radius: 8px;
-  animation:
-    fadein 0.5s,
-    fadeout 0.5s 2.5s;
+  box-shadow: var(--modal-shadow);
+  opacity: 0;
+
+  animation: fadeIn 0.25s forwards;
 
   &.flash-success {
     background-color: var(--color---alert---success);
@@ -80,6 +81,10 @@ img {
   &.flash-error {
     background-color: var(--color---alert---error);
   }
+}
+
+.flash.fade-out {
+  animation: fadeOut 0.5s forwards;
 }
 
 /* link */

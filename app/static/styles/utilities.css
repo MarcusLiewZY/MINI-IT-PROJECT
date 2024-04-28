@@ -1213,31 +1213,32 @@
   box-shadow: var(--modal-shadow);
 }
 
-@-webkit-keyframes fadein {
+/* animation */
+@-webkit-keyframes fadeIn {
   from {
     top: 0;
     opacity: 0;
   }
   to {
-    top: 5vh;
+    top: 3vh;
     opacity: 1;
   }
 }
 
-@keyframes fadein {
+@keyframes fadeIn {
   from {
     top: 0;
     opacity: 0;
   }
   to {
-    top: 5vh;
+    top: 3vh;
     opacity: 1;
   }
 }
 
-@-webkit-keyframes fadeout {
+@-webkit-keyframes fadeOut {
   from {
-    top: 5vh;
+    top: 3vh;
     opacity: 1;
   }
   to {
@@ -1246,13 +1247,13 @@
   }
 }
 
-@keyframes fadeout {
+@keyframes fadeOut {
   from {
-    top: 5vh;
+    top: 3vh;
     opacity: 1;
   }
   to {
-    top: 0;
+    top: 2vh;
     opacity: 0;
   }
 }
