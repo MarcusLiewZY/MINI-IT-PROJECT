@@ -18,19 +18,13 @@
   </head>
   <body>
     {# {% include "navigation.html" %} #}
-    {% with messages = get_flashed_messages(with_categories = true) %}
-      {% if messages %}
-        <ul class="flashes">
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+    {% include "layouts/toast.html" %}
+
     {% block content %}
     {% endblock content %}
 
     <!-- scripts -->
+    <script></script>
     {% block js %}{% endblock %}
   </body>
 </html>
