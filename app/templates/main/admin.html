@@ -1,0 +1,11 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+  {{ user.__dict__ }}
+  <img
+    src="{{ user.avatar_url or url_for('static', filename = 'img/default-avatar.png') }}"
+    alt=""
+  />
+{% endblock content %}

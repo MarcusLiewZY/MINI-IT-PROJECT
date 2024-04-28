@@ -41,13 +41,13 @@ class Post(db.Model):
     )
     comments = db.relationship(
         "Comment",
-        backref = "post",
+        backref = "commented_post",
         cascade= "all, delete-orphan",
         lazy = True
     )
     post_notifications = db.relationship(
         "PostNotification",
-        backref = "post",
+        backref = "notified_post_by_post",
         cascade = "all, delete-orphan",
         lazy = True
     )

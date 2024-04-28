@@ -40,6 +40,8 @@ google = oauth.register(
 # Blueprints registration
 from app.main.views import main
 from app.user.views import user
+from app.admin.views import admin
 
 app.register_blueprint(main)
 app.register_blueprint(user)
+app.register_blueprint(admin)

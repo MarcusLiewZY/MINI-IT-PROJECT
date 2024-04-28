@@ -12,6 +12,8 @@ class Comment(db.Model):
     is_report = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, nullable=False)
     update_at = db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id"))
+    post_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Post.id"))
     replied_comment_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Comment.id"))
 
     # relationship
@@ -25,23 +27,25 @@ class Comment(db.Model):
     )
     notify_post = db.relationship(
         "PostNotification",
-        backref="unread_comment",
+        backref="unread_comment_to_post",
         cascade="all, delete-orphan",
         uselist=False,
         lazy=True,
     )
     comment_notifications = db.relationship(
         "CommentNotification",
-        backref="comment",
+        backref="notified_comment_by_comment",
         cascade="all, delete-orphan",
         lazy=True,
+        foreign_keys="[CommentNotification.comment_id]",
     )
     notify_comment = db.relationship(
         "CommentNotification",
-        backref="unread_comment",
+        backref="unread_comment_to_comment",
         cascade="all, delete-orphan",
         uselist=False,
         lazy=True,
+        foreign_keys="[CommentNotification.unread_comment_id]",
     )
 
     def __init__(self, comment_dist, *args, **kwargs):

@@ -62,10 +62,16 @@ class User(UserMixin, db.Model):
         "Comment", secondary=CommentLike, backref="liked_by", lazy=True
     )
     post_notifications = db.relationship(
-        "PostNotification", backref="user", cascade="all, delete-orphan", lazy=True
+        "PostNotification",
+        backref="notified_user_by_post",
+        cascade="all, delete-orphan",
+        lazy=True,
     )
     comment_notifications = db.relationship(
-        "CommentNotification", backref="user", cascade="all, delete-orphan", lazy=True
+        "CommentNotification",
+        backref="notified_user_by_comment",
+        cascade="all, delete-orphan",
+        lazy=True,
     )
 
     def __init__(self, user_dist, *args, **kwargs):

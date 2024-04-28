@@ -18,4 +18,4 @@ def index():
 @main.route("/landing")
 @logout_required
 def landing():
-    return "<button><a href='/sign-up'>Sign Up</a></button>"
+    return render_template("main/landing.html")

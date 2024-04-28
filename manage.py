@@ -20,33 +20,40 @@ cli = FlaskGroup(app)
     "--auto", "-a", is_flag=True, help="Create admin user with predefined admin infos."
 )
 def create_admin(manual, auto):
+    import getpass
     from app.models.user import User
     from datetime import datetime
-    import getpass
-
+    from app.user.forms import AdminRegisterForm
+    
     try:
         if manual:
             email = input("Enter email address: ")
             username = input("Enter your name: ")
             password = getpass.getpass("Enter password: ")
             confirm_password = getpass.getpass("Enter password again: ")
-            if password != confirm_password:
-                print(Colors.fg.red, "Passwords don't match.")
-            else:
+            
+            form = AdminRegisterForm(
+                email=email,
+                username=username,
+                password=password,
+                confirm_password=confirm_password
+            )
+            if form.validate():
                 user = User(
-                    {
-                        "email": email,
-                        "username": username,
-                        "password": password,
-                        "is_admin": True,
-                        "created_at": datetime.now(),
+                    {   'email': form.email.data,
+                        'username': form.username.data,
+                        'password': form.password.data,
+                        'is_admin': True,
+                        'created_at': datetime.now()
                     }
                 )
+
                 db.session.add(user)
                 db.session.commit()
-                print(
-                    Colors.fg.green, f"Admin with email {email} created successfully!"
-                )
+                print(Colors.fg.green, f"Admin with email {form.email.data} created successfully!")
+            else:
+                raise Exception("Invalid input.")
+
         elif auto:
             for admin_data in admin_users:
                 user = User(
@@ -67,9 +74,10 @@ def create_admin(manual, auto):
     except Exception as e:
         print(Colors.fg.red, "Couldn't create admin user.")
         print("Error", e)
-
-     
-
+        if form.errors:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    print(f"{field}: {error}")
 # database
 @cli.command("recreate_db")
 def recreate_db():
@@ -80,9 +88,10 @@ def recreate_db():
 
 @cli.command("delete_db", help = "Delete resources from the database.")
 @click.option("--user", is_flag = True, help = "Delete non-admin users.")
+@click.option("--admin_user", is_flag = True, help = "Delete admin users.")
 @click.option("--post", is_flag = True, help = "Delete posts.")
 @click.option("--tag", is_flag = True, help = "Delete tags.")
-def delete_db(user, post, tag):
+def delete_db(user, admin_user, post, tag):
     from app.models import User, Post, Tag, PostTag
     from sqlalchemy import delete
     try: 
@@ -90,6 +99,10 @@ def delete_db(user, post, tag):
             User.query.filter(User.is_admin == False).delete()
             db.session.commit()
             print(Colors.fg.green, "Non-admin users deleted successfully!")
+        elif admin_user:
+            User.query.filter(User.is_admin == True).delete()
+            db.session.commit()
+            print(Colors.fg.green, "Admin users deleted successfully!")
         elif post:
             for post in Post.query.all():
                 db.session.execute(delete(PostTag).where(PostTag.c.post_id == post.id))
@@ -137,6 +150,18 @@ def generate():
     except Exception as e:
         print(Colors.fg.red, "Couldn't create test data.")
         print("Error", e)
+
+@cli.command("init_app")
+def init_app():
+    from flask import current_app
+    
+    try:
+        _ = current_app.config
+        print(Colors.fg.green, "App initialized successfully!")
+        return True
+    except RuntimeError:
+        print(Colors.fg.red, "App not initialized.")
+        return False
 
 if __name__ == "__main__":
     cli()
