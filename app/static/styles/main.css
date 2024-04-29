@@ -43,7 +43,8 @@ p {
 }
 
 img {
-  width: 100%;
+  max-width: 100%;
+  height: auto;
 }
 
 button,
@@ -149,11 +150,13 @@ input[type="search"]::-webkit-search-results-decoration {
 
 /* icon */
 .icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
+  /* align-items: center; */
+  /* justify-content: center; */
   padding: 0.1875rem; /* 3px */
   flex-shrink: 0;
+  width: auto;
+  height: auto;
 }
 
 /* avatar */
@@ -338,14 +341,101 @@ input[type="search"]::-webkit-search-results-decoration {
   background: rgb(0 0 0 / 0.4);
 } */
 
-/* place at right side */
 #userProfileModal {
-  position: fixed;
+  position: absolute;
   width: 232px;
-  padding-top: 0.5rem;
   border-radius: 4px;
   top: 82px;
-  z-index: 500;
   left: calc(100% - 13vw);
   transform: translateX(-50%);
+}
+
+#userProfileModal .user-profile-container {
+  padding: 1rem 0.75rem 0.5rem;
+  gap: 0.5rem;
+}
+
+#userProfileModal .navigation-container {
+  border-top: 1px solid var(--color---neutral--neutral90);
+  border-bottom: 1px solid var(--color---neutral--neutral90);
+}
+
+.navigation-container > li {
+  padding: 10px 16px;
+  gap: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+.navigation-container > li:first-child {
+  position: relative;
+}
+
+.navigation-container > li:hover,
+.navigation-container > li:focus {
+  background-color: var(--color---neutral--neutral95);
+
+  & a {
+    color: var(--color---base---black);
+  }
+  & .notification-count {
+    opacity: 0.8;
+  }
+}
+
+.navigation-container li a {
+  color: var(--color---neutral--neutral40);
+}
+
+.navigation-container li .notification-count {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  background-color: var(--color---base---error);
+  padding: 0px 0.25rem;
+  border-radius: 50%;
+  color: var(--color---base---white);
+}
+
+#userProfileModal .log-out {
+  padding: 10px 1rem;
+
+  & a {
+    color: var(--color---neutral--neutral40);
+  }
+
+  &:hover a,
+  &:active a {
+    color: var(--color---base---black);
+  }
+}
+
+#userProfileModal .user-profile-container:hover,
+#userProfileModal .usr-profile-container:active,
+#userProfileModal .log-out:hover,
+#userProfileModal .log-out:active {
+  background-color: var(--color---neutral--neutral90);
+}
+
+#userProfileModal .modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: var(--color---neutral--neutral95);
+}
+
+.modal-footer .link {
+  font-size: 10px;
+  line-height: 1rem;
+  font-weight: 400;
+  color: var(--color---neutral--neutral50);
+}
+
+.modal-footer .link:hover {
+  color: var(--color---neutral--neutral40);
+}
+
+.modal-footer span {
+  padding: 0px 0.125rem;
 }

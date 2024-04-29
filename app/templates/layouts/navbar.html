@@ -35,20 +35,72 @@
     </div>
 
     {# user profile pop up modal using dialog html tag #}
-    <button type="button" class="open-button" id="userProfileModalOpenButton">
+    <div class="toggle-button">
       <img
         src="{{ url_for('static', filename = 'img/default-avatar.png') }}"
         alt="avatar"
         class="avatar"
       />
-    </button>
+    </div>
   </div>
+
   <dialog open class="modal" id="userProfileModal">
-    <button class="close-button">close</button>
-    <p>User Profile modal</p>
+    <div class="flex flex-col">
+      <div class="flex flex-col user-profile-container">
+        <a href="/">
+          <img
+            src="{{ url_for('static', filename = 'img/default-avatar.png') }}"
+            alt="avatar"
+            class="avatar"
+          />
+          <div class="flex flex-between user-profile-info">
+            <div class="text-label-lg">Anonymous_2331</div>
+            <img
+              src="{{ url_for('static', filename='svg/chevron-right.svg') }}"
+              alt="chevron-right"
+            />
+          </div>
+        </a>
+      </div>
+      <ul class="flex flex-col text-body-md navigation-container">
+        <li class="flex">
+          <img
+            src="{{ url_for('static', filename = 'svg/notification.svg') }}"
+            alt="notification"
+          />
+          <a href="/">Notifications</a>
+          <div class="text-body-sm notification-count">7</div>
+        </li>
+        <li class="flex">
+          <img
+            src="{{ url_for('static', filename = 'svg/bookmark-small.svg') }}"
+            alt="bookmark-small"
+          />
+          <a href="/">Bookmarks</a>
+        </li>
+        <li class="flex">
+          <img
+            src="{{ url_for('static', filename = 'svg/admin.svg') }}"
+            alt="admin"
+          />
+          <a href="/">Admin</a>
+        </li>
+        <li class="flex">
+          <img
+            src="{{ url_for('static', filename = 'svg/guideline.svg') }}"
+            alt="guideline"
+          />
+          <a href="/">Community Guidelines</a>
+        </li>
+      </ul>
+      <div class="text-body-md log-out"><a href="/">Log out</a></div>
+      <div class="py-2 px-4 modal-footer">
+        <a href="/" class="link">FAQ</a><span>·</span
+        ><a href="/" class="link">About</a>
+      </div>
+    </div>
   </dialog>
 </div>
-
 <script
   type="text/javascript"
   src="{{ url_for('static', filename = 'scripts/userProfileModal.js') }}"
