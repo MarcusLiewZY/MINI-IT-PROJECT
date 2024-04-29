@@ -1,0 +1,55 @@
+<div class="navbar">
+  <div class="flex flex-between container">
+    <a href="/"
+      ><img
+        src="{{ url_for('static', filename = 'img/mmu-logo.png') }}"
+        alt="MMU Logo"
+        class="logo"
+    /></a>
+
+    <div class="flex flex-center text-body-lg mid-col">
+      <nav>
+        <ul class="flex flex-center">
+          <li><a class="link" href="/">Home</a></li>
+          <li><a class="link" href="/">Notifications</a></li>
+        </ul>
+      </nav>
+
+      {# search bar #}
+      <form action="/search" method="GET" class=" search-bar">
+        <input
+          type="search"
+          name="search"
+          id="search"
+          placeholder="Search"
+          class="search-bar-input"
+        />
+        <button type="submit" class="flex flex-center">
+          <img
+            src="{{ url_for('static', filename = 'svg/search.svg') }}"
+            alt="search-icon"
+            class="icon"
+          />
+        </button>
+      </form>
+    </div>
+
+    {# user profile pop up modal using dialog html tag #}
+    <button type="button" class="open-button" id="userProfileModalOpenButton">
+      <img
+        src="{{ url_for('static', filename = 'img/default-avatar.png') }}"
+        alt="avatar"
+        class="avatar"
+      />
+    </button>
+  </div>
+  <dialog open class="modal" id="userProfileModal">
+    <button class="close-button">close</button>
+    <p>User Profile modal</p>
+  </dialog>
+</div>
+
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename = 'scripts/userProfileModal.js') }}"
+></script>
