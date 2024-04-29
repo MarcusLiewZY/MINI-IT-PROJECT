@@ -348,6 +348,9 @@ input[type="search"]::-webkit-search-results-decoration {
   top: 82px;
   left: calc(100% - 13vw);
   transform: translateX(-50%);
+  box-shadow: var(--modal-shadow);
+  background-color: var(--color---base---white);
+  animation: modalFadeIn 0.3s ease;
 }
 
 #userProfileModal .user-profile-container {
@@ -446,4 +449,33 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .modal-footer span {
   padding: 0px 0.125rem;
+}
+
+/* home page */
+.home-page-body {
+  background-color: var(--color---neutral--neutral95);
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+
+.post-section .create-post-card {
+  align-items: center;
+  gap: 24px;
+  background-color: var(--color---base---white);
+  box-shadow: var(--card-shadow);
+  border-radius: 8px;
+}
+
+.create-post-card > a {
+  width: 100%;
+}
+
+.create-post-container {
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+  color: var(--color---neutral--neutral50);
+  border-radius: 12px;
+  border: 1px solid var(--color---neutral--neutral70);
+  cursor: text;
 }
