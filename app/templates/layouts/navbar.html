@@ -35,7 +35,7 @@
     </div>
 
     {# user profile pop up modal using dialog html tag #}
-    <div class="toggle-button">
+    <div class="open-button">
       <img
         src="{{ url_for('static', filename = 'img/default-avatar.png') }}"
         alt="avatar"
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <dialog open class="modal" id="userProfileModal">
+  <dialog class="modal" id="userProfileModal">
     <div class="flex flex-col">
       <div class="flex flex-col user-profile-container">
         <a href="/">

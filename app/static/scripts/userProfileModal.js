@@ -5,8 +5,8 @@ openButton.addEventListener("click", () => {
   modal.showModal();
 });
 
-modal.addEventListener("click", (event) => {
-  if (event.target === modal) {
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
     modal.close();
   }
 });

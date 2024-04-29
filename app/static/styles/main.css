@@ -353,6 +353,14 @@ input[type="search"]::-webkit-search-results-decoration {
 #userProfileModal .user-profile-container {
   padding: 1rem 0.75rem 0.5rem;
   gap: 0.5rem;
+
+  & > a:focus-visible {
+    outline: none;
+  }
+}
+
+.user-profile-container .text-label-lg {
+  color: var(--color---base---black);
 }
 
 #userProfileModal .navigation-container {
