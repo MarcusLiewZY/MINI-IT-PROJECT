@@ -2,7 +2,7 @@
   max-width: 1128px;
   margin: 0 auto;
   overflow: auto;
-  padding: 0 40px;
+  padding: 0px;
 }
 
 /* background */
@@ -1255,5 +1255,25 @@
   to {
     top: 2vh;
     opacity: 0;
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

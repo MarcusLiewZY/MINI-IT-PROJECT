@@ -3,6 +3,27 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
+  <div class="home-page-body">
+    <section class="mx-auto post-section">
+      <div class="container flex px-8 py-6  create-post-card ">
+        <img
+          src="{{ user.avatar_url or url_for('static', filename = 'img/default-avatar.png') }}"
+          alt="user-avatar"
+          class="avatar"
+        />
+        <a href="/">
+          <div class="flex px-4 py-2 create-post-container text-body-md">
+            <img
+              src="{{ url_for('static', filename = 'svg/pencil.svg') }}"
+              alt="pencil"
+              class="icon"
+            />
+            <div class="">Create post...</div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </div>
   {{ user.__dict__ }}
   <img src="{{ user.avatar_url }}" alt="" />
   <a href="{{ url_for('user.logout') }}">Sign Out</a>
