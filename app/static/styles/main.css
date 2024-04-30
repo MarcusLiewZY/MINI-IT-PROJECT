@@ -276,6 +276,25 @@ input[type="search"]::-webkit-search-results-decoration {
   }
 }
 
+/* card */
+.card {
+  background-color: var(--color---base---white);
+  box-shadow: var(--card-shadow);
+  border-radius: 8px;
+}
+
+/* other(mics) */
+.date {
+  color: var(--color---neutral--neutral50);
+  cursor: text;
+
+  font-size: var(--text--label--small);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+}
+
 /* navbar */
 .navbar {
   position: relative;
@@ -461,9 +480,6 @@ input[type="search"]::-webkit-search-results-decoration {
 .post-section .create-post-card {
   align-items: center;
   gap: 24px;
-  background-color: var(--color---base---white);
-  box-shadow: var(--card-shadow);
-  border-radius: 8px;
 }
 
 .create-post-card > a {
@@ -478,4 +494,67 @@ input[type="search"]::-webkit-search-results-decoration {
   border-radius: 12px;
   border: 1px solid var(--color---neutral--neutral70);
   cursor: text;
+}
+
+/* post card */
+.post-card-container .card {
+  gap: 24px;
+}
+
+.post-card__user-info-container .user-info.text .text label-lg {
+  font-weight: 600;
+}
+
+.post-card__user-info-container .react-container,
+.post-card__post-preview-container .post-tag-container {
+  gap: 8px;
+}
+
+.post-card__react-count-container {
+  gap: 12px;
+  color: var(--color---neutral--neutral40);
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--color---neutral--neutral80);
+}
+
+.post-card__post-comment-container {
+  gap: 20px;
+  cursor: default;
+}
+
+.comment-container .comment {
+  padding: 8px 16px 12px 16px;
+  border-radius: 12px;
+  background-color: var(--color---neutral--neutral95);
+}
+
+.comment-container .comment-react-container {
+  align-self: center;
+  gap: 8px;
+}
+
+.comment-container .comment-header .replied-user {
+  color: var(--color---neutral--neutral50);
+}
+
+.comment-container .reply {
+  cursor: text;
+}
+
+.comment-container .comment-info {
+  gap: 10px;
+}
+
+.comment-container .comment-info > :not(:first-child),
+.comment-container .comment-header .user-interaction-container {
+  cursor: pointer;
+}
+
+.comment-container.reply-container {
+  margin-left: 24px;
+}
+
+.post-card__post-comment-container .view-more-reply {
+  gap: 8px;
+  align-items: center;
 }
