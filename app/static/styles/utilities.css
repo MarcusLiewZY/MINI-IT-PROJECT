@@ -129,6 +129,7 @@
   letter-spacing: 0.4px;
 }
 
+/* layout */
 /* flex */
 .flex {
   display: flex;
@@ -146,6 +147,15 @@
 
 .flex-between {
   justify-content: space-between;
+}
+
+/* inline */
+.inline-flex {
+  display: inline-flex;
+}
+
+.inline-block {
+  display: inline-block;
 }
 
 /* padding */

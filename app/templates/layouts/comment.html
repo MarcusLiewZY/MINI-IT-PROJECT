@@ -1,0 +1,39 @@
+<div class="flex comment-container" data-isReply="false">
+  {% include "layouts/avatar.html" %}
+  <div class="ml-2 flex flex-col">
+    <div class="text-body-md comment">
+      <div class="flex flex-between comment-header">
+        <div class="text-label-lg mb-2 user-interaction-container">
+          Anonymous_2331 reply to
+          <span class="replied-user">Anonymous_4932</span>
+        </div>
+        <div class="text-label-md flex comment-react-container">
+          <span>9 likes</span>
+          <span>14 replies</span>
+          <a href="/" class="link">Report</a>
+        </div>
+      </div>
+      <div class="reply">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. In neque
+        dolore reiciendis. Consectetur minus ipsa maxime dolore assumenda
+        aspernatur, blanditiis minima doloribus architecto.
+      </div>
+    </div>
+    <div class="mt-1 flex comment-info">
+      <div class="date">27 Jun 2024</div>
+      <div class="link text-label-sm comment-like">Like</div>
+      <div class="link text-label-sm comment-reply">Reply</div>
+      <div class="link text-label-sm comment-edit">Edit</div>
+    </div>
+  </div>
+</div>
+
+{% block js %}
+  <script>
+    const commentContainer = document.querySelector(".comment-container");
+    const isReply = commentContainer.getAttribute("data-isReply");
+    if (isReply === "true") {
+      commentContainer.classList.add("reply-container");
+    }
+  </script>
+{% endblock js %}
