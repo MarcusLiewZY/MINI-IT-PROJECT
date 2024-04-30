@@ -93,7 +93,9 @@
           <a href="/">Community Guidelines</a>
         </li>
       </ul>
-      <div class="text-body-md log-out"><a href="/">Log out</a></div>
+      <div class="text-body-md log-out">
+        <a href="{{ url_for('user.logout') }}">Log out</a>
+      </div>
       <div class="py-2 px-4 modal-footer">
         <a href="/" class="link">FAQ</a><span>·</span
         ><a href="/" class="link">About</a>
