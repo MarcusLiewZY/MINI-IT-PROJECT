@@ -88,6 +88,54 @@ input[type="search"]::-webkit-search-results-decoration {
   display: none;
 }
 
+textarea {
+  width: 100%;
+  resize: none;
+  outline: none;
+  border: 1px solid transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background-color: inherit;
+  font-family: "Roboto", sans-serif;
+}
+
+textarea::placeholder {
+  color: var(--color---neutral--neutral50);
+  font-size: var(--text--body--medium);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem;
+  letter-spacing: 0.25px;
+}
+
+textarea::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* form */
+.form-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-control > *:is(input, textarea) {
+  border-radius: 24px;
+  background-color: var(--color---neutral--neutral95);
+
+  &:focus {
+    background-color: var(--color---base---white);
+    border-radius: 24px;
+    border: 1px solid var(--color---neutral--neutral40);
+  }
+}
+
+form {
+  width: 100%;
+}
+
 .hidden {
   visibility: hidden;
   height: 0;
@@ -533,6 +581,11 @@ input[type="search"]::-webkit-search-results-decoration {
   gap: 8px;
 }
 
+.comment-container .comment-react-container .link:hover {
+  color: var(--color---base---active);
+  text-decoration: none;
+}
+
 .comment-container .comment-header .replied-user {
   color: var(--color---neutral--neutral50);
 }
@@ -550,6 +603,22 @@ input[type="search"]::-webkit-search-results-decoration {
   cursor: pointer;
 }
 
+.comment-container .comment-info .comment-delete:hover,
+.comment-container .comment-header .comment-delete:active {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--color---base---error);
+}
+
+.comment-container .comment-header .user-interaction-container__reply:hover,
+.comment-container .comment-header .user-interaction-container__reply:active {
+  text-decoration: none;
+
+  & .replied-user {
+    color: var(--color---base---gray);
+  }
+}
+
 .comment-container.reply-container {
   margin-left: 24px;
 }
@@ -557,4 +626,15 @@ input[type="search"]::-webkit-search-results-decoration {
 .post-card__post-comment-container .view-more-reply {
   gap: 8px;
   align-items: center;
+}
+
+.post-card__add-comment-container {
+  gap: 12px;
+}
+
+.post-card__add-comment-container .form-control button {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  height: auto;
 }
