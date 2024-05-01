@@ -1,0 +1,41 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+  {{ user.__dict__ }}
+  <img
+    src="{{ user.avatar_url or url_for('static', filename = 'img/default-avatar.png') }}"
+    alt=""
+  />
+{% endblock content %}
+<div class="home-page-body">
+  <section class="mx-auto post-section">
+    <div class="container card flex px-8 py-6 create-post-card">
+      {% include "layouts/avatar.html" %}
+      <div class="buttonopen">
+        <div class="flex px-4 py-2 create-post-container text-body-md">
+          <img
+            src="{{ url_for('static', filename = 'svg/pencil.svg') }}"
+            alt="pencil"
+            class="icon"
+          />
+          <div class="buttonopen">Create post...</div>
+        </div>
+      </div>
+    </div>
+
+    {# todo: add a post preview card class when developing other post detail component #}
+    <div class="container flex flex-col mt-12 pb-12 post-card-container">
+      {% include "layouts/postCard.html" %}
+    </div>
+  </section>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='scripts/main.js') }}"
+></script>
+{% endblock js %}
