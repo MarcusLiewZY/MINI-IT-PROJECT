@@ -1,60 +1,26 @@
-FAQ:
-a. How do I sign up for an account?
-You can sign up for an account by clicking on the "Sign Up" button on the homepage and following the prompts to enter your email address and choose a username.
+Note: Might change as we go along
 
-b. How do I create a new post?
-To create a new post, click on the "Create Post" button. Then, select the category and tags that fit your post the most, write your post, and click "Submit."
+Community Guidelines for Our MMU Confession
+Welcome to MMU CONFESSION! Our community is built on the principles of respect, inclusivity, and collaboration. To ensure a positive and enjoyable experience for all members, we've established the following guidelines:
 
-c. Can I edit or delete my posts/comments?
-Yes, you can edit or delete your own posts and comments. Simply locate the post or comment you wish to modify and click on the edit or delete option provided.
+1. Respect Others: Treat fellow community members with kindness, empathy, and respect. Do avoid personal attacks, harassment, hate speech, or any behaviour that makes others feel unwelcome or uncomfortable.
 
-d. Are there any guidelines for what I can post?
-We have community guidelines in place to ensure a positive and respectful environment. Please review our guidelines before posting, and avoid posting any content that violates them.
+2. Be Inclusive: Embrace diversity and welcome individuals from all backgrounds, cultures, and perspectives. Avoid discrimination or exclusion based on factors such as race, ethnicity, gender identity, sexual orientation, religion, or disability. Let's make everyone feel like they belong. 
 
-e. Is my identity anonymous on the platform?
-Yes, we prioritise user anonymity on our platform. Your identity is protected, and every post is anonymous.
+3. Keep Conversations Constructive: You are highly encouraged to engage in meaningful and constructive discussions. Share ideas, ask questions, and provide constructive feedback in a respectful manner. Avoid disruptive behaviour, trolling, or intentionally derailing conversations.
 
-f. How is my personal data protected?
-We take the privacy and security of your personal data seriously and employ various measures to safeguard it. Please review our privacy policy for more information.
+4. Respect Privacy: Respect the privacy and personal boundaries of other community members. Do not share personal information about others without their consent, and refrain from unauthorized use of private messages or communications.
 
-g. What measures are in place to prevent harassment or abuse?
-We have strict policies against harassment and abuse and employ both automated and manual moderation techniques to enforce them. Users can report any abusive behaviour, and our moderation team will take appropriate action.
+5. Follow Community Guidelines: Adhere to the platform's terms of service and community guidelines at all times. Familiarize yourself with the rules and policies governing our community, and ensure your actions align with our values and principles.
 
-h. What are the community guidelines, and how do I follow them?
-Our community guidelines outline the standards of behaviour expected from users on our platform. You can find them listed on our website in the "Community Guidelines" section. Please familiarise yourself with these guidelines and adhere to them while interacting with the community.
+6. Be Mindful of Content: Share content that is relevant, appropriate, and respectful of our community standards. Avoid posting spam, offensive material, misinformation, or content that infringes upon the rights of others.
 
-i. What kind of content is not allowed on the platform?
-In short, content that violates our community guideline. Including but not limited to hate speech, harassment, explicit content, and illegal activities, is not allowed on our platform.
+7. Report Violations: If you encounter behaviour that violates our community guidelines or terms of service, please report it to our moderation team promptly. We rely on the collective efforts of our community members to maintain a safe and welcoming environment for all.
 
-j. How are violations of community guidelines handled?
-Violations of our community guidelines are taken seriously and may result in various actions, including content removal, account suspension, or permanent banning, depending on the severity of the violation.
+8. Consequences of Violations: Violations of our community guidelines may result in consequences, including warnings, account suspensions, or permanent bans, depending on the severity of the infraction. Our moderation team will take appropriate action to address violations in a fair, consistent and transparent manner.
 
-k. What should I do if I encounter a technical issue or bugs?
-If you encounter a technical issue or want to make bug reports, you can reach out to our team via email at giveouremailhere@gmail.com for assistance.
-l. Is there a way to provide feedback?
-Yes, we welcome feedback from our users. You can submit feedback through our website.
+9. Participate Responsibly: Take responsibility for your actions and contributions to our community. Be mindful of the impact of your words and actions on others, and strive to contribute positively to our collective experience.
 
-l. How can I deactivate or delete my account?
-To deactivate or delete your account, please contact our team for assistance. We will guide you through the process.
-m. What happens to my data if I deactivate or delete my account?
-Your personal data will be securely deleted from our systems upon deactivation or deletion of your account, in accordance with our privacy policy.
+10. Have Fun and Learn: Above all, enjoy your time in our community! Use this platform as a space to learn, grow, and connect with others who share your interests and passions.
 
-
-n. Who moderates the content on the platform?
-We have a dedicated team of moderators who oversee the content on our platform and ensure compliance with our community guidelines.
-o. How are moderators selected, and what are their roles?
-Moderators are chosen from trusted team members based on their high adherence to guidelines. Their roles include content moderation, user support, enforcing rules, and fostering positive community engagement to ensure a welcoming and respectful environment.
-p. How can I contact the moderation team if I need assistance?
-If you need assistance from our moderation team, you can report a post or contact our team via email at giveouremail@gmail.com.
-
-q.Are there any additional features or tools available on the platform?
-Yes, we offer various additional features and tools to enhance your experience on our platform, such as customizable notification settings.
-
-r. What are the terms of service for using the platform?
-Our terms of service outline the terms and conditions governing the use of our  platform. You can find them listed on our website in the "Terms of Service" section.
-
-s. Are there any legal disclaimers or privacy policies I should be aware of?
-Yes, please review our privacy policy for more information about how we handle your data and your rights as a user. Also, please take note of the legal disclaimers provided on our website.
-
-t. How can I contact the platform's support team or administrators for further assistance?
-You can contact our support team or administrators via email at giveouremail@gmail.com for further assistance or inquiries. Do also feel free to check us out through other channels in the "Follow Us" section. We strive to respond to all inquiries promptly.
+By joining our community, you agree to abide by these guidelines and uphold the values and principles of MMU CONFESSION. Thank you for being a part of our community, and we look forward to building something meaningful together!
