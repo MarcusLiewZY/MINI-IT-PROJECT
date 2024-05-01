@@ -3,7 +3,94 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-  {{ user.__dict__ }}
-  <img src="{{ user.avatar_url }}" alt="" />
-  <a href="{{ url_for('user.logout') }}">Sign Out</a>
+  <div class="home-page-body">
+    <section class="mx-auto post-section">
+      <div class="container card flex px-8 py-6 create-post-card">
+        {% include "layouts/avatar.html" %}
+        <div class="buttonopen">
+          <div class="flex px-4 py-2 create-post-container text-body-md">
+            <img
+              src="{{ url_for('static', filename = 'svg/pencil.svg') }}"
+              alt="pencil"
+              class="icon"
+            />
+            <div class="buttonopen">Create post...</div>
+          </div>
+        </div>
+      </div>
+
+      {# todo: add a post preview card class when developing other post detail component #}
+      <div class="container flex flex-col mt-12 pb-12 post-card-container">
+        {% include "layouts/postCard.html" %}
+      </div>
+    </section>
+  </div>
+  <dialog class="modal" id="createPostModal">
+    <table class="poptable">
+      <tr>
+        <th>
+          <div class="poptitle">Create Post</div>
+        </th>
+      </tr>
+      <tr class="popupinfo">
+        <th>
+          <div class="popup-container">
+            <div class="popprofile">M</div>
+            <div class="namepopup">Name Here</div>
+            <div class="campuspopup">Campus Here</div>
+          </div>
+        </th>
+
+        <th></th>
+      </tr>
+      <tr>
+        <td>
+          <div class="container-title">
+            <a>Title:</a>
+            <input type="text" placeholder="Enter your input" />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="container-title">
+            <a>Tag :</a>
+            <select id="tagDropdown">
+              <option value="option1">Option 1</option>
+              <option value="option2">Option 2</option>
+              <option value="option3">Option 3</option>
+              <option value="option4">Option 4</option>
+              <option value="option5">Option 5</option>
+              <option value="option6">Option 6</option>
+              <option value="option7">Option 7</option>
+            </select>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="container-title">
+            <a>Content:</a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" placeholder="Enter your input" />
+        </td>
+      </tr>
+      <tr>
+        <button class="buttonupload">upload</button>
+        <button class="buttonclose">Close</button>
+        <button class="post-btn">Post</button>
+      </tr>
+    </table>
+  </dialog>
 {% endblock content %}
+
+{% block js %}
+  <script
+    type="text/javascript"
+    src="{{ url_for('static', filename='scripts/main.js') }}"
+  ></script>
+{% endblock js %}
