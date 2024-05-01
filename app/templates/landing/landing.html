@@ -7,19 +7,21 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing.css') }}">
 </head>
 <body>
+
     <!-- Header Section -->
     <div class="mmu-header">
         MMU Confession
     </div>
 
-    <!-- Menu Section -->
+        <!-- Menu Section -->
     <div class="menu">
         <!-- Start Box -->
         <div class="start-box">
-            <img src="{{ url_for('static', filename='img/mmu-logo.png') }}" alt="MMU Logo" class="mmulogo">
-            <a href="{{ url_for('user.google_login') }}" class="signup-link"><img src="{{ url_for('static', filename='img/signup-pic.png') }}"></a>
+           <img src="{{ url_for('static', filename='img/mmu-logo.png') }}" alt="MMU Logo" class="mmulogo">
+           <a href='/main/index.html' class="signup-link"><img src="{{ url_for('static', filename='img/signup-pic.png') }}" alt="Signup"></a>
         </div>
-        
+    </div>
+
         <!-- Menu Links -->
         <div class="menu-links">
             <a href="#about-section" class="active">About</a>
@@ -28,7 +30,6 @@
             <a href="#privacy-policy-section">Privacy Policy & Terms of Service</a>
         </div>
     </div>
-</div>
 
     <!-- Image Section -->
     <div class="image-container">
