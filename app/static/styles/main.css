@@ -16,6 +16,7 @@
 }
 
 body {
+  position: relative;
   font-family: "Roboto", sans-serif;
   background-color: var(--color---base---white);
   line-height: 1.6;
@@ -42,6 +43,96 @@ p {
 }
 
 img {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input[type="button"],
+input[type="submit"],
+input[type="search"] {
+  /* Remove default button styles */
+  border: none;
+  background: none;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: none; /* Remove default focus outline */
+  /* Add additional styles as needed */
+}
+
+input[type="search"] {
+  width: 100%;
+  cursor: text;
+}
+
+/* clears the 'X' from Internet Explorer */
+input[type="search"]::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
+input[type="search"]::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* clears the 'X' from Chrome */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
+
+textarea {
+  width: 100%;
+  resize: none;
+  outline: none;
+  border: 1px solid transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background-color: inherit;
+  font-family: "Roboto", sans-serif;
+}
+
+textarea::placeholder {
+  color: var(--color---neutral--neutral50);
+  font-size: var(--text--body--medium);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem;
+  letter-spacing: 0.25px;
+}
+
+textarea::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* form */
+.form-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-control > *:is(input, textarea) {
+  border-radius: 24px;
+  background-color: var(--color---neutral--neutral95);
+
+  &:focus {
+    background-color: var(--color---base---white);
+    border-radius: 24px;
+    border: 1px solid var(--color---neutral--neutral40);
+  }
+}
+
+form {
   width: 100%;
 }
 
@@ -107,11 +198,13 @@ img {
 
 /* icon */
 .icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
+  /* align-items: center; */
+  /* justify-content: center; */
   padding: 0.1875rem; /* 3px */
   flex-shrink: 0;
+  width: auto;
+  height: auto;
 }
 
 /* avatar */
@@ -229,4 +322,506 @@ img {
     fill: red; /* Change the color of the SVG */
     /* Add any other CSS properties you want to style the SVG */
   }
+}
+
+/* card */
+.card {
+  background-color: var(--color---base---white);
+  box-shadow: var(--card-shadow);
+  border-radius: 8px;
+}
+
+/* other(mics) */
+.date {
+  color: var(--color---neutral--neutral50);
+  cursor: text;
+
+  font-size: var(--text--label--small);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+}
+
+/* navbar */
+.navbar {
+  position: relative;
+  height: 100px;
+  width: 100%;
+  box-shadow: var(--card-shadow);
+  background-color: var(--color---base---white);
+}
+
+.navbar .container {
+  align-items: center;
+}
+
+.navbar .mid-col {
+  gap: 32px;
+  height: fit-content;
+}
+
+.mid-col ul {
+  gap: 32px;
+}
+
+.mid-col .link {
+  padding: 0px 4px 8px;
+  /* width: 80%; */
+}
+
+.mid-col .link:hover {
+  border-bottom: 2px solid var(--color---base---error);
+}
+
+.mid-col ul .link:hover {
+  text-decoration: none;
+}
+
+.mid-col .search-bar {
+  display: flex;
+  padding: 4px 16px 4px 24px;
+  align-items: center;
+  gap: 4px;
+  align-self: stretch;
+  min-width: 320px;
+  flex-shrink: 0;
+
+  border-radius: 12px;
+  border: 1px solid var(--color---neutral--neutral70);
+  background-color: var(--color---base---white);
+  box-shadow: var(--card-shadow);
+}
+
+.mid-col .search-bar .search-bar-input {
+  width: 100%;
+}
+
+/* modal */
+.modal {
+  border: 0;
+  box-shadow: var(--modal-shadow);
+  background-color: var(--color---base---white);
+}
+
+/* .modal::backdrop {
+  background: rgb(0 0 0 / 0.4);
+} */
+
+#userProfileModal {
+  position: absolute;
+  width: 232px;
+  border-radius: 4px;
+  top: 82px;
+  left: calc(100% - 13vw);
+  transform: translateX(-50%);
+  box-shadow: var(--modal-shadow);
+  background-color: var(--color---base---white);
+  animation: modalFadeIn 0.3s ease;
+}
+
+#userProfileModal .user-profile-container {
+  padding: 1rem 0.75rem 0.5rem;
+  gap: 0.5rem;
+
+  & > a:focus-visible {
+    outline: none;
+  }
+}
+
+.user-profile-container .text-label-lg {
+  color: var(--color---base---black);
+}
+
+#userProfileModal .navigation-container {
+  border-top: 1px solid var(--color---neutral--neutral90);
+  border-bottom: 1px solid var(--color---neutral--neutral90);
+}
+
+.navigation-container > li {
+  padding: 10px 16px;
+  gap: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+.navigation-container > li:first-child {
+  position: relative;
+}
+
+.navigation-container > li:hover,
+.navigation-container > li:focus {
+  background-color: var(--color---neutral--neutral95);
+
+  & a {
+    color: var(--color---base---black);
+  }
+  & .notification-count {
+    opacity: 0.8;
+  }
+}
+
+.navigation-container li a {
+  color: var(--color---neutral--neutral40);
+}
+
+.navigation-container li .notification-count {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  background-color: var(--color---base---error);
+  padding: 0px 0.25rem;
+  border-radius: 50%;
+  color: var(--color---base---white);
+}
+
+#userProfileModal .log-out {
+  padding: 10px 1rem;
+
+  & a {
+    color: var(--color---neutral--neutral40);
+  }
+
+  &:hover a,
+  &:active a {
+    color: var(--color---base---black);
+  }
+}
+
+#userProfileModal .user-profile-container:hover,
+#userProfileModal .usr-profile-container:active,
+#userProfileModal .log-out:hover,
+#userProfileModal .log-out:active {
+  background-color: var(--color---neutral--neutral90);
+}
+
+#userProfileModal .modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: var(--color---neutral--neutral95);
+}
+
+.modal-footer .link {
+  font-size: 10px;
+  line-height: 1rem;
+  font-weight: 400;
+  color: var(--color---neutral--neutral50);
+}
+
+.modal-footer .link:hover {
+  color: var(--color---neutral--neutral40);
+}
+
+.modal-footer span {
+  padding: 0px 0.125rem;
+}
+
+/* home page */
+.home-page-body {
+  background-color: var(--color---neutral--neutral95);
+  padding-top: 24px;
+  padding-bottom: 48px;
+}
+
+.post-section .create-post-card {
+  align-items: center;
+  gap: 24px;
+}
+
+.create-post-card > .buttonopen {
+  width: 100%;
+}
+
+.create-post-container {
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+  color: var(--color---neutral--neutral50);
+  border-radius: 12px;
+  border: 1px solid var(--color---neutral--neutral70);
+  cursor: text;
+}
+
+/* post card */
+.post-card-container .card {
+  gap: 24px;
+}
+
+.post-card__user-info-container .user-info.text .text label-lg {
+  font-weight: 600;
+}
+
+.post-card__user-info-container .react-container,
+.post-card__post-preview-container .post-tag-container {
+  gap: 8px;
+}
+
+.post-card__react-count-container {
+  gap: 12px;
+  color: var(--color---neutral--neutral40);
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--color---neutral--neutral80);
+}
+
+.post-card__post-comment-container {
+  gap: 20px;
+  cursor: default;
+}
+
+.comment-container .comment {
+  padding: 8px 16px 12px 16px;
+  border-radius: 12px;
+  background-color: var(--color---neutral--neutral95);
+}
+
+.comment-container .comment-react-container {
+  align-self: center;
+  gap: 8px;
+}
+
+.comment-container .comment-react-container .link:hover {
+  color: var(--color---base---active);
+  text-decoration: none;
+}
+
+.comment-container .comment-header .replied-user {
+  color: var(--color---neutral--neutral50);
+}
+
+.comment-container .reply {
+  cursor: text;
+}
+
+.comment-container .comment-info {
+  gap: 10px;
+}
+
+.comment-container .comment-info > :not(:first-child),
+.comment-container .comment-header .user-interaction-container {
+  cursor: pointer;
+}
+
+.comment-container .comment-info .comment-delete:hover,
+.comment-container .comment-header .comment-delete:active {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--color---base---error);
+}
+
+.comment-container .comment-header .user-interaction-container__reply:hover,
+.comment-container .comment-header .user-interaction-container__reply:active {
+  text-decoration: none;
+
+  & .replied-user {
+    color: var(--color---base---gray);
+  }
+}
+
+.comment-container.reply-container {
+  margin-left: 24px;
+}
+
+.post-card__post-comment-container .view-more-reply {
+  gap: 8px;
+  align-items: center;
+}
+
+.post-card__add-comment-container {
+  gap: 12px;
+}
+
+.post-card__add-comment-container .form-control button {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  height: auto;
+}
+
+/* create-post-modal */
+#createPostModal {
+  width: 936px;
+  height: 530px;
+  padding: 100px;
+  background-color: #f2f2f2; /* 浅灰色背景 */
+  border: 1px solid #ccc; /* 灰色实线边框 */
+  color: #333; /* 黑色文字 */
+  border-radius: 4px; /* 添加4px的圆角 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: fixed; /* 使用固定定位 */
+  top: 50%; /* 位于视口的50%高度位置 */
+  left: 50%; /* 位于视口的50%宽度位置 */
+  transform: translate(-50%, -50%); /* 通过转换使其完全居中 */
+  box-sizing: border-box; /* 添加box-sizing以确保padding被包含在width内 */
+}
+
+.buttonclose {
+  background-color: #007bff; /* 蓝色背景 */
+  color: white; /* 白色文字 */
+  border: 1px solid #ffffff; /* 白色实线边框 */
+  border-radius: 4px; /* 添加4px的圆角 */
+  padding: 8px 16px; /* 设置内边距 */
+  cursor: pointer; /* 鼠标悬停变为手型 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+  position: fixed; /* 固定定位 */
+  bottom: 20px; /* 距离底部20px */
+  right: 100px; /* 距离右侧20px */
+}
+
+.buttonclose:hover {
+  background-color: #0056b3; /* 悬停时的背景颜色 */
+}
+
+.post-btn {
+  background-color: #007bff; /* 蓝色背景 */
+  color: white; /* 白色文字 */
+  border: 1px solid #ffffff; /* 白色实线边框 */
+  border-radius: 4px; /* 添加4px的圆角 */
+  padding: 8px 16px; /* 设置内边距 */
+  cursor: pointer; /* 鼠标悬停变为手型 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+  position: fixed; /* 固定定位 */
+  bottom: 20px; /* 距离底部20px */
+  right: 20px; /* 距离右侧20px */
+}
+
+.post-btn:hover {
+  background-color: #0056b3; /* 悬停时的背景颜色 */
+}
+
+.buttonupload {
+  background-color: #007bff; /* 蓝色背景 */
+  color: white; /* 白色文字 */
+  border: 1px solid #ffffff; /* 白色实线边框 */
+  border-radius: 4px; /* 添加4px的圆角 */
+  padding: 8px 16px; /* 设置内边距 */
+  cursor: pointer; /* 鼠标悬停变为手型 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+  position: fixed; /* 固定定位 */
+  bottom: 20px; /* 距离底部20px */
+  right: 200px; /* 距离右侧20px */
+}
+
+.buttonupload:hover {
+  background-color: #0056b3; /* 悬停时的背景颜色 */
+}
+
+.poptable {
+  width: 100%;
+  margin-top: 0px;
+  margin-bottom: 40px;
+  border-radius: 10px;
+  background-color: white;
+  margin: 0 auto;
+  border-style: hidden;
+}
+
+.poptitle {
+  font-family: Roboto;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 36px;
+  text-align: left; /* 将文字对齐改为..对齐 */
+  color: black;
+  text-decoration: none;
+  display: block; /* 改为 block 确保占满容器宽度 */
+}
+
+/* 设置弹窗的总体容器样式 */
+.popup-container {
+  display: flex;
+  align-items: center; /* 垂直居中所有子元素 */
+  gap: 10px; /* 在子元素之间添加一些间距 */
+}
+
+.popprofile {
+  width: 40px;
+  height: 40px;
+  background: #eaddff;
+  border-radius: 50%; /* 圆形头像 */
+  opacity: 1; /* 让头像可见 */
+}
+
+.namepopup,
+.campuspopup {
+  font-family: Roboto;
+  opacity: 1; /* 让文本可见 */
+}
+
+.namepopup {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: left;
+}
+
+.campuspopup {
+  width: auto; /* 根据内容调整宽度 */
+  padding: 0 4px;
+  background: #e5e1e1;
+  border-radius: 8px;
+}
+
+.popinput,
+.popupinfo,
+.popname,
+.popcampus {
+  opacity: 1; /* 如果需要这些元素可见 */
+}
+
+.container {
+  width: Fill (872px) px;
+  height: Hug (273px) px;
+  gap: 16px;
+  opacity: 0px;
+}
+
+.container-title {
+  text-align: left; /* 左对齐 */
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+
+.container-title input[type="text"] {
+  width: auto;
+  height: 30px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  box-sizing: border-box;
+  margin-right: 10px;
+}
+
+.container-title a {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #333;
+  text-decoration: none;
+}
+
+.container-title a:hover {
+  text-decoration: underline;
+}
+
+.container-title input[type="text"]:focus {
+  outline: none; /* 移除默认的聚焦效果 */
+  border-color: #007bff; /* 聚焦时改变边框颜色 */
+}
+
+.uploadpicture {
+  width: 40px;
+  height: 40px;
+  background: #eaddff;
+  border-radius: 50%; /* 圆形头像 */
+  opacity: 1; /* 让头像可见 */
+  background-image: url("path/to/your/image.jpg"); /* 设置背景图片的路径 */
+  background-size: cover; /* 使背景图片充满整个按钮 */
+  background-position: center; /* 将背景图片居中 */
+  border: none; /* 移除按钮边框 */
+  cursor: pointer; /* 鼠标悬停显示手型 */
 }
