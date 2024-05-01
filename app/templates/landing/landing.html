@@ -446,4 +446,451 @@
         }
     </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMU Confession</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing.css') }}">
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="mmu-header">
+        MMU Confession
+    </div>
+
+    <!-- Menu Section -->
+    <div class="menu">
+         <!-- Start Box -->
+         <div class="start-box">
+            <img src="{{ url_for('static', filename='img/mmu-logo.png') }}" alt="MMU Logo" class="mmulogo">
+            <a href="start.html" class="signup-link"><img src="{{ url_for('static', filename='img/signup-pic.png') }}" alt="Signup"></a>
+        </div>
+
+        <!-- Menu Links -->
+        <div class="menu-links">
+            <a href="#about-section" class="active">About</a>
+            <a href="#posts-section">Posts</a>
+            <a href="#faq-section">FAQ</a>
+            <a href="#privacy-policy-section">Privacy Policy & Terms of Service</a>
+        </div>
+    </div>
+
+    <!-- Image Section -->
+    <div class="image-container">
+        <img src="{{ url_for('static', filename='img/main1.png') }}" alt="Main Image">
+        <div class="text-overlay">
+            <p class="begin-journey">Begin Your Journey</p>
+            <p class="connect-like">Connect with Like-Minded Travelers</p>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div id="about-section" class="about-section animated">
+        <div class="about-text">
+            <p>About</p>
+        </div>
+    </div>
+
+    <!-- Pic Description Section -->
+    <div class="pic-description">
+        <img src="{{ url_for('static', filename='img/pic1.png') }}" alt="Pic 1" class="pic1">
+        <div class="pic-text">
+            <p>We're all about human connections that rock and conversations that make you go, "Sheesh!" This isn't just any spot to spill your thoughts—it's a virtual playground where humans collide to share wisdom, swap stories, and maybe even share a lame joke or two.</p>
+            <p>Join us in building a platform where every voice is heard, every story is valued, and every  interaction leaves an impact. So, what are you waiting for? Dive into the rabbit hole, join the party, and let's build memories together in this wild ride! Every voice counts, every story rocks, and every interaction is a virtual high-five. See you on the flip side! </p>
+        </div>
+    </div>  
+
+    <!-- Post Section -->
+    <div id="posts-section" class="posts-section animated">
+        <div class="post-text">
+            <p>Posts</p>
+        </div>
+
+        <!-- Grid Layout for Posts -->
+        <div class="post-grid">
+            <!-- Post Box -->
+            {% for post in posts %}
+            <div class="post-box" id="{{ post.id }}">
+                <img src="{{ url_for('static', filename=post.image) }}" alt="{{ post.title }} Image">
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.content }}</p>
+                <div class="like-share">
+                    <button id="{{ post.id }}-like" onclick="likePost('{{ post.id }}')">❤️</button>
+                    <span id="{{ post.id }}-like-count">{{ post.likes }}</span>
+                    <span class="likes-text">LIKES</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Additional Posts -->
+        <div class="post-grid">
+            <!-- Post 1 -->
+            <div class="post-box" id="post1">
+                <img src="{{ url_for('static', filename='img/post1.png') }}" alt="Post 1 Image">
+                <h2>Establishing a Community: Join MMU Confession</h2>
+                <p>In recent years, social media has become an essential channel for many individuals to express ideas, share experiences, and seek support. However, there are times when we may need a more anonymous, unbiased platform to share our inner world. MMU Confession is precisely such a place that allows you to do just that.</p>
+                <div class="like-share">
+                    <button id="post1-like" onclick="likePost('post1')">❤️</button>
+                    <span id="post1-like-count">0</span>
+                    <span class="likes-text">LIKES</span>
+                </div>
+            </div>
+
+            <!-- Post 2 -->
+            <div class="post-box" id="post2">
+                <img src="{{ url_for('static', filename='img/post2.png') }}" alt="Post 2 Image">
+                <h2>MMU Confession: Anonymously Share Your Thoughts</h2>
+                <p>MMU Confession is an anonymous sharing platform crafted for the university community. The mission of this website is to provide a safe, open space for students and staff to share their thoughts, experiences, and ideas while also listening to the stories of others and building connections.Came sharing moments of joy </p>
+                <div class="like-share">
+                    <button id="post2-like" onclick="likePost('post2')">❤️</button>
+                    <span id="post2-like-count">0</span>
+                    <span class="likes-text">LIKES</span>
+                </div>
+            </div>
+
+            <!-- Post 3 -->
+            <div class="post-box" id="post3">
+                <img src="{{ url_for('static', filename='img/post3.png') }}" alt="Post 3 Image">
+                <h2>Voices of Stories: MMU Confession Platform</h2>
+                <p>We would like to share with you a website about community communication. This is a very interesting platform called MMU Confession. The site is designed to allow people to anonymously share their thoughts and stories or find like-minded people to connect with."Community Exchange, Every Voice Matters."Sign in to start your story </p>
+                <div class="like-share">
+                    <button id="post3-like" onclick="likePost('post3')">❤️</button>
+                    <span id="post3-like-count">0</span>
+                    <span class="likes-text">LIKES</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- FAQ Section -->
+<div id="faq-section" class="faq-section animated">
+    <div class="faq-text">
+        <h2>FAQ</h2>
+        <p>_____________________________________________</p>
+    </div>
+    
+      <!-- FAQ Content -->
+      <div class="faq-content">
+        
+        <!-- FAQ Box -->
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                a. How do I sign up for an account?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    You can sign up for an account by clicking on the "Sign Up" button on the homepage and following the prompts to enter your email address and choose a username.
+                </div>
+            </div>
+        </div>
+
+        <!-- New FAQ Boxes -->
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                b. How do I create a new post?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    To create a new post, click on the "Create Post" button. Then, select the category and tags that fit your post the most, write your post, and click "Submit."
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                c. Can I edit or delete my posts/comments?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    Yes, you can edit or delete your own posts and comments. Simply locate the post or comment you wish to modify and click on the edit or delete option provided.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                d. Are there any guidelines for what I can post?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    We have community guidelines in place to ensure a positive and respectful environment. Please review our guidelines before posting, and avoid posting any content that violates them.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                e. Is my identity anonymous on the platform?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    Yes, we prioritize user anonymity on our platform. Your identity is protected, and every post is anonymous.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                f. How is my personal data protected?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    We take the privacy and security of your personal data seriously and employ various measures to safeguard it. Please review our privacy policy for more information.
+                </div>
+            </div>
+        </div>
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                g. What measures are in place to prevent harassment or abuse?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    We have strict policies against harassment and abuse and employ both automated and manual moderation techniques to enforce them. Users can report any abusive behavior, and our moderation team will take appropriate action.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                h. What are the community guidelines, and how do I follow them?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    Our community guidelines outline the standards of behavior expected from users on our platform. You can find them listed on our website in the "Community Guidelines" section. Please familiarize yourself with these guidelines and adhere to them while interacting with the community.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                i. What kind of content is not allowed on the platform?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    In short, content that violates our community guidelines, including but not limited to hate speech, harassment, explicit content, and illegal activities, is not allowed on our platform.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                j. How are violations of community guidelines handled?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    Violations of our community guidelines are taken seriously and may result in various actions, including content removal, account suspension, or permanent banning, depending on the severity of the violation.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                k. What should I do if I encounter a technical issue or bugs?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    If you encounter a technical issue or want to make bug reports, you can reach out to our team via email at giveouremailhere@gmail.com for assistance.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                l. Is there a way to provide feedback?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    Yes, we welcome feedback from our users. You can submit feedback through our website.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                m. How can I deactivate or delete my account?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    To deactivate or delete your account, please contact our team for assistance. We will guide you through the process.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                n. What happens to my data if I deactivate or delete my account?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    Your personal data will be securely deleted from our systems upon deactivation or deletion of your account, in accordance with our privacy policy.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                o. Who moderates the content on the platform?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    We have a dedicated team of moderators who oversee the content on our platform and ensure compliance with our community guidelines.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                p. How are moderators selected, and what are their roles?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    Moderators are chosen from trusted team members based on their high adherence to guidelines. Their roles include content moderation, user support, enforcing rules, and fostering positive community engagement to ensure a welcoming and respectful environment.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                q. How can I contact the moderation team if I need assistance?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    If you need assistance from our moderation team, you can report a post or contact our team via email at giveouremail@gmail.com.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                r. Are there any additional features or tools available on the platform?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    Yes, we offer various additional features and tools to enhance your experience on our platform, such as customizable notification settings.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                s. What are the terms of service for using the platform?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    Our terms of service outline the terms and conditions governing the use of our platform. You can find them listed on our website in the "Terms of Service" section.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                t. Are there any legal disclaimers or privacy policies I should be aware of?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    Yes, please review our privacy policy for more information about how we handle your data and your rights as a user. Also, please take note of the legal disclaimers provided on our website.
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue adding more FAQ boxes -->
+
+        <div class="faq-box" onclick="toggleAnswer(this)">
+            <div class="faq-question">
+                u. How can I contact the platform's support team or administrators for further assistance?
+                <span class="arrow-down">&#9660;</span>
+            </div>
+            <div class="faq-answer-box">
+                <div class="faq-answer">
+                    You can contact our support team or administrators via email at lee.desmond2016@gmail.com, boonshen1159@gmail.com, robinchew2203@gmail.com, marcusliewzhiyong@gmail.com for further assistance or inquiries. Do also feel free to check us out through other channels in the "Follow Us" section. We strive to respond to all inquiries promptly.
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+
+<!-- Privacy Policy & Terms of Service Section -->
+<div class="privacy-policy-section animated">
+    <div class="privacy-policy-text">
+        <p>Privacy Policy & Terms of Service</p>
+    </div>
+    <!-- Add your Privacy Policy & Terms of Service content here -->
+</div>
+
+<!-- File download links -->
+<div class="file-links">
+    <!-- Privacy Policy PDF -->
+    <div class="file-container">
+        <a href="{{ url_for('static', filename='pdf/privacy-policy.pdf') }}" class="download-btn" download>Download Privacy Policy</a>
+        <embed src="{{ url_for('static', filename='pdf/privacy-policy.pdf') }}" type="application/pdf" class="embed-container">
+    </div>
+    
+    <!-- Terms of Service PDF -->
+    <div class="file-container">
+        <a href="{{ url_for('static', filename='pdf/terms-of-service.pdf') }}" class="download-btn" download>Download Terms of Service</a>
+        <embed src="{{ url_for('static', filename='pdf/terms-of-service.pdf') }}" type="application/pdf" class="embed-container">
+    </div>
+</div>
+
+    <script src="{{ url_for('static', filename='img/post-interactions.js') }}"></script>
+    <script>
+        function toggleAnswer(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
 </html>
