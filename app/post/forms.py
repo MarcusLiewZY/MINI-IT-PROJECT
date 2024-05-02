@@ -35,3 +35,4 @@ class CreatePostForm(FlaskForm):
             Optional(),
         ],
     )
+

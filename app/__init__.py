@@ -46,4 +46,5 @@ from app.post.views import post
 app.register_blueprint(main)
 app.register_blueprint(user)
 app.register_blueprint(admin)
+
 app.register_blueprint(post)

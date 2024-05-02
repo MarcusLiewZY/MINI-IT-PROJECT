@@ -1,4 +1,5 @@
 import click
+from datetime import datetime
 from flask.cli import FlaskGroup
 
 from app import app, db
@@ -22,7 +23,6 @@ cli = FlaskGroup(app)
 def create_admin(manual, auto):
     import getpass
     from app.models.user import User
-    from datetime import datetime
     from app.user.forms import AdminRegisterForm
     
     try:
@@ -148,7 +148,8 @@ def create_resource(post, tag):
                         'name': tag_data['name'],
                         'color': tag_data['color'],
                         'description': tag_data['description'],
-                        'created_at': format_datetime(tag_data['created_at'])
+                        'created_at': format_datetime(datetime.now())
+
                     }
                 )
                 db.session.add(tag)

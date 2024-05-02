@@ -30,6 +30,7 @@ class Post(db.Model):
     status = db.Column(db.Enum(Status), nullable=False)
     updated_at = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.Text, nullable=False)
+
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id"))
 
     # relationship

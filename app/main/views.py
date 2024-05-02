@@ -28,6 +28,11 @@ def index():
     return render_template("main/index.html", user=user)
 
 
+@main.route("/community-guideline")
+@login_required
+def community_guideline():
+    return render_template("main/community_guidelines.html")
+
 @main.route("/landing")
 @logout_required
 def landing():
