@@ -9,7 +9,7 @@ class PostNotification(db.Model):
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     is_read = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.Text, nullable=False)
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id"))
     post_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Post.id"))
     unread_comment_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Comment.id"))
