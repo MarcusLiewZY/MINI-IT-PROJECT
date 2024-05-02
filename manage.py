@@ -149,6 +149,7 @@ def create_resource(post, tag):
                         'color': tag_data['color'],
                         'description': tag_data['description'],
                         'created_at': format_datetime(datetime.now())
+
                     }
                 )
                 db.session.add(tag)

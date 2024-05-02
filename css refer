@@ -1,0 +1,206 @@
+/* 1-10 */
+/* 重置默认样式 */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+/* 设置全局字体和颜色 */
+body { font-family: Arial, sans-serif; color: #333; }
+/* 居中元素 */
+.container { display: flex; justify-content: center; align-items: center; }
+/* 响应式图片 */
+img { max-width: 100%; height: auto; }
+/* 阴影效果 */
+.box { box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); }
+/* 过渡效果 */
+.button { transition: all 0.3s ease; }
+.button:hover { transform: scale(1.1); }
+/* Flexbox 布局 */
+.container { display: flex; justify-content: space-between; align-items: center; }
+/* 网格布局 */
+.container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+/* 响应式布局（Media Queries） */
+@media screen and (max-width: 768px) { .container { flex-direction: column; } }
+
+/* 11-20 */
+/* 文本居中 */
+.text-center { text-align: center; }
+/* 元素居中 */
+.element-center { display: flex; justify-content: center; align-items: center; }
+/* 隐藏元素 */
+.hide { display: none; }
+/* 显示元素 */
+.show { display: block; }
+/* 字体加粗 */
+.bold-text { font-weight: bold; }
+/* 字体斜体 */
+.italic-text { font-style: italic; }
+/* 字体大小 */
+.font-size { font-size: 16px; }
+/* 字体颜色 */
+.font-color { color: #FF0000; }
+/* 背景颜色 */
+.background-color { background-color: #F0F0F0; }
+/* 边框样式 */
+.border-style { border: 1px solid #000; }
+
+/* 21-30 */
+/* 边框颜色 */
+.border-color { border-color: #000; }
+/* 边框圆角 */
+.border-radius { border-radius: 5px; }
+/* 内边距 */
+.padding { padding: 10px; }
+/* 外边距 */
+.margin { margin: 10px; }
+/* 悬停效果 */
+.hover-effect:hover { background-color: #E0E0E0; }
+/* 禁用状态 */
+.disabled { pointer-events: none; opacity: 0.5; }
+/* 可点击元素 */
+.clickable { cursor: pointer; }
+/* 水平排列 */
+.horizontal-layout { display: flex; flex-direction: row; }
+/* 垂直排列 */
+.vertical-layout { display: flex; flex-direction: column; }
+/* 固定定位 */
+.fixed-position { position: fixed; top: 0; left: 0; }
+
+/* 31-40 */
+/* 绝对定位 */
+.absolute-position { position: absolute; top: 0; left: 0; }
+/* 相对定位 */
+.relative-position { position: relative; }
+/* 单行文本溢出省略号 */
+.text-overflow-single { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* 多行文本溢出省略号 */
+.text-overflow-multi { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+/* 背景图像 */
+.background-image { background-image: url('example.jpg'); }
+/* 背景定位 */
+.background-position { background-position: center center; }
+/* 背景重复 */
+.background-repeat { background-repeat: no-repeat; }
+/* 背景大小 */
+.background-size { background-size: cover; }
+/* 水平列表 */
+.horizontal-list { display: flex; flex-direction: row; }
+/* 垂直列表 */
+.vertical-list { display: flex; flex-direction: column; }
+
+/* 41-50 */
+/* 水平滚动条 */
+.horizontal-scroll { overflow-x: auto; white-space: nowrap; }
+/* 垂直滚动条 */
+.vertical-scroll { overflow-y: auto; }
+/* 清除浮动 */
+.clearfix::after { content: ""; display: table; clear: both; }
+/* 文本对齐 */
+.text-align { text-align: center; }
+/* 文本装饰 */
+.text-decoration { text-decoration: underline; }
+/* 文本换行 */
+.word-wrap { word-wrap: break-word; }
+/* 透明度 */
+.opacity { opacity: 0.8; }
+/* 滤镜效果 */
+.filter-effect { filter: grayscale(50%); }
+/* 旋转元素 */
+.rotate { transform: rotate(45deg); }
+/* 缩放元素 */
+.scale { transform: scale(1.2); }
+
+/* 51-60 */
+/* 翻转元素 */
+.flip { transform: scaleX(-1); }
+/* 文本阴影 */
+.text-shadow { text-shadow: 1px 1px 2px #000; }
+/* 盒子模型 */
+.box-model { padding: 10px; margin: 10px; border: 1px solid #000; }
+/* 渐变背景 */
+.gradient-background { background: linear-gradient(to right, #FFA500, #FF4500); }
+/* 渐变文字 */
+.gradient-text { background: linear-gradient(to right, #FFA500, #FF4500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+/* 文字间距 */
+.letter-spacing { letter-spacing: 2px; }
+/* 行高 */
+.line-height { line-height: 1.5; }
+/* 背景色透明度 */
+.background-opacity { background-color: rgba(255, 0, 0, 0.5); }
+/* 边框透明度 */
+.border-opacity { border: 1px solid rgba(0, 0, 0, 0.5); }
+/* 按钮样式 */
+.button-style { border: none; padding: 10px; background-color: #007bff; color: #fff; }
+
+/* 61-70 */
+/* 输入框样式 */
+.input-style { border: 1px solid #ccc; padding: 5px; }
+/* 下拉菜单样式 */
+.select-style { appearance: none; -webkit-appearance: none; padding: 5px; border: 1px solid #ccc; }
+/* 表格样式 */
+.table-style { border-collapse: collapse; width: 100%; }
+/* 表单样式 */
+.form-style { display: flex; flex-direction: column; }
+/* 光标样式 */
+.cursor-pointer { cursor: pointer; }
+/* 鼠标样式 */
+.cursor-crosshair { cursor: crosshair; }
+/* 全屏背景 */
+.fullscreen-bg { background-size: cover; background-position: center; }
+/* 响应式导航栏 */
+.responsive-navbar { display: flex; justify-content: space-between; align-items: center; }
+/* 旋转动画 */
+.rotate-animation { animation: rotate 2s infinite linear; }
+
+/* 71-80 */
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+/* 弹跳动画 */
+.bounce-animation { animation: bounce 1s infinite ease-in-out; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+/* 渐变动画 */
+.fade-in-out-animation { animation: fade 1s infinite alternate; }
+@keyframes fade { 0% { opacity: 0; } 100% { opacity: 1; } }
+/* 抖动动画 */
+.shake-animation { animation: shake 0.5s infinite linear; }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25%, 75% { transform: translateX(-5px); } 50% { transform: translateX(5px); } }
+/* 缩放动画 */
+.zoom-in-animation { animation: zoom 1s ease-in-out; }
+@keyframes zoom { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+/* 淡入淡出动画 */
+.fade-in-animation { animation: fadeIn 1s ease-in-out; }
+@keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
+/* 淡出动画 */
+.fade-out-animation { animation: fadeOut 1s ease-in-out; }
+@keyframes fadeOut { 0% { opacity: 1; } 100% { opacity: 0; } }
+
+/* 81-90 */
+/* 水平翻转动画 */
+.flip-horizontal-animation { animation: flipHorizontal 1s ease-in-out; }
+@keyframes flipHorizontal { 0% { transform: scaleX(1); } 100% { transform: scaleX(-1); } }
+/* 垂直翻转动画 */
+.flip-vertical-animation { animation: flipVertical 1s ease-in-out; }
+@keyframes flipVertical { 0% { transform: scaleY(1); } 100% { transform: scaleY(-1); } }
+/* 翻页动画 */
+.page-turn-animation { animation: pageTurn 1s ease-in-out; }
+@keyframes pageTurn { 0% { transform: rotateY(0); } 100% { transform: rotateY(180deg); } }
+/* 折叠动画 */
+.collapse-animation { animation: collapse 1s ease-in-out; }
+@keyframes collapse { 0% { height: 100%; opacity: 1; } 100% { height: 0; opacity: 0; } }
+/* 旋转光环动画 */
+.halo-animation { animation: halo 1s ease-in-out infinite alternate; }
+@keyframes halo { 0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); } 100% { box-shadow: 0 0 20px 20px rgba(255, 255, 255, 0); } }
+/* 闪烁动画 */
+.blink-animation { animation: blink 1s step-end infinite alternate; }
+@keyframes blink { 0% { opacity: 0; } 100% { opacity: 1; } }
+/* 波纹效果 */
+.ripple-effect { position: relative; overflow: hidden; }
+.ripple-effect::after { content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 0; height: 0; background-color: rgba(255, 255, 255, 0.5); border-radius: 50%; pointer-events: none; animation: ripple 1s ease-out; }
+@keyframes ripple { 0% { width: 0; height: 0; opacity: 0.5; } 100% { width: 200%; height: 200%; opacity: 0; } }
+/* 打字机效果 */
+.typewriter-effect { overflow: hidden; border-right: .15em solid orange; white-space: nowrap; margin: 0 auto; animation: typing 1s steps(40, end), blink-caret .75s step-end infinite; }
+@keyframes typing { from { width: 0 } to { width: 100% } }
+@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: orange; } }
+/* 拉伸动画 */
+.stretch-animation { animation: stretch 1s ease-in-out; }
+@keyframes stretch { 0% { transform: scaleX(1); } 100% { transform: scaleX(2); } }
+/* 渐变字体颜色 */
+.gradient-text-color { color: transparent; background-image: linear-gradient(45deg, red, yellow); -webkit-background-clip: text; background-clip: text; }
+
+/* Additional styles can be added as needed */

@@ -1,4 +1,3 @@
-import time
 from datetime import datetime
 from flask import url_for, redirect, flash
 from flask_login import login_required, login_user, logout_user
@@ -7,6 +6,7 @@ from app import oauth, db
 from app.models import User
 from . import user
 from app.utils.decorators import logout_required
+from app.utils.helper import format_datetime
 
 
 @user.route("/sign-up")
@@ -43,7 +43,7 @@ def google_auth():
                 "password": user_info["email"],
                 "username": user_info["name"],
                 "avatar_url": user_info["picture"],
-                "created_at": datetime.now(),
+                "created_at": format_datetime(datetime.now()),
             }
         )
         db.session.add(user)

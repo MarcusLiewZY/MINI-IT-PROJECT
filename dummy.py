@@ -84,3 +84,4 @@ post = {
     "image_url": "https://via.placeholder.com/200x300",
     "tags": ["FOE", "FIST"],
 }
+

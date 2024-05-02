@@ -1,0 +1,957 @@
+/* General Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Californian FB", serif;
+  color: #92897d;
+}
+
+/* Header Styles */
+.mmu-header {
+  background-color: #262625;
+  text-align: center;
+  padding: 20px;
+  font-size: 36px;
+}
+
+/* Menu Styles */
+.menu {
+  background-color: #0b070a;
+  text-align: left;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Menu Links Styles */
+.menu-links {
+  display: flex;
+  align-items: center;
+}
+
+.menu a {
+  color: #92897d;
+  text-decoration: none;
+  margin-right: 20px;
+  font-size: 24px;
+  transition:
+    color 0.3s ease,
+    border-bottom-color 0.3s ease; /* Adding transition effect */
+}
+
+.menu a:hover {
+  color: #fff;
+  border-bottom-color: #fff; /* Adding bottom border on hover */
+}
+
+/* Divider Styles */
+.divider {
+  color: #92897d;
+  margin: 0 10px;
+}
+
+/* Larger Font Size */
+.menu a {
+  font-size: 28px;
+}
+
+/* Hover Box Shadow Effect */
+.menu a {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* No shadow initially */
+}
+
+.menu a:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Adding shadow on hover */
+}
+
+/* Menu Link Bottom Border */
+.menu a {
+  position: relative; /* Setting relative positioning */
+}
+
+.menu a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px; /* Placing the line at the bottom of the link */
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #fff; /* Line color */
+  transition: width 0.3s ease; /* Transition effect */
+}
+
+.menu a:hover::after,
+.menu a.active::after {
+  width: 100%; /* Showing line on hover or active */
+}
+
+/* Signup Link Animation */
+.signup-link img {
+  transition: transform 0.3s ease; /* Adding animation effect */
+}
+
+.signup-link:hover img {
+  transform: scale(1.1); /* Scaling up the icon on hover */
+}
+
+/* Start Box Styles */
+.start-box {
+  display: flex;
+  align-items: center; /* Center items vertically */
+}
+
+/* Signup Link Styles */
+.signup-link {
+  margin-right: 10px; /* Adjusting spacing between signup link and logo */
+}
+
+/* MMU Logo Styles */
+.mmulogo {
+  width: 150px; /* Adjusting size of the MMU logo */
+}
+
+.start-link img {
+  width: 50px; /* Adjusting image width */
+  height: auto; /* Making height auto-adjust */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1); /* Scaling up at the midpoint of the animation */
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Image Styles */
+.image-container {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Text Overlay Styles */
+.text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.image-container:hover .text-overlay {
+  opacity: 1;
+}
+
+.text-overlay p {
+  margin: 0;
+}
+
+.begin-journey {
+  font-size: 20px;
+}
+
+.connect-like {
+  font-size: 60px;
+}
+
+/* About Section Styles */
+.about-section {
+  opacity: 0;
+  animation: fadeInAbout 3s ease forwards;
+}
+
+@keyframes fadeInAbout {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.about-text {
+  background-color: #92897d;
+  color: white;
+  font-size: 36px;
+  padding: 10px;
+  text-align: center;
+  margin: 10px auto;
+  animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.about-text p:first-child {
+  font-size: 40px;
+}
+
+.about-text p:first-child::after {
+  content: "";
+  display: block;
+  width: 200px;
+  height: 2px;
+  background-color: rgb(255, 255, 255);
+  margin: 10px auto;
+}
+
+/* Pic Description Section Styles */
+.pic-description {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  animation: slideInLeft 1s ease;
+}
+
+.pic1 {
+  width: 50%;
+  object-fit: cover;
+  animation: fadeIn 2s ease;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.pic-text {
+  width: 40%;
+  animation: fadeIn 2s ease;
+}
+
+.pic-text p {
+  font-size: 24px;
+  line-height: 1.5;
+  color: rgb(0, 0, 0);
+}
+
+.posts-text {
+  font-size: 24px;
+}
+
+/* Post Section Styles */
+.posts-section {
+  background-color: #92897d; /* Same color as the About section */
+  color: white;
+  font-size: 36px;
+  padding: 10px;
+  text-align: center;
+  margin: 10px auto;
+  animation: fadeInPosts 2s ease;
+}
+
+@keyframes fadeInPosts {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Post Section Styles */
+.posts-section {
+  background-color: #161630; /* Same color as the About section */
+  color: white;
+  text-align: center; /* Align text to the center */
+  animation: fadeInPosts 2s ease;
+  padding: 50px 0; /* Add padding to the top and bottom */
+}
+
+.post-text p:first-child {
+  font-size: 60px; /* Decrease font size */
+  position: relative; /* Add position relative */
+  margin-top: 20px; /* Add some space on top */
+}
+
+.post-text p:first-child::after {
+  content: ""; /* Add content */
+  position: absolute; /* Position it absolutely */
+  left: 0; /* Align it with the text */
+  bottom: 0px; /* Adjust its position */
+  width: 90%; /* Make it span the width of the container */
+  height: 1px; /* Set the height */
+  background-color: white; /* Color of the line */
+}
+
+.post-box {
+  width: 30%; /* Adjust width as needed */
+  display: inline-block; /* Display items in a row */
+  margin: 20px; /* Adjust margin as needed */
+  vertical-align: top; /* Align items to the top */
+  text-align: left; /* Align text to the left */
+  padding: 20px; /* Add padding */
+  background-color: #fff; /* Add background color */
+  border-radius: 10px; /* Add border radius */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add box shadow */
+  box-sizing: border-box; /* Include padding and border in the box's total width */
+}
+
+.post-box img {
+  width: 100%; /* Make the images fill the box */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Add border radius */
+}
+
+.post-box h2 {
+  font-size: 20px; /* Adjust font size as needed */
+  margin-bottom: 10px; /* Add space below the title */
+  color: #333; /* Adjust font color as needed */
+}
+
+.post-box p {
+  font-size: 16px; /* Adjust font size as needed */
+  margin-bottom: 10px; /* Add space below paragraphs */
+  color: #333; /* Adjust font color as needed */
+}
+
+/* Like and Share Symbol Styles */
+.like-share {
+  font-size: 16px; /* Set font size */
+  color: #333; /* Set color */
+}
+
+/* Like Text Styles */
+.likes-text {
+  font-size: 12px;
+  color: #333;
+}
+/* Style for FAQ Section */
+.faq-section {
+  text-align: center;
+}
+
+.faq-text {
+  font-size: 24px;
+  position: relative;
+}
+
+.faq-text h2 {
+  display: inline;
+}
+
+.faq-text p {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: -25px; /* Adjust the position of the line */
+}
+
+.faq-box {
+  font-family: "Times New Roman", Times, serif; /* Change font to Times New Roman */
+  color: black; /* Text color */
+  width: 60%; /* Adjust the width as needed */
+  margin: 20px auto; /* Center align and add margin */
+  border: 2px solid #ccc; /* Border color */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: left; /* Align text to the left */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: border-color 0.3s; /* Smooth transition for border color change */
+  background-color: #f9f9f9; /* Light gray background color */
+}
+
+.faq-box:hover {
+  border-color: #555; /* Darker border color on hover */
+}
+
+.faq-question {
+  font-size: 18px; /* Question font size */
+  margin-bottom: 10px; /* Add space below the question */
+}
+
+.faq-answer-box {
+  padding: 10px;
+  background-color: #eaeaea; /* Lighter background color for answers */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 8px; /* Rounded corners */
+  display: none; /* Initially hide the answer */
+}
+
+.faq-answer {
+  font-size: 16px; /* Answer font size */
+}
+
+.faq-box.active .faq-answer-box {
+  display: block; /* Show answer when active */
+}
+
+/* Style for Privacy Policy & Terms of Service Section */
+.privacy-policy-section {
+  text-align: center;
+}
+
+.privacy-policy-text p {
+  font-size: 36px;
+  color: #333;
+}
+
+/* Style for Privacy Policy & Terms of Service Section */
+.privacy-policy-section {
+  text-align: center;
+  margin-top: 50px; /* Add some top margin for better spacing */
+}
+
+.privacy-policy-text p {
+  font-size: 36px;
+  color: #333;
+}
+
+/* Style for file download links */
+.file-links {
+  display: flex;
+  flex-direction: column; /* Change to column layout */
+  align-items: center; /* Center items horizontally */
+  margin-top: 20px;
+}
+
+.file-container {
+  width: 70%; /* Adjust width as needed */
+  border: 1px solid #ccc; /* Add border for better visual separation */
+  border-radius: 8px; /* Add border radius for rounded corners */
+  overflow: hidden; /* Hide overflowing content */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add subtle box shadow */
+  margin-bottom: 20px; /* Add some bottom margin for better spacing */
+}
+
+.download-btn {
+  display: block;
+  background-color: #000000;
+  color: #fff;
+  padding: 15px 0; /* Adjust padding */
+  text-decoration: none;
+  border-radius: 0 0 8px 8px; /* Add border radius only to bottom */
+  text-align: center;
+  transition: background-color 0.3s ease; /* Add smooth transition for background color change */
+  width: 100%; /* Make button full width */
+}
+
+.download-btn:hover {
+  background-color: #000000;
+}
+
+/* Adjustments for PDF embed */
+.embed-container {
+  width: 100%;
+  height: 600px; /* Increase height for better display */
+  border-top: 1px solid #ccc; /* Add border to separate download button and embed */
+}
+=======
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Californian FB", serif;
+    color: #92897d;
+}
+
+/* Header Styles */
+.mmu-header {
+    background-color: #262625;
+    text-align: center;
+    padding: 20px;
+    font-size: 36px;
+}
+
+/* Menu Styles */
+.menu {
+    background-color: #0b070a;
+    text-align: left;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Menu Links Styles */
+.menu-links {
+    display: flex;
+    align-items: center;
+}
+
+.menu a {
+    color: #92897d;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 24px;
+    transition: color 0.3s ease, border-bottom-color 0.3s ease; /* Adding transition effect */
+}
+
+.menu a:hover {
+    color: #fff;
+    border-bottom-color: #fff; /* Adding bottom border on hover */
+}
+
+/* Divider Styles */
+.divider {
+    color: #92897d;
+    margin: 0 10px;
+}
+
+/* Larger Font Size */
+.menu a {
+    font-size: 28px;
+}
+
+/* Hover Box Shadow Effect */
+.menu a {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* No shadow initially */
+}
+
+.menu a:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Adding shadow on hover */
+}
+
+/* Menu Link Bottom Border */
+.menu a {
+    position: relative; /* Setting relative positioning */
+}
+
+.menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; /* Placing the line at the bottom of the link */
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #fff; /* Line color */
+    transition: width 0.3s ease; /* Transition effect */
+}
+
+.menu a:hover::after,
+.menu a.active::after {
+    width: 100%; /* Showing line on hover or active */
+}
+
+/* Signup Link Animation */
+.signup-link img {
+    transition: transform 0.3s ease; /* Adding animation effect */
+}
+
+.signup-link:hover img {
+    transform: scale(1.1); /* Scaling up the icon on hover */
+}
+
+/* Start Box Styles */
+.start-box {
+    display: flex;
+    align-items: center; /* Center items vertically */
+}
+
+/* Signup Link Styles */
+.signup-link {
+    margin-right: 10px; /* Adjusting spacing between signup link and logo */
+}
+
+/* MMU Logo Styles */
+.mmulogo {
+    width: 150px; /* Adjusting size of the MMU logo */
+}
+
+.start-link img {
+    width: 50px; /* Adjusting image width */
+    height: auto; /* Making height auto-adjust */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1); /* Scaling up at the midpoint of the animation */
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Image Styles */
+.image-container {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Text Overlay Styles */
+.text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.image-container:hover .text-overlay {
+    opacity: 1;
+}
+
+.text-overlay p {
+    margin: 0;
+}
+
+.begin-journey {
+    font-size: 20px;
+}
+
+.connect-like {
+    font-size: 60px;
+}
+
+/* About Section Styles */
+.about-section {
+    opacity: 0;
+    animation: fadeInAbout 3s ease forwards;
+}
+
+@keyframes fadeInAbout {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.about-text {
+    background-color: #92897d;
+    color: white;
+    font-size: 36px;
+    padding: 10px;
+    text-align: center;
+    margin: 10px auto; 
+    animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.about-text p:first-child {
+    font-size: 40px;
+}
+
+.about-text p:first-child::after {
+    content: '';
+    display: block;
+    width: 200px;
+    height: 2px;
+    background-color: rgb(255, 255, 255);
+    margin: 10px auto;
+}
+
+/* Pic Description Section Styles */
+.pic-description {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    animation: slideInLeft 1s ease;
+}
+
+.pic1 {
+    width: 50%;
+    object-fit: cover;
+    animation: fadeIn 2s ease;
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.pic-text {
+    width: 40%;
+    animation: fadeIn 2s ease;
+}
+
+.pic-text p {
+    font-size: 24px;
+    line-height: 1.5;
+    color: rgb(0, 0, 0);
+}
+
+.posts-text{
+    font-size : 24px;
+}
+
+
+
+
+
+
+
+
+
+/* Post Section Styles */
+.posts-section {
+    background-color: #92897d; /* Same color as the About section */
+    color: white;
+    font-size: 36px;
+    padding: 10px;
+    text-align: center;
+    margin: 10px auto;
+    animation: fadeInPosts 2s ease;
+}
+
+@keyframes fadeInPosts {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Post Section Styles */
+.posts-section {
+    background-color: #161630; /* Same color as the About section */
+    color: white;
+    text-align: center; /* Align text to the center */
+    animation: fadeInPosts 2s ease;
+    padding: 50px 0; /* Add padding to the top and bottom */
+}
+
+.post-text p:first-child {
+    font-size: 60px; /* Decrease font size */
+    position: relative; /* Add position relative */
+    margin-top: 20px; /* Add some space on top */
+}
+
+.post-text p:first-child::after {
+    content: ''; /* Add content */
+    position: absolute; /* Position it absolutely */
+    left: 0; /* Align it with the text */
+    bottom: 0px; /* Adjust its position */
+    width: 90%; /* Make it span the width of the container */
+    height: 1px; /* Set the height */
+    background-color: white; /* Color of the line */
+}
+
+.post-box {
+    width: 30%; /* Adjust width as needed */
+    display: inline-block; /* Display items in a row */
+    margin: 20px; /* Adjust margin as needed */
+    vertical-align: top; /* Align items to the top */
+    text-align: left; /* Align text to the left */
+    padding: 20px; /* Add padding */
+    background-color: #fff; /* Add background color */
+    border-radius: 10px; /* Add border radius */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add box shadow */
+    box-sizing: border-box; /* Include padding and border in the box's total width */
+}
+
+.post-box img {
+    width: 100%; /* Make the images fill the box */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Add border radius */
+}
+
+.post-box h2 {
+    font-size: 20px; /* Adjust font size as needed */
+    margin-bottom: 10px; /* Add space below the title */
+    color: #333; /* Adjust font color as needed */
+}
+
+.post-box p {
+    font-size: 16px; /* Adjust font size as needed */
+    margin-bottom: 10px; /* Add space below paragraphs */
+    color: #333; /* Adjust font color as needed */
+}
+
+/* Like and Share Symbol Styles */
+.like-share {
+    font-size: 16px; /* Set font size */
+    color: #333; /* Set color */
+}
+
+/* Like Text Styles */
+.likes-text {
+    font-size: 12px; 
+    color: #333; 
+}
+/* Style for FAQ Section */
+.faq-section {
+    text-align: center;
+}
+
+.faq-text {
+    font-size: 24px;
+    position: relative;
+}
+
+.faq-text h2 {
+    display: inline;
+}
+
+.faq-text p {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: -25px; /* Adjust the position of the line */
+}
+
+.faq-box {
+    font-family: 'Times New Roman', Times, serif; /* Change font to Times New Roman */
+    color: black; /* Text color */
+    width: 60%; /* Adjust the width as needed */
+    margin: 20px auto; /* Center align and add margin */
+    border: 2px solid #ccc; /* Border color */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: left; /* Align text to the left */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: border-color 0.3s; /* Smooth transition for border color change */
+    background-color: #f9f9f9; /* Light gray background color */
+}
+
+.faq-box:hover {
+    border-color: #555; /* Darker border color on hover */
+}
+
+.faq-question {
+    font-size: 18px; /* Question font size */
+    margin-bottom: 10px; /* Add space below the question */
+}
+
+.faq-answer-box {
+    padding: 10px;
+    background-color: #eaeaea; /* Lighter background color for answers */
+    border: 1px solid #ccc; /* Border color */
+    border-radius: 8px; /* Rounded corners */
+    display: none; /* Initially hide the answer */
+}
+
+.faq-answer {
+    font-size: 16px; /* Answer font size */
+}
+
+.faq-box.active .faq-answer-box {
+    display: block; /* Show answer when active */
+}
+
+
+
+
+
+
+
+/* Style for Privacy Policy & Terms of Service Section */
+.privacy-policy-section {
+        text-align: center;
+}
+
+.privacy-policy-text p {
+        font-size: 36px;
+        color: #333;
+}
+
+/* Style for Privacy Policy & Terms of Service Section */
+.privacy-policy-section {
+    text-align: center;
+    margin-top: 50px; /* Add some top margin for better spacing */
+}
+
+.privacy-policy-text p {
+    font-size: 36px;
+    color: #333;
+}
+
+/* Style for file download links */
+.file-links {
+    display: flex;
+    flex-direction: column; /* Change to column layout */
+    align-items: center; /* Center items horizontally */
+    margin-top: 20px;
+}
+
+.file-container {
+    width: 70%; /* Adjust width as needed */
+    border: 1px solid #ccc; /* Add border for better visual separation */
+    border-radius: 8px; /* Add border radius for rounded corners */
+    overflow: hidden; /* Hide overflowing content */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add subtle box shadow */
+    margin-bottom: 20px; /* Add some bottom margin for better spacing */
+        }
+
+.download-btn {
+    display: block;
+    background-color: #000000;
+    color: #fff;
+    padding: 15px 0; /* Adjust padding */
+    text-decoration: none;
+    border-radius: 0 0 8px 8px; /* Add border radius only to bottom */
+    text-align: center;
+    transition: background-color 0.3s ease; /* Add smooth transition for background color change */
+    width: 100%; /* Make button full width */
+}
+
+.download-btn:hover { 
+    background-color: #000000;
+}
+
+/* Adjustments for PDF embed */
+    .embed-container {
+    width: 100%;
+    height: 600px; /* Increase height for better display */
+    border-top: 1px solid #ccc; /* Add border to separate download button and embed */
+}

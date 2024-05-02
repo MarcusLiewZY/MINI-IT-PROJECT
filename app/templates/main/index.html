@@ -7,207 +7,95 @@
     <section class="mx-auto post-section">
       <div class="container card flex px-8 py-6 create-post-card">
         {% include "layouts/avatar.html" %}
-        <a href="/">
+        <div class="buttonopen">
           <div class="flex px-4 py-2 create-post-container text-body-md">
             <img
               src="{{ url_for('static', filename = 'svg/pencil.svg') }}"
               alt="pencil"
               class="icon"
             />
-            <div class="">Create post...</div>
+            <div class="buttonopen">Create post...</div>
           </div>
-        </a>
+        </div>
       </div>
 
       <form action="" method="post">
-        <button type="sumbit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+
       </form>
 
       {# todo: add a post preview card class when developing other post detail component #}
       <div class="container flex flex-col mt-12 pb-12 post-card-container">
-        <div class="card flex flex-col py-6 px-8">
-          <div class="flex flex-between post-card__user-info-container">
-            <div class="flex flex-center user-container">
-              {% include "layouts/avatar.html" %}
-              <div class="ml-6 flex flex-col">
-                <div class="mb-1 flex flex-center user-info-text">
-                  <span class="text-label-lg">Anonymous_2331</span>
-                  <div class="ml-2 campus-tag">Cyberjaya</div>
-                </div>
-                <div class="date">27 Jun 2024</div>
-              </div>
-            </div>
-            <div class="flex flex-center react-container">
-              <div class="inline-flex like-button">
-                <img
-                  src="{{ url_for('static', filename= 'svg/like.svg') }}"
-                  alt="like"
-                  class="icon"
-                />
-              </div>
-              <div class="inline-flex bookmark-button">
-                <img
-                  src="{{ url_for('static', filename= 'svg/bookmark-gray.svg') }}"
-                  alt="bookmark"
-                  class="icon"
-                />
-              </div>
-              <div class="inline-flex edit-button">
-                <img
-                  src="{{ url_for('static', filename= 'svg/edit-gray.svg') }}"
-                  alt="edit"
-                  class="icon"
-                />
-              </div>
-              <div class="inline-flex delete-button">
-                <img
-                  src="{{ url_for('static', filename= 'svg/bin-gray.svg') }}"
-                  alt="bin"
-                  class="icon"
-                />
-              </div>
-            </div>
-          </div>
-
-          {# post #}
-          <div class="post-card__post-preview-container">
-            <h2 class="mb-4 text-title-lg">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit
-            </h2>
-            <div class="mb-2 flex post-tag-container">
-              <div class="text-label-sm post-tag">FCA</div>
-              <div class="text-label-sm post-tag">FIST</div>
-            </div>
-            <div class="post-content-container">
-              <p class="mb-4 text-body-lg">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                Beatae, laboriosam temporibus ullam autem similique distinctio
-                et, est saepe, enim architecto perferendis quisquam accusantium
-                animi adipisci quos omnis tempore ea corporis...
-                <a href="/" class="link text-label-lg">see more</a>
-              </p>
-              <img src="https://placehold.co/1200x400" alt="post-image" />
-            </div>
-          </div>
-
-          {# post react count #}
-          <div class="flex text-label-md post-card__react-count-container ">
-            <span>9 likes</span>
-            <span>12 replies</span>
-          </div>
-
-          {# comment section #}
-          <div class="flex flex-col post-card__post-comment-container">
-            <div class="view-more-comment">
-              <a href="/" class="link text-label-lg">View more comments</a>
-            </div>
-
-            {% include "layouts/comment.html" %}
-            <div class="ml-2 flex view-more-reply">
-              <img
-                src="{{ url_for('static', filename = 'svg/arrow-right.svg') }}"
-                alt="arrow-right"
-              />
-              <a href="/" class="link text-label-lg">View more replies</a>
-            </div>
-          </div>
-
-          {# reply to comment form #}
-          <div class="flex post-card__add-comment-container">
-            {% include "layouts/avatar.html" %}
-            <form action="/" method="post">
-              <div class="">
-                <textarea
-                  name="comment"
-                  id="comment"
-                  cols="30"
-                  rows="1"
-                  class="comment-input"
-                  placeholder="Add a comment..."
-                ></textarea>
-
-                <button type="submit" class="btn btn-primary">Reply</button>
-              </div>
-            </form>
-          </div>
-        </div>
+        {% include "layouts/postCard.html" %}
       </div>
     </section>
   </div>
-  {{ user.__dict__ }}
-  <img src="{{ user.avatar_url }}" alt="" />
-  <a href="{{ url_for('user.logout') }}">Sign Out</a>
+  <dialog class="modal" id="createPostModal">
+    <table class="poptable">
+      <tr>
+        <th>
+          <div class="poptitle">Create Post</div>
+        </th>
+      </tr>
+      <tr class="popupinfo">
+        <th>
+          <div class="popup-container">
+            <div class="popprofile">M</div>
+            <div class="namepopup">Name Here</div>
+            <div class="campuspopup">Campus Here</div>
+          </div>
+        </th>
+
+        <th></th>
+      </tr>
+      <tr>
+        <td>
+          <div class="container-title">
+            <a>Title:</a>
+            <input type="text" placeholder="Enter your input" />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="container-title">
+            <a>Tag :</a>
+            <select id="tagDropdown">
+              <option value="option1">Option 1</option>
+              <option value="option2">Option 2</option>
+              <option value="option3">Option 3</option>
+              <option value="option4">Option 4</option>
+              <option value="option5">Option 5</option>
+              <option value="option6">Option 6</option>
+              <option value="option7">Option 7</option>
+            </select>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="container-title">
+            <a>Content:</a>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" placeholder="Enter your input" />
+        </td>
+      </tr>
+      <tr>
+        <button class="buttonupload">upload</button>
+        <button class="buttonclose">Close</button>
+        <button class="post-btn">Post</button>
+      </tr>
+    </table>
+  </dialog>
 {% endblock content %}
 
 {% block js %}
-  <script>
-    const likeButtonCallback = () => console.log("Like button clicked");
-    const bookmarkButtonCallback = () => console.log("Bookmark button clicked");
-    const editButtonCallback = () => console.log("Edit button clicked");
-    const deleteButtonCallback = () => console.log("Delete button clicked");
-
-    const buttonsInfo = [
-      {
-        buttonSelector: ".like-button",
-        defaultImagePath: "{{ url_for('static', filename = 'svg/like.svg') }}",
-        hoverImagePath:
-          "{{ url_for('static', filename = 'svg/like-blue.svg') }}",
-        clickCallback: likeButtonCallback,
-      },
-      {
-        buttonSelector: ".bookmark-button",
-        defaultImagePath:
-          "{{ url_for('static', filename = 'svg/bookmark-gray.svg') }}",
-        hoverImagePath:
-          "{{ url_for('static', filename = 'svg/bookmark-brown.svg') }}",
-        clickCallback: bookmarkButtonCallback,
-      },
-      {
-        buttonSelector: ".edit-button",
-        defaultImagePath:
-          "{{ url_for('static', filename = 'svg/edit-gray.svg') }}",
-        hoverImagePath:
-          "{{ url_for('static', filename = 'svg/edit-blue.svg') }}",
-        clickCallback: editButtonCallback,
-      },
-      {
-        buttonSelector: ".delete-button",
-        defaultImagePath:
-          "{{ url_for('static', filename = 'svg/bin-gray.svg') }}",
-        hoverImagePath: "{{ url_for('static', filename = 'svg/bin-red.svg') }}",
-        clickCallback: deleteButtonCallback,
-      },
-    ];
-
-    const setupButtonEvents = (
-      buttonSelector,
-      defaultImagePath,
-      hoverImagePath,
-      clickCallback,
-    ) => {
-      const button = document.querySelector(buttonSelector);
-      const buttonImg = document.querySelector(`${buttonSelector} img`);
-
-      button.addEventListener("click", clickCallback);
-
-      button.addEventListener("mouseover", () => {
-        buttonImg.src = hoverImagePath;
-      });
-
-      button.addEventListener("mouseout", () => {
-        buttonImg.src = defaultImagePath;
-      });
-    };
-
-    buttonsInfo.forEach(
-      ({ buttonSelector, defaultImagePath, hoverImagePath, clickCallback }) => {
-        setupButtonEvents(
-          buttonSelector,
-          defaultImagePath,
-          hoverImagePath,
-          clickCallback,
-        );
-      },
-    );
-  </script>
+  <script
+    type="text/javascript"
+    src="{{ url_for('static', filename='scripts/main.js') }}"
+  ></script>
 {% endblock js %}

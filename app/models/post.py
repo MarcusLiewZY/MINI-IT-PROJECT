@@ -28,8 +28,9 @@ class Post(db.Model):
     image_url = db.Column(db.String(120))
     is_delete = db.Column(db.Boolean, default=False)
     status = db.Column(db.Enum(Status), nullable=False)
-    created_at = db.Column(db.Text, nullable=False)
     updated_at = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.Text, nullable=False)
+
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id"))
 
     # relationship
