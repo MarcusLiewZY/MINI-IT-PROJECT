@@ -42,8 +42,8 @@ class User(UserMixin, db.Model):
     avatar_url = db.Column(db.String(200))
     campus = db.Column(db.Enum(Campus), default=Campus.NONE)
     is_admin = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.DateTime, nullable=False)
-    updated_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.Text, nullable=False)
+    updated_at = db.Column(db.Text, nullable=False)
 
     # relationship
     posts = db.relationship(
