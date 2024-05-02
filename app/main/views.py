@@ -1,5 +1,5 @@
 import os
-from flask import render_template
+from flask import render_template, request, flash
 from flask_login import current_user
 from app.utils.decorators import login_required, logout_required
 
@@ -7,12 +7,24 @@ from . import main
 from app.models.user import User
 from app.utils.helper import format_datetime
 
+from dummy import post
 
-@main.route("/")
+
+@main.route("/", methods=["GET", "POST"])
 @login_required
 def index():
     user = User.query.get(current_user.id)
-    user.created_at = format_datetime(user.created_at)
+
+    # if post method is used, create a post
+    if request.method == "POST":
+        from app.post.views import create_post
+
+        print(post, current_user.id)
+        if create_post(post, current_user):
+            flash("Post created successfully", "success")
+        else:
+            flash("Post creation failed, please try again", "error")
+
     return render_template("main/index.html", user=user)
 
 
