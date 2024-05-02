@@ -67,7 +67,9 @@
         .next-button:hover{
            	opacity: .6;
 		}
-        
+        .next-button:disabled {
+          opacity: .5;
+        }
     </style>
   </head>
   <body>
@@ -169,12 +171,26 @@
           something meaningful together!
         </p>
         <div class="checkbox-container">
-          <form action="/submit" method="post"> <!-- Form for submitting the checkbox -->
-            <input type="checkbox" id="agree-checkbox" name="agree-checkbox" class="checkbox-input">
+          <form action="{{ url_for('main.index') }}" method="post"> <!-- Form for submitting the checkbox -->
+            <input type="checkbox" id="agreeCheckbox" name="agree-checkbox" class="checkbox-input">
             <label for="agree-checkbox" class="checkbox-label">I have read, understood, and promise to uphold the rules stated above</label>
-            <button type="submit" class="next-button">Next</button> <!-- Button inside the form -->
+            <button type="submit" class="next-button" id="submitButton">Next</button> <!-- Button inside the form -->
         </div>
         </div>
     </div>
 </body>
 </html>
+
+
+<script
+  type="text/javascript"
+>
+  const checkbox = document.querySelector('#agreeCheckbox');
+  const button = document.querySelector('#submitButton');
+
+  button.disabled = true;
+
+  checkbox.addEventListener('change', () => {
+      button.disabled = !checkbox.checked;
+    });
+</script>
