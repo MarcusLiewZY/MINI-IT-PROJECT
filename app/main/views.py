@@ -27,6 +27,10 @@ def community_guidelines():
 def landing():
     return render_template("main/landing.html")
 
+@main.route("/campus-selection", methods = ['GET', 'POST'])
+@login_required
+def campus_selection(): 
+    return render_template('campus-selection/campus.html')
 
 @main.route("/playground")
 def playground():

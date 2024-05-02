@@ -1,0 +1,293 @@
+/* MMU's MM text color set to blue */
+.mmu-m {
+  color: blue;
+}
+
+/* MMU's U text color set to red */
+.mmu-u {
+  color: red;
+}
+
+/* Grid container styles */
+.grid-container {
+  display: grid; /* Use grid layout */
+  grid-template-columns: repeat(2, 1fr); /* Two columns with equal width */
+  grid-gap: 40px; /* Increased gap between grids */
+  margin-top: 20px; /* Top margin */
+  position: relative; /* Relative positioning */
+}
+
+/* Grid item styles */
+.grid-item {
+  border: 1px solid #ccc; /* Border style */
+  text-align: center; /* Center align text */
+  position: relative; /* Relative positioning */
+  overflow: hidden; /* Overflow hidden */
+  border-radius: 10px; /* Border radius */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+  transition: transform 0.3s ease; /* Smooth transition effect on hover */
+  background-color: white; /* Background color for the box */
+  color: #6b2737; /* Text color */
+  margin: 20px; /* Add margin to create space between grid items */
+}
+
+/* Hover effect on grid item */
+.grid-item:hover {
+  transform: scale(1.05); /* Scale effect */
+}
+
+/* Image styles in grid item */
+.grid-item img {
+  width: 80%; /* Image width */
+  height: 80%; /* Image height */
+  object-fit: cover; /* Image fit */
+  border-radius: 10px; /* Border radius for image */
+}
+
+/* Image grayscale effect */
+.grid-item img {
+  filter: grayscale(100%); /* Image grayscale */
+  transition: filter 0.5s; /* Transition effect */
+}
+
+/* Hover effect on image */
+.grid-item:hover img {
+  filter: grayscale(0%); /* Revert image to color */
+}
+
+/* Message box styles */
+.message {
+  opacity: 0; /* Initial opacity set to 0 */
+  transition: opacity 0.5s; /* Transition effect */
+}
+
+/* Show message box on hover */
+.grid-item:hover .message {
+  opacity: 1; /* Opacity set to 1 to show message box */
+}
+
+/* About Us section styles */
+.about-us {
+  margin: 20px auto; /* Center the section horizontally */
+  max-width: 600px; /* Limit the width of the section */
+  padding: 20px; /* Add padding around the section */
+  text-align: justify; /* Justify text for a neat appearance */
+  background-color: #f9f9f9; /* Background color for the section */
+  border-radius: 10px; /* Add a slight border radius for a softer look */
+}
+
+.about-us h2 {
+  text-align: center; /* Center the heading */
+  color: #6b2737; /* Text color */
+  margin-bottom: 20px; /* Add some space below the heading */
+}
+
+.about-us p {
+  line-height: 1.6; /* Increase line height for better readability */
+  margin-bottom: 10px; /* Add space below each paragraph */
+}
+
+.about-us ul {
+  padding-left: 20px; /* Add some padding to the list */
+  margin-bottom: 10px; /* Add space below the list */
+}
+
+.about-us li {
+  margin-bottom: 5px; /* Add space between list items */
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  position: fixed;
+  top: 10px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: white;
+  font-size: 24px;
+}
+
+.divider {
+  width: 100%;
+  height: 0px;
+  background-color: #cee4ff;
+  margin: 20px 0;
+  position: relative;
+}
+
+/* Center align text for MMU Confession title */
+.confession-title {
+  text-align: center;
+}
+
+/* Center align text for welcome message */
+#welcome-message {
+  text-align: center;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.search-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.search-button {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+.tablehome {
+  width: 100%;
+  margin-top: 0px;
+  margin-bottom: 40px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  color: #6b2737;
+  margin: 0 auto;
+  padding: 5px;
+}
+.imghomemmulogo {
+  max-width: 150px;
+  max-height: 400px;
+}
+.homeword {
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+}
+
+.homeword::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 3px;
+  background-color: black;
+  transition: width 0.5s ease;
+}
+
+.homeword:hover::after {
+  width: 100%;
+}
+
+.hometitle {
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  color: black;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+}
+.tablehome2 {
+  width: 35%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  color: #6b2737;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+/* 样式 */
+.popup-container {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.popup-content {
+  background-color: rgb(255, 255, 255);
+  width: 300px;
+  margin: 100px auto;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 26, 255, 0);
+  border: 1px solid rgb(0, 13, 255);
+  position: relative;
+}
+
+/* 按钮样式 */
+.popup-btn {
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 25px; /* 图标大小 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.popup-btn:hover {
+  background-color: #0056b3;
+}
+
+.popup-close-btn {
+  /* 其他样式 */
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.inputpost {
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  color: #333;
+  border-radius: 4px;
+  padding: 8px;
+  width: 90%;
+  height: auto;
+}
+
+.post-btn {
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  /padding: 8px 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.post-btn:hover {
+  background-color: #0056b3;
+}

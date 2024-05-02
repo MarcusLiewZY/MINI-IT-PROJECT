@@ -7,6 +7,20 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/landing.css') }}">
 </head>
 <body>
+
+<!-- Back to Top Button -->
+<div class="back-to-top" onclick="scrollToTop()">
+    <button class="animated-button">
+        <div class="button-container">
+            <div class="grid"></div>
+            <div class="button-content">
+                <img src="{{ url_for('static', filename='img/cookieimage.png') }}" alt="MMU Button" class="mmu-button">
+                <div class="overlay">Back to Top</div>
+            </div>
+        </div>
+    </button>
+</div>
+
     <!-- Header Section -->
     <div class="mmu-header">
         MMU Confession
@@ -267,7 +281,7 @@
             </div>
             <div class="faq-answer-box">
                 <div class="faq-answer">
-                    If you encounter a technical issue or want to make bug reports, you can reach out to our team via email at giveouremailhere@gmail.com for assistance.
+                    If you encounter a technical issue or want to make bug reports, you can reach out to our team via email at  lee.desmond2016@gmail.com, boonshen1159@gmail.com, robinchew2203@gmail.com, marcusliewzhiyong@gmail.com for assistance.
                 </div>
             </div>
         </div>
@@ -351,7 +365,7 @@
             </div>
             <div class="faq-answer-box">
                 <div class="faq-answer">
-                    If you need assistance from our moderation team, you can report a post or contact our team via email at giveouremail@gmail.com.
+                    If you need assistance from our moderation team, you can report a post or contact our team via email at  lee.desmond2016@gmail.com, boonshen1159@gmail.com, robinchew2203@gmail.com, marcusliewzhiyong@gmail.com.
                 </div>
             </div>
         </div>
@@ -411,16 +425,15 @@
                 </div>
             </div>
         </div>
-
     </div>
     
 
 <!-- Privacy Policy & Terms of Service Section -->
-<div class="privacy-policy-section animated">
+<div class="blue-background">
+<div id="privacy-policy-section"class="privacy-policy-section animated">
     <div class="privacy-policy-text">
         <p>Privacy Policy & Terms of Service</p>
     </div>
-    <!-- Add your Privacy Policy & Terms of Service content here -->
 </div>
 
 <!-- File download links -->
@@ -437,7 +450,16 @@
         <embed src="{{ url_for('static', filename='pdf/terms-of-service.pdf') }}" type="application/pdf" class="embed-container">
     </div>
 </div>
+</div>
 
+<script>
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
+</script>
     <script src="{{ url_for('static', filename='img/post-interactions.js') }}"></script>
     <script>
         function toggleAnswer(element) {

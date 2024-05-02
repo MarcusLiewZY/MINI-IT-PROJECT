@@ -24,3 +24,7 @@ postBoxes.forEach((postBox) => {
     }
   });
 });
+
+function toggleAnswer(element) {
+  element.classList.toggle("active");
+}
