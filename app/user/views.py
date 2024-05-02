@@ -30,7 +30,7 @@ def google_auth():
     if user:
         login_user(user)
         flash("Successfully logged in", "success")
-        return redirect(url_for("main.index"))
+        return redirect(url_for("main.campus_selection"))
     else:
         # check user email endwith mmu.edu.my
         if not user_info["email"].endswith("mmu.edu.my"):
