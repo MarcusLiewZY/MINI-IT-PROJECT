@@ -29,6 +29,7 @@
   background-color: white; /* Background color for the box */
   color: #6b2737; /* Text color */
   margin: 20px; /* Add margin to create space between grid items */
+  padding: 32px 0px;
 }
 
 /* Hover effect on grid item */
