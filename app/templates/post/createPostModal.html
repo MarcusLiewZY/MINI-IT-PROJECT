@@ -1,0 +1,103 @@
+<dialog id="createPostModal" class="modal">
+  <div class="flex flex-col gap-5 py-6 px-6 create-post-modal-container">
+    <div class="text-headline-md">Create Post</div>
+    <div class="flex user-info-container">
+      {% include "layouts/avatar.html" %}
+      <div class="flex flex-col gap-2  ml-3 user-info">
+        <div class="text-label-lg">Anonymous_2331</div>
+        <div class="campus-tag">Campus Here</div>
+      </div>
+    </div>
+
+    {# form #}
+    <form class="flex flex-col gap-4" action="" method="post">
+      <div class="form-control">
+        <label for="title" class="text-title-md">Title: </label>
+        <input
+          type="text"
+          id="title"
+          placeholder="Post title..."
+          name="title"
+          class="px-4 py-2 ml-3 title-input"
+        />
+      </div>
+      <div class="form-control">
+        {# {% for tag in tags %}
+          <div class="">{{ tag.name }}</div>
+        {% endfor %} #}
+        <label for="tags" class="text-title-md">Tags: </label>
+        <select
+          name="tags"
+          id="tag"
+          multiple
+          multiselect-search="true"
+          multiselect-select-all="false"
+          multiselect-max-items="5"
+          onchange="console.log(this.selectedOptions)"
+        >
+          <option value="Abarth">Abarth</option>
+          <option value="Alfa Romeo">Alfa Romeo</option>
+          <option value="Aston Martin">Aston Martin</option>
+          <option value="Audi">Audi</option>
+          <option value="Bentley">Bentley</option>
+          <option value="BMW">BMW</option>
+          <option value="Bugatti">Bugatti</option>
+          <option value="Cadillac">Cadillac</option>
+        </select>
+      </div>
+      <div class="form-control flex flex-col content-form-control">
+        <label for="content" class="text-title-md">Comment: </label>
+        <textarea
+          name="content"
+          id="content"
+          class="text-body-md px-4 py-2 comment-input"
+          placeholder="Add a content..."
+          rows="6"
+        ></textarea>
+      </div>
+      <div class="divider mt-4 mb-2"></div>
+
+      <footer class="flex flex-between">
+        <div class="upload-image-container">
+          <button type="button" id="uploadImageIcon">
+            <img
+              src="{{ url_for('static', filename = 'svg/upload-picture-black.svg') }}"
+              alt="upload-picture-icon"
+              class="icon"
+            />
+          </button>
+          <input
+            type="file"
+            id="image"
+            name="image"
+            accept="image/*"
+            class="hidden"
+          />
+        </div>
+        <div class="action-button-container">
+          <button class="btn btn-muted buttonclose" id="closeButton">
+            Cancel
+          </button>
+          <button class="btn">Post</button>
+        </div>
+      </footer>
+    </form>
+  </div>
+</dialog>
+
+<script>
+  const defaultUploadImagePath =
+    '{{ url_for("static", filename="svg/upload-picture-black.svg") }}';
+  const hoverUploadImagePath =
+    '{{ url_for("static", filename="svg/upload-picture-blue.svg") }}';
+
+  const uploadImageButton = document.querySelector("#uploadImageIcon img");
+
+  uploadImageButton.addEventListener("mouseover", () => {
+    uploadImageButton.src = hoverUploadImagePath;
+  });
+
+  uploadImageButton.addEventListener("mouseout", () => {
+    uploadImageButton.src = defaultUploadImagePath;
+  });
+</script>

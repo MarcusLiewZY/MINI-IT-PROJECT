@@ -91,7 +91,7 @@ def recreate_db():
 @click.option("--admin_user", is_flag = True, help = "Delete admin users.")
 @click.option("--post", is_flag = True, help = "Delete posts.")
 @click.option("--tag", is_flag = True, help = "Delete tags.")
-def delete_resource(user, admin_user, post, tag, test):
+def delete_resource(user, admin_user, post, tag):
     from app.models import User, Post, Tag, PostTag
     from sqlalchemy import delete
     try: 

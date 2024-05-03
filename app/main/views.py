@@ -1,10 +1,12 @@
 import os
+import json
 from flask import render_template, request, flash
 from flask_login import current_user
 from app.utils.decorators import login_required, logout_required
 
 from . import main
 from app.models.user import User
+from app.models.tag import Tag
 from app.utils.helper import format_datetime
 
 from dummy import post
@@ -14,7 +16,8 @@ from dummy import post
 @login_required
 def index():
     user = User.query.get(current_user.id)
-    return render_template("main/index.html", user=user)
+    tags = Tag.query.all()
+    return render_template("main/index.html", user=user, tags=tags)
 
 
 @main.route("/community-guideline")
@@ -22,15 +25,18 @@ def index():
 def community_guidelines():
     return render_template("main/communityGuidelines.html")
 
+
 @main.route("/landing")
 @logout_required
 def landing():
     return render_template("main/landing.html")
 
-@main.route("/campus-selection", methods = ['GET', 'POST'])
+
+@main.route("/campus-selection", methods=["GET", "POST"])
 @login_required
-def campus_selection(): 
-    return render_template('campus-selection/campus.html')
+def campus_selection():
+    return render_template("campus-selection/campus.html")
+
 
 @main.route("/playground")
 def playground():
