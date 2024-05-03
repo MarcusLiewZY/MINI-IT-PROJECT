@@ -41,7 +41,7 @@ def microsoft_auth():
     if user:
         login_user(user)
         flash("Successfully logged in", "success")
-        return redirect(url_for("main.community_guidelines"))
+        return redirect(url_for("main.index"))
     else:
         # check user email endwith mmu.edu.my
         if not user_info["mail"].endswith("mmu.edu.my"):
@@ -61,7 +61,7 @@ def microsoft_auth():
         db.session.commit()
         login_user(user)
         flash("Account created successfully", "success")
-        return redirect(url_for("main.index"))
+        return redirect(url_for("main.community_guidelines"))
 
 
 @user.route("/sign-out")
