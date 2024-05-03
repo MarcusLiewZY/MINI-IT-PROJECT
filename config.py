@@ -23,6 +23,7 @@ class Config(object):
     SECURITY_PASSWORD_SALT = os.getenv(
         "SECURITY_PASSWORD_SALT", default="very-important"
     )
+    UPLOAD_FOLDER = "app/static/uploads"
 
 
 class DevelopmentConfig(Config):

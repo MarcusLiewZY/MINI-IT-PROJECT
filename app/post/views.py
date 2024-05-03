@@ -1,12 +1,13 @@
-
+import os
 from uuid import UUID
-from flask import flash, redirect, url_for, request, render_template
+from flask import flash, redirect, url_for, request, render_template, jsonify
 from datetime import datetime
+from werkzeug.utils import secure_filename
+from flask_login import current_user
 
 from . import post
 
-from flask_login import current_user
-
+from app import app
 from app import db
 from app.models.post import Post, Status
 from app.models.tag import Tag
@@ -123,3 +124,16 @@ def get_all_posts():
     return render_template(
         "post/postDetail.html", post_stuff=posts, tags=tags, isSinglePost=False
     )
+
+
+@post.route("/upload", methods=["POST"])
+def upload_file():
+    if "file" not in request.files:
+        return jsonify({"error": "No file part"})
+    file = request.files["file"]
+    if file.filename == "":
+        return jsonify({"error": "No selected file"})
+    if file:
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+        return jsonify({"message": "File uploaded successfully"})
