@@ -11,21 +11,32 @@ from app.utils.helper import format_datetime
 
 @user.route("/sign-up")
 @logout_required
-def google_login():
-    google_client = oauth.create_client("google")
-    redirect_uri = url_for("user.google_auth", _external=True)
+def microsoft_login():
+    microsoft_client = oauth.create_client("microsoft")
+    redirect_uri = url_for("user.microsoft_auth", _external=True)
 
-    return google_client.authorize_redirect(redirect_uri)
+    return microsoft_client.authorize_redirect(redirect_uri)
 
 
-@user.route("/sign-up/google/callback")
+@user.route("/sign-up/microsoft/callback")
 @logout_required
-def google_auth():
-    google_client = oauth.create_client("google")
-    token = google_client.authorize_access_token()
-    resp = google_client.get("userinfo")
+def microsoft_auth():
+    microsoft_client = oauth.create_client("microsoft")
+    token = microsoft_client.authorize_access_token()
+    resp = microsoft_client.get("me")
     user_info = resp.json()
-    user = User.query.filter_by(email=user_info["email"]).first()
+    user = User.query.filter_by(email=user_info["mail"]).first()
+
+    avatar_endpoint = (
+        f"https://graph.microsoft.com/v1.0/users/{user_info['id']}/photo/$value"
+    )
+
+    avatar_response = microsoft_client.get(avatar_endpoint)
+
+    if avatar_response.status_code == 200:
+        avatar_url = avatar_endpoint
+    else:
+        avatar_url = None  # or a default avatar URL
 
     if user:
         login_user(user)
@@ -33,16 +44,16 @@ def google_auth():
         return redirect(url_for("main.community_guidelines"))
     else:
         # check user email endwith mmu.edu.my
-        if not user_info["email"].endswith("mmu.edu.my"):
+        if not user_info["mail"].endswith("mmu.edu.my"):
             flash("Please use your MMU email to sign up", "warning")
             return redirect(url_for("main.landing"))
 
         user = User(
             {
-                "email": user_info["email"],
-                "password": user_info["email"],
-                "username": user_info["name"],
-                "avatar_url": user_info["picture"],
+                "email": user_info["mail"],
+                "password": user_info["mail"],
+                "username": user_info["displayName"],
+                "avatar_url": avatar_url,
                 "created_at": format_datetime(datetime.now()),
             }
         )

@@ -39,7 +39,7 @@ class User(UserMixin, db.Model):
     anon_no = db.Column(db.String(4), nullable=True)
     password = db.Column(db.String(60), nullable=False)
     username = db.Column(db.String(60), nullable=False)
-    avatar_url = db.Column(db.String(200))
+    avatar_url = db.Column(db.String(200), nullable=True)
     campus = db.Column(db.Enum(Campus), default=Campus.NONE)
     is_admin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.Text, nullable=False)
