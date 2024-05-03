@@ -30,26 +30,6 @@
   {% include "post/createPostModal.html" %}
 
   <div class="hidden" id="userInfo" data-user-info="{{ user }}"></div>
-
-  <label for="car">Select 2</label>
-  <select
-    name="car"
-    id="car"
-    multiple
-    multiselect-search="true"
-    multiselect-select-all="true"
-    multiselect-max-items="1"
-    onchange="console.log(this.selectedOptions)"
-  >
-    <option value="Abarth">Abarth</option>
-    <option value="Alfa Romeo">Alfa Romeo</option>
-    <option value="Aston Martin">Aston Martin</option>
-    <option value="Audi">Audi</option>
-    <option value="Bentley">Bentley</option>
-    <option value="BMW">BMW</option>
-    <option value="Bugatti">Bugatti</option>
-    <option value="Cadillac">Cadillac</option>
-  </select>
 {% endblock content %}
 
 {% block js %}

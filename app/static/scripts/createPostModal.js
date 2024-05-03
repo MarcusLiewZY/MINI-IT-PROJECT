@@ -1,3 +1,4 @@
+// post modal
 const createPostModal = document.querySelector("#createPostModal");
 const openModalButton = document.querySelector("#openButton");
 const closeModalButton = document.querySelector("#closeButton");
@@ -10,15 +11,7 @@ closeModalButton.addEventListener("click", () => {
   createPostModal.close();
 });
 
-// Path: app/static/scripts/createPostModal.js
-const contentInput = document.querySelector("#comment");
-
-contentInput.addEventListener("input", () => {
-  contentInput.style.height = "auto";
-  contentInput.style.maxHeight = "200px";
-  contentInput.style.height = `${contentInput.scrollHeight}px`;
-});
-
+// upload image
 const uploadImageIcon = document.querySelector("#uploadImageIcon");
 const imageInput = document.querySelector("#image");
 

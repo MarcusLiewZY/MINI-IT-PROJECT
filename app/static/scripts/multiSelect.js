@@ -1,4 +1,6 @@
-cyan = "#17a2b8";
+// resource: www.cssscript.com/filterable-checkable-multi-select/
+
+https: cyan = "#17a2b8";
 
 var style = document.createElement("style");
 style.setAttribute("id", "multiselect_dropdown_styles");

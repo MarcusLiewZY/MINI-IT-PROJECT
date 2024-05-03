@@ -48,10 +48,10 @@
       <div class="form-control flex flex-col content-form-control">
         <label for="content" class="text-title-md">Comment: </label>
         <textarea
-          name="comment"
-          id="comment"
+          name="content"
+          id="content"
           class="text-body-md px-4 py-2 comment-input"
-          placeholder="Add a comment..."
+          placeholder="Add a content..."
           rows="6"
         ></textarea>
       </div>
@@ -61,7 +61,7 @@
         <div class="upload-image-container">
           <button type="button" id="uploadImageIcon">
             <img
-              src="{{ url_for('static', filename = '/svg/upload-picture-black.svg') }}"
+              src="{{ url_for('static', filename = 'svg/upload-picture-black.svg') }}"
               alt="upload-picture-icon"
               class="icon"
             />
@@ -84,3 +84,20 @@
     </form>
   </div>
 </dialog>
+
+<script>
+  const defaultUploadImagePath =
+    '{{ url_for("static", filename="svg/upload-picture-black.svg") }}';
+  const hoverUploadImagePath =
+    '{{ url_for("static", filename="svg/upload-picture-blue.svg") }}';
+
+  const uploadImageButton = document.querySelector("#uploadImageIcon img");
+
+  uploadImageButton.addEventListener("mouseover", () => {
+    uploadImageButton.src = hoverUploadImagePath;
+  });
+
+  uploadImageButton.addEventListener("mouseout", () => {
+    uploadImageButton.src = defaultUploadImagePath;
+  });
+</script>
