@@ -1,196 +1,157 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Community Guidelines</title>
-    <style>
-      .container {
-        width: 744px;
-        height: 1690px;
-        padding: 64px 32px;
-        gap: 32px;
-        margin: auto;
-      }
+{% extends "layouts/base.html" %}
 
-      .heading {
-        width: 744px;
-        height: 44px;
-        padding-bottom: 12px;
-        border-bottom: 2px solid #e5e1e1;
-      }
-
-      .body {
-        width: 744px;
-        background-color: #ffffff;
-        color: #000000;
-        padding: 16px;
-      }
-
-      .body ol li {
-        font-weight: bold;
-      }
-
-
- 		.checkbox-container {
-            display: flex;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .checkbox-label {
-            font-size: 14px;
-            margin-left: 10px;
-        }
-
-        .checkbox-input {
-            width: 16px;
-            height: 16px;
-        }
-        
-        .next-button {
-            width: 100px;
-            height: 36px;
-            gap: 10px;
-            background-color: #007bff;
-            color: #ffffff;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            margin-top: 20px;
-            text-align: center;
-            line-height: 36px;
-            position: absolute;
-            left: 1040px;
-        }
-        
-        .next-button:hover{
-           	opacity: .6;
-		}
-        .next-button:disabled {
-          opacity: .5;
-        }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="heading">
-        <h1>Community Guidelines</h1>
-      </div>
-      <div class="body">
-        <p>
+{% block content %}
+  <section class="container flex flex-col py-16 community-guideline-container">
+    <div class="heading">
+      <h1 class="pb-3 text-headline-sm">Community Guidelines</h1>
+    </div>
+    <div class="flex flex-col text-body-lg community-guideline-body">
+      <div class="small-container community-guideline-intro">
+        <p id="community-guideline-welcome-message">
           Welcome to MMU Confessions! Our community is built on the principles
           of respect, inclusivity, and collaboration. To ensure a positive and
           enjoyable experience for all members, we've established the following
           guidelines:
         </p>
-        <ol>
-          <li>Respect Others</li>
-          <p>
-            Treat fellow community members with kindness, empathy, and respect.
-            Avoid personal attacks, harassment, hate speech, or any behavior
-            that makes others feel unwelcome or uncomfortable.
-          </p>
+      </div>
 
-          <li>Be Inclusive</li>
-          <p>
-            Embrace diversity and welcome individuals from all backgrounds,
-            cultures, and perspectives. Avoid discrimination or exclusion based
-            on factors such as race, ethnicity, gender identity, sexual
-            orientation, religion, or disability. Let's make everyone feel like
-            they belong.
-          </p>
-
-          <li>Keep Conversations Constructive</li>
-          <p>
-            You are highly encouraged to engage in meaningful and constructive
-            discussions. Share ideas, ask questions, and provide constructive
-            feedback in a respectful manner. Avoid disruptive behaviour,
-            trolling, or intentionally derailing conversations.
-          </p>
-
-          <li>Respect Privacy</li>
-          <p>
-            Respect the privacy and personal boundaries of other community
-            members. Do not share personal information about others without
-            their consent, and refrain from unauthorized use of private messages
-            or communications.
-          </p>
-
-          <li>Follow Community Guidelines</li>
-          <p>
-            Adhere to the platform's terms of service and community guidelines
-            at all times. Familiarize yourself with the rules and policies
-            governing our community, and ensure your actions align with our
-            values and principles.
-          </p>
-
-          <li>Be Mindful of Content</li>
-          <p>
-            Share content that is relevant, appropriate, and respectful of our
-            community standards. Avoid posting spam, offensive material,
-            misinformation, or content that infringes upon the rights of others.
-          </p>
-
-          <li>Report Violations</li>
-          <p>
-            If you encounter behaviour that violates our community guidelines or
-            terms of service, please report it to our moderation team promptly.
-            We rely on the collective efforts of our community members to
-            maintain a safe and welcoming environment for all.
-          </p>
-
-          <li>Consequences of Violations</li>
-          <p>
-            Violations of our community guidelines may result in consequences,
-            including warnings, account suspensions, or permanent bans,
-            depending on the severity of the infraction. Our moderation team
-            will take appropriate action to address violations in a fair,
-            consistent and transparent manner.
-          </p>
-
-          <li>Participate Responsibly</li>
-          <p>
-            Take responsibility for your actions and contributions to our
-            community. Be mindful of the impact of your words and actions on
-            others, and strive to contribute positively to our collective
-            experience.
-          </p>
-
-          <li>Have Fun and Learn</li>
-          <p>
-            Above all, enjoy your time in our community! Use this platform as a
-            space to learn, grow, and connect with others who share your
-            interests and passions.
-          </p>
-        </ol>
+      <div class="small-container">
+        <div>Respect Others</div>
         <p>
+          Treat fellow community members with kindness, empathy, and respect.
+          Avoid personal attacks, harassment, hate speech, or any behavior that
+          makes others feel unwelcome or uncomfortable.
+        </p>
+      </div>
+
+      <div class="small-container">
+        <div>Be Inclusive</div>
+        <p>
+          Embrace diversity and welcome individuals from all backgrounds,
+          cultures, and perspectives. Avoid discrimination or exclusion based on
+          factors such as race, ethnicity, gender identity, sexual orientation,
+          religion, or disability. Let's make everyone feel like they belong.
+        </p>
+      </div>
+
+      <div class="small-container">
+        <div>Keep Conversations Constructive</div>
+        <p>
+          You are highly encouraged to engage in meaningful and constructive
+          discussions. Share ideas, ask questions, and provide constructive
+          feedback in a respectful manner. Avoid disruptive behaviour, trolling,
+          or intentionally derailing conversations.
+        </p>
+      </div>
+
+      <div class="small-container">
+        <div>Respect Privacy</div>
+        <p>
+          Respect the privacy and personal boundaries of other community
+          members. Do not share personal information about others without their
+          consent, and refrain from unauthorized use of private messages or
+          communications.
+        </p>
+      </div>
+
+      <div class="small-container">
+        <div>Follow Community Guidelines</div>
+        <p>
+          Adhere to the platform's terms of service and community guidelines at
+          all times. Familiarize yourself with the rules and policies governing
+          our community, and ensure your actions align with our values and
+          principles.
+        </p>
+      </div>
+
+      <div class="small-container">
+        <div>Be Mindful of Content</div>
+        <p>
+          Share content that is relevant, appropriate, and respectful of our
+          community standards. Avoid posting spam, offensive material,
+          misinformation, or content that infringes upon the rights of others.
+        </p>
+      </div>
+
+      <div class="small-container">
+        <div>Report Violations</div>
+        <p>
+          If you encounter behaviour that violates our community guidelines or
+          terms of service, please report it to our moderation team promptly. We
+          rely on the collective efforts of our community members to maintain a
+          safe and welcoming environment for all.
+        </p>
+      </div>
+
+      <div class="small-container">
+        <div>Consequences of Violations</div>
+        <p>
+          Violations of our community guidelines may result in consequences,
+          including warnings, account suspensions, or permanent bans, depending
+          on the severity of the infraction. Our moderation team will take
+          appropriate action to address violations in a fair, consistent and
+          transparent manner.
+        </p>
+      </div>
+
+      <div class="small-container">
+        <div>Participate Responsibly</div>
+        <p>
+          Take responsibility for your actions and contributions to our
+          community. Be mindful of the impact of your words and actions on
+          others, and strive to contribute positively to our collective
+          experience.
+        </p>
+      </div>
+
+      <div class="small-container">
+        <div>Have Fun and Learn</div>
+        <p>
+          Above all, enjoy your time in our community! Use this platform as a
+          space to learn, grow, and connect with others who share your interests
+          and passions.
+        </p>
+      </div>
+
+      <div class="small-container">
+        <p id="community-guideline-ending">
           By joining our community, you agree to abide by these guidelines and
           uphold the values and principles of MMU Confessions. Thank you for
           being a part of our community, and we look forward to building
           something meaningful together!
         </p>
-        <div class="checkbox-container">
-          <form action="{{ url_for('main.campus_selection') }}" method="post"> <!-- Form for submitting the checkbox -->
-            <input type="checkbox" id="agreeCheckbox" name="agree-checkbox" class="checkbox-input">
-            <label for="agree-checkbox" class="checkbox-label">I have read, understood, and promise to uphold the rules stated above</label>
-            <button type="submit" class="next-button" id="submitButton">Next</button> <!-- Button inside the form -->
+      </div>
+
+      <form action="{{ url_for('main.campus_selection') }}" method="post">
+        <div class="flex small-container checkbox-container">
+          <input
+            type="checkbox"
+            id="agreeCheckbox"
+            name="agree-checkbox"
+            class="checkbox-input"
+          />
+          <label for="agree-checkbox" class="ml-2 checkbox-label">
+            I have read, understood, and promise to uphold the rules stated
+            above
+          </label>
         </div>
+        <div class="flex small-container submit-button-container">
+          <button type="submit" class="btn" id="submitButton">Next</button>
         </div>
+      </form>
     </div>
-</body>
-</html>
+  </section>
+{% endblock content %}
 
+{% block js %}
+  <script type="text/javascript">
+    const checkbox = document.querySelector("#agreeCheckbox");
+    const button = document.querySelector("#submitButton");
 
-<script
-  type="text/javascript"
->
-  const checkbox = document.querySelector('#agreeCheckbox');
-  const button = document.querySelector('#submitButton');
+    button.disabled = true;
 
-  button.disabled = true;
-
-  checkbox.addEventListener('change', () => {
+    checkbox.addEventListener("change", () => {
       button.disabled = !checkbox.checked;
     });
-</script>
+  </script>
+{% endblock js %}

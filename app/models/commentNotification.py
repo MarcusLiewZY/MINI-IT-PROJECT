@@ -16,8 +16,12 @@ class CommentNotification(db.Model):
 
     # relationship
 
-    def __init__(self, comment_notification_dist, *args, **kwargs):
-        self.created_at = comment_notification_dist.get("created_at")
+    def __init__(self, comment_notification_dict, *args, **kwargs):
+        self.is_read = comment_notification_dict.get("is_read", False)
+        self.user_id = comment_notification_dict.get("user_id")
+        self.comment_id = comment_notification_dict.get("comment_id")
+        self.unread_comment_id = comment_notification_dict.get("unread_comment_id")
+        self.created_at = comment_notification_dict.get("created_at")
 
     def __repr__(self):
         return f"<{self.id} - {self.is_read}>"

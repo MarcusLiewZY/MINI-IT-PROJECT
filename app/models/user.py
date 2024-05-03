@@ -74,15 +74,15 @@ class User(UserMixin, db.Model):
         lazy=True,
     )
 
-    def __init__(self, user_dist, *args, **kwargs):
-        self.email = user_dist.get("email")
+    def __init__(self, user_dict, *args, **kwargs):
+        self.email = user_dict.get("email")
         self.anon_no = self.generate_anon_no()
-        self.password = bcrypt.generate_password_hash(user_dist.get("password"))
-        self.username = user_dist.get("username")
-        self.avatar_url = user_dist.get("avatar_url")
-        self.campus = user_dist.get("campus")
-        self.is_admin = user_dist.get("is_admin")
-        self.created_at = user_dist.get("created_at")
+        self.password = bcrypt.generate_password_hash(user_dict.get("password"))
+        self.username = user_dict.get("username")
+        self.avatar_url = user_dict.get("avatar_url")
+        self.campus = user_dict.get("campus")
+        self.is_admin = user_dict.get("is_admin")
+        self.created_at = user_dict.get("created_at")
         self.updated_at = self.created_at
 
     def __repr__(self):

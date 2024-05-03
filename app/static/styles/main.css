@@ -772,12 +772,12 @@ form {
   opacity: 1; /* 如果需要这些元素可见 */
 }
 
-.container {
+/* .container {
   width: Fill (872px) px;
   height: Hug (273px) px;
   gap: 16px;
   opacity: 0px;
-}
+} */
 
 .container-title {
   text-align: left; /* 左对齐 */
@@ -826,4 +826,47 @@ form {
   background-position: center; /* 将背景图片居中 */
   border: none; /* 移除按钮边框 */
   cursor: pointer; /* 鼠标悬停显示手型 */
+}
+
+/* community guideline */
+.community-guideline-container {
+  width: 744px;
+  gap: 32px;
+}
+
+.community-guideline-container .heading {
+  border-bottom: 2px solid var(--color---neutral--neutral90);
+}
+
+.community-guideline-container .community-guideline-body {
+  gap: 24px;
+}
+
+.community-guideline-container .small-container > *:first-child {
+  font-weight: bold;
+}
+
+.community-guideline-container .community-guideline-intro {
+  font-weight: 500;
+}
+
+.community-guideline-container .submit-button-container {
+  justify-content: end;
+}
+
+.community-guideline-container .checkbox-container {
+  justify-content: start;
+}
+
+.community-guideline-container .checkbox-label {
+  font-weight: 500;
+}
+
+.community-guideline-container #community-guideline-ending,
+.community-guideline-container #community-guideline-welcome-message {
+  font-weight: 400;
+}
+
+.community-guideline-container #submitButton:disabled {
+  background-color: var(--color---neutral--neutral80);
 }

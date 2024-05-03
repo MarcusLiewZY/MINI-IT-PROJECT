@@ -91,7 +91,7 @@ def recreate_db():
 @click.option("--admin_user", is_flag = True, help = "Delete admin users.")
 @click.option("--post", is_flag = True, help = "Delete posts.")
 @click.option("--tag", is_flag = True, help = "Delete tags.")
-def delete_resource(user, admin_user, post, tag):
+def delete_resource(user, admin_user, post, tag, test):
     from app.models import User, Post, Tag, PostTag
     from sqlalchemy import delete
     try: 
@@ -115,7 +115,7 @@ def delete_resource(user, admin_user, post, tag):
                 Tag.query.filter(Tag.id == tag.id).delete()
             db.session.commit()
             print(Colors.fg.green, "Tags deleted successfully!")
-        
+
     except Exception as e:
         print(Colors.fg.red, "Delete operations failed.")
         print("Error", e)
