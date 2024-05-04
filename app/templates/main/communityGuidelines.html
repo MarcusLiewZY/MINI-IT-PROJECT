@@ -122,23 +122,29 @@
         </p>
       </div>
 
-      <form action="{{ url_for('main.campus_selection') }}" method="post">
-        <div class="flex small-container checkbox-container">
-          <input
-            type="checkbox"
-            id="agreeCheckbox"
-            name="agree-checkbox"
-            class="checkbox-input"
-          />
-          <label for="agree-checkbox" class="ml-2 checkbox-label">
-            I have read, understood, and promise to uphold the rules stated
-            above
-          </label>
+      {% if need_confirm %}
+        <form action="{{ url_for('main.campus_selection') }}" method="post">
+          <div class="flex small-container checkbox-container">
+            <input
+              type="checkbox"
+              id="agreeCheckbox"
+              name="agree-checkbox"
+              class="checkbox-input"
+            />
+            <label for="agree-checkbox" class="ml-2 checkbox-label">
+              I have read, understood, and promise to uphold the rules stated
+              above
+            </label>
+          </div>
+          <div class="small-container submit-button-container">
+            <button type="submit" class="btn" id="submitButton">Next</button>
+          </div>
+        </form>
+      {% else %}
+        <div class="small-container ml-auto ">
+          <a href="{{ url_for('main.index') }}" class="btn">Return</a>
         </div>
-        <div class="flex small-container submit-button-container">
-          <button type="submit" class="btn" id="submitButton">Next</button>
-        </div>
-      </form>
+      {% endif %}
     </div>
   </section>
 {% endblock content %}

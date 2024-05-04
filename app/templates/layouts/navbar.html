@@ -90,7 +90,9 @@
             src="{{ url_for('static', filename = 'svg/guideline.svg') }}"
             alt="guideline"
           />
-          <a href="/">Community Guidelines</a>
+          <a href="{{ url_for('main.community_guidelines') }}"
+            >Community Guidelines</a
+          >
         </li>
       </ul>
       <div class="text-body-md log-out">

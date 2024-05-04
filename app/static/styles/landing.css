@@ -87,7 +87,16 @@ body {
 }
 
 /* Signup Link Animation */
+.signup-link {
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .signup-link img {
+  width: 32px;
+  height: auto;
   transition: transform 0.3s ease; /* Adding animation effect */
 }
 
