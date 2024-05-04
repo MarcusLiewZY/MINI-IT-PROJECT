@@ -4,7 +4,7 @@ from faker import Faker
 from enum import Enum
 
 from app import db
-from app.models.user import User, Campus
+from app.models.user import User
 from app.models.post import Post, Status
 from app.models.comment import Comment
 from app.utils.helper import format_datetime
@@ -31,7 +31,7 @@ def seeds():
                 "password": "password",
                 "username": fake.user_name(),
                 "avatar_url": "https://source.unsplash.com/random/80x80/?anonymous-id",
-                "campus": random.choice([Campus.CYBERJAYA, Campus.MALACCA]).value,
+                "campus": random.choice(["CYBERJAYA", "MALACCA"]),
                 "is_admin": False,
                 "created_at": format_datetime(
                     fake.date_between(
@@ -68,19 +68,6 @@ def seeds():
     print(Colors.fg.green, "-" * 50)
     print(Colors.fg.green, "Tags created successfully!")
 
-    # Assign tags to posts (note each post can have at most 5 tags)
-    posts = Post.query.all()
-    tags = Tag.query.all()
-
-    print(Colors.fg.green, "Assigning tags to posts...")
-    for post in posts:
-        for _ in range(random.randint(0, 5)):
-            post.tags.append(random.choice(tags))
-            db.session.add(post)
-        db.session.commit()
-    print(Colors.fg.green, "-" * 50)
-    print(Colors.fg.green, "Tags assigned to posts successfully!")
-
     # Create posts
     print(Colors.fg.green, "Creating posts...")
     users = User.query.all()
@@ -108,6 +95,19 @@ def seeds():
         print(Colors.fg.green, f"Posts created for user {user.username} successfully!")
     print(Colors.fg.green, "-" * 50)
     print(Colors.fg.green, "Posts created successfully!")
+
+    # Assign tags to posts (note each post can have at most 5 tags)
+    posts = Post.query.all()
+    tags = Tag.query.all()
+
+    print(Colors.fg.green, "Assigning tags to posts...")
+    for post in posts:
+        for _ in range(random.randint(0, 5)):
+            post.tags.append(random.choice(tags))
+            db.session.add(post)
+            db.session.commit()
+    print(Colors.fg.green, "-" * 50)
+    print(Colors.fg.green, "Tags assigned to posts successfully!")
 
     # Create comments
     print(Colors.fg.green, "Creating comments...")
