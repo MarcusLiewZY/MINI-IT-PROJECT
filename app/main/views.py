@@ -9,7 +9,7 @@ from app.models.user import User
 from app.models.tag import Tag
 from app.utils.helper import format_datetime
 
-from dummy import post
+from data import post
 
 
 @main.route("/", methods=["GET", "POST"])
