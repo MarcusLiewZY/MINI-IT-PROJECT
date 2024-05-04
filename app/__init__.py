@@ -6,6 +6,7 @@ from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
+import cloudinary
 
 load_dotenv()
 
@@ -47,6 +48,13 @@ microsoft = oauth.register(
     api_base_url="https://graph.microsoft.com/v1.0/",
     userinfo_endpoint="https://graph.microsoft.com/v1.0/me",  # This is only needed if using openId to fetch user info
     client_kwargs={"scope": "User.Read"},
+)
+
+# Cloudinary setup
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
 )
 
 # Blueprints registration

@@ -126,14 +126,15 @@ def get_all_posts():
     )
 
 
-@post.route("/upload", methods=["POST"])
-def upload_file():
-    if "file" not in request.files:
-        return jsonify({"error": "No file part"})
-    file = request.files["file"]
-    if file.filename == "":
-        return jsonify({"error": "No selected file"})
-    if file:
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-        return jsonify({"message": "File uploaded successfully"})
+# api to upload file
+# @post.route("/upload", methods=["POST"])
+# def upload_file():
+#     if "file" not in request.files:
+#         return jsonify({"error": "No file part"})
+#     file = request.files["file"]
+#     if file.filename == "":
+#         return jsonify({"error": "No selected file"})
+#     if file:
+#         filename = secure_filename(file.filename)
+#         file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+#         return jsonify({"message": "File uploaded successfully"})

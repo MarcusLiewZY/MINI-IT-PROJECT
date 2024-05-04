@@ -23,7 +23,8 @@ class Config(object):
     SECURITY_PASSWORD_SALT = os.getenv(
         "SECURITY_PASSWORD_SALT", default="very-important"
     )
-    UPLOAD_FOLDER = "app/static/uploads"
+    CLOUDINARY_POST_IMAGE_FOLDER = "mmu-confession/dev/post-images"
+    CLOUDINARY_AVATAR_IMAGE_FOLDER = "mmu-confession/dev/avatar-images"
 
 
 class DevelopmentConfig(Config):
@@ -31,6 +32,8 @@ class DevelopmentConfig(Config):
     DEBUG = True
     WTF_CSRF_ENABLED = False
     DEBUG_TB_ENABLED = True
+    CLOUDINARY_POST_IMAGE_FOLDER = "mmu-confession/dev/post-images"
+    CLOUDINARY_AVATAR_IMAGE_FOLDER = "mmu-confession/dev/avatar-images"
 
 
 class TestingConfig(Config):
