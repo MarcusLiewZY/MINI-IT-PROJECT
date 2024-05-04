@@ -125,7 +125,7 @@ def delete_resource(user, admin_user, post, tag):
 @click.option('--tag', is_flag = True, help = "Add post tags to the database.")
 def create_resource(post, tag):
     from app.models import Post, Tag
-    from data import posts, tags
+    from constants import posts, tags
     
     try:
         if post:
@@ -160,9 +160,9 @@ def create_resource(post, tag):
         print(Colors.fg.red, "Couldn't create test data.")
         print("Error", e)
 
-@cli.command('seed', help = "Seed the database with dummy data.")
+@cli.command('seeds', help = "Seed the database with dummy data.")
 def seed():
-    from seed import seeds
+    from seeds import seeds
     try:
         seeds()
         print(Colors.fg.green, '-'*50)
