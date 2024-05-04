@@ -171,5 +171,12 @@ def seed():
         print(Colors.fg.red, "Database seeding failed.")
         print("Error", e)
 
+@cli.command('test', help = "Test any functionality.")
+def test():
+   pass
+
+
+
 if __name__ == "__main__":
     cli()
+
