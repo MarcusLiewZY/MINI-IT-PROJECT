@@ -63,6 +63,17 @@ input[type="search"] {
   /* Add additional styles as needed */
 }
 
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--color---base---white) inset !important;
+  transition: background-color 0.5s ease-in-out 0s;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover {
+  -webkit-box-shadow: 0 0 0 30px var(--color---neutral--neutral95) inset !important;
+  transition: background-color 0.5s ease-in-out 0s;
+}
+
 input[type="search"] {
   width: 100%;
   cursor: text;
@@ -141,7 +152,7 @@ form {
   height: 0;
 }
 
-/* flash message */
+/*  message */
 /* display at top center */
 .flash {
   position: fixed;
@@ -229,6 +240,7 @@ form {
 .campus-tag {
   background: #e1e3e3;
   display: inline-block;
+  width: fit-content;
   overflow: hidden;
   border-radius: 8px;
   padding: 0px 1rem;
@@ -641,9 +653,10 @@ form {
 
 /* create-post-modal */
 #createPostModal {
-  position: absolute;
+  position: fixed;
   width: 936px;
   height: fit-content;
+  max-height: 100vh;
   border-radius: 4px;
   top: 50vh;
   left: 50%;
@@ -658,6 +671,10 @@ form {
   background-color: var(--color---base---black);
   background-blend-mode: multiply;
   opacity: 0.6;
+}
+
+#createPostModal .error-message {
+  color: var(--color---alert---error);
 }
 
 .create-post-modal-container .user-info-container {
@@ -688,6 +705,14 @@ form {
   background-color: var(--color---neutral--neutral90);
   width: 936px;
   margin-left: -24px;
+}
+
+.create-post-modal-container .upload-image-container {
+  align-items: center;
+}
+
+.create-post-modal-container .select-image-message {
+  color: var(--color---base---active);
 }
 
 /* community guideline */
