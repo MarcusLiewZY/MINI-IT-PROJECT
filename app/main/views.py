@@ -1,5 +1,4 @@
 import os
-import json
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user
 from app.utils.decorators import login_required, logout_required
@@ -9,15 +8,29 @@ from . import main
 from app import db
 from app.models.user import User, Campus
 from app.models.tag import Tag
+from app.post.forms import CreatePostForm
 from app.utils.helper import format_datetime
+
+from app.main.services import create_post
 
 
 @main.route("/", methods=["GET", "POST"])
 @login_required
 def index():
+    createPostForm = CreatePostForm()
+    createPostForm.set_tag_choices()
+    if request.method == "POST":
+        if createPostForm.validate_on_submit():
+            isSuccess, message = create_post(createPostForm)
+            flash(message, "success" if isSuccess else "error")
+            if isSuccess:
+                return redirect(url_for("main.index"))
+
     user = User.query.get(current_user.id)
     tags = Tag.query.all()
-    return render_template("main/index.html", user=user, tags=tags)
+    return render_template(
+        "main/index.html", user=user, tags=tags, createPostForm=createPostForm
+    )
 
 
 @main.route("/landing")

@@ -2,6 +2,7 @@
 const createPostModal = document.querySelector("#createPostModal");
 const openModalButton = document.querySelector("#openButton");
 const closeModalButton = document.querySelector("#closeButton");
+const errorMessage = document.querySelector("#errorMessage");
 
 openModalButton.addEventListener("click", () => {
   createPostModal.showModal();
@@ -11,26 +12,36 @@ closeModalButton.addEventListener("click", () => {
   createPostModal.close();
 });
 
+// keep modal open on error
+if (errorMessage) {
+  window.onload = () => {
+    const createPostModal = document.getElementById("createPostModal");
+
+    createPostModal.showModal();
+  };
+}
+
+// content field auto resize
+const contentField = document.querySelector("#contentField");
+
+contentField.addEventListener("input", () => {
+  contentField.style.height = "auto";
+
+  contentField.style.maxHeight = "280px";
+  contentField.style.height = `${contentField.scrollHeight}px`;
+});
+
 // upload image
 const uploadImageIcon = document.querySelector("#uploadImageIcon");
 const imageInput = document.querySelector("#image");
+const selectImageMessage = document.querySelector(".select-image-message");
 
 uploadImageIcon.addEventListener("click", () => {
   imageInput.click();
 });
 
-// console.log the the target filename
-// console.log the file url that will be submitted to the server
 imageInput.addEventListener("change", () => {
-  console.log(imageInput.files[0].name);
-  console.log(URL.createObjectURL(imageInput.files[0]));
+  if (imageInput.files.length > 0) {
+    selectImageMessage.textContent = `${imageInput.files[0].name} is selected`;
+  }
 });
-
-// todo: use this method to get the tag color
-// const user_info = JSON.parse(
-//   document.querySelector("#userInfo").dataset.userInfo,
-// );
-
-// for (const key in user_info) {
-//   console.log(`${key}: ${user_info[key]}`);
-// }
