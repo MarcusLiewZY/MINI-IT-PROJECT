@@ -15,6 +15,41 @@ from app.utils.cliColor import Colors
 
 fake = Faker()
 
+NUM_USERS = 100
+
+NUM_USERS_CREATE_POST = 10
+MIN_POSTS_PER_USER = 1 
+MAX_POSTS_PER_USER = 4 
+
+MIN_POST_WIDTH = 400
+MAX_POST_WIDTH = 1000
+MIN_POST_HEIGHT = 400
+MAX_POST_HEIGHT = 1000
+
+MIN_TAGS_PER_POST = 0
+MAX_TAGS_PER_POST = 5
+
+MIN_LIKES_PER_POST = 0
+MAX_LIKES_PER_POST = 20
+
+MIN_BOOKMARKS_PER_POST = 0
+MAX_BOOKMARKS_PER_POST = 20
+
+MIN_COMMENTS_PER_POST = 1
+MAX_COMMENTS_PER_POST = 6
+
+MIN_REPLIES_PER_COMMENT = 0
+MAX_REPLIES_PER_COMMENT = 5
+
+MIN_LIKES_PER_COMMENT = 0
+MAX_LIKES_PER_COMMENT = 20
+
+MIN_NOTIFICATIONS_PER_POST = 0
+MAX_NOTIFICATIONS_PER_POST = 3
+
+MIN_NOTIFICATIONS_PER_COMMENT = 0
+MAX_NOTIFICATIONS_PER_COMMENT = 2
+
 
 def seeds():
     # recreate the database
@@ -24,7 +59,7 @@ def seeds():
 
     # Create users
     print(Colors.fg.green, "Creating users...")
-    for i in range(100):
+    for i in range(NUM_USERS):
         user_name = fake.user_name()
         avatar_url = "https://source.unsplash.com/random/80x80/?anonymous-id"
         cloudinary_avatar_url = upload_image(
@@ -74,11 +109,13 @@ def seeds():
     print(Colors.fg.green, "Tags created successfully!")
 
     # Create posts
+    # 10 users have posts
+    # each user creates 1-4 posts
     print(Colors.fg.green, "Creating posts...")
     users = User.query.all()
-    for user in random.sample(users, 10):
-        for _ in range(random.randint(1, 4)):
-            image_url = f"https://source.unsplash.com/random/{random.randint(400, 1000)}x{random.randint(400, 1000)}"
+    for user in random.sample(users, NUM_USERS_CREATE_POST):
+        for _ in range(random.randint(MIN_POSTS_PER_USER, MAX_POSTS_PER_USER)):
+            image_url = f"https://source.unsplash.com/random/{random.randint(MIN_POST_WIDTH, MAX_POST_WIDTH)}x{random.randint(MIN_POST_HEIGHT, MAX_POST_HEIGHT)}"
             cloudinary_image_url = upload_image(
                 image_url, app.config["CLOUDINARY_POST_IMAGE_FOLDER"]
             )
@@ -111,7 +148,7 @@ def seeds():
 
     print(Colors.fg.green, "Assigning tags to posts...")
     for post in posts:
-        for _ in range(random.randint(0, 5)):
+        for _ in range(random.randint(MIN_TAGS_PER_POST, MAX_TAGS_PER_POST)):
             post.tags.append(random.choice(tags))
             db.session.add(post)
             db.session.commit()
@@ -124,7 +161,7 @@ def seeds():
     posts = Post.query.all()
     users = User.query.all()
     for post in posts:
-        for user in random.sample(users, random.randint(0, 20)):
+        for user in random.sample(users, random.randint(MIN_LIKES_PER_POST, MAX_LIKES_PER_POST)):
             post.liked_by.append(user)
             db.session.add(post)
             db.session.commit()
@@ -137,7 +174,7 @@ def seeds():
     posts = Post.query.all()
     users = User.query.all()
     for post in posts:
-        for user in random.sample(users, random.randint(0, 20)):
+        for user in random.sample(users, random.randint(MIN_BOOKMARKS_PER_POST, MAX_BOOKMARKS_PER_POST)):
             post.bookmarked_by.append(user)
             db.session.add(post)
             db.session.commit()
@@ -145,10 +182,11 @@ def seeds():
     print(Colors.fg.green, "Post bookmarks created successfully!")
 
     # Create comments
+    # each post has 1-6 comments
     print(Colors.fg.green, "Creating comments...")
     posts = Post.query.all()
     for post in posts:
-        for _ in range(random.randint(1, 6)):
+        for _ in range(random.randint(MIN_COMMENTS_PER_POST, MAX_COMMENTS_PER_POST)):
             comment = Comment(
                 {
                     "content": fake.text(),
@@ -171,10 +209,11 @@ def seeds():
     print(Colors.fg.green, "Comments created successfully!")
 
     # Create replies
+    # each comment has 0-5 replies
     print(Colors.fg.green, "Creating replies...")
     comments = Comment.query.all()
     for comment in comments:
-        for _ in range(random.randint(0, 5)):
+        for _ in range(random.randint(MIN_REPLIES_PER_COMMENT, MAX_REPLIES_PER_COMMENT)):
             reply_comment = Comment(
                 {
                     "content": fake.text(),
@@ -201,12 +240,12 @@ def seeds():
     print(Colors.fg.green, "Replies created successfully!")
 
     # Create comment likes (many-to-many relationship)
-    # note that each user can like at most all comments
+    # each user can like at most 20 comments
     print(Colors.fg.green, "Creating comment likes...")
     comments = Comment.query.all()
     users = User.query.all()
     for comment in comments:
-        for user in random.sample(users, random.randint(0, 20)):
+        for user in random.sample(users, random.randint(MIN_LIKES_PER_COMMENT, MAX_LIKES_PER_COMMENT)):
             comment.liked_by.append(user)
             db.session.add(comment)
             db.session.commit()
@@ -223,7 +262,7 @@ def seeds():
     posts = Post.query.all()
     users = User.query.all()
     for post in posts:
-        for _ in range(random.randint(0, 3)):
+        for _ in range(random.randint(MIN_NOTIFICATIONS_PER_POST, MAX_NOTIFICATIONS_PER_POST)):
             unread_comment = random.choice(post.comments)
             post_notification = PostNotification(
                 {
@@ -250,7 +289,7 @@ def seeds():
     users = User.query.all()
     for comment in comments:
         if comment.replies:
-            num_notifications = min(random.randint(0, 2), len(comment.replies))
+            num_notifications = min(random.randint(MIN_NOTIFICATIONS_PER_COMMENT, MAX_NOTIFICATIONS_PER_COMMENT), len(comment.replies))
             for unread_comment in random.sample(comment.replies, num_notifications):
                 comment_notification = CommentNotification(
                     {
