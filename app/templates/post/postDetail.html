@@ -1,130 +1,14 @@
 {% extends "layouts/base.html" %}
 
-{% block title %}post_stuff Detail{% endblock title %}
+{% block title %}Post Detail{% endblock title %}
 
 {% block content %}
-  {% if isSinglePost %}
-
-    {# get single post by id #}
-    <div class="">{{ post_stuff.id }}</div>
-    <div class="">{{ post_stuff.title }}</div>
-    <div class="">{{ post_stuff.content }}</div>
-    <div class="">{{ post_stuff.image_url }}</div>
-    {% for tag in post_stuff.tags %}
-      <div class="">{{ tag.name }}</div>
-    {% endfor %}
-    <div class="">{{ post_stuff.created_at }}</div>
-    <div class="">{{ post_stuff.updated_at }}</div>
-    <div class="">{{ post_stuff.author.username }}</div>
-    <hr />
-
-    {# update post form #}
-    <form
-      action="{{ url_for('post.update_post', post_id=post_stuff.id) }}"
-      method="post"
-    >
-      <label for="id">Post title</label>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        value="{{ post_stuff.title }}"
-      />
-      <label for="content">Post content</label>
-      <input
-        type="text"
-        id="content"
-        name="content"
-        value="{{ post_stuff.content }}"
-      />
-      <label for="image_url">Post image url</label>
-      <input
-        id="image_url"
-        type="text"
-        name="image_url"
-        value="{{ post_stuff.image_url }}"
-      />
-      <br />
-      <label>Post tags</label>
-      <ul>
-        {% for tag in tags %}
-          <li>
-            <input
-              type="checkbox"
-              id="tags"
-              name="tags"
-              value="{{ tag.name }}"
-            />
-            <label for="tags">{{ tag.name }}</label>
-          </li>
-        {% endfor %}
-      </ul>
-
-      <button type="submit">Update</button>
-    </form>
-
-    {# delete post id form #}
-    <form
-      action="{{ url_for('post.delete_post', post_id=post_stuff.id) }}"
-      method="post"
-    >
-      <button type="submit">Delete</button>
-    </form>
-  {% else %}
-
-    {# get all posts #}
-    {% for post in post_stuff %}
-      <div class="">{{ post.id }}</div>
-      <div class="">{{ post.title }}</div>
-      <div class="">{{ post.content }}</div>
-      <div class="">{{ post.image_url }}</div>
-      {% for tag in post.tags %}
-        <div class="">{{ tag.name }}</div>
-      {% endfor %}
-      <div class="">{{ post.created_at }}</div>
-      <div class="">{{ post.updated_at }}</div>
-      <hr />
-    {% endfor %}
-
-    <form action="" method="post">
-      <label for="id">Post title</label>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        value="{{ post_stuff.title }}"
-      />
-      <label for="content">Post content</label>
-      <input
-        type="text"
-        id="content"
-        name="content"
-        value="{{ post_stuff.content }}"
-      />
-      <label for="image_url">Post image url</label>
-      <input
-        id="image_url"
-        type="text"
-        name="image_url"
-        value="{{ post_stuff.image_url }}"
-      />
-      <br />
-      <label for="tags">Post tags</label>
-      <ul>
-        {% for tag in tags %}
-          <li>
-            <input
-              type="checkbox"
-              id="tags"
-              name="tags"
-              value="{{ tag.name }}"
-            />
-            <label for="tags">{{ tag.name }}</label>
-          </li>
-        {% endfor %}
-      </ul>
-
-      <button type="submit">Create</button>
-    </form>
-  {% endif %}
+  <div class="post-detail-page-body">
+    <section class="mx-auto post-section">
+      {# todo: add a post preview card class when developing other post detail component #}
+      <div class="container flex flex-col mt-12 mb-12 post-card-container">
+        {% include "layouts/postCardTemp.html" %}
+      </div>
+    </section>
+  </div>
 {% endblock content %}

@@ -557,6 +557,11 @@ form {
 }
 
 /* post card */
+.post-card-preview-container {
+  /* height: 100vh; */
+  overflow-y: auto;
+}
+
 .post-card-container .card {
   gap: 24px;
 }
@@ -757,4 +762,11 @@ form {
 
 .community-guideline-container #submitButton:disabled {
   background-color: var(--color---neutral--neutral80);
+}
+
+/* post detail page */
+.post-detail-page-body {
+  background-color: var(--color---neutral--neutral95);
+  padding-top: 24px;
+  padding-bottom: 48px;
 }

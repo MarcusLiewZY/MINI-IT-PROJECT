@@ -1,108 +1,112 @@
-<div class="card flex flex-col py-6 px-8" id="{{ post.id }}">
-  <div class="flex flex-between post-card__user-info-container">
-    <div class="flex flex-center user-container">
-      {% include "layouts/avatar.html" %}
-      <div class="ml-6 flex flex-col">
-        <div class="mb-1 flex flex-center user-info-text">
-          <span class="text-label-lg"
-            >Anonymous_{{ post.postCreator.anon_no }}</span
-          >
-          <div class="ml-2 campus-tag">{{ post.postCreator.campus.value }}</div>
+<div class="card py-6 px-8 flex flex-col post-card-preview-container">
+  <div class="flex flex-col " id="{{ post.id }}">
+    <div class="flex flex-between post-card__user-info-container">
+      <div class="flex flex-center user-container">
+        {% include "layouts/avatar.html" %}
+        <div class="ml-6 flex flex-col">
+          <div class="mb-1 flex flex-center user-info-text">
+            <span class="text-label-lg"
+              >Anonymous_{{ post.postCreator.anon_no }}</span
+            >
+            <div class="ml-2 campus-tag">
+              {{ post.postCreator.campus.value }}
+            </div>
+          </div>
+          <div class="date">{{ post.timeAgo }}</div>
         </div>
-        <div class="date">{{ post.timeAgo }}</div>
       </div>
-    </div>
-    <div class="flex flex-center react-container">
-      <div class="inline-flex like-button">
-        <img
-          src="{{ url_for('static', filename= 'svg/like-blue.svg' if post.userInteraction.isLikedByUser else 'svg/like.svg') }}"
-          alt="like"
-          class="icon"
-        />
-      </div>
-      <div class="inline-flex bookmark-button">
-        <img
-          src="{{ url_for('static', filename= 'svg/bookmark-brown.svg' if post.userInteraction.isBookmarkedByUser else 'svg/bookmark-gray.svg') }}"
-          alt="bookmark"
-          class="icon"
-        />
-      </div>
-      {% if post.isCreator %}
-        <div class="inline-flex edit-button">
+      <div class="flex flex-center react-container">
+        <div class="inline-flex like-button">
           <img
-            src="{{ url_for('static', filename= 'svg/edit-gray.svg') }}"
-            alt="edit"
+            src="{{ url_for('static', filename= 'svg/like-blue.svg' if post.userInteraction.isLikedByUser else 'svg/like.svg') }}"
+            alt="like"
             class="icon"
           />
         </div>
-      {% endif %}
-      {% if post.isCreator %}
-        <div class="inline-flex delete-button">
+        <div class="inline-flex bookmark-button">
           <img
-            src="{{ url_for('static', filename= 'svg/bin-gray.svg') }}"
-            alt="bin"
+            src="{{ url_for('static', filename= 'svg/bookmark-brown.svg' if post.userInteraction.isBookmarkedByUser else 'svg/bookmark-gray.svg') }}"
+            alt="bookmark"
             class="icon"
           />
         </div>
-      {% endif %}
-    </div>
-  </div>
-
-  {# post #}
-  <div class="post-card__post-preview-container">
-    <h2 class="mb-4 text-title-lg">{{ post.title }}</h2>
-    <div class="mb-2 flex post-tag-container">
-      {% for tagName, tagColor in post.tags %}
-        <div
-          class="text-label-sm post-tag"
-          style="background-color: {{ tagColor }};"
-        >
-          {{ tagName }}
-        </div>
-      {% endfor %}
-    </div>
-    <div class="post-content-container">
-      <p class="mb-4 text-body-lg">
-        {{ post.content }}
-        {% if post.isPreview %}
-          {{ post.content[:40] }}
-          ...
-          <a
-            href="{{ url_for('post.get_post', post_id = post.id) }}"
-            class="link text-label-lg"
-            >see more</a
-          >
+        {% if post.isCreator %}
+          <div class="inline-flex edit-button">
+            <img
+              src="{{ url_for('static', filename= 'svg/edit-gray.svg') }}"
+              alt="edit"
+              class="icon"
+            />
+          </div>
         {% endif %}
-      </p>
-      <img src="{{ post.image_url }}" alt="post-image" />
-    </div>
-  </div>
-
-  {# post react count #}
-  <div class="flex text-label-md post-card__react-count-container ">
-    <span>{{ post.userInteraction.likes }} likes</span>
-    <span>{{ post.userInteraction.comments }} replies</span>
-  </div>
-
-  {# comment section #}
-  <div class="flex flex-col post-card__post-comment-container">
-    {% if not post.isPreview %}
-      <div class="view-more-comment">
-        <a href="/" class="link text-label-lg">View more comments</a>
+        {% if post.isCreator %}
+          <div class="inline-flex delete-button">
+            <img
+              src="{{ url_for('static', filename= 'svg/bin-gray.svg') }}"
+              alt="bin"
+              class="icon"
+            />
+          </div>
+        {% endif %}
       </div>
-    {% endif %}
-    {% include "layouts/comment.html" %}
-
-    <div class="ml-2 flex view-more-reply">
-      <img
-        src="{{ url_for('static', filename = 'svg/arrow-right.svg') }}"
-        alt="arrow-right"
-      />
-      <a href="/" class="link text-label-lg">View more replies</a>
     </div>
-  </div>
 
-  {# reply to comment form #}
+    {# post #}
+    <div class="post-card__post-preview-container">
+      <h2 class="mb-4 text-title-lg">{{ post.title }}</h2>
+      <div class="mb-2 flex post-tag-container">
+        {% for tagName, tagColor in post.tags %}
+          <div
+            class="text-label-sm post-tag"
+            style="background-color: {{ tagColor }};"
+          >
+            {{ tagName }}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="post-content-container">
+        <p class="mb-4 text-body-lg">
+          {{ post.content }}
+          {% if post.isPreview %}
+            {{ post.content[:40] }}
+            ...
+            <a
+              href="{{ url_for('post.get_post', post_id = post.id) }}"
+              class="link text-label-lg"
+              >see more</a
+            >
+          {% endif %}
+        </p>
+        <img src="{{ post.image_url }}" alt="post-image" />
+      </div>
+    </div>
+
+    {# post react count #}
+    <div class="flex text-label-md post-card__react-count-container ">
+      <span>{{ post.userInteraction.likes }} likes</span>
+      <span>{{ post.userInteraction.comments }} replies</span>
+    </div>
+
+    {# comment section #}
+    <div class="flex flex-col post-card__post-comment-container">
+      {% if not post.isPreview %}
+        <div class="view-more-comment">
+          <a href="/" class="link text-label-lg">View more comments</a>
+        </div>
+      {% endif %}
+      {% include "layouts/comment.html" %}
+
+      <div class="ml-2 flex view-more-reply">
+        <img
+          src="{{ url_for('static', filename = 'svg/arrow-right.svg') }}"
+          alt="arrow-right"
+        />
+        <a href="/" class="link text-label-lg">View more replies</a>
+      </div>
+    </div>
+
+    {# reply to comment form #}
+  </div>
   <div class="flex post-card__add-comment-container">
     {% include "layouts/avatar.html" %}
     <form action="/" method="post">
