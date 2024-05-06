@@ -23,7 +23,8 @@
     <div id="home">
       <div class="grid-container">
         <div class="grid-item">
-          <a href="{{ url_for('main.index') }}"
+          <a
+            href="{{ url_for('main.campus_selection_handler', campus = 'CYBERJAYA') }}"
             ><img
               src="{{ url_for('static', filename='img/mmucyber.png') }}"
               alt="MMU Cyberjaya"
@@ -37,7 +38,8 @@
           </div>
         </div>
         <div class="grid-item">
-          <a href="{{ url_for('main.index') }}"
+          <a
+            href="{{ url_for('main.campus_selection_handler', campus = 'MALACCA') }}"
             ><img
               src="{{ url_for('static', filename='img/mmumelaka.png') }}"
               alt="MMU Malacca"

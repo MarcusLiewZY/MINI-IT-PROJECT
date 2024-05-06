@@ -115,7 +115,7 @@ def delete_resource(user, admin_user, post, tag):
                 Tag.query.filter(Tag.id == tag.id).delete()
             db.session.commit()
             print(Colors.fg.green, "Tags deleted successfully!")
-        
+
     except Exception as e:
         print(Colors.fg.red, "Delete operations failed.")
         print("Error", e)
@@ -125,7 +125,7 @@ def delete_resource(user, admin_user, post, tag):
 @click.option('--tag', is_flag = True, help = "Add post tags to the database.")
 def create_resource(post, tag):
     from app.models import Post, Tag
-    from dummy import posts, tags
+    from constants import posts, tags
     
     try:
         if post:
@@ -160,5 +160,23 @@ def create_resource(post, tag):
         print(Colors.fg.red, "Couldn't create test data.")
         print("Error", e)
 
+@cli.command('seeds', help = "Seed the database with dummy data.")
+def seed():
+    from seeds import seeds
+    try:
+        seeds()
+        print(Colors.fg.green, '-'*50)
+        print(Colors.fg.green, "Database seeded successfully!")
+    except Exception as e:
+        print(Colors.fg.red, "Database seeding failed.")
+        print("Error", e)
+
+@cli.command('test', help = "Test any functionality.")
+def test():
+   pass
+
+
+
 if __name__ == "__main__":
     cli()
+

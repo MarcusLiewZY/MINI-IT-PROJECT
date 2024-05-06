@@ -57,6 +57,7 @@ class Post(db.Model):
         self.title = post_dist.get("title") 
         self.content = post_dist.get("content")
         self.image_url = post_dist.get("image_url")
+        #  todo: set the status to approved
         self.status = Status.PENDING
         self.created_at = post_dist.get("created_at")
         self.updated_at = self.created_at

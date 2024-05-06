@@ -63,6 +63,17 @@ input[type="search"] {
   /* Add additional styles as needed */
 }
 
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--color---base---white) inset !important;
+  transition: background-color 0.5s ease-in-out 0s;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover {
+  -webkit-box-shadow: 0 0 0 30px var(--color---neutral--neutral95) inset !important;
+  transition: background-color 0.5s ease-in-out 0s;
+}
+
 input[type="search"] {
   width: 100%;
   cursor: text;
@@ -141,7 +152,7 @@ form {
   height: 0;
 }
 
-/* flash message */
+/*  message */
 /* display at top center */
 .flash {
   position: fixed;
@@ -229,6 +240,7 @@ form {
 .campus-tag {
   background: #e1e3e3;
   display: inline-block;
+  width: fit-content;
   overflow: hidden;
   border-radius: 8px;
   padding: 0px 1rem;
@@ -641,189 +653,108 @@ form {
 
 /* create-post-modal */
 #createPostModal {
+  position: fixed;
   width: 936px;
-  height: 530px;
-  padding: 100px;
-  background-color: #f2f2f2; /* 浅灰色背景 */
-  border: 1px solid #ccc; /* 灰色实线边框 */
-  color: #333; /* 黑色文字 */
-  border-radius: 4px; /* 添加4px的圆角 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: fixed; /* 使用固定定位 */
-  top: 50%; /* 位于视口的50%高度位置 */
-  left: 50%; /* 位于视口的50%宽度位置 */
-  transform: translate(-50%, -50%); /* 通过转换使其完全居中 */
-  box-sizing: border-box; /* 添加box-sizing以确保padding被包含在width内 */
+  height: fit-content;
+  max-height: 100vh;
+  border-radius: 4px;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: var(--modal-shadow);
+  background-color: var(--color---base---white);
+  animation: modalFadeIn 0.3s ease;
+  /* background-color: red; */
 }
 
-.buttonclose {
-  background-color: #007bff; /* 蓝色背景 */
-  color: white; /* 白色文字 */
-  border: 1px solid #ffffff; /* 白色实线边框 */
-  border-radius: 4px; /* 添加4px的圆角 */
-  padding: 8px 16px; /* 设置内边距 */
-  cursor: pointer; /* 鼠标悬停变为手型 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
-  position: fixed; /* 固定定位 */
-  bottom: 20px; /* 距离底部20px */
-  right: 100px; /* 距离右侧20px */
+#createPostModal::backdrop {
+  background-color: var(--color---base---black);
+  background-blend-mode: multiply;
+  opacity: 0.6;
 }
 
-.buttonclose:hover {
-  background-color: #0056b3; /* 悬停时的背景颜色 */
+#createPostModal .error-message {
+  color: var(--color---alert---error);
 }
 
-.post-btn {
-  background-color: #007bff; /* 蓝色背景 */
-  color: white; /* 白色文字 */
-  border: 1px solid #ffffff; /* 白色实线边框 */
-  border-radius: 4px; /* 添加4px的圆角 */
-  padding: 8px 16px; /* 设置内边距 */
-  cursor: pointer; /* 鼠标悬停变为手型 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
-  position: fixed; /* 固定定位 */
-  bottom: 20px; /* 距离底部20px */
-  right: 20px; /* 距离右侧20px */
+.create-post-modal-container .user-info-container {
+  align-items: center;
+  height: fit-content;
 }
 
-.post-btn:hover {
-  background-color: #0056b3; /* 悬停时的背景颜色 */
+.create-post-modal-container .user-info-container .text-label-lg {
+  font-weight: 700;
 }
 
-.buttonupload {
-  background-color: #007bff; /* 蓝色背景 */
-  color: white; /* 白色文字 */
-  border: 1px solid #ffffff; /* 白色实线边框 */
-  border-radius: 4px; /* 添加4px的圆角 */
-  padding: 8px 16px; /* 设置内边距 */
-  cursor: pointer; /* 鼠标悬停变为手型 */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影 */
-  position: fixed; /* 固定定位 */
-  bottom: 20px; /* 距离底部20px */
-  right: 200px; /* 距离右侧20px */
-}
-
-.buttonupload:hover {
-  background-color: #0056b3; /* 悬停时的背景颜色 */
-}
-
-.poptable {
+.create-post-modal-container .title-input {
   width: 100%;
-  margin-top: 0px;
-  margin-bottom: 40px;
-  border-radius: 10px;
-  background-color: white;
-  margin: 0 auto;
-  border-style: hidden;
+  border: 1px solid transparent;
 }
 
-.poptitle {
-  font-family: Roboto;
-  font-size: 28px;
-  font-weight: 400;
-  line-height: 36px;
-  text-align: left; /* 将文字对齐改为..对齐 */
-  color: black;
-  text-decoration: none;
-  display: block; /* 改为 block 确保占满容器宽度 */
+.create-post-modal-container .content-form-control {
+  align-items: start;
+  gap: 4px;
+  width: 100%;
+}
+.create-post-modal-container .content-form-control .comment-input {
+  border-radius: 12px;
 }
 
-/* 设置弹窗的总体容器样式 */
-.popup-container {
-  display: flex;
-  align-items: center; /* 垂直居中所有子元素 */
-  gap: 10px; /* 在子元素之间添加一些间距 */
+.create-post-modal-container .divider {
+  height: 1px;
+  background-color: var(--color---neutral--neutral90);
+  width: 936px;
+  margin-left: -24px;
 }
 
-.popprofile {
-  width: 40px;
-  height: 40px;
-  background: #eaddff;
-  border-radius: 50%; /* 圆形头像 */
-  opacity: 1; /* 让头像可见 */
+.create-post-modal-container .upload-image-container {
+  align-items: center;
 }
 
-.namepopup,
-.campuspopup {
-  font-family: Roboto;
-  opacity: 1; /* 让文本可见 */
+.create-post-modal-container .select-image-message {
+  color: var(--color---base---active);
 }
 
-.namepopup {
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-  text-align: left;
+/* community guideline */
+.community-guideline-container {
+  width: 744px;
+  gap: 32px;
 }
 
-.campuspopup {
-  width: auto; /* 根据内容调整宽度 */
-  padding: 0 4px;
-  background: #e5e1e1;
-  border-radius: 8px;
+.community-guideline-container .heading {
+  border-bottom: 2px solid var(--color---neutral--neutral90);
 }
 
-/* 移除不需要的属性 */
-.popinput,
-.popupinfo,
-.popname,
-.popcampus {
-  /* 适当调整或移除属性 */
-  opacity: 1; /* 如果需要这些元素可见 */
+.community-guideline-container .community-guideline-body {
+  gap: 24px;
 }
 
-.container {
-  width: Fill (872px) px;
-  height: Hug (273px) px;
-  gap: 16px;
-  opacity: 0px;
+.community-guideline-container .small-container > *:first-child {
+  font-weight: bold;
 }
 
-.container-title {
-  text-align: left; /* 左对齐 */
-  font-family: Roboto;
-  font-size: 16px;
+.community-guideline-container .community-guideline-intro {
   font-weight: 500;
-  line-height: 24px;
-  letter-spacing: 0.15px;
 }
 
-.container-title input[type="text"] {
-  width: auto;
-  height: 30px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f0f0f0;
-  box-sizing: border-box;
-  margin-right: 10px; /* 添加一些右侧间距 */
+.community-guideline-container .submit-button-container {
+  display: flex;
+  justify-content: end;
 }
 
-.container-title a {
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  color: #333;
-  text-decoration: none;
+.community-guideline-container .checkbox-container {
+  justify-content: start;
 }
 
-.container-title a:hover {
-  text-decoration: underline;
+.community-guideline-container .checkbox-label {
+  font-weight: 500;
 }
 
-.container-title input[type="text"]:focus {
-  outline: none; /* 移除默认的聚焦效果 */
-  border-color: #007bff; /* 聚焦时改变边框颜色 */
+.community-guideline-container #community-guideline-ending,
+.community-guideline-container #community-guideline-welcome-message {
+  font-weight: 400;
 }
 
-.uploadpicture {
-  width: 40px;
-  height: 40px;
-  background: #eaddff;
-  border-radius: 50%; /* 圆形头像 */
-  opacity: 1; /* 让头像可见 */
-  background-image: url("path/to/your/image.jpg"); /* 设置背景图片的路径 */
-  background-size: cover; /* 使背景图片充满整个按钮 */
-  background-position: center; /* 将背景图片居中 */
-  border: none; /* 移除按钮边框 */
-  cursor: pointer; /* 鼠标悬停显示手型 */
+.community-guideline-container #submitButton:disabled {
+  background-color: var(--color---neutral--neutral80);
 }
