@@ -83,7 +83,7 @@ def get_post(post_id):
     )
 
 
-# get all posts, order by updated_at
+# get all posts, create post
 @post.route("/posts", methods=["GET", "POST"])
 @login_required
 def get_all_posts():

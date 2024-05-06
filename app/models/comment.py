@@ -11,7 +11,7 @@ class Comment(db.Model):
     content = db.Column(db.String, nullable=False)
     is_report = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.Text, nullable=False)
-    update_at = db.Column(db.Text, nullable=False)
+    updated_at = db.Column(db.Text, nullable=False)
     user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id"))
     post_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Post.id"))
     replied_comment_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Comment.id"))
