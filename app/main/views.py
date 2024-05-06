@@ -1,36 +1,68 @@
 import os
-from flask import render_template, request, flash
+from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user
 from app.utils.decorators import login_required, logout_required
+from datetime import datetime
 
 from . import main
-from app.models.user import User
+from app import db
+from app.models.user import User, Campus
+from app.models.tag import Tag
+from app.post.forms import CreatePostForm
 from app.utils.helper import format_datetime
 
-from dummy import post
+from app.main.services import create_post
 
 
 @main.route("/", methods=["GET", "POST"])
 @login_required
 def index():
+    createPostForm = CreatePostForm()
+    createPostForm.set_tag_choices()
+    if request.method == "POST":
+        if createPostForm.validate_on_submit():
+            isSuccess, message = create_post(createPostForm)
+            flash(message, "success" if isSuccess else "error")
+            if isSuccess:
+                return redirect(url_for("main.index"))
+
     user = User.query.get(current_user.id)
-    return render_template("main/index.html", user=user)
+    tags = Tag.query.all()
+    return render_template(
+        "main/index.html", user=user, tags=tags, createPostForm=createPostForm
+    )
 
-
-@main.route("/community-guideline")
-@login_required
-def community_guidelines():
-    return render_template("main/communityGuidelines.html")
 
 @main.route("/landing")
 @logout_required
 def landing():
     return render_template("main/landing.html")
 
-@main.route("/campus-selection", methods = ['GET', 'POST'])
+
+@main.route("/community-guideline")
 @login_required
-def campus_selection(): 
-    return render_template('campus-selection/campus.html')
+def community_guidelines():
+    user = User.query.get(current_user.id)
+    need_confirm = True if user.campus is Campus.NONE else False
+    return render_template("main/communityGuidelines.html", need_confirm=need_confirm)
+
+
+@main.route("/campus-selection", methods=["GET", "POST"])
+@login_required
+def campus_selection():
+    return render_template("campus-selection/campus.html")
+
+
+@main.route("/campus-selection/<campus>")
+def campus_selection_handler(campus):
+    print("campus is selected")
+    user = User.query.get(current_user.id)
+    user.campus = campus
+    user.updated_at = format_datetime(datetime.now())
+    db.session.commit()
+    flash("Welcome to MMU Confession", "success")
+    return redirect(url_for("main.index"))
+
 
 @main.route("/playground")
 def playground():

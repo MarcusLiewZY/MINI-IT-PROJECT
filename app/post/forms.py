@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, TextAreaField, SelectMultipleField
 from wtforms.validators import DataRequired, Length, Optional, Length
+from app.utils.form_utils import SubmitButtonField
 
 
 class CreatePostForm(FlaskForm):
@@ -19,7 +20,7 @@ class CreatePostForm(FlaskForm):
             DataRequired(),
             Length(
                 max=5,
-                message="You can select up to 5 tags.",
+                message="You can only select up to 5 tags.",
             ),
             Optional(),
         ],
@@ -35,4 +36,9 @@ class CreatePostForm(FlaskForm):
             Optional(),
         ],
     )
+    submit = SubmitButtonField("Post")
 
+    def set_tag_choices(self):
+        from app.models.tag import Tag
+
+        self.tags.choices = [(tag.name, tag.name) for tag in Tag.query.all()]

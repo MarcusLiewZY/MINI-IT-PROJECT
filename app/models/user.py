@@ -39,7 +39,7 @@ class User(UserMixin, db.Model):
     anon_no = db.Column(db.String(4), nullable=True)
     password = db.Column(db.String(60), nullable=False)
     username = db.Column(db.String(60), nullable=False)
-    avatar_url = db.Column(db.String(200))
+    avatar_url = db.Column(db.String(200), nullable=True)
     campus = db.Column(db.Enum(Campus), default=Campus.NONE)
     is_admin = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.Text, nullable=False)
@@ -74,15 +74,15 @@ class User(UserMixin, db.Model):
         lazy=True,
     )
 
-    def __init__(self, user_dist, *args, **kwargs):
-        self.email = user_dist.get("email")
+    def __init__(self, user_dict, *args, **kwargs):
+        self.email = user_dict.get("email")
         self.anon_no = self.generate_anon_no()
-        self.password = bcrypt.generate_password_hash(user_dist.get("password"))
-        self.username = user_dist.get("username")
-        self.avatar_url = user_dist.get("avatar_url")
-        self.campus = user_dist.get("campus")
-        self.is_admin = user_dist.get("is_admin")
-        self.created_at = user_dist.get("created_at")
+        self.password = bcrypt.generate_password_hash(user_dict.get("password"))
+        self.username = user_dict.get("username")
+        self.avatar_url = user_dict.get("avatar_url")
+        self.campus = user_dict.get("campus")
+        self.is_admin = user_dict.get("is_admin")
+        self.created_at = user_dict.get("created_at")
         self.updated_at = self.created_at
 
     def __repr__(self):
