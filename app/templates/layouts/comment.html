@@ -1,43 +1,69 @@
-<div class="flex comment-container" data-isReply="false">
-  {% include "layouts/avatar.html" %}
+<div
+  class="flex pb-5 comment-container"
+  id="comment-{{ comment.id }}"
+  data-commentLevel="{{ comment.commentLevel }}"
+>
+  <div class="avatar-container">
+    {% with avatar_url = comment.commentCreator.avatar_url %}
+      {% include "layouts/avatar.html" %}
+    {% endwith %}
+  </div>
   <div class="ml-2 flex flex-col">
     <div class="text-body-md comment">
       <div class="flex flex-between comment-header">
         <div class="text-label-lg mb-2 user-interaction-container">
-          Anonymous_2331
-          <a href="" class="link user-interaction-container__reply">
-            reply to
-            <span class="replied-user">Anonymous_4932</span></a
-          >
+          Anonymous_{{ comment.commentCreator.anon_no }}
+          {% if comment.isReply %}
+            <a
+              href="{{ url_for('post.get_post', post_id = post.id) }}"
+              class="link user-interaction-container__reply"
+            >
+              reply to
+              <span class="replied-user"
+                >Anonymous_{{ repliedUser.anon_no }}</span
+              ></a
+            >
+          {% endif %}
         </div>
         <div class="text-label-md flex comment-react-container">
-          <span>9 likes</span>
-          <span>14 replies</span>
+          <span>{{ comment.userInteraction.likes }} likes</span>
+          <span>{{ comment.userInteraction.replies }} replies</span>
           <a href="/" class="link">Report</a>
         </div>
       </div>
-      <div class="reply">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. In neque
-        dolore reiciendis. Consectetur minus ipsa maxime dolore assumenda
-        aspernatur, blanditiis minima doloribus architecto.
-      </div>
+      <div class="reply">{{ comment.content }}</div>
     </div>
-    <div class="mt-2 flex comment-info">
-      <div class="date">27 Jun 2024</div>
+    <div class="mt-2 ml-1 flex comment-info">
+      <div class="date">{{ comment.timeAgo }}</div>
       <div class="link text-label-sm comment-like">Like</div>
       <div class="link text-label-sm comment-reply">Reply</div>
-      <div class="link text-label-sm comment-edit">Edit</div>
-      <div class="link text-label-sm comment-delete">Delete</div>
+      {% if user.id == comment.commentCreator.id %}
+        <div class="link text-label-sm comment-edit">Edit</div>
+        <div class="link text-label-sm comment-delete">Delete</div>
+      {% endif %}
     </div>
   </div>
 </div>
 
-{% block js %}
-  <script>
-    const commentContainer = document.querySelector(".comment-container");
-    const isReply = commentContainer.getAttribute("data-isReply");
-    if (isReply === "true") {
-      commentContainer.classList.add("reply-container");
-    }
-  </script>
-{% endblock js %}
+{# todo: add the replies count for the preview view more reply #}
+
+{% if comment.replies %}
+  {% for reply in comment.replies %}
+    {% with comment=reply, repliedUser = comment.commentCreator %}
+      {% include "layouts/comment.html" %}
+    {% endwith %}
+  {% endfor %}
+  {% if post.isPreview and comment.replies|length > 3 %}
+    <div class="ml-2 flex view-more-reply">
+      <img
+        src="{{ url_for('static', filename = 'svg/arrow-right.svg') }}"
+        alt="arrow-right"
+      />
+      <a
+        href="{{ url_for('post.get_post', post_id = post.id) }}"
+        class="link text-label-lg"
+        >View more replies</a
+      >
+    </div>
+  {% endif %}
+{% endif %}

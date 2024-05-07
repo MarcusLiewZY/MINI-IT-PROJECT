@@ -1,0 +1,92 @@
+[33m3894d43[m[33m ([m[1;36mHEAD -> [m[1;32mpost[m[33m, [m[1;31morigin/post[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33mda7970e[m HEAD@{1}: commit: feat: making post detail card
+[33m3894d43[m[33m ([m[1;36mHEAD -> [m[1;32mpost[m[33m, [m[1;31morigin/post[m[33m)[m HEAD@{2}: commit: chore: add constant variables for seed data
+[33mb0f9d27[m HEAD@{3}: commit: feat: perfecting create post modal
+[33mb61d5ef[m HEAD@{4}: commit: feat: implement timeago feature
+[33mf0049e4[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{5}: merge main: Fast-forward
+[33m36cf5e7[m HEAD@{6}: checkout: moving from main to post
+[33mf0049e4[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{7}: pull: Fast-forward
+[33md7f719f[m HEAD@{8}: checkout: moving from image-upload to main
+[33m6873f71[m[33m ([m[1;31morigin/image-upload[m[33m, [m[1;32mimage-upload[m[33m)[m HEAD@{9}: commit: feat: complete database seeding script with Cloudinary connection
+[33m5c399bb[m[33m ([m[1;32msetup[m[33m)[m HEAD@{10}: checkout: moving from setup to image-upload
+[33m5c399bb[m[33m ([m[1;32msetup[m[33m)[m HEAD@{11}: commit: fix: fix comment schema
+[33m4d452fc[m HEAD@{12}: merge main: Merge made by the 'ort' strategy.
+[33me7f08db[m HEAD@{13}: checkout: moving from main to setup
+[33md7f719f[m HEAD@{14}: pull: Fast-forward
+[33m1858f68[m HEAD@{15}: checkout: moving from setup to main
+[33me7f08db[m HEAD@{16}: commit: feat: making database seeding
+[33m1858f68[m HEAD@{17}: merge main: Fast-forward
+[33mb3a1933[m[33m ([m[1;32mcheckout[m[33m)[m HEAD@{18}: checkout: moving from user to setup
+[33m704c479[m[33m ([m[1;31morigin/user[m[33m, [m[1;32muser[m[33m)[m HEAD@{19}: commit: feat: optimize user auth flow
+[33m9eaf774[m HEAD@{20}: commit: feat: microsoft oauth
+[33m1858f68[m HEAD@{21}: merge main: Fast-forward
+[33mecf2642[m HEAD@{22}: checkout: moving from main to user
+[33m1858f68[m HEAD@{23}: pull: Fast-forward
+[33m54f32f0[m HEAD@{24}: checkout: moving from post to main
+[33m36cf5e7[m HEAD@{25}: checkout: moving from user to post
+[33mecf2642[m HEAD@{26}: checkout: moving from post to user
+[33m36cf5e7[m HEAD@{27}: commit: chore: complete the createPostMdoal
+[33m2557ae6[m HEAD@{28}: commit: chore: upload image testing
+[33m57114bb[m HEAD@{29}: commit: feat: build create post model ui
+[33m54f32f0[m HEAD@{30}: merge main: Fast-forward
+[33ma863e57[m HEAD@{31}: checkout: moving from main to post
+[33m54f32f0[m HEAD@{32}: pull: Fast-forward
+[33m839fd8d[m HEAD@{33}: checkout: moving from post to main
+[33ma863e57[m HEAD@{34}: commit: chore: touch up community guideline
+[33m839fd8d[m HEAD@{35}: merge origin: Fast-forward
+[33ma1a73a5[m HEAD@{36}: checkout: moving from main to post
+[33m839fd8d[m HEAD@{37}: checkout: moving from post to main
+[33ma1a73a5[m HEAD@{38}: checkout: moving from main to post
+[33m839fd8d[m HEAD@{39}: pull: Fast-forward
+[33mf1a9463[m HEAD@{40}: checkout: moving from post to main
+[33ma1a73a5[m HEAD@{41}: commit: fix: change schema datetime type
+[33mb713014[m[33m ([m[1;31morigin/post-comment-desmond[m[33m)[m HEAD@{42}: Branch: renamed refs/heads/post-comment-desmond to refs/heads/post
+[33mb713014[m[33m ([m[1;31morigin/post-comment-desmond[m[33m)[m HEAD@{44}: checkout: moving from main to post-comment-desmond
+[33mf1a9463[m HEAD@{45}: checkout: moving from post-comment-desmond to main
+[33mb713014[m[33m ([m[1;31morigin/post-comment-desmond[m[33m)[m HEAD@{46}: Branch: renamed refs/heads/post-comment to refs/heads/post-comment-desmond
+[33mb713014[m[33m ([m[1;31morigin/post-comment-desmond[m[33m)[m HEAD@{48}: commit: feat: create post card ui for home page
+[33mf1a9463[m HEAD@{49}: merge main: Fast-forward
+[33mcb1b10d[m HEAD@{50}: checkout: moving from main to post-comment
+[33mf1a9463[m HEAD@{51}: pull: Fast-forward
+[33m62c1415[m HEAD@{52}: checkout: moving from post-comment to main
+[33mcb1b10d[m HEAD@{53}: commit: feat: create post-preview ui
+[33m6833032[m HEAD@{54}: commit: feat: build create post card ui
+[33m1aae0a4[m HEAD@{55}: commit: fix: user profile modal auto focus bug
+[33m0e6457b[m HEAD@{56}: commit: feat: create user profile modal ui
+[33m4bcff26[m HEAD@{57}: commit: add navbar ui
+[33m62c1415[m HEAD@{58}: checkout: moving from main to post-comment
+[33m62c1415[m HEAD@{59}: pull: Fast-forward
+[33m28f32ce[m HEAD@{60}: checkout: moving from main to main
+[33m28f32ce[m HEAD@{61}: checkout: moving from setup to main
+[33mb3a1933[m[33m ([m[1;32mcheckout[m[33m)[m HEAD@{62}: commit: feat: create toast notification ui
+[33mefcb6d5[m HEAD@{63}: pull origin setup: Merge made by the 'ort' strategy.
+[33m53cd792[m HEAD@{64}: commit: chore: add css utility
+[33m0fff7f1[m HEAD@{65}: commit: chore: update requirements.txt
+[33m2d504b0[m HEAD@{66}: commit: fix: schemas backref issue
+[33m60f3389[m HEAD@{67}: commit: feat: create all schemas
+[33m417fcb9[m HEAD@{68}: commit: chore: refine post schema
+[33mbc61d81[m HEAD@{69}: commit: feat: create post model
+[33m28f32ce[m HEAD@{70}: checkout: moving from main to setup
+[33m28f32ce[m HEAD@{71}: checkout: moving from user to main
+[33mecf2642[m HEAD@{72}: checkout: moving from setup to user
+[33m28f32ce[m HEAD@{73}: merge main: Fast-forward
+[33m1725615[m HEAD@{74}: checkout: moving from main to setup
+[33m28f32ce[m HEAD@{75}: pull: Fast-forward
+[33m2208d34[m HEAD@{76}: checkout: moving from main to main
+[33m2208d34[m HEAD@{77}: checkout: moving from setup to main
+[33m1725615[m HEAD@{78}: checkout: moving from main to setup
+[33m2208d34[m HEAD@{79}: pull origin main: Fast-forward
+[33m6cdd389[m HEAD@{80}: checkout: moving from main to main
+[33m6cdd389[m HEAD@{81}: checkout: moving from setup to main
+[33m1725615[m HEAD@{82}: checkout: moving from user to setup
+[33mecf2642[m HEAD@{83}: commit: chore: fix typo
+[33m0252bd7[m HEAD@{84}: checkout: moving from setup to user
+[33m1725615[m HEAD@{85}: checkout: moving from user to setup
+[33m0252bd7[m HEAD@{86}: commit: feat: add admin protected route and cli
+[33m5e81ce6[m HEAD@{87}: commit: feat: google OAtuh sign in and sign out
+[33m1725615[m HEAD@{88}: checkout: moving from setup to user
+[33m1725615[m HEAD@{89}: commit: chore: import css variables and all assests from Figma
+[33ma126045[m HEAD@{90}: commit: chore: initial project setup
+[33m9c187b8[m HEAD@{91}: commit: chore: initial project setup
+[33m6cdd389[m HEAD@{92}: checkout: moving from main to setup
+[33m6cdd389[m HEAD@{93}: clone: from github.com:MarcusLiewZY/MINI-IT-PROJECT.git

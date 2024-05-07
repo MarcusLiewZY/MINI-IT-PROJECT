@@ -1,20 +1,12 @@
-import os
 from uuid import UUID
-from flask import flash, redirect, url_for, request, render_template, jsonify
-from datetime import datetime
-from werkzeug.utils import secure_filename
+from flask import flash, redirect, url_for, render_template
 from flask_login import current_user
 
 from . import post
-
 from app.main import main
-from app import app
-from app import db
 from app.models.post import Post, Status
-from app.models.tag import Tag
 from app.models.user import User
-from app.utils.helper import getTimeAgo
-
+from app.dto.post_dto import PostDTO
 from app.utils.decorators import login_required
 
 
@@ -33,27 +25,10 @@ def get_post(post_id):
 
     postCreator = User.query.get(post.user_id)
 
-    post = {
-        "id": post.id,
-        "title": post.title,
-        "content": post.content,
-        "image_url": post.image_url,
-        "tags": [(tag.name, tag.color) for tag in post.tags],
-        "timeAgo": getTimeAgo(post.created_at),
-        "postCreator": postCreator,
-        "isCreator": True if postCreator.id == user.id else False,
-        "isPreview": False,
-        "userInteraction": {
-            "likes": len(post.liked_by),
-            "comments": len(post.comments),
-            "isLikedByUser": user in post.liked_by,
-            "isBookmarkedByUser": user in post.bookmarked_by,
-        },
-    }
-
-    print(post)
-
-    return render_template("post/postDetail.html", post=post)
+    postDTO = PostDTO(post, postCreator, user)
+    return render_template(
+        "post/postDetail.html", post=postDTO.to_dict(), user=current_user
+    )
 
 
 # @post.route("/update-post/<post_id>", methods=["GET", "POST"])

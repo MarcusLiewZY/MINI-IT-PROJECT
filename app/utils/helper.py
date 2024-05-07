@@ -33,3 +33,13 @@ def upload_image(image, folder_name):
     except Exception as e:
         print(e)
         return None
+
+
+def delete_image(image_url):
+    try:
+        public_id = image_url.split("/")[-1].split(".")[0]
+        cloudinary_uploader.destroy(public_id)
+        return True
+    except Exception as e:
+        print(e)
+        return False

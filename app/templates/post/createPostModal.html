@@ -2,7 +2,9 @@
   <div class="flex flex-col gap-5 py-6 px-6 create-post-modal-container">
     <div class="text-headline-md">Create Post</div>
     <div class="flex user-info-container">
-      {% include "layouts/avatar.html" %}
+      {% with avatar_url=user.avatar_url %}
+        {% include "layouts/avatar.html" %}
+      {% endwith %}
       <div class="flex flex-col gap-2  ml-3 user-info">
         <div class="text-label-lg">Anonymous_{{ user.anon_no }}</div>
         <div class="campus-tag">{{ user.campus.value }}</div>

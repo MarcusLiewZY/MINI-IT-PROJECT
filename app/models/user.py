@@ -47,7 +47,7 @@ class User(UserMixin, db.Model):
 
     # relationship
     posts = db.relationship(
-        "Post", backref="post", cascade="all, delete-orphan", lazy=True
+        "Post", backref="postCreator", cascade="all, delete-orphan", lazy=True
     )
     liked_posts = db.relationship(
         "Post", secondary=PostLike, backref="liked_by", lazy=True
@@ -56,7 +56,7 @@ class User(UserMixin, db.Model):
         "Post", secondary=PostBookmark, backref="bookmarked_by", lazy=True
     )
     comments = db.relationship(
-        "Comment", backref="post", cascade="all, delete-orphan", lazy=True
+        "Comment", backref="commentCreator", cascade="all, delete-orphan", lazy=True
     )
     liked_comments = db.relationship(
         "Comment", secondary=CommentLike, backref="liked_by", lazy=True
