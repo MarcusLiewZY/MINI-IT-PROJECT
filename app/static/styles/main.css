@@ -397,7 +397,7 @@ form {
   align-items: center;
   gap: 4px;
   align-self: stretch;
-  min-width: 320px;
+  width: 320px;
   flex-shrink: 0;
 
   border-radius: 12px;

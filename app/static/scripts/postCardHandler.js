@@ -91,9 +91,15 @@ Array("resize", "load").forEach((e) => {
 });
 
 // react buttons handler
-// Event handler
-var reactButtonHandler = (postId) => () =>
-  console.log(`button clicked on post ${postId}`);
+// Event handlers
+var likeButtonHandler = (postId) => () =>
+  console.log(`Like button clicked on post ${postId}`);
+var bookmarkButtonHandler = (postId) => () =>
+  console.log(`Bookmark button clicked on post ${postId}`);
+var editButtonHandler = (postId) => () =>
+  console.log(`Edit button clicked on post ${postId}`);
+var deleteButtonHandler = (postId) => () =>
+  console.log(`Delete button clicked on post ${postId}`);
 
 // Setup button events
 var setupButtonEvents = (
@@ -129,33 +135,37 @@ var setupPostCard = (postCard) => {
       buttonSelector: ".like-button",
       defaultImagePath: "/static/svg/like.svg",
       hoverImagePath: "/static/svg/like-blue.svg",
+      onClickFunction: likeButtonHandler,
     },
     {
       buttonSelector: ".bookmark-button",
       defaultImagePath: "/static/svg/bookmark-gray.svg",
       hoverImagePath: "/static/svg/bookmark-brown.svg",
+      onClickFunction: bookmarkButtonHandler,
     },
     {
       buttonSelector: ".edit-button",
       defaultImagePath: "/static/svg/edit-gray.svg",
       hoverImagePath: "/static/svg/edit-blue.svg",
+      onClickFunction: editButtonHandler,
     },
     {
       buttonSelector: ".delete-button",
       defaultImagePath: "/static/svg/bin-gray.svg",
       hoverImagePath: "/static/svg/bin-red.svg",
+      onClickFunction: deleteButtonHandler,
     },
   ];
 
   buttonsInfo.forEach(
-    ({ buttonSelector, defaultImagePath, hoverImagePath }) => {
+    ({ buttonSelector, defaultImagePath, hoverImagePath, onClickFunction }) => {
       const button = reactContainer.querySelector(buttonSelector);
-      const callbackFunction = reactButtonHandler(postId);
+      const callBackFunction = onClickFunction(postId);
       setupButtonEvents(
         button,
         defaultImagePath,
         hoverImagePath,
-        callbackFunction,
+        callBackFunction,
       );
     },
   );

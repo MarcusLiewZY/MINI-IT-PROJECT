@@ -15,11 +15,12 @@ from app.utils.cliColor import Colors
 
 fake = Faker()
 
+# Constants
 NUM_USERS = 100
 
 NUM_USERS_CREATE_POST = 10
-MIN_POSTS_PER_USER = 1 
-MAX_POSTS_PER_USER = 4 
+MIN_POSTS_PER_USER = 1
+MAX_POSTS_PER_USER = 4
 
 MIN_POST_WIDTH = 400
 MAX_POST_WIDTH = 1000
@@ -161,7 +162,9 @@ def seeds():
     posts = Post.query.all()
     users = User.query.all()
     for post in posts:
-        for user in random.sample(users, random.randint(MIN_LIKES_PER_POST, MAX_LIKES_PER_POST)):
+        for user in random.sample(
+            users, random.randint(MIN_LIKES_PER_POST, MAX_LIKES_PER_POST)
+        ):
             post.liked_by.append(user)
             db.session.add(post)
             db.session.commit()
@@ -174,7 +177,9 @@ def seeds():
     posts = Post.query.all()
     users = User.query.all()
     for post in posts:
-        for user in random.sample(users, random.randint(MIN_BOOKMARKS_PER_POST, MAX_BOOKMARKS_PER_POST)):
+        for user in random.sample(
+            users, random.randint(MIN_BOOKMARKS_PER_POST, MAX_BOOKMARKS_PER_POST)
+        ):
             post.bookmarked_by.append(user)
             db.session.add(post)
             db.session.commit()
@@ -213,7 +218,9 @@ def seeds():
     print(Colors.fg.green, "Creating replies...")
     comments = Comment.query.all()
     for comment in comments:
-        for _ in range(random.randint(MIN_REPLIES_PER_COMMENT, MAX_REPLIES_PER_COMMENT)):
+        for _ in range(
+            random.randint(MIN_REPLIES_PER_COMMENT, MAX_REPLIES_PER_COMMENT)
+        ):
             reply_comment = Comment(
                 {
                     "content": fake.text(),
@@ -245,7 +252,9 @@ def seeds():
     comments = Comment.query.all()
     users = User.query.all()
     for comment in comments:
-        for user in random.sample(users, random.randint(MIN_LIKES_PER_COMMENT, MAX_LIKES_PER_COMMENT)):
+        for user in random.sample(
+            users, random.randint(MIN_LIKES_PER_COMMENT, MAX_LIKES_PER_COMMENT)
+        ):
             comment.liked_by.append(user)
             db.session.add(comment)
             db.session.commit()
@@ -262,7 +271,9 @@ def seeds():
     posts = Post.query.all()
     users = User.query.all()
     for post in posts:
-        for _ in range(random.randint(MIN_NOTIFICATIONS_PER_POST, MAX_NOTIFICATIONS_PER_POST)):
+        for _ in range(
+            random.randint(MIN_NOTIFICATIONS_PER_POST, MAX_NOTIFICATIONS_PER_POST)
+        ):
             unread_comment = random.choice(post.comments)
             post_notification = PostNotification(
                 {
@@ -289,7 +300,12 @@ def seeds():
     users = User.query.all()
     for comment in comments:
         if comment.replies:
-            num_notifications = min(random.randint(MIN_NOTIFICATIONS_PER_COMMENT, MAX_NOTIFICATIONS_PER_COMMENT), len(comment.replies))
+            num_notifications = min(
+                random.randint(
+                    MIN_NOTIFICATIONS_PER_COMMENT, MAX_NOTIFICATIONS_PER_COMMENT
+                ),
+                len(comment.replies),
+            )
             for unread_comment in random.sample(comment.replies, num_notifications):
                 comment_notification = CommentNotification(
                     {
