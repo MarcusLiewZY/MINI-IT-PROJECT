@@ -98,21 +98,6 @@ def get_post(post_id):
 #     )
 
 
-# # get all posts, order by updated_at
-# @post.route("/posts", methods=["GET", "POST"])
-# @login_required
-# def get_all_posts():
-#     if request.method == "POST":
-#         post_form = request.form
-#         new_post = Post(
-#             {
-#                 "title": post_form.get("title"),
-#                 "content": post_form.get("content"),
-#                 "image_url": post_form.get("image_url"),
-#                 "created_at": format_datetime(datetime.now()),
-#             }
-#         )
-
 #         new_post.user_id = current_user.id
 
 #         # todo: delete the approved status once the admin feature is implemented
