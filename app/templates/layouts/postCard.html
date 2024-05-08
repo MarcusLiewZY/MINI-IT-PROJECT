@@ -148,7 +148,6 @@
       {% endfor %}
     </div>
   </div>
-
   {# reply to comment form #}
   {% if post.isPreview %}
     <div class="flex post-card__add-comment-container">
@@ -177,3 +176,9 @@
     </div>
   {% endif %}
 </div>
+{% block js %}
+  <script
+    type="text/javascript"
+    src="{{ url_for('static', filename = 'scripts/postCardHandler.js') }}"
+  ></script>
+{% endblock js %}

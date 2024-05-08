@@ -2,7 +2,9 @@
   <div class="flex flex-col gap-5 py-6 px-6 create-post-modal-container">
     <div class="text-headline-md">Create Post</div>
     <div class="flex user-info-container">
-      {% include "layouts/avatar.html" %}
+      {% with avatar_url=user.avatar_url %}
+        {% include "layouts/avatar.html" %}
+      {% endwith %}
       <div class="flex flex-col gap-2  ml-3 user-info">
         <div class="text-label-lg">Anonymous_{{ user.anon_no }}</div>
         <div class="campus-tag">{{ user.campus.value }}</div>
@@ -81,13 +83,8 @@
             class_ = 'hidden'
             )
           }}
-          {% if createPostForm.image_url.errors %}
-            {% for error in createPostForm.image_url.errors %}
-              <div class="error-message">{{ error }}</div>
-            {% endfor %}
-          {% endif %}
         </div>
-        <div class="action-button-container">
+        <div class="action-button-container ">
           <button
             type="button"
             class="btn btn-muted buttonclose"
@@ -95,7 +92,7 @@
           >
             Cancel
           </button>
-          {{ createPostForm.submit(class_ = 'btn') }}
+          {{ createPostForm.submit(class_ = 'ml-2 btn') }}
         </div>
       </footer>
     </form>

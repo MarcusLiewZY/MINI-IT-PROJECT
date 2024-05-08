@@ -31,4 +31,4 @@ def admin_login():
             flash("You are not an admin user", "warning")
             return redirect(url_for("main.landing"))
 
-    return render_template("main/admin_login.html")
+    return render_template("main/adminLogin.html")
