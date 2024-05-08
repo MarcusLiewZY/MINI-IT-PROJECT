@@ -2,6 +2,7 @@ import requests
 from cloudinary import uploader as cloudinary_uploader
 from datetime import datetime
 from werkzeug.datastructures import FileStorage
+import humanize
 
 
 def format_datetime(value: datetime) -> str:
@@ -10,6 +11,10 @@ def format_datetime(value: datetime) -> str:
 
 def parse_datetime(value: str) -> datetime:
     return datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+
+
+def getTimeAgo(time: str) -> str:
+    return humanize.naturaltime(parse_datetime(time))
 
 
 def upload_image(image, folder_name):
@@ -28,3 +33,13 @@ def upload_image(image, folder_name):
     except Exception as e:
         print(e)
         return None
+
+
+def delete_image(image_url):
+    try:
+        public_id = image_url.split("/")[-1].split(".")[0]
+        cloudinary_uploader.destroy(public_id)
+        return True
+    except Exception as e:
+        print(e)
+        return False

@@ -1,215 +1,184 @@
-<div class="card flex flex-col py-6 px-8">
-  <div class="flex flex-between post-card__user-info-container">
-    <div class="flex flex-center user-container">
-      {% include "layouts/avatar.html" %}
-      <div class="ml-6 flex flex-col">
-        <div class="mb-1 flex flex-center user-info-text">
-          <span class="text-label-lg">Anonymous_2331</span>
-          <div class="ml-2 campus-tag">Cyberjaya</div>
+<div
+  class="card py-6 px-8 flex flex-col post-card"
+  id="post-{{ post.id }}"
+  data-post-id="{{ post.id }}"
+>
+  <div class="flex flex-col">
+    <div class="flex flex-between post-card__user-info-container">
+      <div class="flex flex-center user-container">
+        {% with avatar_url=post.postCreator.avatar_url %}
+          {% include "layouts/avatar.html" %}
+        {% endwith %}
+        <div class="ml-6 flex flex-col">
+          <div class="mb-1 flex flex-center user-info-text">
+            <span class="text-label-lg"
+              >Anonymous_{{ post.postCreator.anon_no }}</span
+            >
+            <div class="ml-2 campus-tag">
+              {{ post.postCreator.campus.value }}
+            </div>
+          </div>
+          <div class="date">{{ post.timeAgo }}</div>
         </div>
-        <div class="date">27 Jun 2024</div>
       </div>
-    </div>
-    <div class="flex flex-center react-container">
-      <div class="inline-flex like-button">
-        <img
-          src="{{ url_for('static', filename= 'svg/like.svg') }}"
-          alt="like"
-          class="icon"
-        />
-      </div>
-      <div class="inline-flex bookmark-button">
-        <img
-          src="{{ url_for('static', filename= 'svg/bookmark-gray.svg') }}"
-          alt="bookmark"
-          class="icon"
-        />
-      </div>
-      <div class="inline-flex edit-button">
-        <img
-          src="{{ url_for('static', filename= 'svg/edit-gray.svg') }}"
-          alt="edit"
-          class="icon"
-        />
-      </div>
-      <div class="inline-flex delete-button">
-        <img
-          src="{{ url_for('static', filename= 'svg/bin-gray.svg') }}"
-          alt="bin"
-          class="icon"
-        />
-      </div>
-    </div>
-  </div>
-
-  {# post #}
-  <div class="post-card__post-preview-container">
-    <h2 class="mb-4 text-title-lg">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit
-    </h2>
-    <div class="mb-2 flex post-tag-container">
-      <div class="text-label-sm post-tag">FCA</div>
-      <div class="text-label-sm post-tag">FIST</div>
-    </div>
-    <div class="post-content-container">
-      <p class="mb-4 text-body-lg">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Beatae,
-        laboriosam temporibus ullam autem similique distinctio et, est saepe,
-        enim architecto perferendis quisquam accusantium animi adipisci quos
-        omnis tempore ea corporis...
-        <a href="/" class="link text-label-lg">see more</a>
-      </p>
-      <img src="https://placehold.co/1200x400" alt="post-image" />
-    </div>
-  </div>
-
-  {# post react count #}
-  <div class="flex text-label-md post-card__react-count-container ">
-    <span>9 likes</span>
-    <span>12 replies</span>
-  </div>
-
-  {# comment section #}
-  <div class="flex flex-col post-card__post-comment-container">
-    <div class="view-more-comment">
-      <a href="/" class="link text-label-lg">View more comments</a>
-    </div>
-
-    {% include "layouts/comment.html" %}
-
-    <div class="ml-2 flex view-more-reply">
-      <img
-        src="{{ url_for('static', filename = 'svg/arrow-right.svg') }}"
-        alt="arrow-right"
-      />
-      <a href="/" class="link text-label-lg">View more replies</a>
-    </div>
-  </div>
-
-  {# reply to comment form #}
-  <div class="flex post-card__add-comment-container">
-    {% include "layouts/avatar.html" %}
-    <form action="/" method="post">
-      <div class="form-control">
-        <textarea
-          name="comment"
-          id="comment"
-          class="text-body-md pl-4 pr-10 py-2 comment-input"
-          placeholder="Add a comment..."
-          rows="1"
-        ></textarea>
-
-        <button type="submit" class="flex flex-center submit-comment-button">
+      <div class="flex flex-center react-container">
+        <div class="inline-flex like-button">
           <img
-            src="{{ url_for('static', filename = 'svg/send-gray.svg') }}"
-            alt=""
+            src="{{ url_for('static', filename= 'svg/like-blue.svg' if post.userInteraction.isLikedByUser else 'svg/like.svg') }}"
+            alt="like"
             class="icon"
           />
-        </button>
+        </div>
+        <div class="inline-flex bookmark-button">
+          <img
+            src="{{ url_for('static', filename= 'svg/bookmark-brown.svg' if post.userInteraction.isBookmarkedByUser else 'svg/bookmark-gray.svg') }}"
+            alt="bookmark"
+            class="icon"
+          />
+        </div>
+        {% if post.isCreator %}
+          <div class="inline-flex edit-button">
+            <img
+              src="{{ url_for('static', filename= 'svg/edit-gray.svg') }}"
+              alt="edit"
+              class="icon"
+            />
+          </div>
+        {% endif %}
+        {% if post.isCreator %}
+          <div class="inline-flex delete-button">
+            <img
+              src="{{ url_for('static', filename= 'svg/bin-gray.svg') }}"
+              alt="bin"
+              class="icon"
+            />
+          </div>
+        {% endif %}
       </div>
-    </form>
+    </div>
+
+    {# post #}
+    <div class="post-card__post-preview-container">
+      <h2 class="mb-4 text-title-lg">{{ post.title }}</h2>
+      <div class="mb-2 flex post-tag-container">
+        {% for tagName, tagColor in post.tags %}
+          <div
+            class="text-label-sm post-tag"
+            style="background-color: {{ tagColor }};"
+          >
+            {{ tagName }}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="post-content-container">
+        <p class="mb-4 text-body-lg">
+          {{ post.content }}
+          {% if post.isPreview %}
+            {{ post.content[:40] }}
+            ...
+            <a
+              href="{{ url_for('post.get_post', post_id = post.id) }}"
+              class="link text-label-lg"
+              >see more</a
+            >
+          {% endif %}
+        </p>
+        {% if post.image_url %}
+          <img src="{{ post.image_url }}" alt="post-image" />
+        {% endif %}
+      </div>
+    </div>
+
+    {# post react count #}
+    <div class="flex text-label-md my-8 post-card__react-count-container ">
+      <span>{{ post.userInteraction.likes }} likes</span>
+      <span>{{ post.userInteraction.comments }} replies</span>
+    </div>
+
+    {% if not post.isPreview %}
+      <div class="flex mb-8 post-card__add-comment-container">
+        {% with avatar_url=user.avatar_url %}
+          {% include "layouts/avatar.html" %}
+        {% endwith %}
+        <form action="/" method="post">
+          <div class="form-control">
+            <textarea
+              name="comment"
+              id="comment"
+              class="text-body-md pl-4 pr-10 py-2 comment-input"
+              placeholder="Add a comment..."
+              rows="1"
+            ></textarea>
+
+            <button
+              type="submit"
+              class="flex flex-center submit-comment-button"
+            >
+              <img
+                src="{{ url_for('static', filename = 'svg/send-gray.svg') }}"
+                alt=""
+                class="icon"
+              />
+            </button>
+          </div>
+        </form>
+      </div>
+    {% endif %}
+
+    {# comment section #}
+    <div class="flex flex-col post-card__post-comment-container">
+      {% if post.isPreview %}
+        {% if post.comments %}
+          <div class="mb-5 view-more-comment">
+            <a
+              href="{{ url_for('post.get_post', post_id = post.id) }}"
+              class="link text-label-lg"
+              >View more comments</a
+            >
+          </div>
+        {% endif %}
+      {% endif %}
+
+      {% for comment in post.comments %}
+        {% if not comment.isReply %}
+          {% with comment=comment, repliedUser = comment.commentCreator %}
+            {% include "layouts/comment.html" %}
+          {% endwith %}
+        {% endif %}
+      {% endfor %}
+    </div>
   </div>
+  {# reply to comment form #}
+  {% if post.isPreview %}
+    <div class="flex post-card__add-comment-container">
+      {% with avatar_url=user.avatar_url %}
+        {% include "layouts/avatar.html" %}
+      {% endwith %}
+      <form action="/" method="post">
+        <div class="form-control">
+          <textarea
+            name="comment"
+            id="comment"
+            class="text-body-md pl-4 pr-10 py-2 comment-input"
+            placeholder="Add a comment..."
+            rows="1"
+          ></textarea>
+
+          <button type="submit" class="flex flex-center submit-comment-button">
+            <img
+              src="{{ url_for('static', filename = 'svg/send-gray.svg') }}"
+              alt=""
+              class="icon"
+            />
+          </button>
+        </div>
+      </form>
+    </div>
+  {% endif %}
 </div>
-
 {% block js %}
-  <script>
-    const likeButtonCallback = () => console.log("Like button clicked");
-    const bookmarkButtonCallback = () => console.log("Bookmark button clicked");
-    const editButtonCallback = () => console.log("Edit button clicked");
-    const deleteButtonCallback = () => console.log("Delete button clicked");
-    const submitCommentButtonCallback = () =>
-      console.log("Submit comment button clicked");
-
-    const buttonsInfo = [
-      {
-        buttonSelector: ".like-button",
-        defaultImagePath: "{{ url_for('static', filename = 'svg/like.svg') }}",
-        hoverImagePath:
-          "{{ url_for('static', filename = 'svg/like-blue.svg') }}",
-        clickCallback: likeButtonCallback,
-      },
-      {
-        buttonSelector: ".bookmark-button",
-        defaultImagePath:
-          "{{ url_for('static', filename = 'svg/bookmark-gray.svg') }}",
-        hoverImagePath:
-          "{{ url_for('static', filename = 'svg/bookmark-brown.svg') }}",
-        clickCallback: bookmarkButtonCallback,
-      },
-      {
-        buttonSelector: ".edit-button",
-        defaultImagePath:
-          "{{ url_for('static', filename = 'svg/edit-gray.svg') }}",
-        hoverImagePath:
-          "{{ url_for('static', filename = 'svg/edit-blue.svg') }}",
-        clickCallback: editButtonCallback,
-      },
-      {
-        buttonSelector: ".delete-button",
-        defaultImagePath:
-          "{{ url_for('static', filename = 'svg/bin-gray.svg') }}",
-        hoverImagePath: "{{ url_for('static', filename = 'svg/bin-red.svg') }}",
-        clickCallback: deleteButtonCallback,
-      },
-    ];
-
-    const setupButtonEvents = (
-      buttonSelector,
-      defaultImagePath,
-      hoverImagePath,
-      clickCallback,
-    ) => {
-      const button = document.querySelector(buttonSelector);
-      const buttonImg = document.querySelector(`${buttonSelector} img`);
-
-      button.addEventListener("click", clickCallback);
-
-      button.addEventListener("mouseover", () => {
-        buttonImg.src = hoverImagePath;
-      });
-
-      button.addEventListener("mouseout", () => {
-        buttonImg.src = defaultImagePath;
-      });
-    };
-
-    buttonsInfo.forEach(
-      ({ buttonSelector, defaultImagePath, hoverImagePath, clickCallback }) => {
-        setupButtonEvents(
-          buttonSelector,
-          defaultImagePath,
-          hoverImagePath,
-          clickCallback,
-        );
-      },
-    );
-  </script>
-  <script>
-    const commentInput = document.querySelector(".comment-input");
-    const submitCommentButton = document.querySelector(
-      ".submit-comment-button",
-    );
-
-    commentInput.addEventListener("input", () => {
-      commentInput.style.height = "auto";
-      commentInput.style.maxHeight = "200px";
-      commentInput.style.height = `${commentInput.scrollHeight}px`;
-    });
-
-    const defaultImagePath =
-      "{{ url_for('static', filename = 'svg/send-gray.svg') }}";
-    const hoverImagePath =
-      "{{ url_for('static', filename = 'svg/send-black.svg') }}";
-    const button = document.querySelector(".submit-comment-button img");
-
-    ["focus", "input"].forEach((event) => {
-      commentInput.addEventListener(event, () => {
-        button.src = commentInput.value ? hoverImagePath : defaultImagePath;
-      });
-    });
-
-    commentInput.addEventListener("blur", () => {
-      button.src = defaultImagePath;
-    });
-  </script>
+  <script
+    type="text/javascript"
+    src="{{ url_for('static', filename = 'scripts/postCardHandler.js') }}"
+  ></script>
 {% endblock js %}

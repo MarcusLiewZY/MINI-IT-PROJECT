@@ -10,7 +10,7 @@ user_data = [
     {
         "email": # email address endwith .mmu.edu.my
         "username": # username
-        "avatar_url": # avatar url, use https://source.unsplash.com/random/widthxheight
+        "avatar_url": # avatar url, use https://source.unsplash.com/random/widthxheight (dimension: 80 X 80)
         "campus": # campus enum either CYBERJAYA or MALACCA
     },
     # add more user data
@@ -94,68 +94,3 @@ comment_data = [
     },
     # add more comment data
 ]
-
-# mappings
-
-# user create post
-# one to many relationship
-# note that: since this is one to many relationship, the post_index is unique
-user_create_post = [
-    # 'user_index': ['post_index', 'post_index', 'post_index']
-    1: [1, 2, 3],
-    3: [4, 7]
-]
-
-# user create comment
-# one to many relationship
-# note that: since this is one to many relationship, the comment_index is unique
-user_create_comment = [
-    # 'user_index': ['comment_index', 'comment_index', 'comment_index']
-    1: [1, 2, 3],
-    3: [4, 7]
-    # add more user create comment
-]
-
-
-# user like post  
-# many to many relationship
-# note that: since this is many to many relationship, the post_index can be repeated
-user_like_post = [
-    # 'user_index': ['post_index', 'post_index', 'post_index']
-    1: [1, 2, 3],
-    3: [1, 3, 5, 6],
-    # add more user like post
-]
-
-# user bookmark post
-# many to many relationship
-# note that: since this is many to many relationship, the post_index can be repeated
-user_bookmark_post = [
-    # 'user_index': ['post_index', 'post_index', 'post_index']
-    1: [1, 2, 3],
-    3: [1, 5, 6],
-    # add more user bookmark post
-]
-
-# user like comment
-# many to many relationship
-# note that: since this is many to many relationship, the comment_index can be repeated
-user_like_comment = [
-    # 'user_index': ['comment_index', 'comment_index', 'comment_index']
-    1: [1, 2, 3],
-    3: [1, 5, 6],
-    # add more user like comment
-]
-
-# post tag
-# many to many relationship
-# note that: since this is many to many relationship, the post_index can be repeated
-post_tag = [
-    # 'post_index': ['tag_index', 'tag_index', 'tag_index']
-    1: [1, 2, 3],
-    3: [1, 5, 6],
-    # add more post tag
-]
-
-# post comment
-

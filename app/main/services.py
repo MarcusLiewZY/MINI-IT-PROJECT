@@ -43,4 +43,4 @@ def create_post(form: CreatePostForm) -> Tuple[bool, str]:
 
     except Exception as e:
         print(e)
-        return False, "Post creation failed, please try again"
+        return (False,)
