@@ -83,11 +83,6 @@
             class_ = 'hidden'
             )
           }}
-          {% if createPostForm.image_url.errors %}
-            {% for error in createPostForm.image_url.errors %}
-              <div class="error-message">{{ error }}</div>
-            {% endfor %}
-          {% endif %}
         </div>
         <div class="action-button-container ">
           <button

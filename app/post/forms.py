@@ -17,7 +17,6 @@ class CreatePostForm(FlaskForm):
         "Tags",
         choices=[],
         validators=[
-            DataRequired(),
             Length(
                 max=5,
                 message="You can only select up to 5 tags.",
