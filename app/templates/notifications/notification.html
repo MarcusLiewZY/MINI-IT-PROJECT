@@ -3,9 +3,51 @@
 {% block title %}Notification{% endblock title %}
 
 {% block content %}
-  <table class="n-table">
-    <tr>
-      <td>notifications</td>
-    </tr>
-  </table>
+  <!doctype html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Notification</title>
+      <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='styles/notification.css') }}"
+      />
+    </head>
+    <body>
+      <div class="container1">
+        <div class="filterContainer1">
+          <h2 class="text-headline-sm">Filters</h2>
+          <ul class="filters1">
+            <li class="active1" onclick="filterNotifications('all')">
+              All Notifications<span id="num-of-notif1">0</span>
+            </li>
+            <li onclick="filterNotifications('posts')">
+              Posts<span id="num-of-posts1">0</span>
+            </li>
+            <li onclick="filterNotifications('comments')">
+              Comments<span id="num-of-comments1">0</span>
+            </li>
+            <li onclick="filterNotifications('status')">
+              Posts Status<span id="num-of-status1">0</span>
+            </li>
+          </ul>
+        </div>
+        <div class="notificationContainer1">
+          <header>
+            <div class="notificationHeader1">
+              <h1 class="text-headline-sm">Notifications</h1>
+            </div>
+            <button id="mark-as-read" class="mark-as-read-btn">
+              Mark all as Read
+            </button>
+          </header>
+          <main id="main1"></main>
+        </div>
+      </div>
+
+      <script src="notification.js"></script>
+    </body>
+  </html>
 {% endblock content %}
