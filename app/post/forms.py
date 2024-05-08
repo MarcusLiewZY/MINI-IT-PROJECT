@@ -4,7 +4,6 @@ from wtforms import StringField, TextAreaField, SelectMultipleField
 from wtforms.validators import DataRequired, Length, Optional, Length
 from app.utils.form_utils import SubmitButtonField
 
-
 class CreatePostForm(FlaskForm):
     title = StringField(
         "Title",

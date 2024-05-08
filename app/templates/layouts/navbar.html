@@ -11,7 +11,11 @@
       <nav>
         <ul class="flex flex-center">
           <li><a class="link" href="/">Home</a></li>
-          <li><a class="link" href="/">Notifications</a></li>
+          <li>
+            <a class="link" href="{{ url_for('notification.notifications') }}"
+              >Notifications</a
+            >
+          </li>
         </ul>
       </nav>
 
@@ -68,7 +72,9 @@
             src="{{ url_for('static', filename = 'svg/notification.svg') }}"
             alt="notification"
           />
-          <a href="/">Notifications</a>
+          <a href="{{ url_for('notification.notifications') }}"
+            >Notifications</a
+          >
           <div class="text-body-sm notification-count">7</div>
         </li>
         <li class="flex">
