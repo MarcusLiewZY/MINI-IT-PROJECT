@@ -30,6 +30,7 @@ addCommentContainers.forEach((addCommentContainer) => {
   });
 });
 
+// todo: add the comments for the following code
 // comment connection line and avatar position
 Array("resize", "load").forEach((e) => {
   window.addEventListener(e, () => {
@@ -89,53 +90,78 @@ Array("resize", "load").forEach((e) => {
   });
 });
 
-// react buttons hover effect
-var reactContainers = document.querySelectorAll(".react-container");
+// react buttons handler
+// Event handler
+var reactButtonHandler = (postId) => () =>
+  console.log(`button clicked on post ${postId}`);
 
-reactContainers.forEach((reactContainer) => {
-  var buttonsInfo = [
+// Setup button events
+var setupButtonEvents = (
+  button,
+  defaultImagePath,
+  hoverImagePath,
+  callbackFunction,
+) => {
+  if (!button) return;
+
+  // clone and replace to effectively remove multiple event listeners of the same node
+  const newButton = button.cloneNode(true);
+  button.parentNode.replaceChild(newButton, button);
+
+  const buttonImg = newButton.querySelector("img");
+
+  newButton.addEventListener("click", callbackFunction);
+  newButton.addEventListener("mouseover", () => {
+    buttonImg.src = hoverImagePath;
+  });
+  newButton.addEventListener("mouseout", () => {
+    buttonImg.src = defaultImagePath;
+  });
+};
+
+// Post card setup
+var setupPostCard = (postCard) => {
+  const postId = postCard.dataset.postId;
+  const reactContainer = postCard.querySelector(".react-container");
+
+  const buttonsInfo = [
     {
       buttonSelector: ".like-button",
-      defaultImagePath: "static/svg/like.svg",
-      hoverImagePath: "static/svg/like-blue.svg",
+      defaultImagePath: "/static/svg/like.svg",
+      hoverImagePath: "/static/svg/like-blue.svg",
     },
     {
       buttonSelector: ".bookmark-button",
-      defaultImagePath: "static/svg/bookmark-gray.svg",
-      hoverImagePath: "static/svg/bookmark-brown.svg",
+      defaultImagePath: "/static/svg/bookmark-gray.svg",
+      hoverImagePath: "/static/svg/bookmark-brown.svg",
     },
     {
       buttonSelector: ".edit-button",
-      defaultImagePath: "static/svg/edit-gray.svg",
-      hoverImagePath: "static/svg/edit-blue.svg",
+      defaultImagePath: "/static/svg/edit-gray.svg",
+      hoverImagePath: "/static/svg/edit-blue.svg",
     },
     {
       buttonSelector: ".delete-button",
-      defaultImagePath: "static/svg/bin-gray.svg",
-      hoverImagePath: "static/svg/bin-red.svg",
+      defaultImagePath: "/static/svg/bin-gray.svg",
+      hoverImagePath: "/static/svg/bin-red.svg",
     },
   ];
 
-  var setupButtonEvents = (
-    buttonSelector,
-    defaultImagePath,
-    hoverImagePath,
-  ) => {
-    var button = reactContainer.querySelector(buttonSelector);
-    var buttonImg = reactContainer.querySelector(`${buttonSelector} img`);
-
-    button.addEventListener("mouseover", () => {
-      buttonImg.src = hoverImagePath;
-    });
-
-    button.addEventListener("mouseout", () => {
-      buttonImg.src = defaultImagePath;
-    });
-  };
-
   buttonsInfo.forEach(
     ({ buttonSelector, defaultImagePath, hoverImagePath }) => {
-      setupButtonEvents(buttonSelector, defaultImagePath, hoverImagePath);
+      const button = reactContainer.querySelector(buttonSelector);
+      const callbackFunction = reactButtonHandler(postId);
+      setupButtonEvents(
+        button,
+        defaultImagePath,
+        hoverImagePath,
+        callbackFunction,
+      );
     },
   );
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const postCards = document.querySelectorAll(".post-card");
+  postCards.forEach(setupPostCard);
 });
