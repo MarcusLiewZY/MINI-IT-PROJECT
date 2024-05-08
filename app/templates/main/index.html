@@ -6,7 +6,9 @@
   <div class="home-page-body">
     <section class="mx-auto post-section">
       <div class="container card flex px-8 py-6 create-post-card">
-        {% include "layouts/avatar.html" %}
+        {% with avatar_url=user.avatar_url %}
+          {% include "layouts/avatar.html" %}
+        {% endwith %}
         <div
           id="openButton"
           class="flex px-4 py-2 create-post-container text-body-md"
@@ -20,9 +22,12 @@
         </div>
       </div>
 
-      {# todo: add a post preview card class when developing other post detail component #}
-      <div class="container flex flex-col mt-12 pb-12 post-card-container">
-        {% include "layouts/postCard.html" %}
+      <div
+        class="container flex flex-col gap-12 mt-12 pb-12 post-card-container"
+      >
+        {% for post in  posts %}
+          {% include "layouts/postCard.html" %}
+        {% endfor %}
       </div>
     </section>
   </div>
@@ -34,5 +39,4 @@
 
 {% block js %}
   <script src="{{ url_for('static', filename = 'scripts/createPostModal.js') }}"></script>
-  <script src="{{ url_for('static', filename = 'scripts/multiSelect.js') }}"></script>
 {% endblock js %}
