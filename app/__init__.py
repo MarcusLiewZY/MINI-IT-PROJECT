@@ -62,12 +62,12 @@ from app.main.views import main
 from app.user.views import user
 from app.admin.views import admin
 from app.post.views import post
-
+from app.notification.views import notification
 from app.api.views import api
 
 app.register_blueprint(main)
 app.register_blueprint(user)
 app.register_blueprint(admin)
 app.register_blueprint(post)
-
+app.register_blueprint(notification)
 app.register_blueprint(api)
