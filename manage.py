@@ -23,7 +23,7 @@ cli = FlaskGroup(app)
 def create_admin(manual, auto):
     import getpass
     from app.models.user import User
-    from app.user.forms import AdminRegisterForm
+    from app.auth.forms import AdminRegisterForm
     
     try:
         if manual:
