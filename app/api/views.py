@@ -1,5 +1,6 @@
 from uuid import UUID
 from flask import jsonify, request
+from flask_login import login_user
 from http import HTTPStatus as responseStatus
 
 from . import api
@@ -12,6 +13,7 @@ from app.dto.post_dto import PostDTO
 
 @api.route("/accounts/<account_id>", methods = ['DELETE'])
 def delete_account(account_id):
+
     """
     Delete an account by its ID permanently.
     Args:

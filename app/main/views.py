@@ -61,7 +61,9 @@ def landing():
 def community_guidelines():
     user = User.query.get(current_user.id)
     need_confirm = True if user.campus is Campus.NONE else False
-    return render_template("main/communityGuidelines.html", need_confirm=need_confirm)
+    return render_template(
+        "main/communityGuidelines.html", need_confirm=need_confirm, user=user
+    )
 
 
 @main.route("/campus-selection", methods=["GET", "POST"])

@@ -240,7 +240,10 @@ form {
 /* campus tag */
 .campus-tag {
   background: #e1e3e3;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
   width: fit-content;
   overflow: hidden;
   border-radius: 8px;
@@ -384,6 +387,10 @@ form {
 }
 
 .mid-col .link:hover {
+  border-bottom: 2px solid var(--color---base---error);
+}
+
+.mid-col .link.active {
   border-bottom: 2px solid var(--color---base---error);
 }
 
@@ -801,4 +808,85 @@ form {
   background-color: var(--color---neutral--neutral95);
   padding-top: 24px;
   padding-bottom: 48px;
+}
+
+/* user info */
+.user-info-section .user-info-container .user-info {
+  align-items: center;
+}
+
+.user-info-section .user-info-container .edit-avatar {
+  cursor: pointer;
+  font-size: 1rem;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.user-info-section .user-content-container {
+  padding-bottom: -2px;
+  border-bottom: 2px solid var(--color---neutral--neutral90);
+  padding-bottom: 1rem;
+}
+
+.user-info-section .user-content-container a:hover,
+.user-info-section .user-content-container a:focus,
+.user-info-section .user-content-container .active {
+  text-decoration: underline;
+  text-underline-offset: 23px;
+  text-decoration-color: red;
+  text-decoration-thickness: 2px;
+}
+
+/* notification */
+.notification-section .filter-container {
+  width: 264px;
+}
+
+.notification-section .filter-heading {
+  border-bottom: 2px solid var(--color---neutral--neutral90);
+}
+
+.notification-section .notification-heading {
+  width: 100%;
+  border-bottom: 2px solid var(--color---neutral--neutral90);
+  height: auto;
+  align-items: flex-end;
+}
+
+.filter-category-container .filter-category-item {
+  position: relative;
+  padding: 8px 12px;
+
+  & a {
+    font-weight: 400;
+  }
+
+  & a:hover {
+    text-decoration: none;
+  }
+}
+
+.filter-category-container .filter-category-item:hover,
+.filter-category-container .filter-category-item__active {
+  background-color: var(--color----base---light--blue);
+
+  & > * {
+    color: var(--color---base---active);
+    font-weight: 700;
+  }
+}
+
+.filter-category-container .notification-count {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  padding: 0px 0.25rem;
+}
+
+.notification-section .notification-container {
+  width: 100%;
 }

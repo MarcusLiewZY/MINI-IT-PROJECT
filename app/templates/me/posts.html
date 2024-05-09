@@ -1,0 +1,67 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+  Posts
+{% endblock title %}
+
+{% block content %}
+  <section class="container flex flex-col gap-16 py-12 user-info-section">
+    <div class="flex gap-6 user-info-container">
+      {% with avatar_url=user.avatar_url, class = 'avatar-lg' %}
+        {% include "layouts/avatar.html" %}
+      {% endwith %}
+      <div class="flex flex-col">
+        <div class="flex gap-4 user-info">
+          <h2 class="text-headline-sm">{{ user.username }}</h2>
+          <div class="campus-tag">{{ user.campus.value }}</div>
+        </div>
+        <div class="text-label-lg edit-avatar">Edit avatar</div>
+      </div>
+    </div>
+    <nav class="user-content-container">
+      <ul class="flex gap-8 text-headline-sm">
+        <li class="user-content-item">
+          <a
+            href="{{ url_for('me.posts') }}"
+            class="link
+          {{ 'active' if request.path == url_for('me.posts') }}
+          "
+            >{{ posts|length }} Posts</a
+          >
+        </li>
+        <li class="user-content-item">
+          <a
+            href="{{ url_for('me.likes') }}"
+            class="link
+          {{ 'active' if request.path == url_for('me.likes') }}
+          "
+            >12 Likes</a
+          >
+        </li>
+        <li class="user-content-item">
+          <a
+            href="{{ url_for('me.replies') }}"
+            class="link
+          {{ 'active' if request.path == url_for('me.replies') }}
+          "
+            >1 Replies</a
+          >
+        </li>
+        <li class="user-content-item">
+          <a
+            href="{{ url_for('me.bookmarks') }}"
+            class="link
+          {{ 'active' if request.path == url_for('me.bookmarks') }}
+          "
+            >15 Bookmarks</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <div class="flex flex-col px-4 gap-12 posts-container">
+      {% for post in posts %}
+        {% include "layouts/postCard.html" %}
+      {% endfor %}
+    </div>
+  </section>
+{% endblock content %}

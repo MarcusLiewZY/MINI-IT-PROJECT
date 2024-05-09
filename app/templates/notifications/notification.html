@@ -3,9 +3,36 @@
 {% block title %}Notification{% endblock title %}
 
 {% block content %}
-  <table class="n-table">
-    <tr>
-      <td>notifications</td>
-    </tr>
-  </table>
+  <section class="container flex gap-6 py-12 bg-white notification-section">
+    <div class="flex flex-col gap-5 filter-container">
+      <div class="px-3 filter-heading">
+        <h2 class="text-headline-sm">Filters</h2>
+      </div>
+      <ul class="flex flex-col gap-1 filter-category-container text-label-lg">
+        <li class="filter-category-item filter-category-item__active">
+          <a href="/" class="link">All Notifications</a>
+          <div class="notification-count">8</div>
+        </li>
+        <li class="filter-category-item">
+          <a href="/" class="link">Posts</a>
+        </li>
+        <li class="filter-category-item">
+          <a href="/" class="link">Comments</a>
+        </li>
+        <li class="filter-category-item">
+          <a href="/" class="link">Post Status</a>
+        </li>
+      </ul>
+    </div>
+    <div class="notification-container">
+      <div class="flex flex-between px-3 notification-heading">
+        <div>
+          <h2 class="text-headline-sm">Notifications</h2>
+        </div>
+        <div class="mb-2 mark-as-read">
+          <a href="/" class="link text-label-lg">Mark as read</a>
+        </div>
+      </div>
+    </div>
+  </section>
 {% endblock content %}

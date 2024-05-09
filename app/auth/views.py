@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import url_for, redirect, flash
+from flask import url_for, redirect, flash, request, render_template
 from flask_login import login_required, login_user, logout_user
 
 from app import oauth, db
@@ -69,3 +69,26 @@ def microsoft_auth():
 def logout():
     logout_user()
     return redirect(url_for("main.landing"))
+
+
+@user.route("/faked-user-login", methods=["GET", "POST"])
+@logout_required
+def faked_user_login():
+    if request.method == "POST":
+        email = request.form.get("email")
+
+        if email is None:
+            flash("Email is required.", "error")
+            return redirect(url_for("main.landing"))
+
+        email = request.form.get("email")
+        user = User.query.filter_by(email=email).first()
+
+        if user is None:
+            flash("User not found.", "error")
+            return redirect(url_for("main.landing"))
+
+        login_user(user)
+        return redirect(url_for("main.index"))
+
+    return render_template("main/fakedUserLogin.html", user=None)
