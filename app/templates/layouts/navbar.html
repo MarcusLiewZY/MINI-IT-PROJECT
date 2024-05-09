@@ -10,9 +10,21 @@
     <div class="flex flex-center text-body-lg mid-col">
       <nav>
         <ul class="flex flex-center">
-          <li><a class="link" href="/">Home</a></li>
           <li>
-            <a class="link" href="{{ url_for('notification.notifications') }}"
+            <a
+              class="link
+          {{ 'active' if request.path == url_for('main.index') }}
+          "
+              href="{{ url_for('main.index') }}"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              class="link
+            {{ 'active'  if request.path == url_for('notification.notifications') }}
+            "
+              href="{{ url_for('notification.notifications') }}"
               >Notifications</a
             >
           </li>
@@ -40,23 +52,19 @@
 
     {# user profile pop up modal using dialog html tag #}
     <div class="open-button">
-      <img
-        src="{{ url_for('static', filename = 'img/default-avatar.png') }}"
-        alt="avatar"
-        class="avatar"
-      />
+      {% with avatar_url=user.avatar_url %}
+        {% include "layouts/avatar.html" %}
+      {% endwith %}
     </div>
   </div>
 
   <dialog class="modal" id="userProfileModal">
     <div class="flex flex-col">
       <div class="flex flex-col user-profile-container">
-        <a href="/">
-          <img
-            src="{{ url_for('static', filename = 'img/default-avatar.png') }}"
-            alt="avatar"
-            class="avatar"
-          />
+        <a href="{{ url_for('me.posts') }}">
+          {% with avatar_url=user.avatar_url %}
+            {% include "layouts/avatar.html" %}
+          {% endwith %}
           <div class="flex flex-between user-profile-info">
             <div class="text-label-lg">Anonymous_2331</div>
             <img
@@ -105,7 +113,7 @@
         <a href="{{ url_for('user.logout') }}">Log out</a>
       </div>
       <div class="py-2 px-4 modal-footer">
-        <a href="/" class="link">FAQ</a><span>·</span
+        <a href="{{ url_for('FAQ.FAQ') }}" class="link">FAQ</a><span>·</span
         ><a href="/" class="link">About</a>
       </div>
     </div>
