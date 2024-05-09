@@ -6,13 +6,11 @@ from datetime import datetime
 
 from . import main
 from app import db
-from app.models.user import User, Campus
-from app.models.post import Post, Status
-from app.models.tag import Tag
+from app.models import User, Campus, Tag
 from app.post.forms import CreatePostForm
 from app.utils.helper import format_datetime
-from app.dto.post_dto import PostDTO
 from app.main.services import create_post
+from app.services.post_service import get_posts
 
 
 @main.route("/", methods=["GET", "POST"])
@@ -30,16 +28,18 @@ def index():
     user = User.query.get(current_user.id)
     tags = Tag.query.all()
 
-    posts = (
-        Post.query.filter_by(status=Status.APPROVED)
-        .order_by(Post.updated_at.desc())
-        .all()
-    )
+    # posts = (
+    #     Post.query.filter_by(status=Status.APPROVED)
+    #     .order_by(Post.updated_at.desc())
+    #     .all()
+    # )
 
-    postDTOs = [
-        PostDTO(post, post.postCreator, user, isPreview=True).to_dict()
-        for post in posts
-    ]
+    # postDTOs = [
+    #     PostDTO(post, post.postCreator, user, isPreview=True).to_dict()
+    #     for post in posts
+    # ]
+
+    postDTOs = get_posts(user, isPreview=True)
 
     return render_template(
         "main/index.html",
@@ -61,7 +61,9 @@ def landing():
 def community_guidelines():
     user = User.query.get(current_user.id)
     need_confirm = True if user.campus is Campus.NONE else False
-    return render_template("main/communityGuidelines.html", need_confirm=need_confirm, user=user)
+    return render_template(
+        "main/communityGuidelines.html", need_confirm=need_confirm, user=user
+    )
 
 
 @main.route("/campus-selection", methods=["GET", "POST"])

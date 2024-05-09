@@ -200,7 +200,7 @@ form {
   }
 
   &:active {
-    color: var(--color---base---active);
+    color: var(--color---base---black);
   }
 
   &:disabled {
@@ -383,7 +383,8 @@ form {
   /* width: 80%; */
 }
 
-.mid-col .link:hover {
+.mid-col .link:hover,
+.mid-col .active {
   border-bottom: 2px solid var(--color---base---error);
 }
 
