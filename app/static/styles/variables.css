@@ -1,6 +1,7 @@
 :root {
   /* Color styles */
   --color---base---active: #2563eb;
+  --color---base---light--blue: rgba(207, 250, 254, 0.7);
   --color---base---error: #ba1a1a;
   --color---base---white: #ffffff;
   --color---base---black: #000000;
@@ -28,6 +29,7 @@
   --color---alert---info: #6b7280;
   --color---alert---warning: #f59e0b;
   --color---alert---error: #dc2626;
+  --color---active---hover: #cffafe;
 
   /* Text-size styles */
   /* base size: text--body--large (16px) */

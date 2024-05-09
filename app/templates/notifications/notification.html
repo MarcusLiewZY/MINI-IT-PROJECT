@@ -3,51 +3,36 @@
 {% block title %}Notification{% endblock title %}
 
 {% block content %}
-  <!doctype html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Notification</title>
-      <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/notification.css') }}"
-      />
-    </head>
-    <body>
-      <div class="container1">
-        <div class="filterContainer1">
-          <h2 class="text-headline-sm">Filters</h2>
-          <ul class="filters1">
-            <li class="active1" onclick="filterNotifications('all')">
-              All Notifications<span id="num-of-notif1">0</span>
-            </li>
-            <li onclick="filterNotifications('posts')">
-              Posts<span id="num-of-posts1">0</span>
-            </li>
-            <li onclick="filterNotifications('comments')">
-              Comments<span id="num-of-comments1">0</span>
-            </li>
-            <li onclick="filterNotifications('status')">
-              Posts Status<span id="num-of-status1">0</span>
-            </li>
-          </ul>
+  <section class="container flex gap-6 py-12 bg-white notification-section">
+    <div class="flex flex-col gap-5  filter-container">
+      <div class="px-3 filter-heading">
+        <h2 class="text-headline-sm">Filters</h2>
+      </div>
+      <ul class="flex flex-col gap-1 filter-category-container text-label-lg">
+        <li class="filter-category-item filter-category-item__active">
+          <a href="/" class="link">All Notifications</a>
+          <div class="notification-count">8</div>
+        </li>
+        <li class="filter-category-item">
+          <a href="/" class="link">Posts</a>
+        </li>
+        <li class="filter-category-item">
+          <a href="/" class="link">Comments</a>
+        </li>
+        <li class="filter-category-item">
+          <a href="/" class="link">Post Status</a>
+        </li>
+      </ul>
+    </div>
+    <div class="notification-container">
+      <div class="flex flex-between px-3 notification-heading">
+        <div>
+          <h2 class="text-headline-sm">Notifications</h2>
         </div>
-        <div class="notificationContainer1">
-          <header>
-            <div class="notificationHeader1">
-              <h1 class="text-headline-sm">Notifications</h1>
-            </div>
-            <button id="mark-as-read" class="mark-as-read-btn">
-              Mark all as Read
-            </button>
-          </header>
-          <main id="main1"></main>
+        <div class="mb-2 mark-as-read">
+          <a href="/" class="link text-label-lg">Mark as read</a>
         </div>
       </div>
-
-      <script src="notification.js"></script>
-    </body>
-  </html>
-{% endblock content %}
+    </div>
+  </section>
+{% endblock content %}
