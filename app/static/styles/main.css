@@ -834,7 +834,7 @@ form {
 
 .filter-category-container .filter-category-item:hover,
 .filter-category-container .filter-category-item__active {
-  background-color: var(--color---base---light--blue);
+  background-color: var(--color----base---light--blue);
 
   & > * {
     color: var(--color---base---active);
