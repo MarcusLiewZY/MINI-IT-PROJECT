@@ -1,4 +1,4 @@
-Pfrom datetime import datetime
+from datetime import datetime
 import random
 from faker import Faker
 
