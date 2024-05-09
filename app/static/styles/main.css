@@ -802,3 +802,55 @@ form {
   padding-top: 24px;
   padding-bottom: 48px;
 }
+
+/* notification */
+.notification-section .filter-container {
+  width: 264px;
+}
+
+.notification-section .filter-heading {
+  border-bottom: 2px solid var(--color---neutral--neutral90);
+}
+
+.notification-section .notification-heading {
+  width: 100%;
+  border-bottom: 2px solid var(--color---neutral--neutral90);
+  height: auto;
+  align-items: flex-end;
+}
+
+.filter-category-container .filter-category-item {
+  position: relative;
+  padding: 8px 12px;
+
+  & a {
+    font-weight: 400;
+  }
+
+  & a:hover {
+    text-decoration: none;
+  }
+}
+
+.filter-category-container .filter-category-item:hover,
+.filter-category-container .filter-category-item__active {
+  background-color: var(--color----base---light--blue);
+
+  & > * {
+    color: var(--color---base---active);
+    font-weight: 700;
+  }
+}
+
+.filter-category-container .notification-count {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  padding: 0px 0.25rem;
+}
+
+.notification-section .notification-container {
+  width: 100%;
+}
