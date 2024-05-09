@@ -854,3 +854,98 @@ form {
 .notification-section .notification-container {
   width: 100%;
 }
+
+.divider {
+  height: 2px; /* 线的高度 */
+  background: linear-gradient(
+    to right,
+    transparent,
+    #808080,
+    transparent
+  ); /* 使用线性渐变创建过渡效果 */
+  margin: 10px 0; /* 上下间距 */
+}
+
+/* Style for FAQ Section */
+.faq-section {
+  text-align: center;
+}
+
+.faq-text {
+  font-size: 24px;
+  position: relative;
+}
+
+.faq-text h2 {
+  display: inline;
+}
+
+.faq-text p {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: -25px; /* Adjust the position of the line */
+}
+
+.faq-box {
+  font-family: "Times New Roman", Times, serif; /* Change font to Times New Roman */
+  color: black; /* Text color */
+  width: 60%; /* Adjust the width as needed */
+  margin: 20px auto; /* Center align and add margin */
+  border: 2px solid #ccc; /* Border color */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: left; /* Align text to the left */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: border-color 0.3s; /* Smooth transition for border color change */
+  background-color: #f9f9f9; /* Light gray background color */
+}
+
+.faq-box:hover {
+  border-color: #555; /* Darker border color on hover */
+}
+
+.faq-question {
+  font-size: 18px; /* Question font size */
+  margin-bottom: 10px; /* Add space below the question */
+}
+
+.faq-answer-box {
+  padding: 10px;
+  background-color: #eaeaea; /* Lighter background color for answers */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 8px; /* Rounded corners */
+  display: none; /* Initially hide the answer */
+}
+
+.faq-answer {
+  font-size: 16px; /* Answer font size */
+}
+
+.faq-box.active .faq-answer-box {
+  display: block; /* Show answer when active */
+}
+
+.btn-FAQ {
+  position: fixed;
+  bottom: 10px;
+  right: 10px; /* 调整这里的值来控制按钮距离右边的距离 */
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: var(--color---base---active);
+  color: var(--color---base---white);
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-FAQ:hover,
+.btn-FAQ:focus,
+.btn-FAQ:active {
+  background-color: var(--color---base---active-hover);
+  opacity: 0.8;
+}
