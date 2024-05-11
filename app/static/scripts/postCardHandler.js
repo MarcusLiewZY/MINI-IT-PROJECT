@@ -14,8 +14,8 @@ addCommentContainers.forEach((addCommentContainer) => {
     commentInput.style.height = commentInput.scrollHeight + "px";
   });
 
-  var defaultImagePath = "static/svg/send-gray.svg";
-  var activeImagePath = "static/svg/send-blue.svg";
+  var defaultImagePath = "/static/svg/send-gray.svg";
+  var activeImagePath = "/static/svg/send-blue.svg";
 
   ["focus", "input"].forEach((event) => {
     commentInput.addEventListener(event, () => {
@@ -69,6 +69,12 @@ Array("resize", "load").forEach((e) => {
           previousCommentContainerHeight - avatarHeight / 2;
 
         var offsetHeight = 8;
+
+        var connectLineTopPosition =
+          previousCommentContainerHeight -
+          avatarHeight +
+          paddingBottomOfCommentContainer +
+          offsetHeight;
 
         var connectLineTopPosition =
           previousCommentContainerHeight -

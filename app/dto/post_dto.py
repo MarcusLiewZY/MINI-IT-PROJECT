@@ -1,5 +1,6 @@
+from typing import List, Dict, Union
 from app.utils.helper import getTimeAgo
-
+from app.models import Post, User, Comment
 
 # isPreview
 # a post with maximum 3 comments, and each comment with maximum 3 replies
@@ -7,7 +8,9 @@ from app.utils.helper import getTimeAgo
 
 
 class PostDTO:
-    def __init__(self, post, postCreator, user, isPreview=False):
+    def __init__(
+        self, post: Post, postCreator: User, user: User, isPreview: bool = False
+    ):
         if not any([post, postCreator, user]):
             raise ValueError("post, postCreator and user are required")
 
@@ -17,16 +20,14 @@ class PostDTO:
         self.image_url = post.image_url if post else None
         self.tags = [(tag.name, tag.color) for tag in post.tags] or []
         self.timeAgo = getTimeAgo(post.updated_at) if post else None
-        self.postCreator = self.get_user(postCreator)
+        self.postCreator = PostDTO._get_user(postCreator)
         self.isCreator = True if postCreator.id == user.id else False
+        self.userInteraction = self._get_user_on_post_interaction(post, user)
         self.isPreview = isPreview
-        self.userInteraction = self.get_user_on_post_interaction(post, user)
-        self.comments = self.get_comments(post.comments, level=1)
+        self.comments = self._get_comments(post.comments, level=1, isPreview=isPreview)
 
-    def __repr__(self) -> str:
-        return f"<PostDTO {self.title}>"
-
-    def get_user(self, user):
+    @staticmethod
+    def _get_user(user: User) -> Dict[str, Union[int, str, bool]]:
         return {
             "id": user.id,
             "username": user.username,
@@ -36,7 +37,10 @@ class PostDTO:
             "is_admin": user.is_admin,
         }
 
-    def get_user_on_post_interaction(self, post, user):
+    @staticmethod
+    def _get_user_on_post_interaction(
+        post: Post, user: User
+    ) -> Dict[str, Union[int, bool]]:
         return {
             "likes": len(post.liked_by),
             "comments": len(post.comments),
@@ -44,7 +48,10 @@ class PostDTO:
             "isBookmarkedByUser": user in post.bookmarked_by,
         }
 
-    def get_comments(self, comments, level):
+    @staticmethod
+    def _get_comments(
+        comments: List[Comment], level: int, isPreview: bool
+    ) -> List[Dict[str, Union[int, str, bool, List]]]:
         # base case
         if not comments:
             return []
@@ -53,9 +60,12 @@ class PostDTO:
 
         for comment in comments:
             # stop the loop if the post is a preview and the number of comments is 3
-            if self.isPreview and len(newComments) >= 3:
+
+            if isPreview and len(newComments) >= 3:
                 break
+
             elif comment and not comment.is_report:
+                # if the comment is a reply, set the level to -1
                 if level == 1 and comment.replied_comment:
                     level = -1
                 newComments.append(
@@ -64,22 +74,25 @@ class PostDTO:
                         "id": comment.id,
                         "content": comment.content,
                         "timeAgo": getTimeAgo(comment.updated_at),
-                        "commentCreator": self.get_user(comment.commentCreator),
-                        "userInteraction": self.get_user_on_comment_interaction(
+                        "commentCreator": PostDTO._get_user(comment.commentCreator),
+                        "userInteraction": PostDTO._get_user_on_comment_interaction(
                             comment
                         ),
-                        "replies": self.get_comments(comment.replies, level + 1),
+                        "replies": PostDTO._get_comments(
+                            comment.replies, level + 1, isPreview
+                        ),
                         "isReply": True if comment.replied_comment else False,
                     }
                 )
 
         return newComments
 
-    def get_user_on_comment_interaction(self, comment):
+    @staticmethod
+    def _get_user_on_comment_interaction(comment: Comment) -> Dict[str, int]:
         return {"likes": len(comment.liked_by), "replies": len(comment.replies)}
 
-    def to_dict(self):
-        return {
+    def to_dict(self) -> Dict[str, Union[int, str, bool, List]]:
+        data = {
             "id": self.id,
             "title": self.title,
             "content": self.content,
@@ -88,7 +101,9 @@ class PostDTO:
             "timeAgo": self.timeAgo,
             "postCreator": self.postCreator,
             "isCreator": self.isCreator,
-            "isPreview": self.isPreview,
             "userInteraction": self.userInteraction,
+            "isPreview": self.isPreview,
             "comments": self.comments,
         }
+
+        return data
