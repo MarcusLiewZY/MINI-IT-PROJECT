@@ -35,10 +35,10 @@ def upload_image(image, folder_name):
         return None
 
 
-def delete_image(image_url):
+def delete_image(image_url: str) -> bool:
     try:
         public_id = image_url.split("/")[-1].split(".")[0]
-        cloudinary_uploader.destroy(public_id)
+        cloudinary_uploader.destroy(public_id, invalidate=True)
         return True
     except Exception as e:
         print(e)

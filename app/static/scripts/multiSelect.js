@@ -5,7 +5,7 @@
 let tagNameColorPair = {};
 
 const multiSelect = (tagNameColorPair) => {
-  names = Object.keys(tagNameColorPair);
+  const names = Object.keys(tagNameColorPair);
 
   var style = document.createElement("style");
   style.setAttribute("id", "multiselect_dropdown_styles");
@@ -353,7 +353,7 @@ const multiSelect = (tagNameColorPair) => {
 
 const getTags = async () => {
   try {
-    const res = await fetch("api/tags");
+    const res = await fetch("/api/tags");
     tagNameColorPair = await res.json();
     return tagNameColorPair;
   } catch (error) {
@@ -361,6 +361,10 @@ const getTags = async () => {
   }
 };
 
-getTags().then((tagNameColorPair) => {
-  multiSelect(tagNameColorPair);
-});
+const onLoadMultiSelect = () => {
+  getTags()?.then((tagNameColorPair) => {
+    multiSelect(tagNameColorPair);
+  });
+};
+
+document.addEventListener("DOMContentLoaded", onLoadMultiSelect);

@@ -70,6 +70,7 @@ def logout():
     logout_user()
     return redirect(url_for("main.landing"))
 
+
 @user.route("/faked-user-login", methods=["GET", "POST"])
 @logout_required
 def faked_user_login():

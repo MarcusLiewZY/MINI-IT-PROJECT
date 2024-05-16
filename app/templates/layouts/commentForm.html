@@ -1,0 +1,24 @@
+<div class="flex mb-4 post-card__add-comment-container">
+  {% with avatar_url=user.avatar_url, owner = user %}
+    {% include "layouts/avatar.html" %}
+  {% endwith %}
+  <form action="" method="post" id="comment-form-{{ post.id }}">
+    <div class="form-control">
+      <textarea
+        name="comment"
+        id="comment"
+        class="text-body-md pl-4 pr-10 py-2 comment-input"
+        placeholder="Add a comment..."
+        rows="1"
+      ></textarea>
+
+      <button type="submit" class="flex flex-center submit-comment-button">
+        <img
+          src="{{ url_for('static', filename = 'svg/send-gray.svg') }}"
+          alt=""
+          class="icon"
+        />
+      </button>
+    </div>
+  </form>
+</div>
