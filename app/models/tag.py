@@ -10,7 +10,7 @@ class Tag(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = db.Column(db.String(20), unique=True, nullable=False)
     color = db.Column(db.String(7), nullable=False)
-    description = db.Column(db.String, nullable=False)
+    description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.Text, nullable=False)
     updated_at = db.Column(db.Text, nullable=False)
 

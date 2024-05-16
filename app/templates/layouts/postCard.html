@@ -6,7 +6,7 @@
   <div class="flex flex-col">
     <div class="flex flex-between post-card__user-info-container">
       <div class="flex flex-center user-container">
-        {% with avatar_url=post.postCreator.avatar_url %}
+        {% with avatar_url=post.postCreator.avatar_url, owner = post.postCreator %}
           {% include "layouts/avatar.html" %}
         {% endwith %}
         <div class="ml-6 flex flex-col">
@@ -22,14 +22,20 @@
         </div>
       </div>
       <div class="flex flex-center react-container">
-        <div class="inline-flex like-button">
+        <div
+          class="inline-flex like-button"
+          data-is-post-liked-by-user="{{ post.userInteraction.isLikedByUser }}"
+        >
           <img
             src="{{ url_for('static', filename= 'svg/like-blue.svg' if post.userInteraction.isLikedByUser else 'svg/like.svg') }}"
             alt="like"
             class="icon"
           />
         </div>
-        <div class="inline-flex bookmark-button">
+        <div
+          class="inline-flex bookmark-button"
+          data-is-post-bookmarked-by-user="{{ post.userInteraction.isBookmarkedByUser }}"
+        >
           <img
             src="{{ url_for('static', filename= 'svg/bookmark-brown.svg' if post.userInteraction.isBookmarkedByUser else 'svg/bookmark-gray.svg') }}"
             alt="bookmark"
@@ -72,15 +78,16 @@
       </div>
       <div class="post-content-container">
         <p class="mb-4 text-body-lg">
-          {{ post.content }}
           {% if post.isPreview %}
-            {{ post.content[:40] }}
+            {{ post.content[:40] | line_breaks }}
             ...
             <a
               href="{{ url_for('post.get_post', post_id = post.id) }}"
               class="link text-label-lg"
               >see more</a
             >
+          {% else %}
+            {{ post.content | line_breaks }}
           {% endif %}
         </p>
         {% if post.image_url %}
@@ -91,44 +98,30 @@
 
     {# post react count #}
     <div class="flex text-label-md my-8 post-card__react-count-container ">
-      <span>{{ post.userInteraction.likes }} likes</span>
-      <span>{{ post.userInteraction.comments }} replies</span>
+      <div>
+        <span id="like-count-{{ post.id }}"
+          >{{ post.userInteraction.likes }}</span
+        ><span>
+          {{ 'like' if post.userInteraction.likes == 1 else 'likes' }}</span
+        >
+      </div>
+      <div>
+        <span id="comment-count-{{ post.id }}"
+          >{{ post.userInteraction.comments }}</span
+        ><span>
+          {{ 'comment' if post.userInteraction.comments == 1 else 'comments' }}</span
+        >
+      </div>
     </div>
 
     {% if not post.isPreview %}
-      <div class="flex mb-8 post-card__add-comment-container">
-        {% with avatar_url=user.avatar_url %}
-          {% include "layouts/avatar.html" %}
-        {% endwith %}
-        <form action="/" method="post">
-          <div class="form-control">
-            <textarea
-              name="comment"
-              id="comment"
-              class="text-body-md pl-4 pr-10 py-2 comment-input"
-              placeholder="Add a comment..."
-              rows="1"
-            ></textarea>
-
-            <button
-              type="submit"
-              class="flex flex-center submit-comment-button"
-            >
-              <img
-                src="{{ url_for('static', filename = 'svg/send-gray.svg') }}"
-                alt=""
-                class="icon"
-              />
-            </button>
-          </div>
-        </form>
-      </div>
+      {% include "layouts/commentForm.html" %}
     {% endif %}
 
     {# comment section #}
     <div class="flex flex-col post-card__post-comment-container">
       {% if post.isPreview %}
-        {% if post.comments %}
+        {% if post.userInteraction.comments > 12 %}
           <div class="mb-5 view-more-comment">
             <a
               href="{{ url_for('post.get_post', post_id = post.id) }}"
@@ -139,47 +132,70 @@
         {% endif %}
       {% endif %}
 
-      {% for comment in post.comments %}
-        {% if not comment.isReply %}
-          {% with comment=comment, repliedUser = comment.commentCreator %}
-            {% include "layouts/comment.html" %}
-          {% endwith %}
-        {% endif %}
-      {% endfor %}
+      <div class="flex flex-col comment-group-container">
+        {% for comment in post.comments %}
+          {% if not comment.isReply %}
+            {% with comment=comment, repliedUser = comment.commentCreator, repliedCommentId=None %}
+              {% include "layouts/comment.html" %}
+            {% endwith %}
+          {% endif %}
+        {% endfor %}
+      </div>
     </div>
   </div>
   {# reply to comment form #}
   {% if post.isPreview %}
-    <div class="flex post-card__add-comment-container">
-      {% with avatar_url=user.avatar_url %}
-        {% include "layouts/avatar.html" %}
-      {% endwith %}
-      <form action="/" method="post">
-        <div class="form-control">
-          <textarea
-            name="comment"
-            id="comment"
-            class="text-body-md pl-4 pr-10 py-2 comment-input"
-            placeholder="Add a comment..."
-            rows="1"
-          ></textarea>
-
-          <button type="submit" class="flex flex-center submit-comment-button">
-            <img
-              src="{{ url_for('static', filename = 'svg/send-gray.svg') }}"
-              alt=""
-              class="icon"
-            />
-          </button>
-        </div>
-      </form>
-    </div>
+    {% include "layouts/commentForm.html" %}
   {% endif %}
-</div>
+  <div class="reserve-elements d-none">
+    {# create comment element #}
+    <div class="flex flex-col comment-group-container reserve-element">
+      <div class="flex pb-5 comment-container" id="" data-current-user-id="">
+        <div class="avatar-container ">
+          {% with avatar_url = user.avatar_url, owner = user %}
+            {% include "layouts/avatar.html" %}
+          {% endwith %}
+        </div>
 
-{% block js %}
-  <script
-    type="text/javascript"
-    src="{{ url_for('static', filename = 'scripts/postCardHandler.js') }}"
-  ></script>
-{% endblock js %}
+        <div class="ml-2 flex flex-col">
+          <div class="text-body-md comment">
+            <div class="flex flex-between comment-header">
+              <div class="text-label-lg mb-2 user-interaction-container">
+                Anonymous_{{ user.anon_no }}
+              </div>
+              <div class="text-label-md ml-2 flex comment-react-container">
+                <div class="">
+                  <span id="like-count-"></span>
+                  <span></span>
+                </div>
+
+                <div class=""><span id="reply-count-"></span><span></span></div>
+
+                <a href="/" class="link ">Report</a>
+              </div>
+            </div>
+            <div class="reply"></div>
+          </div>
+          <div class="mt-2 ml-1 flex comment-info">
+            <div class="date">just now</div>
+            <div
+              class="link text-label-sm comment-like"
+              data-is-comment-liked-by-user="false"
+            >
+              Like
+            </div>
+            <div
+              class="link text-label-sm comment-reply"
+              data-is-comment-replied-by-user="false"
+            >
+              Reply
+            </div>
+
+            <div class="link text-label-sm comment-edit">Edit</div>
+            <div class="link text-label-sm comment-delete">Delete</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

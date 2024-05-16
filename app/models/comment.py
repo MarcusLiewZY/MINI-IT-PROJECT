@@ -8,7 +8,7 @@ class Comment(db.Model):
     __tablename__ = "Comment"
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    content = db.Column(db.String, nullable=False)
+    content = db.Column(db.Text, nullable=False)
     is_report = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.Text, nullable=False)
     updated_at = db.Column(db.Text, nullable=False)

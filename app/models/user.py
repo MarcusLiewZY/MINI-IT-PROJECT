@@ -16,18 +16,20 @@ PostLike = db.Table(
     "PostLike",
     db.Column("user_id", UUID(as_uuid=True), db.ForeignKey("User.id")),
     db.Column("post_id", UUID(as_uuid=True), db.ForeignKey("Post.id")),
+    db.Column("created_at", db.Text, nullable=False),
 )
 
 PostBookmark = db.Table(
     "PostBookmark",
     db.Column("user_id", UUID(as_uuid=True), db.ForeignKey("User.id")),
     db.Column("post_id", UUID(as_uuid=True), db.ForeignKey("Post.id")),
+    db.Column("created_at", db.Text, nullable=False),
 )
 
 CommentLike = db.Table(
     "CommentLike",
     db.Column("user_id", UUID(as_uuid=True), db.ForeignKey("User.id")),
-    db.Column("comment_id ", UUID(as_uuid=True), db.ForeignKey("Comment.id")),
+    db.Column("comment_id", UUID(as_uuid=True), db.ForeignKey("Comment.id")),
 )
 
 

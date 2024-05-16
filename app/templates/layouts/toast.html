@@ -1,16 +1,14 @@
-  {% with messages = get_flashed_messages(with_categories = true) %}
-    {% if messages %}
-      <div class="flash-container">
-        {% for category, message in messages %}
-          <div class="flash flash-{{ category }}">{{ message }}</div>
-          <script>printToast({{ message | tojson }}, {{ category | tojson }});
-          </script>
-        {% endfor %}
-      </div>
-    {% endif %}
-  {% endwith %}
+{% with messages = get_flashed_messages(with_categories = true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
 
- <script
-    type="text/javascript"
-    src="{{ url_for('static', filename='scripts/toast.js') }}"
-  ></script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='scripts/toast.js') }}"
+></script>

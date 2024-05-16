@@ -6,11 +6,11 @@
   <div class="home-page-body">
     <section class="mx-auto post-section">
       <div class="container card flex px-8 py-6 create-post-card">
-        {% with avatar_url=user.avatar_url %}
+        {% with avatar_url=user.avatar_url, owner = user %}
           {% include "layouts/avatar.html" %}
         {% endwith %}
         <div
-          id="openButton"
+          id="createPostModalOpenButton"
           class="flex px-4 py-2 create-post-container text-body-md"
         >
           <img
@@ -24,10 +24,15 @@
 
       <div
         class="container flex flex-col gap-12 mt-12 pb-12 post-card-container"
+        id="mainPagePostCardContainer"
       >
-        {% for post in  posts %}
-          {% include "layouts/postCard.html" %}
-        {% endfor %}
+        {% include "layouts/postCardList.html" %}
+        <div class="flex flex-center loading-container d-none">
+          <img
+            src="{{ url_for('static', filename = 'svg/loading-spinner-infinity.svg') }}"
+            alt="Loading spinner infinity"
+          />
+        </div>
       </div>
     </section>
   </div>
@@ -36,8 +41,3 @@
 
   <div class="hidden" id="userInfo" data-user-info="{{ user }}"></div>
 {% endblock content %}
-
-{% block js %}
-  <script src="{{ url_for('static', filename = 'scripts/multiSelect.js') }}"></script>
-  <script src="{{ url_for('static', filename = 'scripts/createPostModal.js') }}"></script>
-{% endblock js %}

@@ -24,7 +24,9 @@ class PostDTO:
         self.isCreator = True if postCreator.id == user.id else False
         self.userInteraction = self._get_user_on_post_interaction(post, user)
         self.isPreview = isPreview
-        self.comments = self._get_comments(post.comments, level=1, isPreview=isPreview)
+        self.comments = self._get_comments(
+            post.comments, level=1, isPreview=isPreview, user=user
+        )
 
     @staticmethod
     def _get_user(user: User) -> Dict[str, Union[int, str, bool]]:
@@ -50,10 +52,14 @@ class PostDTO:
 
     @staticmethod
     def _get_comments(
-        comments: List[Comment], level: int, isPreview: bool
+        comments: List[Comment], level: int, isPreview: bool, user: User
     ) -> List[Dict[str, Union[int, str, bool, List]]]:
         # base case
         if not comments:
+            return []
+
+        # base case for preview version
+        if isPreview and level > 2:
             return []
 
         newComments = []
@@ -64,10 +70,11 @@ class PostDTO:
             if isPreview and len(newComments) >= 3:
                 break
 
-            elif comment and not comment.is_report:
+            elif comment:
                 # if the comment is a reply, set the level to -1
                 if level == 1 and comment.replied_comment:
                     level = -1
+
                 newComments.append(
                     {
                         "commentLevel": level,
@@ -79,9 +86,14 @@ class PostDTO:
                             comment
                         ),
                         "replies": PostDTO._get_comments(
-                            comment.replies, level + 1, isPreview
+                            comment.replies, level + 1, isPreview, user
                         ),
                         "isReply": True if comment.replied_comment else False,
+                        "isLikedByUser": user in comment.liked_by,
+                        "isRepliedByUser": any(
+                            reply.commentCreator == user for reply in comment.replies
+                        ),
+                        "isReported": comment.is_report,
                     }
                 )
 
