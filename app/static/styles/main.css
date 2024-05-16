@@ -221,6 +221,9 @@ form {
 
 /* avatar */
 .avatar {
+  position: relative;
+
+  z-index: 100;
   display: inline-block;
   width: 40px;
   height: 40px;
@@ -409,6 +412,10 @@ form {
 
 .mid-col .search-bar .search-bar-input {
   width: 100%;
+}
+
+.navbar .open-button {
+  min-width: fit-content;
 }
 
 /* modal */
@@ -604,23 +611,19 @@ form {
 .comment-container .avatar-container {
   position: relative;
   min-width: fit-content;
-  z-index: 100;
 }
 
-.comment-container .reply-avatar-container {
-  z-index: 0;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: var(--before-top);
-    left: -50%;
-    height: var(--before-height);
-    width: 16px;
-    border-bottom-left-radius: 8px;
-    border-left: 2px solid var(--color---neutral--neutral90);
-    border-bottom: 2px solid var(--color---neutral--neutral90);
-  }
+.comment-container .reply-avatar-container::before {
+  content: "";
+  position: absolute;
+  top: var(--before-top);
+  left: -50%;
+  height: var(--before-height);
+  width: 16px;
+  border-bottom-left-radius: 8px;
+  border-left: 2px solid var(--color---neutral--neutral90);
+  border-bottom: 2px solid var(--color---neutral--neutral90);
+  z-index: 1;
 }
 
 .comment-container .comment-react-container {
@@ -643,6 +646,18 @@ form {
 
 .comment-container .reply {
   cursor: text;
+}
+
+.comment-container .reply:focus {
+  background-color: var(--color---base---white);
+  outline: none;
+}
+
+.comment-container .editing {
+  cursor: auto;
+  background-color: var(--color---base---white);
+  border-radius: 12px;
+  border: 1px solid var(--color---neutral--neutral40);
 }
 
 .comment-container .comment-info > :not(:first-child),
@@ -689,7 +704,8 @@ form {
 }
 
 /* create-post-modal */
-#createPostModal {
+#createPostModal,
+#editPostModal {
   position: fixed;
   width: 936px;
   height: fit-content;
@@ -697,20 +713,22 @@ form {
   border-radius: 4px;
   top: 50vh;
   left: 50%;
+  overflow-x: hidden;
   transform: translate(-50%, -50%);
   box-shadow: var(--modal-shadow);
   background-color: var(--color---base---white);
   animation: modalFadeIn 0.3s ease;
-  /* background-color: red; */
 }
 
-#createPostModal::backdrop {
+#createPostModal::backdrop,
+#editPostModal::backdrop {
   background-color: var(--color---base---black);
   background-blend-mode: multiply;
   opacity: 0.6;
 }
 
-#createPostModal .error-message {
+#createPostModal .error-message,
+#editPostModal .error-message {
   color: var(--color---alert---error);
 }
 
@@ -750,6 +768,10 @@ form {
 
 .create-post-modal-container .select-image-message {
   color: var(--color---base---active);
+}
+
+.create-post-modal-container .remove-image {
+  cursor: pointer;
 }
 
 /* community guideline */
@@ -831,6 +853,13 @@ form {
   text-underline-offset: 23px;
   text-decoration-color: red;
   text-decoration-thickness: 2px;
+}
+
+#avatarForm .recommend-dimension {
+  align-self: flex-end;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--color---neutral--neutral60);
 }
 
 /* notification */
@@ -978,4 +1007,8 @@ form {
 .btn-FAQ:active {
   background-color: var(--color---base---active-hover);
   opacity: 0.8;
+}
+
+.reserve-element.comment-form .cancel-button {
+  margin-top: -0.75rem;
 }

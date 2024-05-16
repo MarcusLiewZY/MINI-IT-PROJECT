@@ -11,4 +11,4 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-const printToast = (message, type) => console.log(message, type);
+// const printToast = (message, type) => console.log(message, type);

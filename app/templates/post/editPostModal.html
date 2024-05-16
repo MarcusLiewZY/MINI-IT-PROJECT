@@ -1,6 +1,6 @@
-<dialog id="createPostModal" class="modal">
+<dialog id="editPostModal" class="modal">
   <div class="flex flex-col gap-5 py-6 px-6 create-post-modal-container">
-    <div class="text-headline-md">Create Post</div>
+    <div class="text-headline-md">Edit Post</div>
     <div class="flex user-info-container">
       {% with avatar_url=user.avatar_url, owner = user %}
         {% include "layouts/avatar.html" %}
@@ -12,11 +12,11 @@
     </div>
 
     {# error message #}
-    {% if createPostForm.errors %}
-      {% for field, errors in createPostForm.errors.items() %}
+    {% if editPostForm.errors %}
+      {% for field, errors in editPostForm.errors.items() %}
         {% for error in errors %}
           <div
-            id="createPostModalErrorMessage"
+            id="editPostModalErrorMessage"
             class="text-label-lg error-message"
           >
             {{ error }}
@@ -32,15 +32,15 @@
       method="POST"
       enctype="multipart/form-data"
     >
-      {{ createPostForm.hidden_tag() }}
+      {{ editPostForm.hidden_tag() }}
       <div class="form-control">
-        {{ createPostForm.title.label(class_ = 'text-title-md') }}
-        {{ createPostForm.title(placeholder = 'Post title...', class_ = 'px-4 py-2 ml-3 title-input') }}
+        {{ editPostForm.title.label(class_ = 'text-title-md') }}
+        {{ editPostForm.title(placeholder = 'Post title...', class_ = 'px-4 py-2 ml-3 title-input') }}
       </div>
       <div class="form-control">
-        {{ createPostForm.tags.label(class_ = 'text-title-md') }}
+        {{ editPostForm.tags.label(class_ = 'text-title-md') }}
         {{
-          createPostForm.tags(
+          editPostForm.tags(
           id = 'tag',
           multiple = True,
           multiselect_search = 'true',
@@ -50,9 +50,9 @@
         }}
       </div>
       <div class="form-control flex flex-col content-form-control">
-        {{ createPostForm.content.label(class = 'text-title-md') }}
+        {{ editPostForm.content.label(class = 'text-title-md') }}
         {{
-          createPostForm.content(
+          editPostForm.content(
           id = 'contentField',
           placeholder = 'Add a content...',
           class_ = 'text-body-md px-4 py-2 commnet-input', rows = '6')
@@ -73,15 +73,26 @@
               class="icon"
             />
           </button>
-          <div class="ml-2 select-image-message"></div>
-          <div class="ml-2 link remove-image d-none">Remove image</div>
+
+          {# {% if editPostForm.image_url.data %} #}
+          <div class="ml-2 select-image-message">
+            <a
+              class="link"
+              id="showImageLink"
+              href="{{ editPostForm.image_url.data }}"
+              target="_blank"
+              >Show Image</a
+            >
+          </div>
+          <div class="ml-2 link remove-image">Remove image</div>
+          {# {% endif %} #}
           {{
-            createPostForm.image_url.label(
+            editPostForm.image_url.label(
             class_ = 'hidden',
             )
           }}
           {{
-            createPostForm.image_url(
+            editPostForm.image_url(
             id = 'image',
             accept = 'image/*',
             class_ = 'hidden'
@@ -92,11 +103,11 @@
           <button
             type="button"
             class="btn btn-muted buttonclose"
-            id="createPostModalCloseButton"
+            id="editPostModalCloseButton"
           >
             Cancel
           </button>
-          {{ createPostForm.submit(class_ = 'ml-2 btn') }}
+          {{ editPostForm.submit(class_ = 'ml-2 btn') }}
         </div>
       </footer>
     </form>
