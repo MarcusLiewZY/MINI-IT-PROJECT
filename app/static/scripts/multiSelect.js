@@ -361,7 +361,7 @@ const getTags = async () => {
   }
 };
 
-const onLoadMultiSelect = () => {
+export const onLoadMultiSelect = () => {
   getTags()?.then((tagNameColorPair) => {
     multiSelect(tagNameColorPair);
   });

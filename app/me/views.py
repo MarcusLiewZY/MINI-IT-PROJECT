@@ -26,11 +26,12 @@ def index():
             flash("Failed to upload the avatar", "danger")
             return redirect(url_for("me.index"))
 
-        is_deleted = delete_image(current_user.avatar_url)
+        if current_user.avatar_url:
+            is_deleted = delete_image(current_user.avatar_url)
 
-        if not is_deleted:
-            flash("Failed to upload the avatar", "danger")
-            return redirect(url_for("me.index"))
+            if not is_deleted:
+                flash("Failed to upload the avatar", "danger")
+                return redirect(url_for("me.index"))
 
         current_user.avatar_url = avatar_url
         db.session.commit()
@@ -73,7 +74,6 @@ def posts():
 def likes():
     liked_posts = (
         Post.query.filter(
-            Post.user_id == current_user.id,
             Post.status == Status.APPROVED,
             Post.is_delete == False,
         )
@@ -82,6 +82,8 @@ def likes():
         .order_by(desc(PostLike.c.created_at))
         .all()
     )
+
+    print("liked_posts", liked_posts)
 
     postDTOs = [
         PostDTO(post, post.postCreator, current_user, isPreview=True)
@@ -92,6 +94,8 @@ def likes():
         "userAggInteraction": get_user_agg_interaction(current_user),
         "postList": postDTOs,
     }
+
+    print("posts", posts)
 
     return render_template("me/posts.html", user=current_user, posts=posts)
 
@@ -134,18 +138,8 @@ def replies():
 @login_required
 def bookmarks():
 
-    # bookmarked_posts = (
-    #     User.query.filter(User.id == current_user.id)
-    #     .join(PostBookmark, PostBookmark.c.user_id == User.id)
-    #     .join(Post, Post.id == PostBookmark.c.post_id)
-    #     .order_by(desc(PostBookmark.c.created_at))
-    #     .first()
-    #     .bookmarked_posts
-    # )
-
     bookmarked_posts = (
         Post.query.filter(
-            Post.user_id == current_user.id,
             Post.status == Status.APPROVED,
             Post.is_delete == False,
         )

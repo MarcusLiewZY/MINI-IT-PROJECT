@@ -111,10 +111,24 @@ def edit_post(post: Post, form: CreatePostForm) -> Tuple[bool, str]:
         post.image_url = cloudinary_image_url
         post.updated_at = format_datetime(datetime.now())
 
-        post.tags.clear()  # remove all tags
+        tags_to_remove = []
+        for tag in post.tags:
+            if tag.name not in form.tags.data:
+                tags_to_remove.append(tag)
 
+        tags_to_add = []
         for tag_name in form.tags.data:
-            post.tags.append(Tag.query.filter(Tag.name == tag_name).first())
+            tag = Tag.query.filter(Tag.name == tag_name).first()
+            if tag and tag not in post.tags:
+                tags_to_add.append(tag)
+
+        for tag in tags_to_remove:
+            post.tags.remove(tag)
+
+        for tag_name in tags_to_add:
+            tag = Tag.query.filter(Tag.name == tag_name).first()
+            if tag:
+                post.tags.append(tag)
 
         # todo: set the status to pending once the admin feature is implemented
 
@@ -123,5 +137,6 @@ def edit_post(post: Post, form: CreatePostForm) -> Tuple[bool, str]:
         return True, "Post edited successfully"
 
     except Exception as e:
+        db.session.rollback()
         print(e)
         return False, "Failed to edit post, please try again"

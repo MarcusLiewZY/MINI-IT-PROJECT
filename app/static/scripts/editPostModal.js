@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const isEdit = urlParams.get("isEdit");
+  const editPostModal = document.querySelector("#editPostModal");
 
   if (isEdit === "true") {
-    const editPostModal = document.querySelector("#editPostModal");
     if (editPostModal) {
       editPostModal.showModal();
 
@@ -12,23 +12,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  const closeButton = document.querySelector("#editPostModalCloseButton");
-  const removeImageButton = document.querySelector(".remove-image");
-  const imageInput = document.querySelector("#image");
-  const showImageLinkButton = document.querySelector(".select-image-message");
-  const showImageLink = document.querySelector("#showImageLink");
-
-  // if (imageInput.value) {
-  //   removeImageButton.classList.remove("d-none");
-  //   showImageLink.href = URL.createObjectURL(imageInput.files[0]);
-  //   showImageLink.classList.remove("d-none");
-  // }
+  const uploadImageIcon = editPostModal?.querySelector("#uploadImageIcon");
+  const closeButton = editPostModal?.querySelector("#editPostModalCloseButton");
+  const removeImageButton = editPostModal?.querySelector(".remove-image");
+  const imageInput = editPostModal?.querySelector("#image");
+  const showImageLinkButton = editPostModal?.querySelector(".show-image-url");
+  const showImageLink = editPostModal?.querySelector("#showImageLink");
 
   removeImageButton?.addEventListener("click", () => {
     imageInput.value = "";
-    removeImageButton.classList.add("d-none");
     showImageLink.href = "";
-    showImageLink.classList.add("d-none");
+    showImageLinkButton.classList.add("d-none");
+    removeImageButton.classList.add("d-none");
+  });
+
+  uploadImageIcon?.addEventListener("click", () => {
+    imageInput.click();
   });
 
   closeButton?.addEventListener("click", () => {
@@ -36,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   imageInput?.addEventListener("change", () => {
-    console.log(imageInput.files[0].name);
     if (imageInput.files.length > 0) {
       showImageLinkButton.classList.remove("d-none");
       removeImageButton.classList.remove("d-none");
@@ -44,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  const editPostModalErrorMessage = document.querySelector(
+  const editPostModalErrorMessage = editPostModal?.querySelector(
     "#editPostModalErrorMessage",
   );
 

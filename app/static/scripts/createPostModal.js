@@ -1,8 +1,12 @@
 // post modal
 const createPostModal = document.querySelector("#createPostModal");
-const openModalButton = document.querySelector("#createPostModalOpenButton");
-const closeModalButton = document.querySelector("#createPostModalCloseButton");
-const createPostModalErrorMessage = document.querySelector(
+const openModalButton = createPostModal?.querySelector(
+  "#createPostModalOpenButton",
+);
+const closeModalButton = createPostModal?.querySelector(
+  "#createPostModalCloseButton",
+);
+const createPostModalErrorMessage = createPostModal?.querySelector(
   "#createPostModalErrorMessage",
 );
 
@@ -19,12 +23,12 @@ if (createPostModalErrorMessage) {
   window.onload = () => {
     const createPostModal = document.getElementById("createPostModal");
 
-    createPostModal.showModal();
+    createPostModal?.showModal();
   };
 }
 
 // content field auto resize
-const contentField = document.querySelector("#contentField");
+const contentField = createPostModal?.querySelector("#contentField");
 
 contentField?.addEventListener("input", () => {
   contentField.style.height = "auto";
@@ -34,10 +38,13 @@ contentField?.addEventListener("input", () => {
 });
 
 // upload image
-const uploadImageIcon = document.querySelector("#uploadImageIcon");
-const imageInput = document.querySelector("#image");
-const selectImageMessage = document.querySelector(".select-image-message");
-const removeImageButton = document.querySelector(".remove-image");
+const uploadImageIcon = createPostModal?.querySelector("#uploadImageIcon");
+const imageInput = createPostModal?.querySelector("#image");
+const showImageLinkButton = createPostModal?.querySelector(".show-image-url");
+const showImageLink = createPostModal?.querySelector(
+  "#createPostModalShowImageLink",
+);
+const removeImageButton = createPostModal?.querySelector(".remove-image");
 
 uploadImageIcon?.addEventListener("click", () => {
   imageInput.click();
@@ -45,17 +52,21 @@ uploadImageIcon?.addEventListener("click", () => {
 
 removeImageButton?.addEventListener("click", () => {
   imageInput.value = "";
-  selectImageMessage.textContent = "";
+  // selectImageMessage.textContent = "";
+  showImageLink.href = "";
+  showImageLinkButton.classList.add("d-none");
   removeImageButton.classList.add("d-none");
 });
 
 imageInput?.addEventListener("change", () => {
   if (imageInput.files.length > 0) {
-    const filename = imageInput.files[0].name;
-    const truncatedFilename =
-      filename.length > 25 ? filename.slice(0, 25) + "..." : filename;
-    selectImageMessage.textContent = `${truncatedFilename} is selected`;
+    // const filename = imageInput.files[0].name;
+    // const truncatedFilename =
+    // filename.length > 25 ? filename.slice(0, 25) + "..." : filename;
+    // selectImageMessage.textContent = `${truncatedFilename} is selected`;
 
+    showImageLink.href = URL.createObjectURL(imageInput.files[0]);
+    showImageLinkButton.classList.remove("d-none");
     removeImageButton.classList.remove("d-none");
   }
 });
