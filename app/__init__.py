@@ -66,6 +66,7 @@ from app.notification.views import notification
 from app.FAQ.views import FAQ_bp
 from app.me.views import me_bp
 from app.api.views import api
+from app.ABOUT.views import ABOUT_bp
 
 app.register_blueprint(main)
 app.register_blueprint(user)
@@ -73,7 +74,7 @@ app.register_blueprint(admin)
 app.register_blueprint(post)
 app.register_blueprint(notification)
 app.register_blueprint(FAQ_bp)
-
+app.register_blueprint(ABOUT_bp)
 app.register_blueprint(me_bp)
 app.register_blueprint(api)
 
