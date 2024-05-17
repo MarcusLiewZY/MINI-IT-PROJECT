@@ -30,6 +30,9 @@ class PostCardHandler {
     return async (button) => {
       let isPostLikedByUser =
         button.dataset.isPostLikedByUser.toLowerCase() === "true";
+      const postCard = document.querySelector(
+        `.post-card[data-post-id="${postId}"]`,
+      );
 
       try {
         const data = await this.fetchAPI(
@@ -39,11 +42,12 @@ class PostCardHandler {
         );
 
         if (data.status === 200) {
-          const likeButton = document.querySelector(".like-button");
+          const likeButton = postCard.querySelector(".like-button");
           const likeButtonImg = likeButton.querySelector("img");
-          const likeButtonCount = document.querySelector(
+          const likeButtonCount = postCard.querySelector(
             `#like-count-${postId}`,
           );
+
           if (isPostLikedByUser) {
             likeButtonImg.src = "/static/svg/like.svg";
             likeButtonCount.textContent = Math.max(
@@ -57,6 +61,8 @@ class PostCardHandler {
           }
 
           isPostLikedByUser = !isPostLikedByUser;
+          console.log(isPostLikedByUser);
+          console.log(likeButtonImg);
           button.dataset.isPostLikedByUser = isPostLikedByUser.toString();
         }
       } catch (error) {
@@ -69,6 +75,9 @@ class PostCardHandler {
     return async (button) => {
       let isPostBookmarkedByUser =
         button.dataset.isPostBookmarkedByUser.toLowerCase() === "true";
+      const postCard = document.querySelector(
+        `.post-card[data-post-id="${postId}"]`,
+      );
 
       try {
         const data = await this.fetchAPI(
@@ -78,7 +87,7 @@ class PostCardHandler {
         );
 
         if (data.status === 200) {
-          const bookmarkButton = document.querySelector(".bookmark-button");
+          const bookmarkButton = postCard.querySelector(".bookmark-button");
           const bookmarkButtonImg = bookmarkButton.querySelector("img");
 
           if (isPostBookmarkedByUser) {

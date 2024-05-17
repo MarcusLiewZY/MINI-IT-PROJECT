@@ -3,55 +3,92 @@ import { postCardHandler } from "./postCardHandler.js";
 import { onLoadCreateCommentHandler } from "./createCommentHandler.js";
 import { onLoadCommentHandler } from "./commentHandler.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  let page = 1;
-  const perPage = 5;
-  let isLoading = false;
-  let hasNextPage = true;
-  const postContainer = document.querySelector("#mainPagePostCardContainer");
-  const loadingContainer = postContainer?.querySelector(".loading-container");
+const pageMapping = {
+  "/": {
+    postContainerId: "mainPagePostCardContainer",
+    apiPaginateUrl: "/api/paginate/post-list",
+  },
+  "/me/posts": {
+    postContainerId: "myPageCreatedPostCardContainer",
+    apiPaginateUrl: "/api/paginate/created-post-list",
+  },
+  "/me/likes": {
+    postContainerId: "myPageLikedPostCardContainer",
+    apiPaginateUrl: "/api/paginate/liked-post-list",
+  },
+  "/me/replies": {
+    postContainerId: "myPageRepliesPostCardContainer",
+    apiPaginateUrl: "/api/paginate/replies-post-list",
+  },
+  "/me/bookmarks": {
+    postContainerId: "myPageBookmarkedPostCardContainer",
+    apiPaginateUrl: "/api/paginate/bookmarked-post-list",
+  },
+};
 
-  const fetchPosts = async (page) => {
-    if (isLoading || !hasNextPage) return;
+const fetchPosts = async (
+  postContainer,
+  loadingContainer,
+  apiPaginateUrl,
+  state,
+) => {
+  if (state.isLoading || !state.hasNextPage) return;
 
-    // console.log(isLoading);
-    loadingContainer.classList.remove("d-none");
-    isLoading = true;
+  loadingContainer.classList.remove("d-none");
+  state.isLoading = true;
 
-    try {
-      const response = await fetch(
-        `/api/paginate/postList?page=${page}&per_page=${perPage}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+  try {
+    const response = await fetch(
+      `${apiPaginateUrl}?page=${state.page}&per_page=${state.perPage}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+      },
+    );
 
-      const { status, html, has_next } = await response.json();
+    const { status, html, has_next } = await response.json();
 
-      if (status === 200) {
-        const tempDiv = document.createElement("div");
-        tempDiv.innerHTML = html;
+    if (status === 200) {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
 
-        while (tempDiv.firstChild) {
-          postContainer.insertBefore(tempDiv.firstChild, loadingContainer);
-        }
-
-        hasNextPage = has_next;
+      while (tempDiv.firstChild) {
+        postContainer.insertBefore(tempDiv.firstChild, loadingContainer);
       }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      isLoading = false;
-      loadingContainer.classList.add("d-none");
+
+      state.hasNextPage = has_next;
     }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    state.isLoading = false;
+    loadingContainer.classList.add("d-none");
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const state = {
+    page: 1,
+    perPage: 5,
+    isLoading: false,
+    hasNextPage: true,
   };
 
-  const onLoadInfiniteScroll = async (page) => {
+  const { postContainerId, apiPaginateUrl } =
+    pageMapping[window.location.pathname];
+
+  const onLoadInfiniteScroll = async (
+    postContainerId,
+    apiPaginateUrl,
+    state,
+  ) => {
+    const postContainer = document.querySelector(`#${postContainerId}`);
+    const loadingContainer = postContainer?.querySelector(".loading-container");
+
     try {
-      await fetchPosts(page);
+      await fetchPosts(postContainer, loadingContainer, apiPaginateUrl, state);
       postCardHandler();
       onLoadCreateCommentHandler();
       onLoadCommentHandler();
@@ -61,17 +98,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  const handleScroll = () => {
+  const handleScroll = (postContainerId, apiPaginateUrl, state) => {
     if (
-      !isLoading &&
+      !state.isLoading &&
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 100
     ) {
-      page++;
-      onLoadInfiniteScroll(page);
+      state.page++;
+      onLoadInfiniteScroll(postContainerId, apiPaginateUrl, state);
     }
   };
 
-  window.addEventListener("scroll", handleScroll);
+  window.addEventListener("scroll", () => {
+    handleScroll(postContainerId, apiPaginateUrl, state);
+  });
 
-  onLoadInfiniteScroll(page);
+  onLoadInfiniteScroll(postContainerId, apiPaginateUrl, state);
 });

@@ -35,10 +35,11 @@ def get_user_agg_interaction(user: User) -> Dict[str, int]:
         ):
             all_commented_posts.add(comment.commented_post)
 
+    print(all_commented_posts)
+
     bookmarked_posts = 0
     for post in user.bookmarked_posts:
         if post.status == Status.APPROVED and not post.is_delete:
-            print("add 1")
             bookmarked_posts += 1
 
     # todo: filter the non-reported comments

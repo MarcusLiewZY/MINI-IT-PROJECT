@@ -81,7 +81,7 @@
           Reply
         </div>
         {% if user.id == comment.commentCreator.id %}
-          {% if not comment.isRepliedByUser %}
+          {% if not comment.replies %}
             <div class="link text-label-sm comment-edit">Edit</div>
           {% endif %}
           {% if not comment.replies %}
