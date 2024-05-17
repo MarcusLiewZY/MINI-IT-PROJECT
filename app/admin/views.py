@@ -6,7 +6,6 @@ from app.utils.decorators import logout_required, login_required, is_admin
 from app.utils.helper import format_datetime
 from app.models import User
 
-
 @admin.route("/")
 @login_required
 @is_admin

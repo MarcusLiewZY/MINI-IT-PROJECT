@@ -46,6 +46,7 @@ class Post(db.Model):
         cascade= "all, delete-orphan",
         lazy = True
     )
+    
     post_notifications = db.relationship(
         "PostNotification",
         backref = "notified_post_by_post",
