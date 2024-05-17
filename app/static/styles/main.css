@@ -200,7 +200,7 @@ form {
   }
 
   &:active {
-    color: var(--color---base---active);
+    color: var(--color---base---black);
   }
 
   &:disabled {
@@ -221,6 +221,9 @@ form {
 
 /* avatar */
 .avatar {
+  position: relative;
+
+  z-index: 100;
   display: inline-block;
   width: 40px;
   height: 40px;
@@ -386,11 +389,8 @@ form {
   /* width: 80%; */
 }
 
-.mid-col .link:hover {
-  border-bottom: 2px solid var(--color---base---error);
-}
-
-.mid-col .link.active {
+.mid-col .link:hover,
+.mid-col .active {
   border-bottom: 2px solid var(--color---base---error);
 }
 
@@ -415,6 +415,10 @@ form {
 
 .mid-col .search-bar .search-bar-input {
   width: 100%;
+}
+
+.navbar .open-button {
+  min-width: fit-content;
 }
 
 /* modal */
@@ -610,23 +614,19 @@ form {
 .comment-container .avatar-container {
   position: relative;
   min-width: fit-content;
-  z-index: 100;
 }
 
-.comment-container .reply-avatar-container {
-  z-index: 0;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: var(--before-top);
-    left: -50%;
-    height: var(--before-height);
-    width: 16px;
-    border-bottom-left-radius: 8px;
-    border-left: 2px solid var(--color---neutral--neutral90);
-    border-bottom: 2px solid var(--color---neutral--neutral90);
-  }
+.comment-container .reply-avatar-container::before {
+  content: "";
+  position: absolute;
+  top: var(--before-top);
+  left: -50%;
+  height: var(--before-height);
+  width: 16px;
+  border-bottom-left-radius: 8px;
+  border-left: 2px solid var(--color---neutral--neutral90);
+  border-bottom: 2px solid var(--color---neutral--neutral90);
+  z-index: 1;
 }
 
 .comment-container .comment-react-container {
@@ -649,6 +649,18 @@ form {
 
 .comment-container .reply {
   cursor: text;
+}
+
+.comment-container .reply:focus {
+  background-color: var(--color---base---white);
+  outline: none;
+}
+
+.comment-container .editing {
+  cursor: auto;
+  background-color: var(--color---base---white);
+  border-radius: 12px;
+  border: 1px solid var(--color---neutral--neutral40);
 }
 
 .comment-container .comment-info > :not(:first-child),
@@ -695,7 +707,8 @@ form {
 }
 
 /* create-post-modal */
-#createPostModal {
+#createPostModal,
+#editPostModal {
   position: fixed;
   width: 936px;
   height: fit-content;
@@ -703,20 +716,22 @@ form {
   border-radius: 4px;
   top: 50vh;
   left: 50%;
+  overflow-x: hidden;
   transform: translate(-50%, -50%);
   box-shadow: var(--modal-shadow);
   background-color: var(--color---base---white);
   animation: modalFadeIn 0.3s ease;
-  /* background-color: red; */
 }
 
-#createPostModal::backdrop {
+#createPostModal::backdrop,
+#editPostModal::backdrop {
   background-color: var(--color---base---black);
   background-blend-mode: multiply;
   opacity: 0.6;
 }
 
-#createPostModal .error-message {
+#createPostModal .error-message,
+#editPostModal .error-message {
   color: var(--color---alert---error);
 }
 
@@ -756,6 +771,10 @@ form {
 
 .create-post-modal-container .select-image-message {
   color: var(--color---base---active);
+}
+
+.create-post-modal-container .remove-image {
+  cursor: pointer;
 }
 
 /* community guideline */
@@ -839,6 +858,13 @@ form {
   text-decoration-thickness: 2px;
 }
 
+#avatarForm .recommend-dimension {
+  align-self: flex-end;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--color---neutral--neutral60);
+}
+
 /* notification */
 .notification-section .filter-container {
   width: 264px;
@@ -889,4 +915,103 @@ form {
 
 .notification-section .notification-container {
   width: 100%;
+}
+
+.divider {
+  height: 2px; /* 线的高度 */
+  background: linear-gradient(
+    to right,
+    transparent,
+    #808080,
+    transparent
+  ); /* 使用线性渐变创建过渡效果 */
+  margin: 10px 0; /* 上下间距 */
+}
+
+/* Style for FAQ Section */
+.faq-section {
+  text-align: center;
+}
+
+.faq-text {
+  font-size: 24px;
+  position: relative;
+}
+
+.faq-text h2 {
+  display: inline;
+}
+
+.faq-text p {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: -25px; /* Adjust the position of the line */
+}
+
+.faq-box {
+  font-family: "Times New Roman", Times, serif; /* Change font to Times New Roman */
+  color: black; /* Text color */
+  width: 60%; /* Adjust the width as needed */
+  margin: 20px auto; /* Center align and add margin */
+  border: 2px solid #ccc; /* Border color */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px;
+  box-sizing: border-box;
+  text-align: left; /* Align text to the left */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: border-color 0.3s; /* Smooth transition for border color change */
+  background-color: #f9f9f9; /* Light gray background color */
+}
+
+.faq-box:hover {
+  border-color: #555; /* Darker border color on hover */
+}
+
+.faq-question {
+  font-size: 18px; /* Question font size */
+  margin-bottom: 10px; /* Add space below the question */
+}
+
+.faq-answer-box {
+  padding: 10px;
+  background-color: #eaeaea; /* Lighter background color for answers */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 8px; /* Rounded corners */
+  display: none; /* Initially hide the answer */
+}
+
+.faq-answer {
+  font-size: 16px; /* Answer font size */
+}
+
+.faq-box.active .faq-answer-box {
+  display: block; /* Show answer when active */
+}
+
+.btn-FAQ {
+  position: fixed;
+  bottom: 10px;
+  right: 10px; /* 调整这里的值来控制按钮距离右边的距离 */
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: var(--color---base---active);
+  color: var(--color---base---white);
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-FAQ:hover,
+.btn-FAQ:focus,
+.btn-FAQ:active {
+  background-color: var(--color---base---active-hover);
+  opacity: 0.8;
+}
+
+.reserve-element.comment-form .cancel-button {
+  margin-top: -0.75rem;
 }

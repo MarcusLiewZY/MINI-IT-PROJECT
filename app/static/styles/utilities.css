@@ -5,6 +5,10 @@
   padding: 0px;
 }
 
+.d-none {
+  display: none !important;
+}
+
 /* background */
 .bg-white {
   background-color: var(--color---base---white);
@@ -127,6 +131,19 @@
   font-weight: 400;
   line-height: 1rem;
   letter-spacing: 0.4px;
+}
+
+.text-active {
+  color: var(--color---base---active) !important;
+  font-weight: 500;
+}
+
+.text-muted {
+  color: var(--color---neutral--neutral50) !important;
+}
+
+.text-error {
+  color: var(--color---base---error) !important;
 }
 
 /* layout */

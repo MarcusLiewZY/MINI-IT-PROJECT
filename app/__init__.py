@@ -14,6 +14,7 @@ app = Flask(__name__)  # src
 app.config.from_object(os.getenv("APP_SETTINGS"))  # configuration
 app.static_folder = "static"
 
+
 # Initialization
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -57,6 +58,12 @@ cloudinary.config(
     api_secret=os.getenv("CLOUDINARY_API_SECRET"),
 )
 
+
+# Jinja custom filters
+from app.utils.customFilter import preserve_line_breaks
+
+app.jinja_env.filters["line_breaks"] = preserve_line_breaks
+
 # Blueprints registration
 from app.main.views import main
 from app.auth.views import user
@@ -64,8 +71,9 @@ from app.admin.views import admin
 from app.post.views import post
 from app.me.views import me_bp
 from app.notification.views import notification
-
-from app.api.views import api
+from app.faq.views import faq
+from app.me.views import me_bp
+from app.api import api
 
 app.register_blueprint(main)
 app.register_blueprint(user)
@@ -73,5 +81,7 @@ app.register_blueprint(admin)
 app.register_blueprint(post)
 app.register_blueprint(me_bp)
 app.register_blueprint(notification)
+app.register_blueprint(faq)
 
+app.register_blueprint(me_bp)
 app.register_blueprint(api)

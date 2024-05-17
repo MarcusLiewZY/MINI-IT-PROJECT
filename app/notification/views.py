@@ -1,5 +1,6 @@
 from flask_login import current_user
 from flask import render_template
+from flask_login import current_user
 from app.utils.decorators import login_required
 from . import notification
 

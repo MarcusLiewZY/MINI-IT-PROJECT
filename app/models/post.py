@@ -24,7 +24,7 @@ class Post(db.Model):
     
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     title = db.Column(db.String(120), nullable=False)
-    content = db.Column(db.String, nullable=False)
+    content = db.Column(db.Text, nullable=False)
     image_url = db.Column(db.String(120))
     is_delete = db.Column(db.Boolean, default=False)
     status = db.Column(db.Enum(Status), nullable=False)

@@ -1,0 +1,167 @@
+.text-headline-sm {
+  font-size: var(--text--headline--small);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 2rem;
+}
+
+.container1 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: --color---neutral--neutral100 #ffffff; /* White background color */ /* Neutral background color */
+  width: 100%;
+  min-height: 100vh;
+}
+
+.filterContainer1 {
+  background-color: --color---neutral--neutral100 #ffffff; /* White background */
+  width: 20%;
+  max-width: 200px;
+  margin: 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.filterContainer1 h2 {
+  color: --color---neutral--neutral0 #000000;
+}
+
+.filters1 {
+  list-style: none;
+  padding: 0;
+}
+
+.filters1 li {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  color: #000000; /* Initial color */
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; /* Font */
+}
+
+.filters1 li.active1 {
+  background-color: var(
+    --color---active---hover
+  ); /* Light blue background for active filter */
+  color: --color---base---active-hover #0050ff; /* Dark blue color for active filter text */
+}
+
+.filters1 li:hover {
+  background-color: #cffafe; /* Light blue hover color */
+}
+
+.notificationContainer1 {
+  background-color: --color---neutral--neutral100 #ffffff; /* White background */
+  width: 80%;
+  max-width: 700px;
+  margin: 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.notificationHeader1 h1 {
+  font-size: 1.5rem;
+  color: --color---neutral--neutral10 #1c1b1c;
+  margin: 0;
+}
+
+#num-of-notif1,
+#num-of-posts1,
+#num-of-comments1,
+#num-of-status1 {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 50%;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+.notificationCard1 {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: --color---neutral--neutral100#ffffff; /* Light blue background */
+  margin-bottom: 1rem;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease; /* Added background-color transition */
+}
+
+.notificationCard1:hover {
+  transform: translateY(-5px);
+}
+
+.user-info1 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.avatar1 {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.username1 {
+  font-weight: bold;
+  color: #333; /* Dark color for username */
+}
+
+.reply-info1 {
+  margin-right: 1rem;
+}
+
+.reply-info1 p {
+  margin: 0;
+}
+
+.reply-content1 {
+  margin-bottom: 0.5rem;
+}
+
+.unread1 .notif-time1 {
+  color: --color---neutral--neutral100 #ffffff; /* Change the time color to white for unread notifications */
+}
+
+.unread1 {
+  background-color: --color---neutral--neutral100#ffffff; /* Light gray background for unread notifications */
+}
+
+.unread1:hover {
+  background-color: #e5e1e1; /* Lighter gray on hover for unread notifications */
+}
+
+/* Add this CSS to style the button */
+.mark-as-read-btn {
+  font-size: var(--text--label--large);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.25rem;
+  letter-spacing: 1px;
+  background-color: --color---neutral--neutral100 #ffffff; /* White background color */
+  color: #1c1b1c; /* Text color */
+  border: none; /* Remove border */
+  padding: 8px 16px; /* Add padding */
+  border-radius: 4px; /* Add border radius */
+  cursor: pointer; /* Add pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Add transition effect */
+}

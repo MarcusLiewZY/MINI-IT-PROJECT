@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-5 py-6 px-6 create-post-modal-container">
     <div class="text-headline-md">Create Post</div>
     <div class="flex user-info-container">
-      {% with avatar_url=user.avatar_url %}
+      {% with avatar_url=user.avatar_url, owner = user %}
         {% include "layouts/avatar.html" %}
       {% endwith %}
       <div class="flex flex-col gap-2  ml-3 user-info">
@@ -15,7 +15,10 @@
     {% if createPostForm.errors %}
       {% for field, errors in createPostForm.errors.items() %}
         {% for error in errors %}
-          <div id="errorMessage" class="text-label-lg error-message">
+          <div
+            id="createPostModalErrorMessage"
+            class="text-label-lg error-message"
+          >
             {{ error }}
           </div>
         {% endfor %}
@@ -42,7 +45,7 @@
           multiple = True,
           multiselect_search = 'true',
           multiselect_select_all = 'false',
-          multiseelct_max_items = '5',
+          multiselect_max_items = '5',
           class_ = 'text-title-md')
         }}
       </div>
@@ -70,7 +73,16 @@
               class="icon"
             />
           </button>
-          <div class="ml-2 select-image-message"></div>
+          <div class="ml-2 show-image-url d-none">
+            <a
+              class="link"
+              id="createPostModalShowImageLink"
+              href=""
+              target="_blank"
+              >Show Image</a
+            >
+          </div>
+          <div class="ml-2 link remove-image d-none">Remove image</div>
           {{
             createPostForm.image_url.label(
             class_ = 'hidden',
@@ -88,7 +100,7 @@
           <button
             type="button"
             class="btn btn-muted buttonclose"
-            id="closeButton"
+            id="createPostModalCloseButton"
           >
             Cancel
           </button>

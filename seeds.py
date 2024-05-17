@@ -1,10 +1,11 @@
-Pfrom datetime import datetime
+from sqlalchemy import insert
+from datetime import datetime
 import random
 from faker import Faker
 
 from app import app
 from app import db
-from app.models.user import User
+from app.models.user import User, PostLike, PostBookmark
 from app.models.post import Post, Status
 from app.models.comment import Comment
 from app.models.postNotification import PostNotification
@@ -165,8 +166,16 @@ def seeds():
         for user in random.sample(
             users, random.randint(MIN_LIKES_PER_POST, MAX_LIKES_PER_POST)
         ):
-            post.liked_by.append(user)
-            db.session.add(post)
+            created_at = format_datetime(
+                fake.date_between(
+                    start_date=datetime.strptime(post.updated_at, "%Y-%m-%d %H:%M:%S"),
+                    end_date=datetime(2023, 12, 31),
+                )
+            )
+            liked_post_user = insert(PostLike).values(
+                user_id=user.id, post_id=post.id, created_at=created_at
+            )
+            db.session.execute(liked_post_user)
             db.session.commit()
     print(Colors.fg.green, "-" * 50)
     print(Colors.fg.green, "Post likes created successfully!")
@@ -180,8 +189,17 @@ def seeds():
         for user in random.sample(
             users, random.randint(MIN_BOOKMARKS_PER_POST, MAX_BOOKMARKS_PER_POST)
         ):
-            post.bookmarked_by.append(user)
-            db.session.add(post)
+            created_at = format_datetime(
+                fake.date_between(
+                    start_date=datetime.strptime(post.updated_at, "%Y-%m-%d %H:%M:%S"),
+                    end_date=datetime(2023, 12, 31),
+                )
+            )
+            bookmarked_post_user = insert(PostBookmark).values(
+                user_id=user.id, post_id=post.id, created_at=created_at
+            )
+
+            db.session.execute(bookmarked_post_user)
             db.session.commit()
     print(Colors.fg.green, "-" * 50)
     print(Colors.fg.green, "Post bookmarks created successfully!")
@@ -215,9 +233,19 @@ def seeds():
 
     # Create replies
     # each comment has 0-5 replies
-    print(Colors.fg.green, "Creating replies...")
-    comments = Comment.query.all()
-    for comment in comments:
+    # the comment level can up to 5
+    # the comment level of the comments of the post is 1
+    # the comment level of the replies of the comments is 2
+    # the comment level of the replies of the replies of the comments is 3 and so on
+
+    MIN_COMMENT_LEVEL = 2
+    MAX_COMMENT_LEVEL = 5
+
+    def create_replies(comment, level, max_level):
+        # base case
+        if level == max_level:
+            return
+
         for _ in range(
             random.randint(MIN_REPLIES_PER_COMMENT, MAX_REPLIES_PER_COMMENT)
         ):
@@ -238,11 +266,15 @@ def seeds():
             reply_comment.post_id = comment.post_id
             reply_comment.replied_comment_id = comment.id
             db.session.add(reply_comment)
+            create_replies(reply_comment, level + 1, max_level)
+
         db.session.commit()
-        print(
-            Colors.fg.green,
-            f"Replies created for comment {comment.content} successfully!",
-        )
+
+    print(Colors.fg.green, "Creating replies...")
+    comments = Comment.query.all()
+    for comment in comments:
+        max_level = random.randint(MIN_COMMENT_LEVEL, MAX_COMMENT_LEVEL)
+        create_replies(comment, 1, max_level)
     print(Colors.fg.green, "-" * 50)
     print(Colors.fg.green, "Replies created successfully!")
 

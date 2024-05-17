@@ -1,0 +1,358 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}FAQ{% endblock title %}
+
+{% block content %}
+  <div id="faq-section" class="faq-section animated">
+    <div class="faq-text">
+      <h2>FAQ</h2>
+      <div class="divider"></div>
+    </div>
+
+    <!-- FAQ Content -->
+    <div class="faq-content">
+      <!-- FAQ Box -->
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          a. How do I sign up for an account?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            You can sign up for an account by clicking on the "Sign Up" button
+            on the homepage and following the prompts to enter your email
+            address and choose a username.
+          </div>
+        </div>
+      </div>
+
+      <!-- New FAQ Boxes -->
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          b. How do I create a new post?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            To create a new post, click on the "Create Post" button. Then,
+            select the category and tags that fit your post the most, write your
+            post, and click "Submit."
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          c. Can I edit or delete my posts/comments?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            Yes, you can edit or delete your own posts and comments. Simply
+            locate the post or comment you wish to modify and click on the edit
+            or delete option provided.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          d. Are there any guidelines for what I can post?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            We have community guidelines in place to ensure a positive and
+            respectful environment. Please review our guidelines before posting,
+            and avoid posting any content that violates them.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          e. Is my identity anonymous on the platform?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            Yes, we prioritize user anonymity on our platform. Your identity is
+            protected, and every post is anonymous.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          f. How is my personal data protected?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            We take the privacy and security of your personal data seriously and
+            employ various measures to safeguard it. Please review our privacy
+            policy for more information.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          g. What measures are in place to prevent harassment or abuse?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            We have strict policies against harassment and abuse and employ both
+            automated and manual moderation techniques to enforce them. Users
+            can report any abusive behavior, and our moderation team will take
+            appropriate action.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          h. What are the community guidelines, and how do I follow them?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            Our community guidelines outline the standards of behavior expected
+            from users on our platform. You can find them listed on our website
+            in the "Community Guidelines" section. Please familiarize yourself
+            with these guidelines and adhere to them while interacting with the
+            community.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          i. What kind of content is not allowed on the platform?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            In short, content that violates our community guidelines, including
+            but not limited to hate speech, harassment, explicit content, and
+            illegal activities, is not allowed on our platform.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          j. How are violations of community guidelines handled?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            Violations of our community guidelines are taken seriously and may
+            result in various actions, including content removal, account
+            suspension, or permanent banning, depending on the severity of the
+            violation.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          k. What should I do if I encounter a technical issue or bugs?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            If you encounter a technical issue or want to make bug reports, you
+            can reach out to our team via email at lee.desmond2016@gmail.com,
+            boonshen1159@gmail.com, robinchew2203@gmail.com,
+            marcusliewzhiyong@gmail.com for assistance.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          l. Is there a way to provide feedback?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            Yes, we welcome feedback from our users. You can submit feedback
+            through our website.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          m. How can I deactivate or delete my account?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            To deactivate or delete your account, please contact our team for
+            assistance. We will guide you through the process.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          n. What happens to my data if I deactivate or delete my account?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            Your personal data will be securely deleted from our systems upon
+            deactivation or deletion of your account, in accordance with our
+            privacy policy.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          o. Who moderates the content on the platform?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            We have a dedicated team of moderators who oversee the content on
+            our platform and ensure compliance with our community guidelines.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          p. How are moderators selected, and what are their roles?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            Moderators are chosen from trusted team members based on their high
+            adherence to guidelines. Their roles include content moderation,
+            user support, enforcing rules, and fostering positive community
+            engagement to ensure a welcoming and respectful environment.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          q. How can I contact the moderation team if I need assistance?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            If you need assistance from our moderation team, you can report a
+            post or contact our team via email at lee.desmond2016@gmail.com,
+            boonshen1159@gmail.com, robinchew2203@gmail.com,
+            marcusliewzhiyong@gmail.com.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          r. Are there any additional features or tools available on the
+          platform?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            Yes, we offer various additional features and tools to enhance your
+            experience on our platform, such as customizable notification
+            settings.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          s. What are the terms of service for using the platform?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            Our terms of service outline the terms and conditions governing the
+            use of our platform. You can find them listed on our website in the
+            "Terms of Service" section.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          t. Are there any legal disclaimers or privacy policies I should be
+          aware of?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            Yes, please review our privacy policy for more information about how
+            we handle your data and your rights as a user. Also, please take
+            note of the legal disclaimers provided on our website.
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue adding more FAQ boxes -->
+
+      <div class="faq-box" onclick="toggleAnswer(this)">
+        <div class="faq-question">
+          u. How can I contact the platform's support team or administrators for
+          further assistance?
+          <span class="arrow-down">&#9660;</span>
+        </div>
+        <div class="faq-answer-box">
+          <div class="faq-answer">
+            You can contact our support team or administrators via email at
+            lee.desmond2016@gmail.com, boonshen1159@gmail.com,
+            robinchew2203@gmail.com, marcusliewzhiyong@gmail.com for further
+            assistance or inquiries. Do also feel free to check us out through
+            other channels in the "Follow Us" section. We strive to respond to
+            all inquiries promptly.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="small-container ml-auto ">
+    <a href="{{ url_for('main.index') }}" class="btn-FAQ">Return</a>
+  </div>
+  <script>
+    function toggleAnswer(element) {
+      element.classList.toggle("active");
+    }
+  </script>
+{% endblock content %}

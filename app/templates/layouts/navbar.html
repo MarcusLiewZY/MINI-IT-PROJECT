@@ -52,7 +52,7 @@
 
     {# user profile pop up modal using dialog html tag #}
     <div class="open-button">
-      {% with avatar_url=user.avatar_url %}
+      {% with avatar_url=user.avatar_url, owner = user %}
         {% include "layouts/avatar.html" %}
       {% endwith %}
     </div>
@@ -62,11 +62,11 @@
     <div class="flex flex-col">
       <div class="flex flex-col user-profile-container">
         <a href="{{ url_for('me.posts') }}">
-          {% with avatar_url=user.avatar_url %}
+          {% with avatar_url=user.avatar_url, owner = user %}
             {% include "layouts/avatar.html" %}
           {% endwith %}
           <div class="flex flex-between user-profile-info">
-            <div class="text-label-lg">Anonymous_2331</div>
+            <div class="text-label-lg">Anonymous_{{ user.anon_no }}</div>
             <img
               src="{{ url_for('static', filename='svg/chevron-right.svg') }}"
               alt="chevron-right"
@@ -113,12 +113,17 @@
         <a href="{{ url_for('user.logout') }}">Log out</a>
       </div>
       <div class="py-2 px-4 modal-footer">
-        <a href="/" class="link">FAQ</a><span>·</span
+        <a href="{{ url_for('FAQ.FAQ') }}" class="link">FAQ</a><span>·</span
         ><a href="/" class="link">About</a>
       </div>
     </div>
   </dialog>
 </div>
+<div
+  class="d-none current-user-id"
+  id="{{ user.id }}"
+  data-user-id="{{ user.id }}"
+></div>
 <script
   type="text/javascript"
   src="{{ url_for('static', filename = 'scripts/userProfileModal.js') }}"
