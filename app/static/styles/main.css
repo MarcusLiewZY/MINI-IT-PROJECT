@@ -1041,6 +1041,10 @@ form {
   /* padding-bottom: 2rem; */
 }
 
+.notification-content-container .reply-container {
+  width: 100%;
+}
+
 .notification-content-container .reply-heading {
   height: auto;
 }
@@ -1055,8 +1059,7 @@ form {
 
 .post-heading .post-heading__main .date {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-top: 0.5rem;
 }
 
 .notification-content-container .notification-comment-on-post .divider {
@@ -1065,7 +1068,7 @@ form {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   margin-left: -1rem;
-  width: 120%;
+  width: calc(100% + 2rem);
   background-color: var(--color---neutral--neutral80);
 }
 

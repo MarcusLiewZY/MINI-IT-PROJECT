@@ -24,4 +24,4 @@ class CommentNotification(db.Model):
         self.created_at = comment_notification_dict.get("created_at")
 
     def __repr__(self):
-        return f"<{self.id} - {self.is_read}>"
+        return f"<CommentNotification-{self.id} - {self.is_read}>"

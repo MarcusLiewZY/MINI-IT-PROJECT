@@ -9,19 +9,71 @@
       <div class="px-3 filter-heading">
         <h2 class="text-headline-sm">Filters</h2>
       </div>
-      <ul class="flex flex-col gap-1 filter-category-container text-label-lg">
-        <li class="filter-category-item filter-category-item__active">
-          <a href="/" class="link">All Notifications</a>
-          <div class="notification-count">8</div>
+      <ul
+        class="flex flex-col gap-1 filter-category-container link text-label-lg"
+      >
+        <li
+          class="filter-category-item {{ 'filter-category-item__active' if request.args.get('filter') == None else '' }}"
+        >
+          All Notifications
+
+          <div
+            class="notification-count {{ 'd-none' if notificationsAgg.allNotifications == 0 else '' }}"
+            id="notificationPageAllNotificationsCount"
+          >
+            {{ "99+" if notificationsAgg.allNotifications > 99 else notificationsAgg.allNotifications }}
+          </div>
         </li>
-        <li class="filter-category-item">
-          <a href="/" class="link">Posts</a>
+        <li
+          class="filter-category-item
+        {{ 'filter-category-item__active' if request.args.get('filter') == 'posts' else '' }}
+        "
+        >
+          <a
+            href="{{ url_for('notification.notifications', filter = 'posts') }}"
+            class="link"
+            >Posts</a
+          >
+          <div
+            class="notification-count {{ 'd-none' if notificationsAgg.postNotifications == 0 else '' }}"
+            id="notificationPagePostNotificationsCount"
+          >
+            {{ "99+" if notificationsAgg.postNotifications > 99 else notificationsAgg.postNotifications }}
+          </div>
         </li>
-        <li class="filter-category-item">
-          <a href="/" class="link">Comments</a>
+        <li
+          class="filter-category-item
+        {{ 'filter-category-item__active' if request.args.get('filter') == 'comments' else '' }}
+        "
+        >
+          <a
+            href="{{ url_for('notification.notifications', filter = 'comments') }}"
+            class="link"
+            >Comments</a
+          >
+          <div
+            class="notification-count {{ 'd-none' if notificationsAgg.commentNotifications == 0 else '' }}"
+            id="notificationPageCommentNotificationsCount"
+          >
+            {{ "99+" if notificationsAgg.commentNotifications > 99 else notificationsAgg.commentNotifications }}
+          </div>
         </li>
-        <li class="filter-category-item">
-          <a href="/" class="link">Post Status</a>
+        <li
+          class="filter-category-item
+        {{ 'filter-category-item__active' if request.args.get('filter') == 'post-status' else '' }}
+        "
+        >
+          <a
+            href="{{ url_for('notification.notifications', filter = 'post-status') }}"
+            class="link"
+            >Post Status</a
+          >
+          <div
+            class="notification-count {{ 'd-none' if notificationsAgg.posts == 0 else '' }}"
+            id="notificationPageCommentNotificationsCount"
+          >
+            {{ '99+' if notificationsAgg.posts > 99 else notificationsAgg.posts }}
+          </div>
         </li>
       </ul>
     </div>
@@ -32,190 +84,132 @@
         <div>
           <h2 class="text-headline-sm">Notifications</h2>
         </div>
-        <div class="mb-2 mark-as-read">
+        <div class="mb-2 mark-as-read" id="notificationPageMarkAsReadButton">
           <a href="/" class="link text-label-lg">Mark as read</a>
         </div>
       </div>
 
       {# notification #}
       <div class="flex flex-col gap-5 py-5 notification-content-container">
-        {# notification reply #}
-        <div class="transition-fast notification-reply" id="reply-one">
-          {% with avatar_url = user.avatar_url, owner = user %}
-            {% include "layouts/avatar.html" %}
-          {% endwith %}
-          <div class="flex flex-col text-label-lg reply-container">
-            <div class="flex flex-between reply-heading">
-              <div class="mb-1 flex reply-user">
-                Anonymous_1228 reply to
-                <span class="ml-1 replied-user"> Anonymous_4932</span>
-              </div>
-              <div class="flex flex-center gap-2 right-col">
-                <div class="text-label-md date">12h ago</div>
-                <a href="/" class="text-label-sm link">Report</a>
-              </div>
-            </div>
-            <div class="text-body-md reply">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
-              corrupti dignissimos sequi accusamus sed aut, aspernatur quibusdam
-              ratione asperiores. Nemo?
-            </div>
-          </div>
-        </div>
-        <div class="transition-fast notification-reply read" id="reply-two">
-          {% with avatar_url = user.avatar_url, owner = user %}
-            {% include "layouts/avatar.html" %}
-          {% endwith %}
-          <div class="flex flex-col text-label-lg reply-container">
-            <div class="flex flex-between reply-heading">
-              <div class="mb-1 flex reply-user">
-                Anonymous_1228 reply to
-                <span class="ml-1 replied-user"> Anonymous_4932</span>
-              </div>
-              <div class="flex flex-center gap-2 right-col">
-                <div class="text-label-md date">12h ago</div>
-                <a href="/" class="text-label-sm link">Report</a>
-              </div>
-            </div>
-            <div class="text-body-md reply">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
-              corrupti dignissimos sequi accusamus sed aut, aspernatur quibusdam
-              ratione asperiores. Nemo?
-            </div>
-          </div>
-        </div>
-
-        {# notification comment on post #}
-        <div
-          class="flex flex-col transition-fast notification-comment-on-post"
-          id="comment-on-post-one"
-        >
-          <div class="flex flex-col post-heading">
-            <h2 class="mb-4 text-title-lg">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe,
-              quod!
-            </h2>
-            <div class="mb-2 flex gap-2 post-tag-container">
-              <div class="text-label-sm post-tag">FCA</div>
-              <div class="text-label-sm post-tag">FIST</div>
-            </div>
-          </div>
-          <div class="divider"></div>
-          <div class="pb-2 flex gap-3 comment-on-post">
-            {% with avatar_url = user.avatar_url, owner = user %}
-              {% include "layouts/avatar.html" %}
-            {% endwith %}
-            <div class="flex flex-col text-label-lg reply-container">
-              <div class="flex flex-between reply-heading">
-                <div class="mb-1 flex reply-user">Anonymous_1228</div>
-                <div class="flex flex-center gap-2 right-col">
-                  <div class="text-label-md date">12h ago</div>
-                  <a href="/" class="text-label-sm link">Report</a>
+        {% for notification in notifications %}
+          {% if notification.type == 'PostNotification' %}
+            <div
+              class="flex flex-col transition-fast notification-comment-on-post"
+              id="comment-on-post-{{ notification.id }}"
+            >
+              <div class="flex flex-col post-heading">
+                <h2 class="mb-4 text-title-lg">{{ notification.postTitle }}</h2>
+                <div class="mb-2 flex gap-2 post-tag-container">
+                  {% for tag_name, tag_color in notifications.postTags %}
+                    <div
+                      class="text-label-sm post-tag"
+                      style="background-color: {{ tag_color }};"
+                    >
+                      {{ tag_name }}
+                    </div>
+                  {% endfor %}
                 </div>
               </div>
-              <div class="text-body-md reply">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
-                corrupti dignissimos sequi accusamus sed aut, aspernatur
-                quibusdam ratione asperiores. Nemo?
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="flex flex-col transition-fast notification-comment-on-post read"
-          id="comment-on-post-two"
-        >
-          <div class="flex flex-col post-heading">
-            <h2 class="mb-4 text-title-lg">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe,
-              quod!
-            </h2>
-            <div class="mb-2 flex gap-2 post-tag-container">
-              <div class="text-label-sm post-tag">FCA</div>
-              <div class="text-label-sm post-tag">FIST</div>
-            </div>
-          </div>
-          <div class="divider"></div>
-          <div class="pb-2 flex gap-3 comment-on-post">
-            {% with avatar_url = user.avatar_url, owner = user %}
-              {% include "layouts/avatar.html" %}
-            {% endwith %}
-            <div class="flex flex-col text-label-lg reply-container">
-              <div class="flex flex-between reply-heading">
-                <div class="mb-1 flex reply-user">Anonymous_1228</div>
-                <div class="flex flex-center gap-2 right-col">
-                  <div class="text-label-md date">12h ago</div>
-                  <a href="/" class="text-label-sm link">Report</a>
+              <div class="divider"></div>
+              <div class="pb-2 flex gap-3 comment-on-post">
+                {% with avatar_url = notification.commentCreator.avatar_url, owner = notification.commentCreator %}
+                  {% include "layouts/avatar.html" %}
+                {% endwith %}
+                <div class="flex flex-col text-label-lg reply-container">
+                  <div class="flex flex-between reply-heading">
+                    <div class="mb-1 flex reply-user">
+                      Anonymous_{{ notification.commentCreator.anon_no }}
+                    </div>
+                    <div class="flex flex-center gap-2 right-col">
+                      <div class="text-label-md date">
+                        {{ notification.timeAgo }}
+                      </div>
+                      <a href="/" class="text-label-sm link">Report</a>
+                    </div>
+                  </div>
+                  <div class="text-body-md reply">
+                    {{ notification.commentContent[:40] | line_breaks }}
+                  </div>
                 </div>
               </div>
-              <div class="text-body-md reply">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem
-                corrupti dignissimos sequi accusamus sed aut, aspernatur
-                quibusdam ratione asperiores. Nemo?
+            </div>
+          {% elif notification.type == 'CommentNotification' %}
+            <div
+              class="transition-fast notification-reply"
+              id="reply-{{ notification.replyId }}"
+            >
+              {% with avatar_url = notification.replyCommentCreator.avatar_url, owner = notification.replyCommentCreator %}
+                {% include "layouts/avatar.html" %}
+              {% endwith %}
+              <div class="flex flex-col text-label-lg reply-container">
+                <div class="flex flex-between reply-heading">
+                  <div class="mb-1 flex reply-user">
+                    Anonymous_{{ notification.replyCommentCreator.anon_to }}
+                    reply to
+                    <span class="ml-1 replied-user">
+                      Anonymous_{{ notification.repliedToUser.anon_no }}</span
+                    >
+                  </div>
+                  <div class="flex flex-center gap-2 right-col">
+                    <div class="text-label-md date">
+                      {{ notification.timeAgo }}
+                    </div>
+                    <a href="/" class="text-label-sm link">Report</a>
+                  </div>
+                </div>
+                <div class="text-body-md reply">
+                  {{ notification.replyContent[:40] | line_breaks }}
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {# post status #}
-        <div
-          class="flex flex-col gap-4 transition-fast notification-post-status"
-          id="post-status-one"
-        >
-          <div class="flex flex-col post-heading">
-            <div class="flex flex-between post-heading__main">
-              <h2 class="mb-4 flex text-title-lg">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe,
-                quod!
-              </h2>
-              <div class="flex gap-3 post-heading__meta">
-                <div class="text-label-md date">12h ago</div>
-                <div class="post-status post-status-pending">Pending</div>
+          {% elif notification.type == 'Post' %}
+            <div
+              class="flex flex-col gap-4 transition-fast notification-post-status"
+              id="post-status-{{ notification.postId }}"
+            >
+              <div class="flex flex-col post-heading">
+                <div class="flex flex-between post-heading__main">
+                  <h2 class="flex text-title-lg">
+                    {{ notification.postTitle }}
+                  </h2>
+                  <div class="flex gap-3 post-heading__meta">
+                    <div class="text-label-md date">
+                      {{ notification.timeAgo }}
+                    </div>
+                    <div class="post-status post-status-pending">
+                      {% if notification.postStatus == 'Pending' %}
+                        Pending
+                      {% elif notification.postStatus == 'Unread-approved' %}
+                        Approved
+                      {% elif notification.postStatus == 'Unread-rejected' %}
+                        Rejected
+                      {% else %}
+                        ''
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-2 flex gap-2 post-tag-container">
+                  {% for tag_name, tag_color in notification.postTags %}
+                    <div
+                      class="text-label-sm post-tag"
+                      style="background-color: {{ tag_color }};"
+                    >
+                      {{ tag_name }}
+                    </div>
+                  {% endfor %}
+                </div>
               </div>
-            </div>
-            <div class="mb-2 flex gap-2 post-tag-container">
-              <div class="text-label-sm post-tag">FCA</div>
-              <div class="text-label-sm post-tag">FIST</div>
-            </div>
-          </div>
-          {# todo: slice the content to 40 chars, it is preview #}
-          <div class="post-content">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias quos
-            inventore ipsum molestias ad eum recusandae unde cum? Libero
-            molestiae iste iure inventore ipsum vel officia possimus dolores
-            quisquam maxime!
-          </div>
-          <img src="https://placehold.co/600x400" alt="post-image" />
-        </div>
-        <div
-          class="flex flex-col gap-4 transition-fast notification-post-status read"
-          id="post-status-one"
-        >
-          <div class="flex flex-col post-heading">
-            <div class="flex flex-between post-heading__main">
-              <h2 class="mb-4 flex text-title-lg">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe,
-                quod!
-              </h2>
-              <div class="flex gap-3 post-heading__meta">
-                <div class="text-label-md date">12h ago</div>
-                <div class="post-status post-status-pending">Pending</div>
+              {# todo: slice the content to 40 chars, it is preview #}
+              <div class="post-content">
+                {{ notification.postContent[:40] | line_breaks }}
               </div>
+              {% if notification.postImageUrl %}
+                <img src="{{ notification.postImageUrl }}" />
+              {% endif %}
             </div>
-            <div class="mb-2 flex gap-2 post-tag-container">
-              <div class="text-label-sm post-tag">FCA</div>
-              <div class="text-label-sm post-tag">FIST</div>
-            </div>
-          </div>
-          {# todo: slice the content to 40 chars, it is preview #}
-          <div class="post-content">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias quos
-            inventore ipsum molestias ad eum recusandae unde cum? Libero
-            molestiae iste iure inventore ipsum vel officia possimus dolores
-            quisquam maxime!
-          </div>
-          <img src="https://placehold.co/600x400" alt="post-image" />
-        </div>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </section>
