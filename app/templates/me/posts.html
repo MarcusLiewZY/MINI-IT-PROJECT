@@ -51,7 +51,7 @@
             class="link
           {{ 'active' if request.path == url_for('me.posts') }}
           "
-            >{{ posts.userAggInteraction.createdPosts }} Posts</a
+            >{{ userAggInteraction.createdPosts }} Posts</a
           >
         </li>
         <li class="user-content-item">
@@ -60,7 +60,7 @@
             class="link
           {{ 'active' if request.path == url_for('me.likes') }}
           "
-            >{{ posts.userAggInteraction.likedPosts }} Likes</a
+            >{{ userAggInteraction.likedPosts }} Likes</a
           >
         </li>
         <li class="user-content-item">
@@ -69,7 +69,7 @@
             class="link
           {{ 'active' if request.path == url_for('me.replies') }}
           "
-            >{{ posts.userAggInteraction.commentsAndReplies }} Replies</a
+            >{{ userAggInteraction.commentsAndReplies }} Replies</a
           >
         </li>
         <li class="user-content-item">
@@ -78,15 +78,22 @@
             class="link
           {{ 'active' if request.path == url_for('me.bookmarks') }}
           "
-            >{{ posts.userAggInteraction.bookmarkedPosts }} Bookmarks</a
+            >{{ userAggInteraction.bookmarkedPosts }} Bookmarks</a
           >
         </li>
       </ul>
     </nav>
-    <div class="flex flex-col px-4 gap-12 posts-container">
-      {% for post in posts.postList %}
-        {% include "layouts/postCard.html" %}
-      {% endfor %}
+    <div
+      class="flex flex-col px-4 gap-12 posts-container"
+      id="{{ postContainerId }}"
+    >
+      {% include "layouts/postCardList.html" %}
+      <div class="flex flex-center loading-container d-none">
+        <img
+          src="{{ url_for('static', filename = 'svg/loading-spinner-infinity.svg') }}"
+          alt="Loading spinner infinity"
+        />
+      </div>
     </div>
   </section>
 {% endblock content %}

@@ -27,14 +27,11 @@ def index():
     user = User.query.get(current_user.id)
     tags = Tag.query.all()
 
-    # postDTOs = get_posts(user, isPreview=True)
-
     return render_template(
         "main/index.html",
         user=user,
         tags=tags,
         createPostForm=createPostForm,
-        # posts=postDTOs,
     )
 
 
