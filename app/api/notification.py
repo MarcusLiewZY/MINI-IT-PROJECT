@@ -207,3 +207,91 @@ def update_notification(id):
         return error_message(
             "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
         )
+
+
+@api.route(
+    "/notifications/post-notifications/<post_notification_id>", methods=["DELETE"]
+)
+def delete_post_notification(post_notification_id):
+    """
+    Permanent delete a post notification.
+    Args:
+        post_notification_id: the post notification id
+    Returns:
+    A JSON response with a message indicating the notification has been deleted and the notification id.
+    """
+    try:
+        post_notification_id = UUID(post_notification_id)
+
+        post_notification = PostNotification.query.filter(
+            PostNotification.id == post_notification_id
+        ).first()
+
+        if post_notification is None:
+            return error_message(
+                "Post notification is not found", responseStatus.NOT_FOUND
+            )
+
+        db.session.delete(post_notification)
+        db.session.commit()
+
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": "Post notification deleted successfully",
+                    "post_notification_id": post_notification_id,
+                }
+            ),
+            responseStatus.OK,
+        )
+
+    except Exception as e:
+        print(e)
+        return error_message(
+            "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
+        )
+
+
+@api.route(
+    "/notifications/comment-notifications/<comment_notification_id>", methods=["DELETE"]
+)
+def delete_comment_notification(comment_notification_id):
+    """
+    Permanent delete a comment notification.
+    Args:
+    comment_notification_id: the comment notification id
+    Returns:
+    A JSON response with a message indicating the comment notification has been deleted and the comment notification id.
+    """
+    try:
+        comment_notification_id = UUID(comment_notification_id)
+
+        comment_notification = CommentNotification.query.filter(
+            CommentNotification.id == comment_notification_id
+        ).first()
+
+        if comment_notification is None:
+            return error_message(
+                "Comment notification is not found", responseStatus.NOT_FOUND
+            )
+
+        db.session.delete(comment_notification)
+        db.session.commit()
+
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": "Comment notification deleted successfully",
+                    "comment_notification_id": comment_notification_id,
+                }
+            ),
+            responseStatus.OK,
+        )
+
+    except Exception as e:
+        print(e)
+        return error_message(
+            "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
+        )
