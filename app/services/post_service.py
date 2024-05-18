@@ -131,7 +131,6 @@ def edit_post(post: Post, form: CreatePostForm) -> Tuple[bool, str]:
             if tag:
                 post.tags.append(tag)
 
-        # todo: set the status to pending once the admin feature is implemented
         post.status = Status.PENDING
 
         db.session.commit()

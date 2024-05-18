@@ -500,12 +500,17 @@ form {
   position: absolute;
   right: 16px;
   top: 50%;
+  width: auto;
+  height: auto;
   transform: translateY(-50%);
   z-index: 100;
-  background-color: var(--color---base---error);
-  padding: 0px 0.25rem;
+  padding: 0.05rem 0.125rem;
   border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 500;
   color: var(--color---base---white);
+  background-color: var(--color---base---error);
+  cursor: default;
 }
 
 #userProfileModal .log-out {
@@ -960,6 +965,7 @@ form {
 /* notification */
 .notification-section .filter-container {
   width: 264px;
+  height: 100%;
   position: sticky;
   top: 20px;
 }

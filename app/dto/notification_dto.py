@@ -31,7 +31,7 @@ class NotificationDTO:
 
         return {
             "type": self.get_type(post_notification),
-            "postId": post.id,
+            "id": post_notification.id,
             "postTitle": post.title,
             "postTags": [(tag.name, tag.color) for tag in post.tags],
             "commentCreator": comment.commentCreator,
@@ -54,7 +54,7 @@ class NotificationDTO:
 
         return {
             "type": self.get_type(comment_notification),
-            "replyId": reply.id,
+            "id": comment_notification.id,
             "replyCommentCreator": reply.commentCreator,
             "replyContent": reply.content,
             "repliedToUser": replied_comment_creator,
@@ -67,7 +67,7 @@ class NotificationDTO:
 
         return {
             "type": self.get_type(post),
-            "postId": post.id,
+            "id": post.id,
             "postTitle": post.title,
             "postTags": [(tag.name, tag.color) for tag in post.tags],
             "postStatus": post.status,

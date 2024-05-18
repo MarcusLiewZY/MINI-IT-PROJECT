@@ -1,23 +1,20 @@
 <div
   class="flex flex-col gap-4 transition-medium notification-post-status"
-  id="post-status-{{ post.postId }}"
+  id="{{ post.id }}"
+  data-notification-type="{{ post.type }}"
 >
   <div class="flex flex-col post-heading">
     <div class="flex flex-between post-heading__main">
       <h2 class="flex text-title-lg">{{ post.postTitle }}</h2>
       <div class="flex gap-3 post-heading__meta">
         <div class="text-label-md date">{{ post.timeAgo }}</div>
-        <div class="post-status post-status-pending">
-          {% if post.postStatus.value == 'Pending' %}
-            Pending
-          {% elif post.postStatus.value == 'Unread-approved' %}
-            Approved
-          {% elif post.postStatus.value == 'Unread-rejected' %}
-            Rejected
-          {% else %}
-            ''
-          {% endif %}
-        </div>
+        {% if post.postStatus.value == 'Pending' %}
+          <div class="post-status post-status-pending">Pending</div>
+        {% elif post.postStatus.value == 'Unread-approved' %}
+          <div class="post-status post-status-approved">Approved</div>
+        {% elif post.postStatus.value == 'Unread-rejected' %}
+          <div class="post-status post-status-rejected">Rejected</div>
+        {% endif %}
       </div>
     </div>
     <div class="mb-2 flex gap-2 post-tag-container">
@@ -30,9 +27,9 @@
         </div>
       {% endfor %}
     </div>
+    <div class="post-content">{{ post.postContent[:40] | line_breaks }}</div>
+    {% if post.postImageUrl %}
+      <img src="{{ notification.postImageUrl }}" />
+    {% endif %}
   </div>
-  <div class="post-content">{{ post.postContent[:40] | line_breaks }}</div>
-  {% if post.postImageUrl %}
-    <img src="{{ notification.postImageUrl }}" />
-  {% endif %}
 </div>

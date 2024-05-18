@@ -42,6 +42,12 @@ const fetchNotifications = async (
       }
 
       state.hasNextPage = has_next;
+
+      // create custom event to notify that the pagination is loaded
+      const notificationPaginationLoadedEvent = new Event(
+        "notificationPaginationLoaded",
+      );
+      document.dispatchEvent(notificationPaginationLoadedEvent);
     }
   } catch (error) {
     console.error(error);

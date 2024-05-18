@@ -24,7 +24,6 @@ def get_post(post_id):
 
     if request.method == "POST":
         if editPostForm.validate_on_submit():
-            print(editPostForm.image_url.data)
 
             isSuccess, message = edit_post(post, editPostForm)
             flash(message, "success" if isSuccess else "error")
@@ -34,12 +33,8 @@ def get_post(post_id):
     editPostForm.tags.data = [tag.name for tag in post.tags]
     editPostForm.image_url.data = post.image_url if post.image_url else None
 
-    if not post or post.is_delete or post.status == Status.REJECTED:
+    if not post or post.is_delete:
         flash("Post not found", "error")
-        return redirect(url_for(main.index))
-
-    if post.status == Status.PENDING:
-        flash("Post is still pending", "error")
         return redirect(url_for(main.index))
 
     postCreator = User.query.get(post.user_id)

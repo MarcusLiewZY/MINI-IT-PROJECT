@@ -3,7 +3,6 @@ from flask import render_template, request, redirect, url_for
 
 from . import notification
 from app.services.notification_service import get_agg_notifications
-from app.dto.notification_dto import NotificationDTO
 from app.utils.decorators import login_required
 
 

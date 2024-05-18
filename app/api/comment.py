@@ -6,7 +6,14 @@ from http import HTTPStatus as responseStatus
 
 from . import api
 from app import db
-from app.models import User, Comment, CommentLike, Post
+from app.models import (
+    User,
+    Comment,
+    CommentLike,
+    Post,
+    PostNotification,
+    CommentNotification,
+)
 from app.utils.helper import format_datetime
 from app.utils.api_utils import error_message
 
@@ -14,7 +21,7 @@ from app.utils.api_utils import error_message
 @api.route("/comments", methods=["POST"])
 def create_comment():
     """
-    Create a comment for a post.
+    Create a comment and post notification for a post.
     Args:
         post_id: The ID of the post to comment on.
         user_id: The ID of the user who created the comment.
@@ -87,6 +94,18 @@ def create_comment():
         comment.post_id = post.id
 
         db.session.add(comment)
+        db.session.commit()
+
+        post_notification = PostNotification(
+            {
+                "user_id": post.user_id,
+                "post_id": post.id,
+                "unread_comment_id": comment.id,
+                "created_at": format_datetime(datetime.now()),
+            }
+        )
+
+        db.session.add(post_notification)
         db.session.commit()
 
         return (
@@ -276,7 +295,7 @@ def delete_comment(comment_id):
 @api.route("/comments/<replied_comment_id>/reply", methods=["POST"])
 def create_reply(replied_comment_id):
     """
-    Create a reply to a comment.
+    Create a reply and the comment notification for the comment.
     Args:
         replied_comment_id: The ID of the comment being replied to.
         user_id: The ID of the user who created the reply.
@@ -382,6 +401,18 @@ def create_reply(replied_comment_id):
         comment.replied_comment_id = replied_comment.id
 
         db.session.add(comment)
+        db.session.commit()
+
+        comment_notification = CommentNotification(
+            {
+                "user_id": replied_comment.user_id,
+                "comment_id": replied_comment.id,
+                "unread_comment_id": comment.id,
+                "created_at": format_datetime(datetime.now()),
+            }
+        )
+
+        db.session.add(comment_notification)
         db.session.commit()
 
         return (

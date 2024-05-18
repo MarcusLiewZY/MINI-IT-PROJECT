@@ -1,6 +1,7 @@
 <div
   class="transition-medium notification-reply"
-  id="reply-{{ commentNotification.replyId }}"
+  id="{{ commentNotification.id }}"
+  data-notification-type="{{ commentNotification.type }}"
 >
   {% with avatar_url = commentNotification.replyCommentCreator.avatar_url, owner = commentNotification.replyCommentCreator %}
     {% include "layouts/avatar.html" %}
