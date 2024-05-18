@@ -1,9 +1,23 @@
-from flask import render_template
 from flask_login import current_user
-from app.utils.decorators import login_required
-from . import notification
+from flask import render_template, request, redirect, url_for
 
-@notification.route('/notifications')
+from . import notification
+from app.services.notification_service import get_agg_notifications
+from app.utils.decorators import login_required
+
+
+@notification.route("/notifications")
 @login_required
 def notifications():
-    return render_template('notifications/notification.html', user = current_user)
+    filter = request.args.get("filter")
+
+    if filter is None:
+        return redirect(url_for("notification.notifications", filter="all"))
+
+    notificationsAgg = get_agg_notifications(current_user)
+
+    return render_template(
+        "notifications/notification.html",
+        user=current_user,
+        notificationsAgg=notificationsAgg,
+    )

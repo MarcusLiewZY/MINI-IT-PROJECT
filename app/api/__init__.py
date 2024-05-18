@@ -1,5 +1,5 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
 
 api = Blueprint("api", __name__, url_prefix="/api")
 
-from . import tag, user, post, comment, pagination
+from . import tag, user, post, comment, pagination, notification

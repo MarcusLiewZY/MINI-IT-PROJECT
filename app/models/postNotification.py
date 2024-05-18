@@ -24,4 +24,4 @@ class PostNotification(db.Model):
         self.created_at = post_notification_dict.get("created_at")
 
     def __repr__(self):
-        return f"<{self.id} - {self.is_read}>"
+        return f"<PostNotifications-{self.id} - {self.is_read}>"

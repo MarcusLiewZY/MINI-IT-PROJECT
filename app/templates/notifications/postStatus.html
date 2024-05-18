@@ -1,0 +1,35 @@
+<div
+  class="flex flex-col gap-4 transition-medium notification-post-status"
+  id="{{ post.id }}"
+  data-notification-type="{{ post.type }}"
+>
+  <div class="flex flex-col post-heading">
+    <div class="flex flex-between post-heading__main">
+      <h2 class="flex text-title-lg">{{ post.postTitle }}</h2>
+      <div class="flex gap-3 post-heading__meta">
+        <div class="text-label-md date">{{ post.timeAgo }}</div>
+        {% if post.postStatus.value == 'Pending' %}
+          <div class="post-status post-status-pending">Pending</div>
+        {% elif post.postStatus.value == 'Unread-approved' %}
+          <div class="post-status post-status-approved">Approved</div>
+        {% elif post.postStatus.value == 'Unread-rejected' %}
+          <div class="post-status post-status-rejected">Rejected</div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="mb-2 flex gap-2 post-tag-container">
+      {% for tag_name, tag_color in post.postTags %}
+        <div
+          class="text-label-sm post-tag"
+          style="background-color: {{ tag_color }};"
+        >
+          {{ tag_name }}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="post-content">{{ post.postContent[:40] | line_breaks }}</div>
+    {% if post.postImageUrl %}
+      <img src="{{ notification.postImageUrl }}" />
+    {% endif %}
+  </div>
+</div>

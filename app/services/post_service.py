@@ -41,8 +41,7 @@ def create_post(form: CreatePostForm) -> Tuple[bool, str]:
         for tag_name in form.tags.data:
             post.tags.append(Tag.query.filter_by(name=tag_name).first())
 
-        # todo: set the status to pending once the admin feature is implemented
-        post.status = Status.APPROVED
+        post.status = Status.PENDING
         post.user_id = current_user.id
         db.session.commit()
         return True, "Post created successfully"
@@ -132,7 +131,7 @@ def edit_post(post: Post, form: CreatePostForm) -> Tuple[bool, str]:
             if tag:
                 post.tags.append(tag)
 
-        # todo: set the status to pending once the admin feature is implemented
+        post.status = Status.PENDING
 
         db.session.commit()
 
