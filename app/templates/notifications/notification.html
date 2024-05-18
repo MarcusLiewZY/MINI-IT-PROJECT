@@ -9,14 +9,12 @@
       <div class="px-3 filter-heading">
         <h2 class="text-headline-sm">Filters</h2>
       </div>
-      <ul
-        class="flex flex-col gap-1 filter-category-container link text-label-lg"
-      >
+      <ul class="flex flex-col gap-1 filter-category-container text-label-lg">
         <li
-          class="filter-category-item {{ 'filter-category-item__active' if request.args.get('filter') == None else '' }}"
+          class="transition-medium filter-category-item {{ 'filter-category-item__active' if request.args.get('filter') == 'all' else '' }}"
+          id="notificationPageAllNotificationsFilter"
         >
           All Notifications
-
           <div
             class="notification-count {{ 'd-none' if notificationsAgg.allNotifications == 0 else '' }}"
             id="notificationPageAllNotificationsCount"
@@ -25,15 +23,12 @@
           </div>
         </li>
         <li
-          class="filter-category-item
+          class="transition-medium filter-category-item
         {{ 'filter-category-item__active' if request.args.get('filter') == 'posts' else '' }}
         "
+          id="notificationPagePostNotificationsFilter"
         >
-          <a
-            href="{{ url_for('notification.notifications', filter = 'posts') }}"
-            class="link"
-            >Posts</a
-          >
+          Posts
           <div
             class="notification-count {{ 'd-none' if notificationsAgg.postNotifications == 0 else '' }}"
             id="notificationPagePostNotificationsCount"
@@ -42,15 +37,12 @@
           </div>
         </li>
         <li
-          class="filter-category-item
+          class="transition-medium filter-category-item
         {{ 'filter-category-item__active' if request.args.get('filter') == 'comments' else '' }}
         "
+          id="notificationPageCommentNotificationsFilter"
         >
-          <a
-            href="{{ url_for('notification.notifications', filter = 'comments') }}"
-            class="link"
-            >Comments</a
-          >
+          Comments
           <div
             class="notification-count {{ 'd-none' if notificationsAgg.commentNotifications == 0 else '' }}"
             id="notificationPageCommentNotificationsCount"
@@ -59,18 +51,15 @@
           </div>
         </li>
         <li
-          class="filter-category-item
+          class="trnsition-medium filter-category-item
         {{ 'filter-category-item__active' if request.args.get('filter') == 'post-status' else '' }}
         "
+          id="notificationPagePostStatusFilter"
         >
-          <a
-            href="{{ url_for('notification.notifications', filter = 'post-status') }}"
-            class="link"
-            >Post Status</a
-          >
+          Post Status
           <div
             class="notification-count {{ 'd-none' if notificationsAgg.posts == 0 else '' }}"
-            id="notificationPageCommentNotificationsCount"
+            id="notificationPagePostStatusCount"
           >
             {{ '99+' if notificationsAgg.posts > 99 else notificationsAgg.posts }}
           </div>
@@ -90,126 +79,17 @@
       </div>
 
       {# notification #}
-      <div class="flex flex-col gap-5 py-5 notification-content-container">
-        {% for notification in notifications %}
-          {% if notification.type == 'PostNotification' %}
-            <div
-              class="flex flex-col transition-fast notification-comment-on-post"
-              id="comment-on-post-{{ notification.id }}"
-            >
-              <div class="flex flex-col post-heading">
-                <h2 class="mb-4 text-title-lg">{{ notification.postTitle }}</h2>
-                <div class="mb-2 flex gap-2 post-tag-container">
-                  {% for tag_name, tag_color in notifications.postTags %}
-                    <div
-                      class="text-label-sm post-tag"
-                      style="background-color: {{ tag_color }};"
-                    >
-                      {{ tag_name }}
-                    </div>
-                  {% endfor %}
-                </div>
-              </div>
-              <div class="divider"></div>
-              <div class="pb-2 flex gap-3 comment-on-post">
-                {% with avatar_url = notification.commentCreator.avatar_url, owner = notification.commentCreator %}
-                  {% include "layouts/avatar.html" %}
-                {% endwith %}
-                <div class="flex flex-col text-label-lg reply-container">
-                  <div class="flex flex-between reply-heading">
-                    <div class="mb-1 flex reply-user">
-                      Anonymous_{{ notification.commentCreator.anon_no }}
-                    </div>
-                    <div class="flex flex-center gap-2 right-col">
-                      <div class="text-label-md date">
-                        {{ notification.timeAgo }}
-                      </div>
-                      <a href="/" class="text-label-sm link">Report</a>
-                    </div>
-                  </div>
-                  <div class="text-body-md reply">
-                    {{ notification.commentContent[:40] | line_breaks }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          {% elif notification.type == 'CommentNotification' %}
-            <div
-              class="transition-fast notification-reply"
-              id="reply-{{ notification.replyId }}"
-            >
-              {% with avatar_url = notification.replyCommentCreator.avatar_url, owner = notification.replyCommentCreator %}
-                {% include "layouts/avatar.html" %}
-              {% endwith %}
-              <div class="flex flex-col text-label-lg reply-container">
-                <div class="flex flex-between reply-heading">
-                  <div class="mb-1 flex reply-user">
-                    Anonymous_{{ notification.replyCommentCreator.anon_to }}
-                    reply to
-                    <span class="ml-1 replied-user">
-                      Anonymous_{{ notification.repliedToUser.anon_no }}</span
-                    >
-                  </div>
-                  <div class="flex flex-center gap-2 right-col">
-                    <div class="text-label-md date">
-                      {{ notification.timeAgo }}
-                    </div>
-                    <a href="/" class="text-label-sm link">Report</a>
-                  </div>
-                </div>
-                <div class="text-body-md reply">
-                  {{ notification.replyContent[:40] | line_breaks }}
-                </div>
-              </div>
-            </div>
-          {% elif notification.type == 'Post' %}
-            <div
-              class="flex flex-col gap-4 transition-fast notification-post-status"
-              id="post-status-{{ notification.postId }}"
-            >
-              <div class="flex flex-col post-heading">
-                <div class="flex flex-between post-heading__main">
-                  <h2 class="flex text-title-lg">
-                    {{ notification.postTitle }}
-                  </h2>
-                  <div class="flex gap-3 post-heading__meta">
-                    <div class="text-label-md date">
-                      {{ notification.timeAgo }}
-                    </div>
-                    <div class="post-status post-status-pending">
-                      {% if notification.postStatus == 'Pending' %}
-                        Pending
-                      {% elif notification.postStatus == 'Unread-approved' %}
-                        Approved
-                      {% elif notification.postStatus == 'Unread-rejected' %}
-                        Rejected
-                      {% else %}
-                        ''
-                      {% endif %}
-                    </div>
-                  </div>
-                </div>
-                <div class="mb-2 flex gap-2 post-tag-container">
-                  {% for tag_name, tag_color in notification.postTags %}
-                    <div
-                      class="text-label-sm post-tag"
-                      style="background-color: {{ tag_color }};"
-                    >
-                      {{ tag_name }}
-                    </div>
-                  {% endfor %}
-                </div>
-              </div>
-              {# todo: slice the content to 40 chars, it is preview #}
-              <div class="post-content">
-                {{ notification.postContent[:40] | line_breaks }}
-              </div>
-              {% if notification.postImageUrl %}
-                <img src="{{ notification.postImageUrl }}" />
-              {% endif %}
-            </div>
-          {% endif %}
-        {% endfor %}
+      <div
+        class="flex flex-col gap-5 py-5 notification-content-container"
+        id="notificationPageNotificationContentContainer"
+      >
+        {% include "notifications/notificationList.html" %}
+        <div class="flex flex-center loading-container d-none">
+          <img
+            src="{{ url_for('static', filename = 'svg/loading-spinner-infinity.svg') }}"
+            alt="Loading spinner infinity"
+          />
+        </div>
       </div>
     </div>
   </section>

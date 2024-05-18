@@ -70,7 +70,7 @@ class NotificationDTO:
             "postId": post.id,
             "postTitle": post.title,
             "postTags": [(tag.name, tag.color) for tag in post.tags],
-            "postStatus": post.status.value,
+            "postStatus": post.status,
             "postContent": post.content,
             "postImageUrl": post.image_url if post.image_url else None,
             "timeAgo": getTimeAgo(post.updated_at),

@@ -1,11 +1,7 @@
-// post modal
-
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("createPostModal.js loaded");
   const createPostModal = document.querySelector("#createPostModal");
   const openModalButton = document.querySelector("#createPostModalOpenButton");
 
-  console.log(openModalButton);
   const closeModalButton = createPostModal?.querySelector(
     "#createPostModalCloseButton",
   );

@@ -3,26 +3,29 @@ import { postCardHandler } from "./postCardHandler.js";
 import { onLoadCreateCommentHandler } from "./createCommentHandler.js";
 import { onLoadCommentHandler } from "./commentHandler.js";
 
+const baseUrl = "/api/paginate";
+const meBaseUrl = `${baseUrl}/me`;
+
 const pageMapping = {
   "/": {
     postContainerId: "mainPagePostCardContainer",
-    apiPaginateUrl: "/api/paginate/post-list",
+    apiPaginateUrl: `${baseUrl}/post-list`,
   },
   "/me/posts": {
     postContainerId: "myPageCreatedPostCardContainer",
-    apiPaginateUrl: "/api/paginate/created-post-list",
+    apiPaginateUrl: `${meBaseUrl}/created-post-list`,
   },
   "/me/likes": {
     postContainerId: "myPageLikedPostCardContainer",
-    apiPaginateUrl: "/api/paginate/liked-post-list",
+    apiPaginateUrl: `${meBaseUrl}/liked-post-list`,
   },
   "/me/replies": {
     postContainerId: "myPageRepliesPostCardContainer",
-    apiPaginateUrl: "/api/paginate/replies-post-list",
+    apiPaginateUrl: `${meBaseUrl}/replies-post-list`,
   },
   "/me/bookmarks": {
     postContainerId: "myPageBookmarkedPostCardContainer",
-    apiPaginateUrl: "/api/paginate/bookmarked-post-list",
+    apiPaginateUrl: `${meBaseUrl}/bookmarked-post-list`,
   },
 };
 
@@ -76,8 +79,12 @@ document.addEventListener("DOMContentLoaded", () => {
     hasNextPage: true,
   };
 
-  const { postContainerId, apiPaginateUrl } =
-    pageMapping[window.location.pathname];
+  const pageData = pageMapping[window.location.pathname] || {};
+  const { postContainerId, apiPaginateUrl } = pageData;
+
+  if (!postContainerId || !apiPaginateUrl) {
+    return;
+  }
 
   const onLoadInfiniteScroll = async (
     postContainerId,
