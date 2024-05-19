@@ -65,7 +65,10 @@ def get_posts(
         Tuple[List[Dict[str, Union[str, int, bool, List]]]]: A tuple containing a boolean indicating if there are more posts and a list of post DTOs.
     """
     posts = (
-        Post.query.filter(Post.status == Status.APPROVED, Post.is_delete == False)
+        Post.query.filter(
+            Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED]),
+            Post.is_delete == False,
+        )
         .order_by(Post.updated_at.desc())
         .paginate(page=page, per_page=per_page, error_out=False)
     )
@@ -160,7 +163,7 @@ def get_created_posts(
     created_posts = (
         Post.query.filter(
             Post.user_id == user.id,
-            Post.status == Status.APPROVED,
+            Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED]),
             Post.is_delete == False,
         )
         .order_by(Post.updated_at.desc())
@@ -193,7 +196,7 @@ def get_liked_posts(
 
     liked_posts = (
         Post.query.filter(
-            Post.status == Status.APPROVED,
+            Post.status_in_([Status.APPROVED, Status.UNREAD_APPROVED]),
             Post.is_delete == False,
         )
         .join(PostLike, PostLike.c.post_id == Post.id)
@@ -241,7 +244,10 @@ def get_replies_posts(
 
     for comment in comments:
         commented_post = comment.commented_post
-        if commented_post.status == Status.APPROVED and not commented_post.is_delete:
+        if (
+            commented_post.status in [Status.APPROVED, Status.UNREAD_APPROVED]
+            and not commented_post.is_delete
+        ):
             if commented_post not in seen_posts:
                 all_commented_posts.append(commented_post)
                 seen_posts.add(commented_post)
@@ -281,7 +287,7 @@ def get_bookmarked_posts(
 
     bookmarked_posts = (
         Post.query.filter(
-            Post.status == Status.APPROVED,
+            Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED]),
             Post.is_delete == False,
         )
         .join(PostBookmark, PostBookmark.c.post_id == Post.id)
