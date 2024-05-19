@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const param =
     notificationFilterMapping[window.location.search.split("filter=")[1]] || "";
 
-  const baseUrl = "/api/paginate";
+  const baseUrl = "api/paginate";
   const notificationBaseUrl = `${baseUrl}/notification`;
 
   if (!notificationContainer || !param) {

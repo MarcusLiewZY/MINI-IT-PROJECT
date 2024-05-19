@@ -51,7 +51,7 @@
     </div>
 
     {# user profile pop up modal using dialog html tag #}
-    <div class="open-button">
+    <div class="flex flex-center open-button">
       {% with avatar_url=user.avatar_url, owner = user %}
         {% include "layouts/avatar.html" %}
       {% endwith %}
@@ -97,7 +97,7 @@
             src="{{ url_for('static', filename = 'svg/admin.svg') }}"
             alt="admin"
           />
-          <a href="/">Admin</a>
+          <a href="{{ url_for('admin.index') }}">Admin</a>
         </li>
         <li class="flex">
           <img

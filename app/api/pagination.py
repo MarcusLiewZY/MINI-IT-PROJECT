@@ -16,6 +16,11 @@ from app.services.notification_service import (
     get_paginate_posts,
     get_paginate_all_notifications,
 )
+from app.services.admin_service import (
+    get_paginate_reporting_comments,
+    get_paginate_approving_post,
+    get_paginate_all_admin_notifications,
+)
 from app.models import User
 from app.utils.decorators import login_required
 from app.utils.api_utils import error_message
@@ -247,11 +252,14 @@ def get_bookmarked_post_list():
         )
 
 
+# todo: get rejected post list
+
+
 @api.route("/paginate/notification", methods=["GET"])
 @login_required
 def get_notification_list():
     """
-    Get a list of post notifications based on infinite scrolling using server-side pagination.
+    Get a list of notifications based on infinite scrolling using server-side pagination.
     Args:
     filter(str): The type of notification to filter.
     page(int): The page number of the post list.
@@ -302,6 +310,67 @@ def get_notification_list():
                     "per_page": per_page,
                     "has_next": has_next,
                     "html": rendered_notifications,
+                }
+            ),
+            responseStatus.OK,
+        )
+
+    except Exception as e:
+        print(e)
+        return error_message(
+            "Internal server error", responseStatus.INTERNAL_SERVER_ERROR
+        )
+
+
+@api.route("/paginate/admin-notification", methods=["GET"])
+def get_admin_notification_list():
+    """
+    Get a list of admin notifications based on infinite scrolling using server-side pagination.
+    Args:
+    filter(str): The type of notification to filter.
+    page(int): The page number of the post list.
+    per_page(int): The number of the posts per page.
+    Returns:
+    A JSON response containing the status, message, page, per_page, and the rendered post list.
+    """
+    try:
+        filter = request.args.get("filter", "all", type=str)
+        page = request.args.get("page", 1, type=int)
+        per_page = request.args.get("per_page", 5, type=int)
+
+        adminNotificationDTOs = []
+        has_next = False
+
+        if filter == "all":
+            print("filter all")
+            has_next, adminNotificationDTOs = get_paginate_all_admin_notifications(
+                page=page, per_page=per_page
+            )
+        elif filter == "reporting-comments":
+            has_next, adminNotificationDTOs = get_paginate_reporting_comments(
+                page=page, per_page=per_page
+            )
+        elif filter == "approving-posts":
+            has_next, adminNotificationDTOs = get_paginate_approving_post(
+                page=page, per_page=per_page
+            )
+        else:
+            return error_message("Invalid filter type", responseStatus.BAD_REQUEST)
+
+        rendered_admin_notifications = render_template(
+            "admin/adminList.html",
+            adminNotifications=adminNotificationDTOs,
+        )
+
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": "Admin notification list retrieved successfully",
+                    "page": page,
+                    "per_page": per_page,
+                    "has_next": has_next,
+                    "html": rendered_admin_notifications,
                 }
             ),
             responseStatus.OK,

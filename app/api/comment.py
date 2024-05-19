@@ -1,5 +1,6 @@
 from uuid import UUID
 from flask import request, jsonify
+from flask_login import current_user
 from datetime import datetime
 from sqlalchemy import select, insert, delete
 from http import HTTPStatus as responseStatus
@@ -259,28 +260,40 @@ def delete_comment(comment_id):
     """
 
     try:
-        comment = Comment.query.get(UUID(comment_id))
-        print(comment)
-        if comment is None:
-            return jsonify(
-                {
-                    "status": responseStatus.NOT_FOUND,
-                    "error": f"Comment with ID {comment_id} not found",
-                },
-                responseStatus.NOT_FOUND,
+        user_id = request.json.get("userId")
+
+        if user_id is None:
+            return error_message(
+                "Missing required user id parameter", responseStatus.BAD_REQUEST
             )
+
+        comment = Comment.query.get(UUID(comment_id))
+
+        if comment is None:
+            return error_message("Comment not found", responseStatus.NOT_FOUND)
+
+        user = User.query.get(UUID(user_id))
+
+        if user is None:
+            return error_message("User not found", responseStatus.NOT_FOUND)
+
+        if not user.is_admin and comment.user_id != user.id:
+            return error_message("Unauthorized", responseStatus.UNAUTHORIZED)
 
         db.session.delete(comment)
         db.session.commit()
 
-        return jsonify(
-            {
-                "status": responseStatus.NO_CONTENT,
-                "message": "Comment deleted successfully",
-                "comment_id": comment_id,
-            },
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.NO_CONTENT,
+                    "message": "Comment deleted successfully",
+                    "comment_id": comment_id,
+                }
+            ),
             responseStatus.NO_CONTENT,
         )
+
     except Exception as e:
         print(e)
         return jsonify(
@@ -513,4 +526,88 @@ def comment_interaction_handler(comment_id):
         return (
             jsonify({"error": "Internal Server Error"}),
             responseStatus.INTERNAL_SERVER_ERROR,
+        )
+
+
+@api.route("/comments/<comment_id>/reporting", methods=["PUT"])
+def report_comment(comment_id):
+    """
+    Report a comment by its ID.
+    Args:
+    comment_id: The ID of the comment.
+    user_id: The ID of the user who report the comment.
+    isReport: A boolean indicating whether to report the comment. True means report, False means cancel report.
+    Returns:
+    A JSON object containing the comment's id and an HTTP status code and a success message.
+
+    """
+    try:
+        user_id = request.json.get("userId")
+        isReport = request.args.get("isReport")
+
+        if user_id is None:
+            return error_message(
+                "Missing required user parameter", responseStatus.BAD_REQUEST
+            )
+
+        if isReport is None:
+            return error_message(
+                "Missing required isReport parameter", responseStatus.BAD_REQUEST
+            )
+
+        user = User.query.get(UUID(user_id))
+        comment = Comment.query.get(UUID(comment_id))
+
+        if user is None:
+            return error_message("User not found", responseStatus.NOT_FOUND)
+
+        if user.id != current_user.id:
+            return error_message("Unauthorized", responseStatus.UNAUTHORIZED)
+
+        if comment is None:
+            return error_message("Comment not found", responseStatus.NOT_FOUND)
+
+        if isReport == "true":
+            if comment.is_report is True:
+                return error_message(
+                    "Comment already reported", responseStatus.BAD_REQUEST
+                )
+
+            comment.is_report = True
+        elif isReport == "false":
+            if comment.is_report is False:
+                return error_message(
+                    "Comment already cancel reported", responseStatus.BAD_REQUEST
+                )
+
+            if user.is_admin is False:
+                return error_message(
+                    "Unauthorized with admin role", responseStatus.UNAUTHORIZED
+                )
+
+            comment.is_report = False
+
+        else:
+            return error_message(
+                "Invalid isReport parameter", responseStatus.BAD_REQUEST
+            )
+
+        db.session.commit()
+
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": f"Comment is {'cancel' if not comment.is_report else ''} reported successful",
+                    "comment_id": comment.id,
+                }
+            ),
+            responseStatus.OK,
+        )
+
+    except Exception as e:
+        db.session.rollback()
+        print(e)
+        return error_message(
+            "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
         )

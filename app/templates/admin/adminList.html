@@ -1,0 +1,11 @@
+{% for notification in adminNotifications %}
+  {% if notification.type == 'ReportingComment' %}
+    {% with reportingComment=notification %}
+      {% include "admin/reportingComment.html" %}
+    {% endwith %}
+  {% elif notification.type == 'ApprovingPost' %}
+    {% with approvingPost=notification %}
+      {% include "admin/approvingPost.html" %}
+    {% endwith %}
+  {% endif %}
+{% endfor %}

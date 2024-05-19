@@ -1,0 +1,80 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Admin{% endblock title %}
+
+{% block content %}
+  <section class="container flex gap-6 py-12 bg-white admin-section">
+    {# filter column #}
+    <div class="flex flex-col gap-5 filter-container">
+      <div class="px-3 filter-heading">
+        <h2 class="text-headline-sm">Filters</h2>
+      </div>
+      <ul class="flex flex-col gap-1 filter-category-container text-label-lg">
+        <li
+          class="transition-medium filter-category-item {{ 'filter-category-item__active' if request.args.get('filter') == 'all' else '' }}"
+          id="adminPageAllFilter"
+        >
+          All
+          <div
+            class="notification-count {{ 'd-none' if adminNotificationsAgg.allAdminNotifications == 0 else '' }}"
+            id="adminPageAllCount"
+          >
+            {{ "99+" if adminNotificationsAgg.allAdminNotifications > 99 else adminNotificationsAgg.allAdminNotifications }}
+          </div>
+        </li>
+        <li
+          class="transition-medium filter-category-item
+        {{ 'filter-category-item__active' if request.args.get('filter') == 'approving-post' else '' }}
+        "
+          id="adminPageApprovingPostsFilter"
+        >
+          Approving posts
+          <div
+            class="notification-count {{ 'd-none' if adminNotificationsAgg.approvingPosts == 0 else '' }}"
+            id="adminPageApprovingCount"
+          >
+            {{ "99+" if adminNotificationsAgg.approvingPosts > 99 else adminNotificationsAgg.approvingPosts }}
+          </div>
+        </li>
+        <li
+          class="transition-medium filter-category-item
+        {{ 'filter-category-item__active' if request.args.get('filter') == 'reporting-comments' else '' }}
+        "
+          id="adminPageReportingCommentsFilter"
+        >
+          Reporting comments
+          <div
+            class="notification-count {{ 'd-none' if adminNotificationsAgg.reportingComments == 0 else '' }}"
+            id="adminPageReportingCommentsCount"
+          >
+            {{ "99+" if adminNotificationsAgg.reportingComments > 99 else adminNotificationsAgg.reportingComments }}
+          </div>
+        </li>
+      </ul>
+      {# todo: add the tag modal #}
+    </div>
+
+    {# admin column #}
+    <div class="admin-container">
+      <div class="flex flex-between px-3 admin-heading">
+        <div>
+          <h2 class="text-headline-sm">Approvals</h2>
+        </div>
+      </div>
+
+      {# reporting comments and approving posts #}
+      <div
+        class="flex flex-col gap-5 py-5 admin-content-container"
+        id="adminPageAdminContentContainer"
+      >
+        {% include "admin/adminList.html" %}
+        <div class="flex flex-center loading-container d-none">
+          <img
+            src="{{ url_for('static', filename = 'svg/loading-spinner-infinity.svg') }}"
+            alt="Loading spinner infinity"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock content %}
