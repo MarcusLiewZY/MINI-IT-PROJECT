@@ -34,7 +34,9 @@ def get_posts():
             query = query.filter(Post.is_delete == True)
 
         if isApproved:
-            query = query.filter(Post.status == Status.APPROVED)
+            query = query.filter(
+                Post.status.in_[Status.APPROVED, Status.UNREAD_APPROVED]
+            )
 
         posts = query.order_by(Post.updated_at.desc()).all()
         postDTOs = [

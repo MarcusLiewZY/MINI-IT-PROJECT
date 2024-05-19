@@ -6,11 +6,13 @@ class CommentHandler {
     this.userId = userId;
     this.isCommentLikedByUser = false;
     this.isCommentRepliedByUser = false;
+    this.isReported = false;
 
     this.commentLikeHandler = this.commentLikeHandler.bind(this);
     this.commentReplyHandler = this.commentReplyHandler.bind(this);
     this.commentDeleteHandler = this.commentDeleteHandler.bind(this);
     this.commentEditHandler = this.commentEditHandler.bind(this);
+    this.commentReportHandler = this.commentReportHandler.bind(this);
   }
 
   async fetchAPI(url, method, body = null) {
@@ -363,6 +365,37 @@ class CommentHandler {
     };
   }
 
+  // report comment handler
+  commentReportHandler(commentId) {
+    return async (button) => {
+      this.isReported = button.dataset.isReported.toLowerCase() === "true";
+      console.log("button", button);
+      console.log("this.reported", this.isReported);
+
+      if (this.isReported === true) return;
+
+      try {
+        const data = await this.fetchAPI(
+          `/api/comments/${commentId}/reporting?isReport=${!this.isReported}`,
+          "PUT",
+          { userId: this.userId },
+        );
+
+        if (data.status === 200) {
+          this.isReported = !this.isReported;
+
+          button.classList.add("text-error");
+
+          button.textContent = "Reported";
+
+          button.dataset.isReported = this.isReported.toString();
+        }
+      } catch (error) {
+        console.error("Error from likeButtonHandler:", error);
+      }
+    };
+  }
+
   // Setup button events
   setupCommentInteractionEvents(interactionButton, callbackFunction) {
     if (!interactionButton) return;
@@ -407,11 +440,22 @@ class CommentHandler {
         interactionSelector: ".comment-edit",
         onClickFunction: this.commentEditHandler,
       },
+      {
+        interactionSelector: ".report-button",
+        onClickFunction: this.commentReportHandler,
+      },
     ];
 
     buttonsInfo.forEach(({ interactionSelector, onClickFunction }) => {
-      const interactionButton =
-        commentInfoContainer.querySelector(interactionSelector);
+      let interactionButton;
+
+      if (interactionSelector === ".report-button") {
+        interactionButton = commentContainer.querySelector(interactionSelector);
+      } else {
+        interactionButton =
+          commentInfoContainer.querySelector(interactionSelector);
+      }
+
       const callBackFunction = onClickFunction(commentId);
       this.setupCommentInteractionEvents(interactionButton, callBackFunction);
     });

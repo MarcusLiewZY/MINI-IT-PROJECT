@@ -47,6 +47,7 @@ const notificationFilter = () => {
   });
 };
 
+// get all notifications count
 const getAllNotificationsCount = async () => {
   const userProfileModal = document.querySelector("#userProfileModal");
 
@@ -83,7 +84,6 @@ const getAllNotificationsCount = async () => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("notification.js loaded");
   notificationFilter();
   getAllNotificationsCount();
 });

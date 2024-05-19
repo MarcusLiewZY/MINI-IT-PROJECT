@@ -53,11 +53,13 @@
                 {{ 'reply' if comment.userInteraction.replies == 1 else 'replies' }}</span
               >
             </div>
-            {% if comment.isReported %}
-              <span href="/" class="link text-error">Reported</span>
-            {% else %}
-              <a href="/" class="link ">Report</a>
-            {% endif %}
+            <span
+              class="link report-button
+                {{ 'text-error' if comment.isReported else '' }}
+                "
+              data-is-reported="{{ comment.isReported }}"
+              >{{ 'Reported' if comment.isReported else 'Report' }}</span
+            >
           </div>
         </div>
         <div class="reply">{{ comment.content | line_breaks }}</div>

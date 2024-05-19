@@ -1,0 +1,45 @@
+<div
+  class="transition-medium reporting-comment"
+  id="{{ reportingComment.id }}"
+  data-admin-notification-type="{{ reportingComment.type }}"
+>
+  <div class="flex gap-3 reporing-comment-container">
+    {% with avatar_url = reportingComment.commentCreator.avatar_url, owner = reportingComment.commentCreator %}
+      {% include "layouts/avatar.html" %}
+    {% endwith %}
+    <div class="flex flex-col text-label-lg reply-container">
+      <div class="flex flex-between reply-heading">
+        {% if reportingComment.isReply %}
+          <div class="mb-1 flex reply-user">
+            Anonymous_{{ reportingComment.commentCreator.anon_no }} reply to
+            <span class="ml-1 replied-user">
+              Anonymous_{{ reportingComment.repliedToUser.anon_no }}</span
+            >
+          </div>
+        {% else %}
+          <div class="mb-1 flex reply-user">
+            Anonymous_{{ reportingComment.commentCreator.anon_no }}
+          </div>
+        {% endif %}
+        <div class="flex flex-center gap-2 right-col">
+          <div class="text-label-md date">{{ reportingComment.timeAgo }}</div>
+        </div>
+      </div>
+      <div class="text-body-md reply">
+        {{ reportingComment.commentContent | line_breaks }}
+      </div>
+    </div>
+  </div>
+  <div class="flex gap-3 mt-5 action-button-container">
+    <button type="button" class="btn" id="reportingCommentAllowButton">
+      Allow
+    </button>
+    <button
+      type="button"
+      class="btn btn-error"
+      id="reportingCommentDeleteButton"
+    >
+      Delete
+    </button>
+  </div>
+</div>
