@@ -878,6 +878,10 @@ form {
   text-decoration-thickness: 2px;
 }
 
+.user-info-section .rejected-page-info {
+  color: var(--color---base---active);
+}
+
 #avatarForm .recommend-dimension {
   align-self: flex-end;
   font-size: 0.75rem;

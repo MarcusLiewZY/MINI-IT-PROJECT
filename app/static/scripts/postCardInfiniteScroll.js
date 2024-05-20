@@ -27,6 +27,10 @@ const pageMapping = {
     postContainerId: "myPageBookmarkedPostCardContainer",
     apiPaginateUrl: `${meBaseUrl}/bookmarked-post-list`,
   },
+  "/me/rejected-posts": {
+    postContainerId: "myPageRejectedPostCardContainer",
+    apiPaginateUrl: `${meBaseUrl}/rejected-post-list`,
+  },
 };
 
 const fetchPosts = async (

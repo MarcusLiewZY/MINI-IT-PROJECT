@@ -36,7 +36,7 @@ def get_posts():
 
         if isApproved:
             query = query.filter(
-                Post.status.in_[Status.APPROVED, Status.UNREAD_APPROVED]
+                Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED])
             )
 
         posts = query.order_by(Post.updated_at.desc()).all()
@@ -86,7 +86,7 @@ def get_post(post_id):
 
 
 @api.route("/posts/<post_id>/post-status", methods=["PUT"])
-def edit_post(post_id):
+def edit_post_status(post_id):
     """
     Edit the post status by its ID. Note that only the admin can edit the post status.
     Args:
@@ -132,6 +132,7 @@ def edit_post(post_id):
             )
 
         post.status = post_status
+        post.updated_at = format_datetime(datetime.now())
 
         db.session.commit()
 
@@ -183,9 +184,9 @@ def delete_post(post_id):
                 responseStatus.NOT_FOUND,
             )
 
-        print(user_id, post.user_id)
-        print(type(user_id), type(post.user_id))
-        print(user_id != post.user_id)
+        # print(user_id, post.user_id)
+        # print(type(user_id), type(post.user_id))
+        # print(user_id != post.user_id)
 
         if UUID(user_id) != post.user_id:
             return (
