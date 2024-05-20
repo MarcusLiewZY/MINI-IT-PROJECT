@@ -53,8 +53,6 @@ def get_comment_notifications(user: User) -> Tuple[int, List[CommentNotification
         .all()
     )
 
-    print(comment_notifications)
-
     return len(comment_notifications), comment_notifications
 
 

@@ -89,10 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // update notification status
-const notificationContentContainer = document.querySelector(
-  ".notification-section #notificationPageNotificationContentContainer",
-);
-
 const updateNotificationStatus = async (notificationId, notificationType) => {
   try {
     const response = await fetch(`/api/notifications/${notificationId}`, {
@@ -150,11 +146,7 @@ const updateNotificationCounter = (notificationType) => {
   });
 };
 
-document.addEventListener("notificationPaginationLoaded", () => {
-  const notificationContentContainer = document.querySelector(
-    ".notification-section #notificationPageNotificationContentContainer",
-  );
-
+const onLoadNotification = (notificationContentContainer) => {
   [...notificationContentContainer?.children].forEach((notification) => {
     const notificationType = notification.getAttribute(
       "data-notification-type",
@@ -183,4 +175,52 @@ document.addEventListener("notificationPaginationLoaded", () => {
       }
     });
   });
+};
+
+// mark all as read
+const onLoadMarkAllAsRead = () => {
+  const userId = document.querySelector(".current-user-id").dataset.userId;
+  const params = new URLSearchParams(window.location.search);
+  const filterValue = params.get("filter");
+  const markAllAsReadButton = document.querySelector(
+    ".notification-section #notificationPageMarkAsReadButton",
+  );
+
+  // button onclick event
+  // call the api by passing the filter value based on the param
+  // reload the page if success
+
+  markAllAsReadButton?.addEventListener("click", async () => {
+    try {
+      const response = await fetch(
+        `/api/notifications/mark-all-as-read?filter=${filterValue}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({ user_id: userId }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      const { status } = await response.json();
+
+      if (status !== 200) {
+        throw new Error("Error marking all as read from calling the API");
+      }
+
+      window.location.reload();
+    } catch (error) {
+      console.error("Error marking all as read", error);
+    }
+  });
+};
+
+document.addEventListener("notificationPaginationLoaded", () => {
+  const notificationContentContainer = document.querySelector(
+    ".notification-section #notificationPageNotificationContentContainer",
+  );
+
+  onLoadNotification(notificationContentContainer);
+  onLoadMarkAllAsRead();
 });

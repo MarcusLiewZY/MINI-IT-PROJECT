@@ -90,15 +90,17 @@
             src="{{ url_for('static', filename = 'svg/bookmark-small.svg') }}"
             alt="bookmark-small"
           />
-          <a href="/">Bookmarks</a>
+          <a href="{{ url_for('me.bookmarks') }}">Bookmarks</a>
         </li>
-        <li class="flex">
-          <img
-            src="{{ url_for('static', filename = 'svg/admin.svg') }}"
-            alt="admin"
-          />
-          <a href="{{ url_for('admin.index') }}">Admin</a>
-        </li>
+        {% if user.is_admin %}
+          <li class="flex">
+            <img
+              src="{{ url_for('static', filename = 'svg/admin.svg') }}"
+              alt="admin"
+            />
+            <a href="{{ url_for('admin.index') }}">Admin</a>
+          </li>
+        {% endif %}
         <li class="flex">
           <img
             src="{{ url_for('static', filename = 'svg/guideline.svg') }}"

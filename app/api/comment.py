@@ -286,12 +286,12 @@ def delete_comment(comment_id):
         return (
             jsonify(
                 {
-                    "status": responseStatus.NO_CONTENT,
+                    "status": responseStatus.OK,
                     "message": "Comment deleted successfully",
                     "comment_id": comment_id,
                 }
             ),
-            responseStatus.NO_CONTENT,
+            responseStatus.OK,
         )
 
     except Exception as e:

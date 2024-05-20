@@ -196,7 +196,7 @@ def get_liked_posts(
 
     liked_posts = (
         Post.query.filter(
-            Post.status_in_([Status.APPROVED, Status.UNREAD_APPROVED]),
+            Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED]),
             Post.is_delete == False,
         )
         .join(PostLike, PostLike.c.post_id == Post.id)

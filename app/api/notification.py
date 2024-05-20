@@ -295,3 +295,92 @@ def delete_comment_notification(comment_notification_id):
         return error_message(
             "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
         )
+
+
+@api.route("/notifications/mark-all-as-read", methods=["PUT"])
+def mark_all_as_read_notifications():
+    """
+    Mark all as read notifications.
+    Args:
+        filter: filter the notifications by type: all, posts, comments, post-status
+    Returns:
+        A JSON response with a message indicating the notifications have been marked as read.
+    """
+    try:
+        filter = request.args.get("filter")
+        user_id = request.json.get("user_id")
+
+        if filter is None:
+            return error_message(
+                "Filter required parameter is missing", responseStatus.BAD_REQUEST
+            )
+
+        if user_id is None:
+            return error_message(
+                "User id required parameter is missing", responseStatus.BAD_REQUEST
+            )
+
+        user_id = UUID(user_id)
+
+        if user_id != current_user.id:
+            return error_message("Unauthorized access", responseStatus.UNAUTHORIZED)
+
+        update_queries = {
+            "post-notifications": lambda: PostNotification.query.filter(
+                PostNotification.user_id == user_id,
+                PostNotification.is_read == False,
+            ).update({PostNotification.is_read: True}),
+            "comment-notifications": lambda: CommentNotification.query.filter(
+                CommentNotification.user_id == user_id,
+                CommentNotification.is_read == False,
+            ).update({CommentNotification.is_read: True}),
+            "approved-posts": lambda: Post.query.filter(
+                Post.user_id == user_id,
+                Post.status == Status.UNREAD_APPROVED,
+                Post.is_delete == False,
+            ).update(
+                {
+                    Post.status: Status.APPROVED,
+                    Post.updated_at: format_datetime(datetime.now()),
+                }
+            ),
+            "rejected-posts": lambda: Post.query.filter(
+                Post.user_id == user_id,
+                Post.status == Status.UNREAD_REJECTED,
+                Post.is_delete == False,
+            ).update(
+                {
+                    Post.status: Status.UNREAD_REJECTED,
+                    Post.updated_at: format_datetime(datetime.now()),
+                }
+            ),
+        }
+
+        if filter == "all":
+            for update_query in update_queries.values():
+                update_query()
+        elif filter == "posts":
+            update_queries["post-notifications"]()
+        elif filter == "comments":
+            update_queries["comment-notifications"]()
+        elif filter == "post-status":
+            update_queries["approved-posts"]()
+            update_queries["rejected-posts"]()
+        else:
+            return error_message("Invalid filter", responseStatus.BAD_REQUEST)
+
+        db.session.commit()
+
+        return jsonify(
+            {
+                "status": responseStatus.OK,
+                "message": f"{filter.capitalize()} marked as read successfully",
+            }
+        )
+
+    except Exception as e:
+        db.session.rollback()
+        print(e)
+        return error_message(
+            "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
+        )

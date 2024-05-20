@@ -238,10 +238,10 @@ class CommentHandler {
         const data = await this.fetchAPI(
           `/api/comments/${commentId}`,
           "DELETE",
-          null,
+          { userId: this.userId },
         );
 
-        if (data[0].status === 204) {
+        if (data.status === 200) {
           const postId = button.closest(".post-card").dataset.postId;
 
           console.log(postId);
