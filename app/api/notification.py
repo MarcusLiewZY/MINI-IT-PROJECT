@@ -119,7 +119,7 @@ def update_notification(id):
         elif notification_type == "CommentNotification":
 
             comment_notification = CommentNotification.query.filter(
-                CommentNotification.id == notification_id
+                CommentNotification.id == notification_id,
             ).first()
 
             if comment_notification is None:

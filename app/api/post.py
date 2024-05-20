@@ -6,10 +6,11 @@ from http import HTTPStatus as responseStatus
 
 from . import api
 from app import db
-from app.models import User, PostLike, PostBookmark
-from app.models.post import Post, Status
+from app.models import User, PostLike, PostBookmark, Post, Status
 from app.dto.post_dto import PostDTO
+from app.utils.api_utils import error_message
 from app.utils.helper import format_datetime
+from app.utils.decorators import login_required
 
 
 @api.route("/posts", methods=["GET"])
@@ -81,6 +82,70 @@ def get_post(post_id):
         return (
             jsonify({"error": "Internal Server Error"}),
             responseStatus.INTERNAL_SERVER_ERROR,
+        )
+
+
+@api.route("/posts/<post_id>/post-status", methods=["PUT"])
+def edit_post(post_id):
+    """
+    Edit the post status by its ID. Note that only the admin can edit the post status.
+    Args:
+        post_id: The ID of the post to edit.
+        postStatus: The new status of the post.
+        userId: The ID of the user who is editing the post, he or she must be an admin.
+    Returns:
+        A JSON object containing the post's data and an HTTP status code.
+    """
+    try:
+        data = request.json
+        user_id = data.get("userId")
+        post_status = data.get("postStatus").upper()
+
+        if user_id is None:
+            return error_message(
+                "Missing required parameter userId", responseStatus.BAD_REQUEST
+            )
+
+        if post_status is None:
+            return error_message(
+                "Missing required parameter postStatus", responseStatus.BAD_REQUEST
+            )
+
+        if post_status not in [status.value.upper() for status in Status]:
+            return error_message("Invalid post status", responseStatus.BAD_REQUEST)
+
+        post = Post.query.get(UUID(post_id))
+        user = User.query.get(UUID(user_id))
+
+        if post is None:
+            return error_message("Post not found", responseStatus.NOT_FOUND)
+
+        if user is None:
+            return error_message("User not found", responseStatus.NOT_FOUND)
+
+        if not user.is_admin:
+            return error_message("User is not an admin", responseStatus.UNAUTHORIZED)
+
+        if post.status.value.upper() == post_status:
+            return error_message(
+                f"Post status is already in {post_status}", responseStatus.BAD_REQUEST
+            )
+
+        post.status = post_status
+
+        db.session.commit()
+
+        return (
+            jsonify(
+                {"status": responseStatus.OK, "message": "Post edited successfully"}
+            ),
+            responseStatus.OK,
+        )
+    except Exception as e:
+        db.session.rollback()
+        print(e)
+        return error_message(
+            "Internal server error", responseStatus.INTERNAL_SERVER_ERROR
         )
 
 

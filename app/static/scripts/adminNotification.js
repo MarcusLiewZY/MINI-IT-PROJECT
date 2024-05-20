@@ -170,6 +170,107 @@ class ReportingCommentHandler {
   }
 }
 
+class ApprovingPostHandler {
+  constructor(userId) {
+    this.userId = userId;
+
+    this.approvePost = this.approvePost.bind(this);
+    this.rejectPost = this.rejectPost.bind(this);
+  }
+
+  approvePost(postId) {
+    return async () => {
+      try {
+        const response = await fetch(`/api/posts/${postId}/post-status`, {
+          method: "PUT",
+          body: JSON.stringify({
+            userId: this.userId,
+            postStatus: "unread_approved",
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await response.json();
+
+        return data.status === 200;
+      } catch (error) {
+        console.error("Error allowing reported comment", error);
+      }
+    };
+  }
+
+  rejectPost(postId) {
+    return async () => {
+      try {
+        const response = await fetch(`/api/posts/${postId}/post-status`, {
+          method: "PUT",
+          body: JSON.stringify({
+            userId: this.userId,
+            postStatus: "unread_rejected",
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await response.json();
+
+        return data.status === 200;
+      } catch (error) {
+        console.error("Error deleting reported comment", error);
+      }
+    };
+  }
+
+  setupApprovingPostHandler(approvingPostContainer) {
+    const approvingPostId = approvingPostContainer.getAttribute("id");
+
+    const actionButtonContainer = approvingPostContainer.querySelector(
+      ".action-button-container",
+    );
+
+    const actionButton = [
+      {
+        interactionSelector: "#approvingPostApproveButton",
+        handler: this.approvePost,
+      },
+      {
+        interactionSelector: "#approvingPostRejectButton",
+        handler: this.rejectPost,
+      },
+    ];
+
+    actionButton.forEach(({ interactionSelector, handler }) => {
+      const button = actionButtonContainer?.querySelector(interactionSelector);
+
+      if (!button) return;
+
+      const buttonHandler = handler(approvingPostId);
+
+      button.addEventListener("click", async () => {
+        try {
+          button.disable = true;
+          const isSuccess = await buttonHandler();
+
+          console.log("isSuccess", isSuccess);
+
+          if (isSuccess) {
+            approvingPostContainer.remove();
+          } else {
+            throw new Error("Error handling reporting comment");
+          }
+        } catch (error) {
+          console.error("Error handling reporting comment", error);
+        } finally {
+          button.disable = false;
+        }
+      });
+    });
+  }
+}
+
 const updateAdminNotificationCounter = (notificationType) => {
   adminNotificationsMapping.forEach(
     ({ supportedNotificationType, counterId }) => {
@@ -218,6 +319,8 @@ document.addEventListener("adminNotificationPaginationLoaded", () => {
       const reportingCommentHandler = new ReportingCommentHandler(userId);
       reportingCommentHandler.setupReportingCommentHandler(notification);
     } else if (notificationType === "ApprovingPost") {
+      const approvingPostHandler = new ApprovingPostHandler(userId);
+      approvingPostHandler.setupApprovingPostHandler(notification);
     }
   });
 });
