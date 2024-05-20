@@ -10,9 +10,9 @@
         <div class="text-label-md date">{{ post.timeAgo }}</div>
         {% if post.postStatus.value == 'Pending' %}
           <div class="post-status post-status-pending">Pending</div>
-        {% elif post.postStatus.value == 'Unread-approved' %}
+        {% elif post.postStatus.value == 'Unread_approved' %}
           <div class="post-status post-status-approved">Approved</div>
-        {% elif post.postStatus.value == 'Unread-rejected' %}
+        {% elif post.postStatus.value == 'Unread_rejected' %}
           <div class="post-status post-status-rejected">Rejected</div>
         {% endif %}
       </div>

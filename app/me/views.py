@@ -95,3 +95,18 @@ def bookmarks():
         userAggInteraction=userAggInteraction,
         postContainerId="myPageBookmarkedPostCardContainer",
     )
+
+
+@me_bp.route("/rejected-posts")
+@login_required
+def rejected_posts():
+
+    userAggInteraction = get_user_agg_interaction(current_user)
+
+    return render_template(
+        "me/posts.html",
+        user=current_user,
+        userAggInteraction=userAggInteraction,
+        postContainerId="myPageRejectedPostCardContainer",
+        isRejected=True,
+    )

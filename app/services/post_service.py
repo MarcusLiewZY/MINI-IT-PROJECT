@@ -196,7 +196,7 @@ def get_liked_posts(
 
     liked_posts = (
         Post.query.filter(
-            Post.status_in_([Status.APPROVED, Status.UNREAD_APPROVED]),
+            Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED]),
             Post.is_delete == False,
         )
         .join(PostLike, PostLike.c.post_id == Post.id)
@@ -302,6 +302,42 @@ def get_bookmarked_posts(
     postDTOs = [
         PostDTO(post, post.postCreator, user, isPreview=isPreview).to_dict()
         for post in post_list
+    ]
+
+    return has_next, postDTOs
+
+
+def get_rejected_posts(
+    user: User, isPreview: bool = False, page: int = 1, per_page: int = 10
+) -> Tuple[bool, List[Dict[str, Union[str, int, bool, List]]]]:
+    """
+        Get posts rejected by the admin ordered by
+        updated_at in descending order by default based on the pagination parameter (page and per_page)
+        Args:
+        user (User): The use who is currently logged in.
+        isPreview(bool): A flag to determine if the post is a preview.
+        page (int): The page number of the post list.
+        per_page (int): The number of the posts per page.
+    Returns:
+        Tuple[bool, List[Dict[str, Union[str, int, bool, List]]]]: A tuple containing a boolean indicating if there are more posts and a list of post DTOs.
+    """
+
+    rejected_posts = (
+        Post.query.filter(
+            Post.user_id == user.id,
+            Post.status.in_([Status.REJECTED, Status.UNREAD_REJECTED]),
+            Post.is_delete == False,
+        )
+        .order_by(Post.updated_at.desc())
+        .paginate(page=page, per_page=per_page, error_out=False)
+    )
+
+    has_next = rejected_posts.has_next
+    rejected_post_list = rejected_posts.items
+
+    postDTOs = [
+        PostDTO(post, post.postCreator, user, isPreview=isPreview).to_dict()
+        for post in rejected_post_list
     ]
 
     return has_next, postDTOs

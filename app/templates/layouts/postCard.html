@@ -23,8 +23,8 @@
       </div>
 
       <div class="flex flex-center react-container">
-        {% if post.postStatus.value == 'Approved' or post.postStatus.value == 'Rejected' %}
-          {% if post.postStatus.value == 'Approved' %}
+        {% if post.postStatus.value != 'Pending' %}
+          {% if post.postStatus.value in ['Approved', 'Unread_approved'] %}
             <div
               class="inline-flex like-button"
               data-is-post-liked-by-user="{{ post.userInteraction.isLikedByUser }}"
@@ -70,10 +70,10 @@
         {% endif %}
 
         {# post status  #}
-        {% if post.postStatus.value != 'Approved' %}
+        {% if post.postStatus.value in ['Approved', 'Unread_approved'] %}
           {% if post.postStatus.value == 'Pending' %}
             <div class="post-status post-status-pending">Pending</div>
-          {% elif post.postStatus.value == 'Rejected' %}
+          {% elif post.postStatus.value in ['Rejected', 'Unread_rejected'] %}
             <div class="post-status post-status-rejected">Rejected</div>
           {% endif %}
         {% endif %}
@@ -113,7 +113,7 @@
       </div>
     </div>
 
-    {% if post.postStatus.value == "Approved" %}
+    {% if post.postStatus.value in ['Approved', 'Unread_approved'] %}
 
       {# post react count #}
       <div class="flex text-label-md my-8 post-card__react-count-container ">
@@ -164,7 +164,7 @@
     {% endif %}
   </div>
 
-  {% if post.postStatus.value == "Approved" %}
+  {% if post.postStatus.value in ['Approved', 'Unread_approved'] %}
     {# reply to comment form #}
     {% if post.isPreview %}
       {% include "layouts/commentForm.html" %}

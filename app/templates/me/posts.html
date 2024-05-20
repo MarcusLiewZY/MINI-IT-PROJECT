@@ -43,46 +43,62 @@
         </form>
       </div>
     </div>
-    <nav class="user-content-container">
-      <ul class="flex gap-8 text-headline-sm">
-        <li class="user-content-item">
-          <a
-            href="{{ url_for('me.posts') }}"
-            class="link
+    <div class="flex flex-col gap-6 me-page-navigation-container">
+      <nav class="user-content-container">
+        <ul class="flex gap-8 text-headline-sm">
+          <li class="user-content-item">
+            <a
+              href="{{ url_for('me.posts') }}"
+              class="link
           {{ 'active' if request.path == url_for('me.posts') }}
           "
-            >{{ userAggInteraction.createdPosts }} Posts</a
-          >
-        </li>
-        <li class="user-content-item">
-          <a
-            href="{{ url_for('me.likes') }}"
-            class="link
+              >{{ userAggInteraction.createdPosts }} Posts</a
+            >
+          </li>
+          <li class="user-content-item">
+            <a
+              href="{{ url_for('me.likes') }}"
+              class="link
           {{ 'active' if request.path == url_for('me.likes') }}
           "
-            >{{ userAggInteraction.likedPosts }} Likes</a
-          >
-        </li>
-        <li class="user-content-item">
-          <a
-            href="{{ url_for('me.replies') }}"
-            class="link
+              >{{ userAggInteraction.likedPosts }} Likes</a
+            >
+          </li>
+          <li class="user-content-item">
+            <a
+              href="{{ url_for('me.replies') }}"
+              class="link
           {{ 'active' if request.path == url_for('me.replies') }}
           "
-            >{{ userAggInteraction.commentsAndReplies }} Replies</a
-          >
-        </li>
-        <li class="user-content-item">
-          <a
-            href="{{ url_for('me.bookmarks') }}"
-            class="link
+              >{{ userAggInteraction.commentsAndReplies }} Replies</a
+            >
+          </li>
+          <li class="user-content-item">
+            <a
+              href="{{ url_for('me.bookmarks') }}"
+              class="link
           {{ 'active' if request.path == url_for('me.bookmarks') }}
           "
-            >{{ userAggInteraction.bookmarkedPosts }} Bookmarks</a
-          >
-        </li>
-      </ul>
-    </nav>
+              >{{ userAggInteraction.bookmarkedPosts }} Bookmarks</a
+            >
+          </li>
+          <li class="user-content-item">
+            <a
+              href="{{ url_for('me.rejected_posts') }}"
+              class="link
+          {{ 'active' if request.path == url_for('me.rejected_posts') }}
+          "
+              >{{ userAggInteraction.rejectedPosts }} Rejects</a
+            >
+          </li>
+        </ul>
+      </nav>
+      {% if isRejected %}
+        <div class="text-label-lg rejected-page-info">
+          You can resubmit or delete the rejected post
+        </div>
+      {% endif %}
+    </div>
     <div
       class="flex flex-col px-4 gap-12 posts-container"
       id="{{ postContainerId }}"

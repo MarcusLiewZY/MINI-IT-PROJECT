@@ -27,6 +27,8 @@ def get_post(post_id):
 
             isSuccess, message = edit_post(post, editPostForm)
             flash(message, "success" if isSuccess else "error")
+            if isSuccess:
+                return redirect(url_for("main.index"))
 
     editPostForm.title.data = post.title
     editPostForm.content.data = post.content
@@ -35,7 +37,7 @@ def get_post(post_id):
 
     if not post or post.is_delete:
         flash("Post not found", "error")
-        return redirect(url_for(main.index))
+        return redirect(url_for("main.index"))
 
     postCreator = User.query.get(post.user_id)
 

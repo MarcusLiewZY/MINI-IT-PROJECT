@@ -11,7 +11,7 @@ const adminNotificationsMapping = [
     id: "adminPageApprovingPostsFilter",
     param: "approving-posts",
     supportedNotificationType: ["ApprovingPost"],
-    counterId: "adminPageApprovingCount",
+    counterId: "adminPageApprovingPagesCount",
   },
   {
     id: "adminPageReportingCommentsFilter",
@@ -41,47 +41,44 @@ document.addEventListener("DOMContentLoaded", () => {
   adminNotificationFilter();
 });
 
-// update notification status
-// const notificationContentContainer = document.querySelector(
-//   ".notification-section #notificationPageNotificationContentContainer",
-// );
+const updateAdminNotificationCounter = (notificationType) => {
+  adminNotificationsMapping.forEach(
+    ({ supportedNotificationType, counterId }) => {
+      const notificationCounter =
+        adminNotificationFilterContainer?.querySelector(`#${counterId}`);
 
-// const updateNotificationStatus = async (notificationId, notificationType) => {
-//   try {
-//     const response = await fetch(`/api/notifications/${notificationId}`, {
-//       method: "PUT",
-//       body: JSON.stringify({ type: notificationType }),
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
+      if (
+        !supportedNotificationType.includes(notificationType) ||
+        !notificationCounter
+      )
+        return;
 
-//     const { status, post_detail_url, post_status } = await response.json();
+      const currentCount = parseInt(notificationCounter.textContent);
 
-//     if (status === 200) {
-//       window.open(post_detail_url, "_blank");
-//     } else {
-//       throw new Error("Error updating notification status");
-//     }
+      notificationCounter.textContent = currentCount - 1;
+      const newCount = parseInt(notificationCounter.textContent);
 
-//     return {
-//       status,
-//       post_detail_url,
-//       postStatus: post_status || null,
-//     };
-//   } catch (error) {
-//     console.error("Error updating notification status", error);
-//   }
-// };
+      if (newCount === 0) {
+        notificationCounter.classList.add("d-none");
+      } else if (newCount > 0) {
+        notificationCounter.classList.remove("d-none");
 
-// todo: reporting and approval features
+        if (newCount > 99) notificationCounter.textContent = "99+";
+      }
+
+      return;
+    },
+  );
+};
 
 class ReportingCommentHandler {
-  constructor(userId) {
+  constructor(userId, notificationType) {
     this.userId = userId;
+    this.notificationType = notificationType;
 
     this.allowReportedComment = this.allowReportedComment.bind(this);
     this.deleteReportedComment = this.deleteReportedComment.bind(this);
+    this.setupHandler = this.setupHandler.bind(this);
   }
 
   allowReportedComment(commentId) {
@@ -125,7 +122,7 @@ class ReportingCommentHandler {
     };
   }
 
-  setupReportingCommentHandler(reportingCommentContainer) {
+  setupHandler(reportingCommentContainer) {
     const reportingCommentId = reportingCommentContainer.getAttribute("id");
 
     const actionButtonContainer = reportingCommentContainer.querySelector(
@@ -157,6 +154,7 @@ class ReportingCommentHandler {
 
           if (isSuccess) {
             reportingCommentContainer.remove();
+            updateAdminNotificationCounter(this.notificationType);
           } else {
             throw new Error("Error handling reporting comment");
           }
@@ -170,35 +168,107 @@ class ReportingCommentHandler {
   }
 }
 
-const updateAdminNotificationCounter = (notificationType) => {
-  adminNotificationsMapping.forEach(
-    ({ supportedNotificationType, counterId }) => {
-      const notificationCounter =
-        adminNotificationFilterContainer?.querySelector(`#${counterId}`);
+class ApprovingPostHandler {
+  constructor(userId, notificationType) {
+    this.userId = userId;
+    this.notificationType = notificationType;
 
-      if (
-        !supportedNotificationType.includes(notificationType) ||
-        !notificationCounter
-      )
-        return;
+    this.approvePost = this.approvePost.bind(this);
+    this.rejectPost = this.rejectPost.bind(this);
+    this.setupHandler = this.setupHandler.bind(this);
+  }
 
-      const currentCount = parseInt(notificationCounter.textContent);
+  approvePost(postId) {
+    return async () => {
+      try {
+        const response = await fetch(`/api/posts/${postId}/post-status`, {
+          method: "PUT",
+          body: JSON.stringify({
+            userId: this.userId,
+            postStatus: "unread_approved",
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-      notificationCounter.textContent = currentCount - 1;
-      const newCount = parseInt(notificationCounter.textContent);
+        const data = await response.json();
 
-      if (newCount === 0) {
-        notificationCounter.classList.add("d-none");
-      } else if (newCount > 0) {
-        notificationCounter.classList.remove("d-none");
-
-        if (newCount > 99) notificationCounter.textContent = "99+";
+        return data.status === 200;
+      } catch (error) {
+        console.error("Error allowing reported comment", error);
       }
+    };
+  }
 
-      return;
-    },
-  );
-};
+  rejectPost(postId) {
+    return async () => {
+      try {
+        const response = await fetch(`/api/posts/${postId}/post-status`, {
+          method: "PUT",
+          body: JSON.stringify({
+            userId: this.userId,
+            postStatus: "unread_rejected",
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await response.json();
+
+        return data.status === 200;
+      } catch (error) {
+        console.error("Error deleting reported comment", error);
+      }
+    };
+  }
+
+  setupHandler(approvingPostContainer) {
+    const approvingPostId = approvingPostContainer.getAttribute("id");
+
+    const actionButtonContainer = approvingPostContainer.querySelector(
+      ".action-button-container",
+    );
+
+    const actionButton = [
+      {
+        interactionSelector: "#approvingPostApproveButton",
+        handler: this.approvePost,
+      },
+      {
+        interactionSelector: "#approvingPostRejectButton",
+        handler: this.rejectPost,
+      },
+    ];
+
+    actionButton.forEach(({ interactionSelector, handler }) => {
+      const button = actionButtonContainer?.querySelector(interactionSelector);
+
+      if (!button) return;
+
+      const buttonHandler = handler(approvingPostId);
+
+      button.addEventListener("click", async () => {
+        try {
+          button.disable = true;
+          const isSuccess = await buttonHandler();
+
+          if (isSuccess) {
+            approvingPostContainer.remove();
+            updateAdminNotificationCounter(this.notificationType);
+          } else {
+            throw new Error("Error handling reporting comment");
+          }
+        } catch (error) {
+          console.error("Error handling reporting comment", error);
+        } finally {
+          button.disable = false;
+        }
+      });
+    });
+  }
+}
 
 document.addEventListener("adminNotificationPaginationLoaded", () => {
   const adminNotificationContentContainer = document.querySelector(
@@ -207,17 +277,31 @@ document.addEventListener("adminNotificationPaginationLoaded", () => {
 
   const userId = document.querySelector(".current-user-id").dataset.userId;
 
-  [...adminNotificationContentContainer?.children].forEach((notification) => {
-    const notificationType = notification.getAttribute(
-      "data-admin-notification-type",
-    );
+  const notificationHandlers = {
+    ReportingComment: ReportingCommentHandler,
+    ApprovingPost: ApprovingPostHandler,
+  };
 
-    if (!notificationType) return;
+  [...adminNotificationContentContainer?.children].forEach(
+    async (notification) => {
+      try {
+        const notificationType = notification.getAttribute(
+          "data-admin-notification-type",
+        );
 
-    if (notificationType === "ReportingComment") {
-      const reportingCommentHandler = new ReportingCommentHandler(userId);
-      reportingCommentHandler.setupReportingCommentHandler(notification);
-    } else if (notificationType === "ApprovingPost") {
-    }
-  });
+        const Handler = notificationHandlers[notificationType];
+
+        if (!Handler) return;
+
+        const handler = new Handler(userId, notificationType);
+        const isSuccess = await handler.setupHandler(notification);
+
+        if (!isSuccess) return;
+
+        updateAdminNotificationCounter(notificationType);
+      } catch (error) {
+        console.error("Error updating notification status", error);
+      }
+    },
+  );
 });
