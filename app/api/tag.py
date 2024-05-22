@@ -64,6 +64,7 @@ def create_tag():
                     "status": responseStatus.CREATED,
                     "message": "Tag created successfully",
                     "tag": {
+                        "id": tag.id,
                         "name": tag.name,
                         "color": tag.color,
                         "description": tag.description,
@@ -150,7 +151,12 @@ def edit_tag(tag_id):
                 {
                     "status": responseStatus.OK,
                     "message": "Tag updated successfully",
-                    "tagId": tag.id,
+                    "tag": {
+                        "id": tag.id,
+                        "name": tag.name,
+                        "color": tag.color,
+                        "description": tag.description,
+                    },
                 }
             ),
             responseStatus.OK,
