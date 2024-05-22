@@ -10,6 +10,9 @@ const adminPageTagToggleList = tagListContainer.querySelector(
   "#adminPageTagToggleList",
 );
 
+const tagListContentContainer =
+  adminPageTagToggleList?.querySelector(".tag-list-content");
+
 const adminPageCreateTagModalButton = tagListContainer.querySelector(
   "#adminPageCreateTagModalButton",
 );
@@ -60,6 +63,7 @@ class CreateTagModalHandler {
     this.validateForm = this.validateForm.bind(this);
     this.fetchAPI = this.fetchAPI.bind(this);
     this.createTag = this.createTag.bind(this);
+    this.onCreateTagClick = this.onCreateTagClick.bind(this);
   }
 
   attachEventListeners() {
@@ -67,7 +71,7 @@ class CreateTagModalHandler {
     this.onCloseCreateTagModalClick();
     this.onColorPickerChange();
     this.autoResizeTextarea();
-    this.createTag();
+    this.onCreateTagClick();
   }
 
   onOpenCreateTagModalClick() {
@@ -141,37 +145,79 @@ class CreateTagModalHandler {
   }
 
   async createTag() {
+    try {
+      if (!this.validateForm()) return;
+
+      const tagData = new FormData(this.createTagForm);
+
+      const tagDataObj = Object.fromEntries(tagData.entries());
+
+      const { status, tag } = await this.fetchAPI(
+        "POST",
+        "/api/tags",
+        tagDataObj,
+      );
+
+      if (status !== 201) throw new Error("Failed to create tag.");
+
+      this.createTagModal.close();
+      this.createTagForm.reset();
+
+      return tag;
+    } catch (error) {
+      console.error("Error from createTag:", error);
+    }
+  }
+
+  onCreateTagClick() {
     this.createTagForm.addEventListener("submit", async (e) => {
       try {
         e.preventDefault();
+        const tag = await this.createTag();
 
-        if (!this.validateForm()) return;
+        if (!tag) return;
 
-        const tagData = new FormData(this.createTagForm);
+        const { id, name, color } = tag;
 
-        const tagDataObj = Object.fromEntries(tagData.entries());
+        // construct the tag node element
+        const newTagString = `<li
+          class="post-tag post-tag-lg"
+          id="${id}"
+          style="background-color: ${color};">
+          ${name}
+        </li>`;
 
-        const { status } = await this.fetchAPI("POST", "/api/tags", tagDataObj);
+        tagListContentContainer.insertAdjacentHTML("beforeend", newTagString);
 
-        if (status !== 201) throw new Error("Failed to create tag.");
+        const editTagModalHandler = new EditTagModalHandler(id);
+        const newTag = document.querySelector(`.admin-section [id="${id}"]`);
 
-        this.createTagModal.close();
-        this.createTagForm.reset();
-        window.location.reload();
+        newTag.addEventListener("click", () => {
+          editTagModalHandler.attachEventListeners();
+        });
+
+        // show flash message
+        const flashMessage = `
+          <span class="flash flash-success">Tag created successfully.</span>
+        `;
+
+        flashMessageContainer.innerHTML = flashMessage;
+        flashMessageContainer.classList.remove("d-none");
+
+        setTimeout(() => {
+          flashMessageContainer.innerHTML = "";
+          flashMessageContainer.classList.add("d-none");
+        }, 3000);
       } catch (error) {
-        console.error("Error from createTag:", error);
+        console.error("Error from onCreateTagClick:", error);
       }
     });
   }
 }
-
 class EditTagModalHandler {
-  constructor(tagId) {
-    this.tagId = tagId;
+  constructor() {
+    this.isEventListenersAttached = false;
     this.editTagModal = document.querySelector("#editTagModal");
-    this.openEditTagModalButton = document.querySelector(
-      `.admin-section [id="${tagId}"]`,
-    );
     this.closeEditTagModalButton = this.editTagModal?.querySelector(
       "#editTagModalCloseButton",
     );
@@ -197,30 +243,42 @@ class EditTagModalHandler {
     this.onCloseEditTagModalClick = this.onCloseEditTagModalClick.bind(this);
     this.autoResizeTextarea = this.autoResizeTextarea.bind(this);
     this.validateForm = this.validateForm.bind(this);
+    this.flashMessage = this.flashMessage.bind(this);
     this.fetchAPI = this.fetchAPI.bind(this);
     this.getTag = this.getTag.bind(this);
-    this.editTag = this.editTag.bind(this);
-    this.deleteTag = this.deleteTag.bind(this);
+    this.onEditTagFormSubmit = this.onEditTagFormSubmit.bind(this);
+    this.onDeleteTagClick = this.onDeleteTagClick.bind(this);
+
+    // Attach initial event listeners
+    this.attachEventListeners();
   }
 
   attachEventListeners() {
-    this.onOpenEditTagModalClick();
-    this.onCloseEditTagModalClick();
+    // Check if event listeners have already been attached
+    if (this.isEventListenersAttached) return;
+
+    this.closeEditTagModalButton.addEventListener(
+      "click",
+      this.onCloseEditTagModalClick,
+    );
+    this.deleteTagButton.addEventListener("click", this.onDeleteTagClick);
+    this.editTagForm.addEventListener("submit", this.onEditTagFormSubmit);
+
     this.onColorPickerChange();
     this.autoResizeTextarea();
-    this.editTag();
-    this.deleteTag();
+
+    // Update isEventListenersAttached
+    this.isEventListenersAttached = true;
   }
 
-  async onOpenEditTagModalClick() {
+  async onOpenEditTagModalClick(tagId) {
+    this.tagId = tagId; // Update tagId when opening the modal
     await this.getTag();
     this.editTagModal.showModal();
   }
 
   onCloseEditTagModalClick() {
-    this.closeEditTagModalButton.addEventListener("click", () => {
-      this.editTagModal.close();
-    });
+    this.editTagModal.close();
   }
 
   onColorPickerChange() {
@@ -247,10 +305,21 @@ class EditTagModalHandler {
   autoResizeTextarea() {
     this.tagDescriptionInput?.addEventListener("input", () => {
       this.tagDescriptionInput.style.height = "auto";
-
       this.tagDescriptionInput.style.maxHeight = "280px";
       this.tagDescriptionInput.style.height = `${this.tagDescriptionInput.scrollHeight}px`;
     });
+  }
+
+  flashMessage(message, type) {
+    const flashMessage = `<span class="flash flash-${type}">${message}</span>`;
+
+    flashMessageContainer.innerHTML = flashMessage;
+    flashMessageContainer.classList.remove("d-none");
+
+    setTimeout(() => {
+      flashMessageContainer.innerHTML = "";
+      flashMessageContainer.classList.add("d-none");
+    }, 3000);
   }
 
   async fetchAPI(method, url, data = null) {
@@ -265,7 +334,6 @@ class EditTagModalHandler {
       if (data !== null) options.body = JSON.stringify(data);
 
       const response = await fetch(url, options);
-
       return await response.json();
     } catch (error) {
       console.error("Error from fetchAPI:", error);
@@ -274,12 +342,15 @@ class EditTagModalHandler {
 
   async getTag() {
     try {
-      const {
-        status,
-        tag: { name, color, description },
-      } = await this.fetchAPI("GET", `/api/tags/${this.tagId}`, null);
+      const { status, tag } = await this.fetchAPI(
+        "GET",
+        `/api/tags/${this.tagId}`,
+        null,
+      );
 
       if (status !== 200) throw new Error("Failed to get tag.");
+
+      const { name, color, description } = tag;
 
       this.tagNameInput.value = name;
       this.tagColorInput.value = color;
@@ -287,7 +358,6 @@ class EditTagModalHandler {
 
       const tagColorPreview =
         this.editTagModal?.querySelector("#tagColorPreview");
-
       tagColorPreview.style.backgroundColor = color;
     } catch (error) {
       console.error("Error from getTag:", error);
@@ -306,72 +376,79 @@ class EditTagModalHandler {
     } else return true;
   }
 
-  async editTag() {
-    this.editTagForm.addEventListener("submit", async (e) => {
-      try {
-        e.preventDefault();
+  async onEditTagFormSubmit(e) {
+    try {
+      e.preventDefault();
 
-        if (!this.validateForm()) return;
+      if (!this.validateForm()) return;
 
-        const tagData = new FormData(this.editTagForm);
+      const tagData = new FormData(this.editTagForm);
+      const tagDataObj = Object.fromEntries(tagData.entries());
 
-        const tagDataObj = Object.fromEntries(tagData.entries());
+      const { status, tag } = await this.fetchAPI(
+        "PUT",
+        `/api/tags/${this.tagId}`,
+        tagDataObj,
+      );
 
-        const { status } = await this.fetchAPI(
-          "PUT",
-          `/api/tags/${this.tagId}`,
-          tagDataObj,
-        );
+      if (status !== 200) throw new Error("Failed to edit tag.");
 
-        if (status !== 200) throw new Error("Failed to edit tag.");
+      this.editTagModal.close();
+      this.editTagForm.reset();
 
-        this.editTagModal.close();
-        this.editTagForm.reset();
-        window.location.reload();
-      } catch (error) {
-        console.error("Error from editTag:", error);
-      }
-    });
+      // Update the tag in the tag list
+      const { id, name, color } = tag;
+
+      const updatedTag = document.querySelector(`.admin-section [id="${id}"]`);
+      updatedTag.style.backgroundColor = color;
+      updatedTag.textContent = name;
+
+      // show flash message
+      this.flashMessage("Tag updated successfully.", "success");
+    } catch (error) {
+      console.error("Error from editTag:", error);
+    }
   }
 
-  async deleteTag() {
-    this.deleteTagButton.addEventListener("click", async () => {
-      try {
-        const { status } = await this.fetchAPI(
-          "DELETE",
-          `/api/tags/${this.tagId}`,
-          null,
-        );
+  async onDeleteTagClick() {
+    try {
+      const { status } = await this.fetchAPI(
+        "DELETE",
+        `/api/tags/${this.tagId}`,
+        null,
+      );
 
-        if (status !== 200) throw new Error("Failed to delete tag.");
+      if (status !== 200) throw new Error("Failed to delete tag.");
 
-        this.editTagModal.close();
-        this.editTagForm.reset();
-        window.location.reload();
-      } catch (error) {
-        console.error("Error from deleteTag: ", error);
-      }
-    });
+      this.editTagModal.close();
+      this.editTagForm.reset();
+
+      const tag = document.querySelector(`.admin-section [id="${this.tagId}"]`);
+      tag.remove();
+
+      this.flashMessage("Tag deleted successfully.", "success");
+    } catch (error) {
+      console.error("Error from deleteTag: ", error);
+    }
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // toggle tag list
+  // Toggle tag list
   adminPageTagListToggleButton.addEventListener("click", onToggleTagList);
 
-  // create tag handlers
+  // Create tag handlers
   const createTagModalHandler = new CreateTagModalHandler();
   createTagModalHandler.attachEventListeners();
 
-  const tagListContentContainer =
-    adminPageTagToggleList?.querySelector(".tag-list-content");
+  // Initialize the edit tag modal handler once
+  const editTagModalHandler = new EditTagModalHandler();
 
-  // edit tag handlers
+  // Attach click event listeners to each tag
   [...tagListContentContainer.children].forEach((tag) => {
     tag.addEventListener("click", () => {
       const tagId = tag.id;
-      const editTagModalHandler = new EditTagModalHandler(tagId);
-      editTagModalHandler?.attachEventListeners();
+      editTagModalHandler.onOpenEditTagModalClick(tagId);
     });
   });
 });
