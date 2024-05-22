@@ -1,0 +1,74 @@
+<dialog id="editTagModal" class="modal">
+  <div class="flex flex-col gap-5 py-6 px-6 create-post-modal-container">
+    <div class="text-headline-md">Edit Tag</div>
+
+    {# error message #}
+    <div
+      id="editTagModalErrorMessage"
+      class="text-label-lg error-message d-none"
+    ></div>
+
+    {# form #}
+    <form
+      class="flex flex-col gap-4"
+      action=""
+      method="POST"
+      enctype="multipart/form-data"
+      id="editTagForm"
+    >
+      <div class="form-control">
+        <label for="tagName" class="text-title-md">Tag name</label>
+        <input
+          type="text"
+          id="tagName"
+          name="name"
+          class="px-4 py-2 ml-3 title-input"
+          placeholder="Tag name..."
+        />
+      </div>
+      <div class="form-control">
+        <label for="tagColor" class="text-title-md">Color</label>
+        <div class="ml-3 p-1 color-swatch-container">
+          <div class="color-swatch" id="tagColorPreview"></div>
+          <input
+            type="color"
+            id="tagColor"
+            name="color"
+            class="ml-3 p-1 color-input hidden"
+          />
+        </div>
+      </div>
+      <div class="form-control flex flex-col content-form-control">
+        <label for="tagDescription" class="text-title-md">Description</label>
+        <textarea
+          name="description"
+          id="tagDescription"
+          placeholder="Add a description..."
+          class="text-body-md px-4 py-2 comment-input"
+          rows="6"
+        ></textarea>
+      </div>
+      <div class="divider mt-4 mb-2"></div>
+
+      <footer class="flex flex-between">
+        <button
+          type="button"
+          id="editTagModalDeleteButton"
+          class="btn btn-error inline-flex flex-center"
+        >
+          Delete
+        </button>
+        <div class="flex gap-3 action-button-container">
+          <button
+            type="button"
+            class="btn btn-muted buttonclose "
+            id="editTagModalCloseButton"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn">Save</button>
+        </div>
+      </footer>
+    </form>
+  </div>
+</dialog>

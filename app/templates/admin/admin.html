@@ -51,7 +51,45 @@
           </div>
         </li>
       </ul>
-      {# todo: add the tag modal #}
+
+      <div class="tag-list-container">
+        <div class="flex flex-between py-2 px-3 tag-toggle">
+          <div
+            class="transition-slow toggle-heading-container"
+            id="adminPageTagListToggleButton"
+          >
+            <img
+              src="{{ url_for('static', filename = 'svg/chevron-right.svg') }}"
+              alt="chevron-right"
+              class="transition-medium"
+            />
+            <div class="text-headline-sm">Tags</div>
+          </div>
+          <button
+            type="button"
+            class="inline-flex flex-center px-2 py-1 transition-fast"
+            id="adminPageCreateTagModalButton"
+          >
+            <img
+              src="{{ url_for('static', filename = 'svg/plus.svg') }}"
+              alt="plus-button"
+            />
+          </button>
+        </div>
+        <div class="tag-list transition-medium" id="adminPageTagToggleList">
+          <ul class="flex p-2 pb-3 gap-2 tag-list-content">
+            {% for tag in tags %}
+              <li
+                class="post-tag post-tag-lg"
+                id="{{ tag.id }}"
+                style="background-color: {{ tag.color }};"
+              >
+                {{ tag.name }}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
     </div>
 
     {# admin column #}
@@ -76,5 +114,9 @@
         </div>
       </div>
     </div>
+
+    {# create tag modal #}
+    {% include "admin/createTagModal.html" %}
+    {% include "admin/editTagModal.html" %}
   </section>
 {% endblock content %}

@@ -8,6 +8,14 @@
   display: none !important;
 }
 
+.d-block {
+  display: block !important;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
 /* background */
 .bg-white {
   background-color: var(--color---base---white);

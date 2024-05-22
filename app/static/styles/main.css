@@ -140,7 +140,6 @@ textarea::-webkit-scrollbar {
 .form-control > *:is(input, textarea) {
   border-radius: 24px;
   background-color: var(--color---neutral--neutral95);
-
   &:focus {
     background-color: var(--color---base---white);
     border-radius: 24px;
@@ -348,7 +347,7 @@ form {
   height: fit-content;
 
   &.post-tag-lg {
-    padding: 8px 16px;
+    padding: 6px 12px;
     border-radius: 24px;
   }
 
@@ -728,7 +727,9 @@ form {
 
 /* create-post-modal */
 #createPostModal,
-#editPostModal {
+#editPostModal,
+#createTagModal,
+#editTagModal {
   position: fixed;
   width: 936px;
   height: fit-content;
@@ -744,14 +745,18 @@ form {
 }
 
 #createPostModal::backdrop,
-#editPostModal::backdrop {
+#editPostModal::backdrop,
+#createTagModal::backdrop,
+#editTagModal::backdrop {
   background-color: var(--color---base---black);
   background-blend-mode: multiply;
   opacity: 0.6;
 }
 
 #createPostModal .error-message,
-#editPostModal .error-message {
+#editPostModal .error-message,
+#createTagModal .error-message,
+#editTagModal .error-message {
   color: var(--color---alert---error);
 }
 
@@ -1114,6 +1119,92 @@ form {
   align-items: flex-end;
 }
 
+.filter-container .tag-toggle {
+  background-color: var(--color---neutral--neutral80);
+}
+
+.tag-toggle #adminPageCreateTagModalButton:hover {
+  background-color: var(--color---neutral--neutral70);
+  border-radius: 50%;
+}
+
+.tag-list-container .tag-list {
+  background-color: var(--color---neutral--neutral95);
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transform: translateY(-0.25rem);
+}
+.tag-list-container .tag-list.show {
+  opacity: 1;
+  max-height: 500px;
+  transform: translateY(0);
+}
+
+.tag-list-container #adminPageTagListToggleButton img {
+  transform: rotate(0deg);
+}
+
+.tag-list-container #adminPageTagListToggleButton img.rotate-down-90 {
+  transform: rotate(90deg);
+}
+
+.tag-list-container .tag-list-content {
+  flex-wrap: wrap;
+}
+
+.tag-list-container .tag-list-content .post-tag {
+  cursor: pointer;
+}
+
+.filter-container .toggle-heading-container {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+#createTagModal .title-input,
+#editTagModal .title-input {
+  width: 90%;
+}
+
+#createTagModal .color-swatch-container,
+#editTagModal .color-swatch-container {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 32px;
+  padding: 12px;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color---neutral--neutral95);
+  cursor: pointer;
+}
+
+#createTagModal .color-swatch,
+#editTagModal .color-swatch {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 24px;
+  border-radius: 8px;
+  background-color: red;
+}
+
+#createTagModal .color-input,
+#editTagModal .color-input {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+}
+
 .filter-category-container .filter-category-item {
   position: relative;
   padding: 8px 12px;
@@ -1174,6 +1265,7 @@ form {
   margin-top: 0.5rem;
 }
 
-.admin-content-container .action-button-container {
+.admin-content-container .action-button-container,
+#createTagModal .action-button-container {
   justify-content: flex-end;
 }

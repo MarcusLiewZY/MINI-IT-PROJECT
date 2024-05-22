@@ -149,8 +149,6 @@ def get_paginate_all_admin_notifications(
     Returns:
         Tuple[bool, List[Union[Post, Comment]]]: A tuple containing a boolean indicating if there are more admin notifications and a list of adminNotificationDTOs.
     """
-    print("get_paginate_all_admin_notifications")
-
     _, reporting_comments = get_reporting_comments()
     _, approving_posts = get_approving_post()
 

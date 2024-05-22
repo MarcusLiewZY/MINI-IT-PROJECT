@@ -9,3 +9,4 @@ import "./notification.js";
 import "./notificationInfiniteScroll.js";
 import "./adminNotification.js";
 import "./adminInfiniteScroll.js";
+import "./tagHandler.js";

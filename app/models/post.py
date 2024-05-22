@@ -12,8 +12,6 @@ class Status(Enum):
     REJECTED = "Rejected"
     UNREAD_APPROVED = "Unread_approved"
     UNREAD_REJECTED = "Unread_rejected"
-    # todo: database seeding again to fix the post status
-    Rejected = "rejected"
 
 
 PostTag = db.Table(
