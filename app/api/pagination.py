@@ -385,7 +385,6 @@ def get_admin_notification_list():
         has_next = False
 
         if filter == "all":
-            print("filter all")
             has_next, adminNotificationDTOs = get_paginate_all_admin_notifications(
                 page=page, per_page=per_page
             )

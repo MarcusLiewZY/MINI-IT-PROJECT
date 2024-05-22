@@ -2,7 +2,7 @@ from flask import request, render_template, flash, redirect, url_for
 from flask_login import login_user, current_user
 
 from . import admin
-from app.models import User
+from app.models import User, Tag
 from app.utils.decorators import logout_required, login_required, is_admin
 from app.services.admin_service import get_agg_admin_notifications
 
@@ -13,6 +13,8 @@ from app.services.admin_service import get_agg_admin_notifications
 def index():
     filter = request.args.get("filter")
 
+    tags = Tag.query.all()
+
     if filter is None:
         return redirect(url_for("admin.index", filter="all"))
 
@@ -22,6 +24,7 @@ def index():
         "admin/admin.html",
         user=current_user,
         adminNotificationsAgg=adminNotificationsAgg,
+        tags=tags,
     )
 
 
