@@ -208,11 +208,9 @@ class CommentHandler {
             if (replyCommentCount.textContent === "0") {
               replyCommentCount.parentNode.classList.remove("d-none");
               replyCommentCount.textContent = 1;
-              console.log(replyCommentCount.textContent);
             } else {
               replyCommentCount.textContent =
                 parseInt(replyCommentCount.textContent) + 1;
-              console.log(replyCommentCount.textContent);
             }
 
             replyCommentCount.nextElementSibling.textContent =
@@ -243,8 +241,6 @@ class CommentHandler {
 
         if (data.status === 200) {
           const postId = button.closest(".post-card").dataset.postId;
-
-          console.log(postId);
 
           button.closest(".comment-container").remove();
 
@@ -288,8 +284,6 @@ class CommentHandler {
 
       const comment = commentContainer.querySelector(".comment");
       const commentContent = comment.querySelector(".reply");
-
-      console.log(Array(commentInfoContainer.children));
 
       [...commentInfoContainer.children].forEach((commentInfo) => {
         commentInfo.classList.add("d-none");
@@ -369,8 +363,6 @@ class CommentHandler {
   commentReportHandler(commentId) {
     return async (button) => {
       this.isReported = button.dataset.isReported.toLowerCase() === "true";
-      console.log("button", button);
-      console.log("this.reported", this.isReported);
 
       if (this.isReported === true) return;
 

@@ -115,7 +115,7 @@ class ReportingCommentHandler {
           },
         });
 
-        return response.status === 204;
+        return response.status === 200;
       } catch (error) {
         console.error("Error deleting reported comment", error);
       }

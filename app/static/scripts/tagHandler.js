@@ -2,18 +2,18 @@ const tagListContainer = document.querySelector(
   ".admin-section .tag-list-container",
 );
 
-const adminPageTagListToggleButton = tagListContainer.querySelector(
+const adminPageTagListToggleButton = tagListContainer?.querySelector(
   "#adminPageTagListToggleButton",
 );
 
-const adminPageTagToggleList = tagListContainer.querySelector(
+const adminPageTagToggleList = tagListContainer?.querySelector(
   "#adminPageTagToggleList",
 );
 
 const tagListContentContainer =
   adminPageTagToggleList?.querySelector(".tag-list-content");
 
-const adminPageCreateTagModalButton = tagListContainer.querySelector(
+const adminPageCreateTagModalButton = tagListContainer?.querySelector(
   "#adminPageCreateTagModalButton",
 );
 
