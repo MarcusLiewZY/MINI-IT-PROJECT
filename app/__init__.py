@@ -75,7 +75,6 @@ from app.faq.views import faq
 from app.about.views import about_bp
 
 from app.api import api
-from app.about.views import about
 
 app.register_blueprint(main)
 app.register_blueprint(user)
