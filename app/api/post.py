@@ -11,7 +11,7 @@ from app.models.post import Post, Status
 from app.dto.post_dto import PostDTO
 from app.utils.helper import format_datetime
 
-
+#Retrieves all posts based on optional query parameters (isPreview, isDeleted, isApproved)
 @api.route("/posts", methods=["GET"])
 def get_posts():
     """
@@ -39,7 +39,7 @@ def get_posts():
         posts = query.order_by(Post.updated_at.desc()).all()
         postDTOs = [
             PostDTO(post, post.postCreator, post.postCreator, isPreview).to_dict()
-            for post in posts
+            for post in posts2
         ]
 
         return jsonify({"posts": postDTOs}), responseStatus.OK
@@ -51,7 +51,7 @@ def get_posts():
             responseStatus.INTERNAL_SERVER_ERROR,
         )
 
-
+#Retrieves a single post based on its ID, convert to DTO & return/error message
 @api.route("/posts/<post_id>", methods=["GET"])
 def get_post(post_id):
     """
@@ -81,7 +81,7 @@ def get_post(post_id):
             responseStatus.INTERNAL_SERVER_ERROR,
         )
 
-
+#Deletes a post based on its ID for owner, marks remove/permanantly deleted, commit change return success
 @api.route("/posts/<post_id>", methods=["DELETE"])
 def delete_post(post_id):
     """
@@ -154,7 +154,7 @@ def delete_post(post_id):
             responseStatus.INTERNAL_SERVER_ERROR,
         )
 
-
+#Handles liking/unliking and bookmarking/unbookmarking of posts
 @api.route("/posts/<post_id>/<user_id>", methods=["POST"])
 def post_interaction_handler(post_id, user_id):
     """
