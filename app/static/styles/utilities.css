@@ -1,12 +1,19 @@
 .container {
   max-width: 1128px;
   margin: 0 auto;
-  overflow: auto;
   padding: 0px;
 }
 
 .d-none {
   display: none !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+.d-flex {
+  display: flex !important;
 }
 
 /* background */
@@ -16,6 +23,10 @@
 
 .bg-mute {
   background-color: var(--color---base---gray);
+}
+
+.bg-neutral-95 {
+  background-color: var(--color---neutral--neutral95);
 }
 
 /* topography */
@@ -150,7 +161,7 @@
 /* flex */
 .flex {
   display: flex;
-  height: 100%;
+  height: auto;
 }
 
 .flex-col {
@@ -1307,6 +1318,19 @@
 
 .shadow-modal {
   box-shadow: var(--modal-shadow);
+}
+
+/* transition */
+.transition-fast {
+  transition: all 0.1s ease;
+}
+
+.transition-medium {
+  transition: all 0.3s ease;
+}
+
+.transition-slow {
+  transition: all 0.5s ease;
 }
 
 /* animation */

@@ -19,6 +19,7 @@ class PostDTO:
         self.content = post.content if post else None
         self.image_url = post.image_url if post else None
         self.tags = [(tag.name, tag.color) for tag in post.tags] or []
+        self.postStatus = post.status if post else None
         self.timeAgo = getTimeAgo(post.updated_at) if post else None
         self.postCreator = PostDTO._get_user(postCreator)
         self.isCreator = True if postCreator.id == user.id else False
@@ -110,6 +111,7 @@ class PostDTO:
             "content": self.content,
             "image_url": self.image_url,
             "tags": self.tags,
+            "postStatus": self.postStatus,
             "timeAgo": self.timeAgo,
             "postCreator": self.postCreator,
             "isCreator": self.isCreator,

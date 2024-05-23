@@ -17,34 +17,47 @@ def get_user_agg_interaction(user: User) -> Dict[str, int]:
         return {}
 
     created_posts = Post.query.filter(
-        Post.user_id == user.id, Post.status == Status.APPROVED, Post.is_delete == False
+        Post.user_id == user.id,
+        Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED]),
+        Post.is_delete == False,
     ).count()
 
     liked_posts = 0
 
     for post in user.liked_posts:
-        if post.status == Status.APPROVED and not post.is_delete:
+        if (
+            post.status in [Status.APPROVED, Status.UNREAD_APPROVED]
+            and not post.is_delete
+        ):
             liked_posts += 1
 
     all_commented_posts = set()
 
     for comment in user.comments:
         if (
-            comment.commented_post.status == Status.APPROVED
+            comment.commented_post.status in [Status.APPROVED, Status.UNREAD_APPROVED]
             and not comment.commented_post.is_delete
         ):
             all_commented_posts.add(comment.commented_post)
 
     bookmarked_posts = 0
     for post in user.bookmarked_posts:
-        if post.status == Status.APPROVED and not post.is_delete:
-            print("add 1")
+        if (
+            post.status in [Status.APPROVED, Status.UNREAD_APPROVED]
+            and not post.is_delete
+        ):
             bookmarked_posts += 1
 
-    # todo: filter the non-reported comments
+    rejected_posts = Post.query.filter(
+        Post.user_id == user.id,
+        Post.status.in_([Status.REJECTED, Status.UNREAD_REJECTED]),
+        Post.is_delete == False,
+    ).count()
+
     return {
         "createdPosts": created_posts,
         "likedPosts": liked_posts,
         "commentsAndReplies": len(all_commented_posts),
         "bookmarkedPosts": bookmarked_posts,
+        "rejectedPosts": rejected_posts,
     }

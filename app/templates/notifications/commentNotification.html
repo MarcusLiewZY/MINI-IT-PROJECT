@@ -1,0 +1,26 @@
+<div
+  class="transition-medium notification-reply"
+  id="{{ commentNotification.id }}"
+  data-notification-type="{{ commentNotification.type }}"
+>
+  {% with avatar_url = commentNotification.replyCommentCreator.avatar_url, owner = commentNotification.replyCommentCreator %}
+    {% include "layouts/avatar.html" %}
+  {% endwith %}
+  <div class="flex flex-col text-label-lg reply-container">
+    <div class="flex flex-between reply-heading">
+      <div class="mb-1 flex reply-user">
+        Anonymous_{{ commentNotification.replyCommentCreator.anon_no }} reply to
+        <span class="ml-1 replied-user">
+          Anonymous_{{ commentNotification.repliedToUser.anon_no }}</span
+        >
+      </div>
+      <div class="flex flex-center gap-2 right-col">
+        <div class="text-label-md date">{{ commentNotification.timeAgo }}</div>
+        <a href="/" class="text-label-sm link">Report</a>
+      </div>
+    </div>
+    <div class="text-body-md reply">
+      {{ commentNotification.replyContent[:40] | line_breaks }}
+    </div>
+  </div>
+</div>
