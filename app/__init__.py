@@ -83,6 +83,7 @@ app.register_blueprint(post)
 app.register_blueprint(me_bp)
 app.register_blueprint(notification)
 app.register_blueprint(faq)
+
 app.register_blueprint(about_bp)
 
 app.register_blueprint(api)
