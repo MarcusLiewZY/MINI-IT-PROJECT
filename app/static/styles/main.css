@@ -1012,3 +1012,94 @@ form {
 .reserve-element.comment-form .cancel-button {
   margin-top: -0.75rem;
 }
+
+/* About Section Styles */
+.about-section {
+  opacity: 0;
+  animation: fadeInAbout 3s ease forwards;
+}
+
+@keyframes fadeInAbout {
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.about-text {
+  background-color: #92897d;
+  color: white;
+  font-size: 36px;
+  padding: 10px;
+  text-align: center;
+  margin: 10px auto;
+  animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.about-text p:first-child {
+  font-size: 40px;
+}
+
+.about-text p:first-child::after {
+  content: "";
+  display: block;
+  width: 200px;
+  height: 2px;
+  background-color: rgb(255, 255, 255);
+  margin: 10px auto;
+}
+
+/* Pic Description Section Styles */
+.pic-description {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  animation: slideInLeft 1s ease;
+}
+
+.pic1 {
+  width: 50%;
+  object-fit: cover;
+  animation: fadeIn 2s ease;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.pic-text {
+  width: 40%;
+  animation: fadeIn 2s ease;
+}
+
+.pic-text p {
+  font-size: 24px;
+  line-height: 1.5;
+  color: rgb(0, 0, 0);
+}
+
+.posts-text {
+  font-size: 24px;
+}
