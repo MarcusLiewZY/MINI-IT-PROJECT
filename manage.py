@@ -9,7 +9,6 @@ from app.utils.helper import format_datetime
 
 cli = FlaskGroup(app)
 
-# todo: custom the admin the cli
 @cli.command("create_admin", help="Create admin user.")
 @click.option(
     "--manual",
@@ -78,6 +77,36 @@ def create_admin(manual, auto):
             for field, errors in form.errors.items():
                 for error in errors:
                     print(f"{field}: {error}")
+
+@cli.command("role", help = "Change user role with the given gmail. Either from admin to non-admin or vice versa.")
+@click.option("--admin", is_flag = True, help = "Change user role to admin.")
+@click.option("--non_admin", is_flag = True, help = "Change user role from admin to non-admin.")
+def change_user_role(admin, non_admin):
+    from app.models.user import User
+
+    try:
+        email = input("Enter email address: ")
+        user = User.query.filter(User.email == email).first()
+
+        if not user:
+            print(Colors.fg.red, f"User with email {email} not found.")
+            return
+        
+        if admin:
+            user.is_admin = True
+            user.updated_at = format_datetime(datetime.now())
+            db.session.commit()
+            print(Colors.fg.green, f"User with email {email} is now an admin.")
+        elif non_admin:
+            user.is_admin = False
+            user.updated_at = format_datetime(datetime.now())
+            db.session.commit()
+            print(Colors.fg.green, f'User with email {email} is now a non-admin.')            
+                    
+    except Exception as e:
+        print(Colors.fg.red, "Couldn\'t change user role.")
+        print("Error", e)
+
 # database
 @cli.command("recreate_db")
 def recreate_db():

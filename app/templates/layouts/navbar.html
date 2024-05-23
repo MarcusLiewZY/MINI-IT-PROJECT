@@ -51,7 +51,7 @@
     </div>
 
     {# user profile pop up modal using dialog html tag #}
-    <div class="open-button">
+    <div class="flex flex-center open-button">
       {% with avatar_url=user.avatar_url, owner = user %}
         {% include "layouts/avatar.html" %}
       {% endwith %}
@@ -83,22 +83,24 @@
           <a href="{{ url_for('notification.notifications') }}"
             >Notifications</a
           >
-          <div class="text-body-sm notification-count">7</div>
+          <div class="text-body-sm notification-count"></div>
         </li>
         <li class="flex">
           <img
             src="{{ url_for('static', filename = 'svg/bookmark-small.svg') }}"
             alt="bookmark-small"
           />
-          <a href="/">Bookmarks</a>
+          <a href="{{ url_for('me.bookmarks') }}">Bookmarks</a>
         </li>
-        <li class="flex">
-          <img
-            src="{{ url_for('static', filename = 'svg/admin.svg') }}"
-            alt="admin"
-          />
-          <a href="/">Admin</a>
-        </li>
+        {% if user.is_admin %}
+          <li class="flex">
+            <img
+              src="{{ url_for('static', filename = 'svg/admin.svg') }}"
+              alt="admin"
+            />
+            <a href="{{ url_for('admin.index') }}">Admin</a>
+          </li>
+        {% endif %}
         <li class="flex">
           <img
             src="{{ url_for('static', filename = 'svg/guideline.svg') }}"
@@ -113,8 +115,8 @@
         <a href="{{ url_for('user.logout') }}">Log out</a>
       </div>
       <div class="py-2 px-4 modal-footer">
-        <a href="{{ url_for('FAQ.FAQ') }}" class="link">FAQ</a><span>·</span
-        ><a href="/" class="link">About</a>
+        <a href="{{ url_for('faq.get_faq') }}" class="link">FAQ</a><span>·</span
+        ><a href="{{ url_for('about.get_about') }}" class="link">About</a>
       </div>
     </div>
   </dialog>

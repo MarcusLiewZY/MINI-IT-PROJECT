@@ -4,7 +4,7 @@ from app.utils.decorators import login_required
 from . import faq
 
 
-@faq.route("/FAQ")
+@faq.route("/faq")
 @login_required
-def FAQ():
-    return render_template("FAQ/FAQ.html", user=current_user)
+def get_faq():
+    return render_template("faq/faq.html", user=current_user)

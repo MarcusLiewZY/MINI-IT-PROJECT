@@ -21,44 +21,61 @@
           <div class="date">{{ post.timeAgo }}</div>
         </div>
       </div>
+
       <div class="flex flex-center react-container">
-        <div
-          class="inline-flex like-button"
-          data-is-post-liked-by-user="{{ post.userInteraction.isLikedByUser }}"
-        >
-          <img
-            src="{{ url_for('static', filename= 'svg/like-blue.svg' if post.userInteraction.isLikedByUser else 'svg/like.svg') }}"
-            alt="like"
-            class="icon"
-          />
-        </div>
-        <div
-          class="inline-flex bookmark-button"
-          data-is-post-bookmarked-by-user="{{ post.userInteraction.isBookmarkedByUser }}"
-        >
-          <img
-            src="{{ url_for('static', filename= 'svg/bookmark-brown.svg' if post.userInteraction.isBookmarkedByUser else 'svg/bookmark-gray.svg') }}"
-            alt="bookmark"
-            class="icon"
-          />
-        </div>
-        {% if post.isCreator %}
-          <div class="inline-flex edit-button">
-            <img
-              src="{{ url_for('static', filename= 'svg/edit-gray.svg') }}"
-              alt="edit"
-              class="icon"
-            />
-          </div>
+        {% if post.postStatus.value != 'Pending' %}
+          {% if post.postStatus.value in ['Approved', 'Unread_approved'] %}
+            <div
+              class="inline-flex like-button"
+              data-is-post-liked-by-user="{{ post.userInteraction.isLikedByUser }}"
+            >
+              <img
+                src="{{ url_for('static', filename= 'svg/like-blue.svg' if post.userInteraction.isLikedByUser else 'svg/like.svg') }}"
+                alt="like"
+                class="icon"
+              />
+            </div>
+
+            <div
+              class="inline-flex bookmark-button"
+              data-is-post-bookmarked-by-user="{{ post.userInteraction.isBookmarkedByUser }}"
+            >
+              <img
+                src="{{ url_for('static', filename= 'svg/bookmark-brown.svg' if post.userInteraction.isBookmarkedByUser else 'svg/bookmark-gray.svg') }}"
+                alt="bookmark"
+                class="icon"
+              />
+            </div>
+          {% endif %}
+
+          {% if post.isCreator %}
+            <div class="inline-flex edit-button">
+              <img
+                src="{{ url_for('static', filename= 'svg/edit-gray.svg') }}"
+                alt="edit"
+                class="icon"
+              />
+            </div>
+          {% endif %}
+
+          {% if post.isCreator %}
+            <div class="inline-flex delete-button">
+              <img
+                src="{{ url_for('static', filename= 'svg/bin-gray.svg') }}"
+                alt="bin"
+                class="icon"
+              />
+            </div>
+          {% endif %}
         {% endif %}
-        {% if post.isCreator %}
-          <div class="inline-flex delete-button">
-            <img
-              src="{{ url_for('static', filename= 'svg/bin-gray.svg') }}"
-              alt="bin"
-              class="icon"
-            />
-          </div>
+
+        {# post status  #}
+        {% if post.postStatus.value in ['Approved', 'Unread_approved'] %}
+          {% if post.postStatus.value == 'Pending' %}
+            <div class="post-status post-status-pending">Pending</div>
+          {% elif post.postStatus.value in ['Rejected', 'Unread_rejected'] %}
+            <div class="post-status post-status-rejected">Rejected</div>
+          {% endif %}
         {% endif %}
       </div>
     </div>
@@ -96,106 +113,116 @@
       </div>
     </div>
 
-    {# post react count #}
-    <div class="flex text-label-md my-8 post-card__react-count-container ">
-      <div>
-        <span id="like-count-{{ post.id }}"
-          >{{ post.userInteraction.likes }}</span
-        ><span>
-          {{ 'like' if post.userInteraction.likes == 1 else 'likes' }}</span
-        >
-      </div>
-      <div>
-        <span id="comment-count-{{ post.id }}"
-          >{{ post.userInteraction.comments }}</span
-        ><span>
-          {{ 'comment' if post.userInteraction.comments == 1 else 'comments' }}</span
-        >
-      </div>
-    </div>
+    {% if post.postStatus.value in ['Approved', 'Unread_approved'] %}
 
-    {% if not post.isPreview %}
+      {# post react count #}
+      <div class="flex text-label-md my-8 post-card__react-count-container ">
+        <div>
+          <span id="like-count-{{ post.id }}"
+            >{{ post.userInteraction.likes }}</span
+          ><span>
+            {{ 'like' if post.userInteraction.likes == 1 else 'likes' }}</span
+          >
+        </div>
+        <div>
+          <span id="comment-count-{{ post.id }}"
+            >{{ post.userInteraction.comments }}</span
+          ><span>
+            {{ 'comment' if post.userInteraction.comments == 1 else 'comments' }}</span
+          >
+        </div>
+      </div>
+
+      {% if not post.isPreview %}
+        {% include "layouts/commentForm.html" %}
+      {% endif %}
+
+      {# comment section #}
+      <div class="flex flex-col post-card__post-comment-container">
+        {% if post.isPreview %}
+          {% if post.userInteraction.comments > 12 %}
+            <div class="mb-5 view-more-comment">
+              <a
+                href="{{ url_for('post.get_post', post_id = post.id) }}"
+                class="link text-label-lg"
+                >View more comments</a
+              >
+            </div>
+          {% endif %}
+        {% endif %}
+
+        <div class="flex flex-col comment-group-container">
+          {% for comment in post.comments %}
+            {% if not comment.isReply %}
+              {% with comment=comment, repliedUser = comment.commentCreator, repliedCommentId=None %}
+                {% include "layouts/comment.html" %}
+              {% endwith %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if post.postStatus.value in ['Approved', 'Unread_approved'] %}
+    {# reply to comment form #}
+    {% if post.isPreview %}
       {% include "layouts/commentForm.html" %}
     {% endif %}
 
-    {# comment section #}
-    <div class="flex flex-col post-card__post-comment-container">
-      {% if post.isPreview %}
-        {% if post.userInteraction.comments > 12 %}
-          <div class="mb-5 view-more-comment">
-            <a
-              href="{{ url_for('post.get_post', post_id = post.id) }}"
-              class="link text-label-lg"
-              >View more comments</a
-            >
-          </div>
-        {% endif %}
-      {% endif %}
-
-      <div class="flex flex-col comment-group-container">
-        {% for comment in post.comments %}
-          {% if not comment.isReply %}
-            {% with comment=comment, repliedUser = comment.commentCreator, repliedCommentId=None %}
-              {% include "layouts/comment.html" %}
+    {# reserve elements #}
+    <div class="reserve-elements d-none">
+      {# create comment element #}
+      <div class="flex flex-col comment-group-container reserve-element">
+        <div class="flex pb-5 comment-container" id="" data-current-user-id="">
+          <div class="avatar-container ">
+            {% with avatar_url = user.avatar_url, owner = user %}
+              {% include "layouts/avatar.html" %}
             {% endwith %}
-          {% endif %}
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-  {# reply to comment form #}
-  {% if post.isPreview %}
-    {% include "layouts/commentForm.html" %}
-  {% endif %}
-  <div class="reserve-elements d-none">
-    {# create comment element #}
-    <div class="flex flex-col comment-group-container reserve-element">
-      <div class="flex pb-5 comment-container" id="" data-current-user-id="">
-        <div class="avatar-container ">
-          {% with avatar_url = user.avatar_url, owner = user %}
-            {% include "layouts/avatar.html" %}
-          {% endwith %}
-        </div>
+          </div>
 
-        <div class="ml-2 flex flex-col">
-          <div class="text-body-md comment">
-            <div class="flex flex-between comment-header">
-              <div class="text-label-lg mb-2 user-interaction-container">
-                Anonymous_{{ user.anon_no }}
-              </div>
-              <div class="text-label-md ml-2 flex comment-react-container">
-                <div class="">
-                  <span id="like-count-"></span>
-                  <span></span>
+          <div class="ml-2 flex flex-col">
+            <div class="text-body-md comment">
+              <div class="flex flex-between comment-header">
+                <div class="text-label-lg mb-2 user-interaction-container">
+                  Anonymous_{{ user.anon_no }}
                 </div>
+                <div class="text-label-md ml-2 flex comment-react-container">
+                  <div class="">
+                    <span id="like-count-"></span>
+                    <span></span>
+                  </div>
 
-                <div class=""><span id="reply-count-"></span><span></span></div>
+                  <div class="">
+                    <span id="reply-count-"></span><span></span>
+                  </div>
 
-                <a href="/" class="link ">Report</a>
+                  <a href="/" class="link ">Report</a>
+                </div>
               </div>
+              <div class="reply"></div>
             </div>
-            <div class="reply"></div>
-          </div>
-          <div class="mt-2 ml-1 flex comment-info">
-            <div class="date">just now</div>
-            <div
-              class="link text-label-sm comment-like"
-              data-is-comment-liked-by-user="false"
-            >
-              Like
-            </div>
-            <div
-              class="link text-label-sm comment-reply"
-              data-is-comment-replied-by-user="false"
-            >
-              Reply
-            </div>
+            <div class="mt-2 ml-1 flex comment-info">
+              <div class="date">just now</div>
+              <div
+                class="link text-label-sm comment-like"
+                data-is-comment-liked-by-user="false"
+              >
+                Like
+              </div>
+              <div
+                class="link text-label-sm comment-reply"
+                data-is-comment-replied-by-user="false"
+              >
+                Reply
+              </div>
 
-            <div class="link text-label-sm comment-edit">Edit</div>
-            <div class="link text-label-sm comment-delete">Delete</div>
+              <div class="link text-label-sm comment-edit">Edit</div>
+              <div class="link text-label-sm comment-delete">Delete</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  {% endif %}
 </div>

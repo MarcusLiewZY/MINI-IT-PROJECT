@@ -1,0 +1,40 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}FAQ{% endblock title %}
+
+{% block content %}
+  <!-- About Section -->
+  <div id="about-section" class="about-section animated">
+    <div class="about-text">
+      <p>About</p>
+    </div>
+  </div>
+
+  <!-- Pic Description Section -->
+  <div class="pic-description">
+    <img
+      src="{{ url_for('static', filename='img/pic1.png') }}"
+      alt="Pic 1"
+      class="pic1"
+    />
+    <div class="pic-text">
+      <p>
+        We're all about human connections that rock and conversations that make
+        you go, "Sheesh!" This isn't just any spot to spill your thoughts—it's a
+        virtual playground where humans collide to share wisdom, swap stories,
+        and maybe even share a lame joke or two.
+      </p>
+      <p>
+        Join us in building a platform where every voice is heard, every story
+        is valued, and every interaction leaves an impact. So, what are you
+        waiting for? Dive into the rabbit hole, join the party, and let's build
+        memories together in this wild ride! Every voice counts, every story
+        rocks, and every interaction is a virtual high-five. See you on the flip
+        side!
+      </p>
+    </div>
+  </div>
+  <div class="small-container ml-auto ">
+    <a href="{{ url_for('main.index') }}" class="btn-FAQ">Return</a>
+  </div>
+{% endblock content %}

@@ -1,7 +1,12 @@
 import "./postCardHandler.js";
-import "./postCardInfiniteScroll.js";
 import "./createCommentHandler.js";
 import "./commentHandler.js";
 import "./multiSelect.js";
 import "./createPostModal.js";
 import "./editPostModal.js";
+import "./postCardInfiniteScroll.js";
+import "./notification.js";
+import "./notificationInfiniteScroll.js";
+import "./adminNotification.js";
+import "./adminInfiniteScroll.js";
+import "./tagHandler.js";

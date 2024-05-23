@@ -4,35 +4,96 @@
 
 {% block content %}
   <section class="container flex gap-6 py-12 bg-white notification-section">
+    {# filter column #}
     <div class="flex flex-col gap-5 filter-container">
       <div class="px-3 filter-heading">
         <h2 class="text-headline-sm">Filters</h2>
       </div>
       <ul class="flex flex-col gap-1 filter-category-container text-label-lg">
-        <li class="filter-category-item filter-category-item__active">
-          <a href="/" class="link">All Notifications</a>
-          <div class="notification-count">8</div>
+        <li
+          class="transition-medium filter-category-item {{ 'filter-category-item__active' if request.args.get('filter') == 'all' else '' }}"
+          id="notificationPageAllNotificationsFilter"
+        >
+          All Notifications
+          <div
+            class="notification-count {{ 'd-none' if notificationsAgg.allNotifications == 0 else '' }}"
+            id="notificationPageAllNotificationsCount"
+          >
+            {{ "99+" if notificationsAgg.allNotifications > 99 else notificationsAgg.allNotifications }}
+          </div>
         </li>
-        <li class="filter-category-item">
-          <a href="/" class="link">Posts</a>
+        <li
+          class="transition-medium filter-category-item
+        {{ 'filter-category-item__active' if request.args.get('filter') == 'posts' else '' }}
+        "
+          id="notificationPagePostNotificationsFilter"
+        >
+          Posts
+          <div
+            class="notification-count {{ 'd-none' if notificationsAgg.postNotifications == 0 else '' }}"
+            id="notificationPagePostNotificationsCount"
+          >
+            {{ "99+" if notificationsAgg.postNotifications > 99 else notificationsAgg.postNotifications }}
+          </div>
         </li>
-        <li class="filter-category-item">
-          <a href="/" class="link">Comments</a>
+        <li
+          class="transition-medium filter-category-item
+        {{ 'filter-category-item__active' if request.args.get('filter') == 'comments' else '' }}
+        "
+          id="notificationPageCommentNotificationsFilter"
+        >
+          Comments
+          <div
+            class="notification-count {{ 'd-none' if notificationsAgg.commentNotifications == 0 else '' }}"
+            id="notificationPageCommentNotificationsCount"
+          >
+            {{ "99+" if notificationsAgg.commentNotifications > 99 else notificationsAgg.commentNotifications }}
+          </div>
         </li>
-        <li class="filter-category-item">
-          <a href="/" class="link">Post Status</a>
+        <li
+          class="trnsition-medium filter-category-item
+        {{ 'filter-category-item__active' if request.args.get('filter') == 'post-status' else '' }}
+        "
+          id="notificationPagePostStatusFilter"
+        >
+          Post Status
+          <div
+            class="notification-count {{ 'd-none' if notificationsAgg.posts == 0 else '' }}"
+            id="notificationPagePostStatusCount"
+          >
+            {{ '99+' if notificationsAgg.posts > 99 else notificationsAgg.posts }}
+          </div>
         </li>
       </ul>
     </div>
+
+    {# notification column #}
     <div class="notification-container">
       <div class="flex flex-between px-3 notification-heading">
         <div>
           <h2 class="text-headline-sm">Notifications</h2>
         </div>
-        <div class="mb-2 mark-as-read">
-          <a href="/" class="link text-label-lg">Mark as read</a>
+        {# todo: implement mark all as read feature #}
+        <div class="mb-2 mark-as-read" id="notificationPageMarkAsReadButton">
+          <button type="button" class="link text-label-lg">
+            Mark all as read
+          </button>
+        </div>
+      </div>
+
+      {# notification #}
+      <div
+        class="flex flex-col gap-5 py-5 notification-content-container"
+        id="notificationPageNotificationContentContainer"
+      >
+        {% include "notifications/notificationList.html" %}
+        <div class="flex flex-center loading-container d-none">
+          <img
+            src="{{ url_for('static', filename = 'svg/loading-spinner-infinity.svg') }}"
+            alt="Loading spinner infinity"
+          />
         </div>
       </div>
     </div>
   </section>
-{% endblock content %}
+{% endblock content %}

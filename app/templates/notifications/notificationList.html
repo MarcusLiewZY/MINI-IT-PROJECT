@@ -1,0 +1,15 @@
+{% for notification in notifications %}
+  {% if notification.type == 'PostNotification' %}
+    {% with postNotification=notification %}
+      {% include "notifications/postNotification.html" %}
+    {% endwith %}
+  {% elif notification.type == 'CommentNotification' %}
+    {% with commentNotification=notification %}
+      {% include "notifications/commentNotification.html" %}
+    {% endwith %}
+  {% elif notification.type == 'Post' %}
+    {% with post=notification %}
+      {% include "notifications/postStatus.html" %}
+    {% endwith %}
+  {% endif %}
+{% endfor %}

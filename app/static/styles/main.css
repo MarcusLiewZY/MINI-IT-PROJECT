@@ -24,6 +24,10 @@ body {
   color: var(--color---base---gray);
 }
 
+section::-webkit-scrollbar {
+  width: 0px;
+}
+
 ul {
   list-style-type: none;
 }
@@ -136,7 +140,6 @@ textarea::-webkit-scrollbar {
 .form-control > *:is(input, textarea) {
   border-radius: 24px;
   background-color: var(--color---neutral--neutral95);
-
   &:focus {
     background-color: var(--color---base---white);
     border-radius: 24px;
@@ -243,7 +246,10 @@ form {
 /* campus tag */
 .campus-tag {
   background: #e1e3e3;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
   width: fit-content;
   overflow: hidden;
   border-radius: 8px;
@@ -278,6 +284,17 @@ form {
   &:focus,
   &:active {
     background-color: var(--color---base---error);
+    opacity: 0.8;
+  }
+}
+
+.btn-success {
+  background-color: var(--color---alert---success);
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--color---alert---success);
     opacity: 0.8;
   }
 }
@@ -330,7 +347,7 @@ form {
   height: fit-content;
 
   &.post-tag-lg {
-    padding: 8px 16px;
+    padding: 6px 12px;
     border-radius: 24px;
   }
 
@@ -493,12 +510,17 @@ form {
   position: absolute;
   right: 16px;
   top: 50%;
+  width: auto;
+  height: auto;
   transform: translateY(-50%);
   z-index: 100;
-  background-color: var(--color---base---error);
-  padding: 0px 0.25rem;
+  padding: 0.05rem 0.25rem;
   border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 500;
   color: var(--color---base---white);
+  background-color: var(--color---base---error);
+  cursor: default;
 }
 
 #userProfileModal .log-out {
@@ -705,7 +727,9 @@ form {
 
 /* create-post-modal */
 #createPostModal,
-#editPostModal {
+#editPostModal,
+#createTagModal,
+#editTagModal {
   position: fixed;
   width: 936px;
   height: fit-content;
@@ -721,14 +745,18 @@ form {
 }
 
 #createPostModal::backdrop,
-#editPostModal::backdrop {
+#editPostModal::backdrop,
+#createTagModal::backdrop,
+#editTagModal::backdrop {
   background-color: var(--color---base---black);
   background-blend-mode: multiply;
   opacity: 0.6;
 }
 
 #createPostModal .error-message,
-#editPostModal .error-message {
+#editPostModal .error-message,
+#createTagModal .error-message,
+#editTagModal .error-message {
   color: var(--color---alert---error);
 }
 
@@ -855,74 +883,15 @@ form {
   text-decoration-thickness: 2px;
 }
 
+.user-info-section .rejected-page-info {
+  color: var(--color---base---active);
+}
+
 #avatarForm .recommend-dimension {
   align-self: flex-end;
   font-size: 0.75rem;
   font-weight: 400;
   color: var(--color---neutral--neutral60);
-}
-
-/* notification */
-.notification-section .filter-container {
-  width: 264px;
-}
-
-.notification-section .filter-heading {
-  border-bottom: 2px solid var(--color---neutral--neutral90);
-}
-
-.notification-section .notification-heading {
-  width: 100%;
-  border-bottom: 2px solid var(--color---neutral--neutral90);
-  height: auto;
-  align-items: flex-end;
-}
-
-.filter-category-container .filter-category-item {
-  position: relative;
-  padding: 8px 12px;
-
-  & a {
-    font-weight: 400;
-  }
-
-  & a:hover {
-    text-decoration: none;
-  }
-}
-
-.filter-category-container .filter-category-item:hover,
-.filter-category-container .filter-category-item__active {
-  background-color: var(--color----base---light--blue);
-
-  & > * {
-    color: var(--color---base---active);
-    font-weight: 700;
-  }
-}
-
-.filter-category-container .notification-count {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 100;
-  padding: 0px 0.25rem;
-}
-
-.notification-section .notification-container {
-  width: 100%;
-}
-
-.divider {
-  height: 2px; /* 线的高度 */
-  background: linear-gradient(
-    to right,
-    transparent,
-    #808080,
-    transparent
-  ); /* 使用线性渐变创建过渡效果 */
-  margin: 10px 0; /* 上下间距 */
 }
 
 /* Style for FAQ Section */
@@ -1011,4 +980,292 @@ form {
 
 .reserve-element.comment-form .cancel-button {
   margin-top: -0.75rem;
+}
+
+/* notification */
+.notification-section .filter-container {
+  width: 264px;
+  height: 100%;
+  position: sticky;
+  top: 20px;
+}
+
+.notification-section .filter-heading {
+  border-bottom: 2px solid var(--color---neutral--neutral90);
+}
+
+.notification-section .notification-heading {
+  width: 100%;
+  border-bottom: 2px solid var(--color---neutral--neutral90);
+  height: auto;
+  align-items: flex-end;
+}
+
+.filter-category-container .filter-category-item {
+  position: relative;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.filter-category-container .filter-category-item:hover,
+.filter-category-container .filter-category-item__active {
+  background-color: var(--color----base---light--blue);
+
+  color: var(--color---base---active);
+  font-weight: 700;
+}
+
+.filter-category-container .notification-count {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  padding: 0px 0.25rem;
+}
+
+.notification-section .notification-container {
+  width: 100%;
+}
+
+.notification-content-container .notification-reply:hover,
+.notification-content-container .notification-reply:focus,
+.notification-content-container .notification-comment-on-post:hover,
+.notification-content-container .notification-comment-on-post:focus,
+.notification-content-container .notification-post-status:hover,
+.notification-content-container .notification-post-status:focus {
+  background-color: var(--color---neutral--neutral80);
+  border-radius: 4px;
+
+  & .divider {
+    background-color: var(--color---neutral--neutral70);
+  }
+}
+
+.notification-content-container .notification-reply,
+.notification-content-container .notification-comment-on-post,
+.notification-content-container .notification-post-status {
+  display: flex;
+  padding: 0.75rem 1rem;
+  gap: 0.75rem;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: var(--color---neutral--neutral95);
+}
+
+.notification-content-container .notification-post-status {
+  padding: 1.5rem 2rem 2rem;
+}
+
+.notification-content-container .reply-container {
+  width: 100%;
+}
+
+.notification-content-container .reply-heading {
+  height: auto;
+}
+
+.notification-content-container .notification-reply .replied-user {
+  color: var(--color---neutral--neutral50);
+}
+
+.notification-content-container .post-heading .post-heading__main {
+  align-items: center;
+}
+
+.post-heading .post-heading__main .date {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.notification-content-container .notification-comment-on-post .divider {
+  display: block;
+  height: 2px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: -1rem;
+  width: calc(100% + 2rem);
+  background-color: var(--color---neutral--neutral80);
+}
+
+.notification-content-container .read {
+  background-color: var(--color---base---white);
+  border-bottom: 1px solid var(--color---neutral--neutral80);
+  border-radius: 0px;
+
+  & .divider {
+    background-color: var(--color---neutral--neutral95);
+  }
+}
+
+/* admin */
+.admin-section .filter-container {
+  width: 264px;
+  height: 100%;
+  position: sticky;
+  top: 20px;
+}
+
+.admin-section .filter-heading {
+  border-bottom: 2px solid var(--color---neutral--neutral90);
+}
+
+.admin-section .admin-heading {
+  width: 100%;
+  border-bottom: 2px solid var(--color---neutral--neutral90);
+  height: auto;
+  align-items: flex-end;
+}
+
+.filter-container .tag-toggle {
+  background-color: var(--color---neutral--neutral80);
+}
+
+.tag-toggle #adminPageCreateTagModalButton:hover {
+  background-color: var(--color---neutral--neutral70);
+  border-radius: 50%;
+}
+
+.tag-list-container .tag-list {
+  background-color: var(--color---neutral--neutral95);
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transform: translateY(-0.25rem);
+}
+.tag-list-container .tag-list.show {
+  opacity: 1;
+  max-height: 500px;
+  transform: translateY(0);
+}
+
+.tag-list-container #adminPageTagListToggleButton img {
+  transform: rotate(0deg);
+}
+
+.tag-list-container #adminPageTagListToggleButton img.rotate-down-90 {
+  transform: rotate(90deg);
+}
+
+.tag-list-container .tag-list-content {
+  flex-wrap: wrap;
+}
+
+.tag-list-container .tag-list-content .post-tag {
+  cursor: pointer;
+}
+
+.filter-container .toggle-heading-container {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+#createTagModal .title-input,
+#editTagModal .title-input {
+  width: 90%;
+}
+
+#createTagModal .color-swatch-container,
+#editTagModal .color-swatch-container {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 32px;
+  padding: 12px;
+  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color---neutral--neutral95);
+  cursor: pointer;
+}
+
+#createTagModal .color-swatch,
+#editTagModal .color-swatch {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75%;
+  height: 24px;
+  border-radius: 8px;
+  background-color: red;
+}
+
+#createTagModal .color-input,
+#editTagModal .color-input {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+}
+
+.filter-category-container .filter-category-item {
+  position: relative;
+  padding: 8px 12px;
+  text-decoration: none;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.filter-category-container .filter-category-item:hover,
+.filter-category-container .filter-category-item__active {
+  background-color: var(--color----base---light--blue);
+
+  color: var(--color---base---active);
+  font-weight: 700;
+}
+
+.filter-category-container .notification-count {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  padding: 0px 0.25rem;
+}
+
+.admin-section .admin-container {
+  width: 100%;
+}
+
+.admin-content-container .reporting-comment,
+.admin-content-container .approving-post {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 0.75rem;
+  background-color: var(--color---base---white);
+  border-bottom: 1px solid var(--color---neutral--neutral80);
+}
+
+.admin-content-container .approving-post {
+  padding: 1.5rem 2rem 2rem;
+}
+
+.admin-content-container .reply-container {
+  width: 100%;
+}
+
+.admin-content-container .reply-heading {
+  height: auto;
+}
+
+.admin-content-container .post-heading .post-heading__main {
+  align-items: center;
+}
+
+.post-heading .post-heading__main .date {
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.admin-content-container .action-button-container,
+#createTagModal .action-button-container {
+  justify-content: flex-end;
 }

@@ -3,55 +3,103 @@ import { postCardHandler } from "./postCardHandler.js";
 import { onLoadCreateCommentHandler } from "./createCommentHandler.js";
 import { onLoadCommentHandler } from "./commentHandler.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-  let page = 1;
-  const perPage = 5;
-  let isLoading = false;
-  let hasNextPage = true;
-  const postContainer = document.querySelector("#mainPagePostCardContainer");
-  const loadingContainer = postContainer?.querySelector(".loading-container");
+const baseUrl = "/api/paginate";
+const meBaseUrl = `${baseUrl}/me`;
 
-  const fetchPosts = async (page) => {
-    if (isLoading || !hasNextPage) return;
+const pageMapping = {
+  "/": {
+    postContainerId: "mainPagePostCardContainer",
+    apiPaginateUrl: `${baseUrl}/post-list`,
+  },
+  "/me/posts": {
+    postContainerId: "myPageCreatedPostCardContainer",
+    apiPaginateUrl: `${meBaseUrl}/created-post-list`,
+  },
+  "/me/likes": {
+    postContainerId: "myPageLikedPostCardContainer",
+    apiPaginateUrl: `${meBaseUrl}/liked-post-list`,
+  },
+  "/me/replies": {
+    postContainerId: "myPageRepliesPostCardContainer",
+    apiPaginateUrl: `${meBaseUrl}/replies-post-list`,
+  },
+  "/me/bookmarks": {
+    postContainerId: "myPageBookmarkedPostCardContainer",
+    apiPaginateUrl: `${meBaseUrl}/bookmarked-post-list`,
+  },
+  "/me/rejected-posts": {
+    postContainerId: "myPageRejectedPostCardContainer",
+    apiPaginateUrl: `${meBaseUrl}/rejected-post-list`,
+  },
+};
 
-    // console.log(isLoading);
-    loadingContainer.classList.remove("d-none");
-    isLoading = true;
+const fetchPosts = async (
+  postContainer,
+  loadingContainer,
+  apiPaginateUrl,
+  state,
+) => {
+  if (state.isLoading || !state.hasNextPage) return;
 
-    try {
-      const response = await fetch(
-        `/api/paginate/postList?page=${page}&per_page=${perPage}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+  loadingContainer.classList.remove("d-none");
+  state.isLoading = true;
+
+  try {
+    const response = await fetch(
+      `${apiPaginateUrl}?page=${state.page}&per_page=${state.perPage}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+      },
+    );
 
-      const { status, html, has_next } = await response.json();
+    const { status, html, has_next } = await response.json();
 
-      if (status === 200) {
-        const tempDiv = document.createElement("div");
-        tempDiv.innerHTML = html;
+    if (status === 200) {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
 
-        while (tempDiv.firstChild) {
-          postContainer.insertBefore(tempDiv.firstChild, loadingContainer);
-        }
-
-        hasNextPage = has_next;
+      while (tempDiv.firstChild) {
+        postContainer.insertBefore(tempDiv.firstChild, loadingContainer);
       }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      isLoading = false;
-      loadingContainer.classList.add("d-none");
+
+      state.hasNextPage = has_next;
     }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    state.isLoading = false;
+    loadingContainer.classList.add("d-none");
+  }
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const state = {
+    page: 1,
+    perPage: 5,
+    isLoading: false,
+    hasNextPage: true,
   };
 
-  const onLoadInfiniteScroll = async (page) => {
+  const pageData = pageMapping[window.location.pathname] || {};
+  const { postContainerId, apiPaginateUrl } = pageData;
+
+  if (!postContainerId || !apiPaginateUrl) {
+    return;
+  }
+
+  const onLoadInfiniteScroll = async (
+    postContainerId,
+    apiPaginateUrl,
+    state,
+  ) => {
+    const postContainer = document.querySelector(`#${postContainerId}`);
+    const loadingContainer = postContainer?.querySelector(".loading-container");
+
     try {
-      await fetchPosts(page);
+      await fetchPosts(postContainer, loadingContainer, apiPaginateUrl, state);
       postCardHandler();
       onLoadCreateCommentHandler();
       onLoadCommentHandler();
@@ -61,17 +109,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  const handleScroll = () => {
+  const handleScroll = (postContainerId, apiPaginateUrl, state) => {
     if (
-      !isLoading &&
+      !state.isLoading &&
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 100
     ) {
-      page++;
-      onLoadInfiniteScroll(page);
+      state.page++;
+      onLoadInfiniteScroll(postContainerId, apiPaginateUrl, state);
     }
   };
 
-  window.addEventListener("scroll", handleScroll);
+  window.addEventListener("scroll", () => {
+    handleScroll(postContainerId, apiPaginateUrl, state);
+  });
 
-  onLoadInfiniteScroll(page);
+  onLoadInfiniteScroll(postContainerId, apiPaginateUrl, state);
 });
