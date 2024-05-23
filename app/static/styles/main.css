@@ -1192,7 +1192,7 @@ form {
   width: 75%;
   height: 24px;
   border-radius: 8px;
-  background-color: red;
+  background-color: black;
 }
 
 #createTagModal .color-input,

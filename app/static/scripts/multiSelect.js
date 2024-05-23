@@ -361,10 +361,13 @@ const getTags = async () => {
   }
 };
 
-export const onLoadMultiSelect = () => {
-  getTags()?.then((tagNameColorPair) => {
+export const onLoadMultiSelect = async () => {
+  try {
+    await getTags();
     multiSelect(tagNameColorPair);
-  });
+  } catch (error) {
+    console.error("Error from multiselect", error);
+  }
 };
 
 document.addEventListener("DOMContentLoaded", onLoadMultiSelect);
