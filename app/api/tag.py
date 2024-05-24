@@ -46,9 +46,14 @@ def create_tag():
     """
     try:
         data = request.json
+        name = data.get("name")
+
+        if Tag.query.filter(Tag.name == name).first():
+            return error_message("Tag already exists", responseStatus.CONFLICT)
+
         tag = Tag(
             {
-                "name": data.get("name"),
+                "name": name,
                 "color": data.get("color"),
                 "description": data.get("description"),
                 "created_at": format_datetime(datetime.now()),
@@ -139,7 +144,12 @@ def edit_tag(tag_id):
         if tag is None:
             return error_message("Tag not found", responseStatus.NOT_FOUND)
 
-        tag.name = data.get("name")
+        name = data.get("name")
+
+        if Tag.query.filter(Tag.name == name).first() is not None:
+            return error_message("Tag already exists", responseStatus.CONFLICT)
+
+        tag.name = name
         tag.color = data.get("color")
         tag.description = data.get("description")
         tag.updated_at = format_datetime(datetime.now())

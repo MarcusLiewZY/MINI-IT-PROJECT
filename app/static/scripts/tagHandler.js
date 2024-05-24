@@ -61,9 +61,13 @@ class CreateTagModalHandler {
       this.onCloseCreateTagModalClick.bind(this);
     this.autoResizeTextarea = this.autoResizeTextarea.bind(this);
     this.validateForm = this.validateForm.bind(this);
-    this.fetchAPI = this.fetchAPI.bind(this);
-    this.createTag = this.createTag.bind(this);
     this.onCreateTagClick = this.onCreateTagClick.bind(this);
+
+    // utility methods
+    this.fetchAPI = this.fetchAPI.bind(this);
+    this.flashMessage = this.flashMessage.bind(this);
+    this.showErrorMessage = this.showErrorMessage.bind(this);
+    this.clearErrorMessage = this.clearErrorMessage.bind(this);
   }
 
   attachEventListeners() {
@@ -144,40 +148,34 @@ class CreateTagModalHandler {
     }
   }
 
-  async createTag() {
-    try {
-      if (!this.validateForm()) return;
-
-      const tagData = new FormData(this.createTagForm);
-
-      const tagDataObj = Object.fromEntries(tagData.entries());
-
-      const { status, tag } = await this.fetchAPI(
-        "POST",
-        "/api/tags",
-        tagDataObj,
-      );
-
-      if (status !== 201) throw new Error("Failed to create tag.");
-
-      this.createTagModal.close();
-      this.createTagForm.reset();
-
-      return tag;
-    } catch (error) {
-      console.error("Error from createTag:", error);
-    }
-  }
-
   onCreateTagClick() {
     this.createTagForm.addEventListener("submit", async (e) => {
       try {
         e.preventDefault();
-        const tag = await this.createTag();
 
-        if (!tag) return;
+        if (!this.validateForm()) return;
+
+        const tagData = new FormData(this.createTagForm);
+
+        const tagDataObj = Object.fromEntries(tagData.entries());
+
+        const { status, tag } = await this.fetchAPI(
+          "POST",
+          "/api/tags",
+          tagDataObj,
+        );
+
+        if (status === 409) {
+          this.showErrorMessage("Tag name already exists.");
+          return;
+        }
+
+        if (status !== 201) throw new Error("Failed to create tag.");
 
         const { id, name, color } = tag;
+
+        this.createTagModal.close();
+        this.createTagForm.reset();
 
         // construct the tag node element
         const newTagString = `<li
@@ -189,29 +187,40 @@ class CreateTagModalHandler {
 
         tagListContentContainer.insertAdjacentHTML("beforeend", newTagString);
 
-        const editTagModalHandler = new EditTagModalHandler(id);
         const newTag = document.querySelector(`.admin-section [id="${id}"]`);
 
         newTag.addEventListener("click", () => {
-          editTagModalHandler.attachEventListeners();
+          editTagModalHandler.onOpenEditTagModalClick(id);
         });
 
-        // show flash message
-        const flashMessage = `
-          <span class="flash flash-success">Tag created successfully.</span>
-        `;
-
-        flashMessageContainer.innerHTML = flashMessage;
-        flashMessageContainer.classList.remove("d-none");
-
-        setTimeout(() => {
-          flashMessageContainer.innerHTML = "";
-          flashMessageContainer.classList.add("d-none");
-        }, 3000);
+        this.flashMessage("Tag created successfully.", "success", 3000);
+        this.clearErrorMessage();
       } catch (error) {
         console.error("Error from onCreateTagClick:", error);
       }
     });
+  }
+
+  flashMessage(message, type, duration = 3000) {
+    const flashMessage = `<span class="flash flash-${type}">${message}</span>`;
+
+    flashMessageContainer.innerHTML = flashMessage;
+    flashMessageContainer.classList.remove("d-none");
+
+    setTimeout(() => {
+      flashMessageContainer.innerHTML = "";
+      flashMessageContainer.classList.add("d-none");
+    }, duration);
+  }
+
+  showErrorMessage(message) {
+    this.errorMessage.textContent = message;
+    this.errorMessage.classList.remove("d-none");
+  }
+
+  clearErrorMessage() {
+    this.errorMessage.textContent = "";
+    this.errorMessage.classList.add("d-none");
   }
 }
 class EditTagModalHandler {
@@ -243,11 +252,15 @@ class EditTagModalHandler {
     this.onCloseEditTagModalClick = this.onCloseEditTagModalClick.bind(this);
     this.autoResizeTextarea = this.autoResizeTextarea.bind(this);
     this.validateForm = this.validateForm.bind(this);
-    this.flashMessage = this.flashMessage.bind(this);
-    this.fetchAPI = this.fetchAPI.bind(this);
     this.getTag = this.getTag.bind(this);
     this.onEditTagFormSubmit = this.onEditTagFormSubmit.bind(this);
     this.onDeleteTagClick = this.onDeleteTagClick.bind(this);
+
+    // utility
+    this.fetchAPI = this.fetchAPI.bind(this);
+    this.flashMessage = this.flashMessage.bind(this);
+    this.clearErrorMessage = this.clearErrorMessage.bind(this);
+    this.showErrorMessage = this.showErrorMessage.bind(this);
 
     // Attach initial event listeners
     this.attachEventListeners();
@@ -310,7 +323,7 @@ class EditTagModalHandler {
     });
   }
 
-  flashMessage(message, type) {
+  flashMessage(message, type, duration = 3000) {
     const flashMessage = `<span class="flash flash-${type}">${message}</span>`;
 
     flashMessageContainer.innerHTML = flashMessage;
@@ -319,7 +332,7 @@ class EditTagModalHandler {
     setTimeout(() => {
       flashMessageContainer.innerHTML = "";
       flashMessageContainer.classList.add("d-none");
-    }, 3000);
+    }, duration);
   }
 
   async fetchAPI(method, url, data = null) {
@@ -370,8 +383,7 @@ class EditTagModalHandler {
       !this.tagColorInput.value ||
       !this.tagDescriptionInput.value
     ) {
-      this.errorMessage.textContent = "Please fill out all required fields.";
-      this.errorMessage.classList.remove("d-none");
+      this.showErrorMessage("Please fill out all required fields.");
       return false;
     } else return true;
   }
@@ -391,6 +403,11 @@ class EditTagModalHandler {
         tagDataObj,
       );
 
+      if (status === 409) {
+        this.showErrorMessage("Tag name already exists.");
+        return;
+      }
+
       if (status !== 200) throw new Error("Failed to edit tag.");
 
       this.editTagModal.close();
@@ -404,7 +421,8 @@ class EditTagModalHandler {
       updatedTag.textContent = name;
 
       // show flash message
-      this.flashMessage("Tag updated successfully.", "success");
+      this.flashMessage("Tag updated successfully.", "success", 3000);
+      this.clearErrorMessage();
     } catch (error) {
       console.error("Error from editTag:", error);
     }
@@ -427,22 +445,34 @@ class EditTagModalHandler {
       tag.remove();
 
       this.flashMessage("Tag deleted successfully.", "success");
+      this.clearErrorMessage();
     } catch (error) {
       console.error("Error from deleteTag: ", error);
     }
   }
+
+  showErrorMessage(message) {
+    this.errorMessage.textContent = message;
+    this.errorMessage.classList.remove("d-none");
+  }
+
+  clearErrorMessage() {
+    this.errorMessage.textContent = "";
+    this.errorMessage.classList.add("d-none");
+  }
 }
+
+// initialize the CreateTagModalHandler instance
+const createTagModalHandler = new CreateTagModalHandler();
+
+// Initialize the EditTagModalHandler instance
+const editTagModalHandler = new EditTagModalHandler();
 
 document.addEventListener("DOMContentLoaded", () => {
   // Toggle tag list
   adminPageTagListToggleButton.addEventListener("click", onToggleTagList);
 
-  // Create tag handlers
-  const createTagModalHandler = new CreateTagModalHandler();
   createTagModalHandler.attachEventListeners();
-
-  // Initialize the edit tag modal handler once
-  const editTagModalHandler = new EditTagModalHandler();
 
   // Attach click event listeners to each tag
   [...tagListContentContainer.children].forEach((tag) => {

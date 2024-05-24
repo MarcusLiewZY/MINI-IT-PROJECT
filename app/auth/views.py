@@ -33,10 +33,10 @@ def microsoft_auth():
 
     avatar_response = microsoft_client.get(avatar_endpoint)
 
+    avatar_url = None
+
     if avatar_response.status_code == 200:
         avatar_url = avatar_endpoint
-    else:
-        avatar_url = None  # or a default avatar URL
 
     if user:
         login_user(user)
