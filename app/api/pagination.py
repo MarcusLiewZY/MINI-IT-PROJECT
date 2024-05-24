@@ -23,12 +23,12 @@ from app.services.admin_service import (
     get_paginate_all_admin_notifications,
 )
 from app.models import User
-from app.utils.decorators import login_required
+from app.utils.decorators import api_login_required
 from app.utils.api_utils import error_message
 
 
 @api.route("/paginate/post-list", methods=["GET"])
-@login_required
+@api_login_required
 def get_post_list():
     """
     Get a list of posts based on infinite scrolling using server-side pagination.
@@ -74,7 +74,7 @@ def get_post_list():
 
 
 @api.route("/paginate/me/created-post-list", methods=["GET"])
-@login_required
+@api_login_required
 def get_created_post_list():
     """
     Get a list of created posts based on infinite scrolling using server-side pagination.
@@ -119,7 +119,7 @@ def get_created_post_list():
 
 
 @api.route("/paginate/me/liked-post-list", methods=["GET"])
-@login_required
+@api_login_required
 def get_liked_post_list():
     """
     Get a list of liked posts based on infinite scrolling using server-side pagination.
@@ -164,7 +164,7 @@ def get_liked_post_list():
 
 
 @api.route("/paginate/me/replies-post-list", methods=["GET"])
-@login_required
+@api_login_required
 def get_replies_post_list():
     """
     Get a list of replied posts based on infinite scrolling using server-side pagination.
@@ -209,7 +209,7 @@ def get_replies_post_list():
 
 
 @api.route("/paginate/me/bookmarked-post-list", methods=["GET"])
-@login_required
+@api_login_required
 def get_bookmarked_post_list():
     """
     Get a list of bookmarked posts based on infinite scrolling using server-side pagination.
@@ -254,7 +254,7 @@ def get_bookmarked_post_list():
 
 
 @api.route("/paginate/me/rejected-post-list", methods=["GET"])
-@login_required
+@api_login_required
 def get_rejected_post_list():
     """
     Get a list of rejected posts based on infinite scrolling using server-side pagination.
@@ -299,7 +299,7 @@ def get_rejected_post_list():
 
 
 @api.route("/paginate/notification", methods=["GET"])
-@login_required
+@api_login_required
 def get_notification_list():
     """
     Get a list of notifications based on infinite scrolling using server-side pagination.

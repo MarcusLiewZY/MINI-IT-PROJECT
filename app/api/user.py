@@ -1,17 +1,16 @@
+import requests
 from uuid import UUID
 from datetime import datetime
-import requests
-from flask import jsonify, request, url_for
-from flask_login import login_user, logout_user, current_user
+from flask import jsonify, request
+from flask_login import login_user, logout_user
 from http import HTTPStatus as responseStatus
 
 from . import api
-from app import db, oauth
+from app import db
 from app.models import User
-from app.utils.decorators import logout_required
 from app.utils.helper import format_datetime
 from app.utils.api_utils import error_message
-from app.utils.decorators import api_login_required, api_logout_required
+from app.utils.decorators import api_login_required, api_logout_required, api_is_admin
 
 
 @api.route("/accounts/sign-up/microsoft/callback", methods=["GET"])
@@ -175,37 +174,41 @@ def faked_user_login():
 
 
 @api.route("/accounts/<account_id>", methods=["DELETE"])
+@api_login_required
+@api_is_admin
 def delete_account(account_id):
     """
-    Delete an account by its ID permanently.
+    Delete an account by its ID permanently. This action is only allowed for admin users.
     Args:
         account_id: The ID of the account to delete.
     Returns:
-        A JSON object containing the account's record and an HTTP status code.
+        A JSON object containing a success message and an HTTP status code.
     """
     try:
         if account_id is None:
-            return (
-                jsonify({"error": "Account ID is required."}),
-                responseStatus.BAD_REQUEST,
-            )
+            return error_message("Account ID is required", responseStatus.BAD_REQUEST)
 
         user = User.query.get(UUID(account_id))
 
         if user is None:
-            return (jsonify({"error": "Account not found."}), responseStatus.NOT_FOUND)
+            return error_message("Account not found", responseStatus.NOT_FOUND)
 
         db.session.delete(user)
         db.session.commit()
 
         return (
-            jsonify({"message": "Account deleted successfully."}),
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": "Account deleted successfully.",
+                }
+            ),
             responseStatus.OK,
         )
 
     except Exception as e:
+        db.session.rollback()
         print(e)
-        return (
-            jsonify({"error": "Internal Server Error"}),
-            responseStatus.INTERNAL_SERVER_ERROR,
+        return error_message(
+            "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
         )

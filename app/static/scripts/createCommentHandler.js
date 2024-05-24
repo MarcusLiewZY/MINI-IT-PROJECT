@@ -8,7 +8,7 @@ const createCommentHandler = async (formData, postId) => {
 
     const response = await fetch("/api/comments", {
       method: "POST",
-      body: JSON.stringify({ comment, userId, postId }),
+      body: JSON.stringify({ comment, postId }),
       headers: {
         "Content-type": "application/json",
       },
@@ -64,7 +64,6 @@ const commentLikeHandler = (commentId) => async (button) => {
       `/api/comments/${commentId}?isLike=${!isCommentLikedByUser}`,
       {
         method: "POST",
-        body: JSON.stringify({ userId }),
         headers: {
           "Content-type": "application/json",
         },
@@ -73,7 +72,7 @@ const commentLikeHandler = (commentId) => async (button) => {
 
     const data = await response.json();
 
-    if (data.status === 200) {
+    if (data[0].status === 200) {
       const likeCommentCount = document.querySelector(
         `#like-count-${commentId}`,
       );

@@ -10,11 +10,11 @@ from app.models import Post, PostNotification, CommentNotification, Comment, Sta
 from app.services.notification_service import get_all_notifications
 from app.utils.helper import format_datetime
 from app.utils.api_utils import error_message
-from app.utils.decorators import login_required
+from app.utils.decorators import api_login_required
 
 
 @api.route("/notifications/count", methods=["GET"])
-@login_required
+@api_login_required
 def get_all_notification_count():
     """
     Get the count of all the notifications for the current user
@@ -44,7 +44,7 @@ def get_all_notification_count():
 
 
 @api.route("/notifications/<id>", methods=["PUT"])
-@login_required
+@api_login_required
 def update_notification(id):
     """
     Update the notification based on the notification type.
@@ -203,6 +203,7 @@ def update_notification(id):
             )
 
     except Exception as e:
+        db.session.rollback()
         print(e)
         return error_message(
             "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
@@ -212,6 +213,7 @@ def update_notification(id):
 @api.route(
     "/notifications/post-notifications/<post_notification_id>", methods=["DELETE"]
 )
+@api_login_required
 def delete_post_notification(post_notification_id):
     """
     Permanent delete a post notification.
@@ -247,6 +249,7 @@ def delete_post_notification(post_notification_id):
         )
 
     except Exception as e:
+        db.session.rollback()
         print(e)
         return error_message(
             "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
@@ -256,6 +259,7 @@ def delete_post_notification(post_notification_id):
 @api.route(
     "/notifications/comment-notifications/<comment_notification_id>", methods=["DELETE"]
 )
+@api_login_required
 def delete_comment_notification(comment_notification_id):
     """
     Permanent delete a comment notification.
@@ -291,6 +295,7 @@ def delete_comment_notification(comment_notification_id):
         )
 
     except Exception as e:
+        db.session.rollback()
         print(e)
         return error_message(
             "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
@@ -298,6 +303,7 @@ def delete_comment_notification(comment_notification_id):
 
 
 @api.route("/notifications/mark-all-as-read", methods=["PUT"])
+@api_login_required
 def mark_all_as_read_notifications():
     """
     Mark all as read notifications.
@@ -308,22 +314,12 @@ def mark_all_as_read_notifications():
     """
     try:
         filter = request.args.get("filter")
-        user_id = request.json.get("user_id")
+        user_id = current_user.id
 
         if filter is None:
             return error_message(
                 "Filter required parameter is missing", responseStatus.BAD_REQUEST
             )
-
-        if user_id is None:
-            return error_message(
-                "User id required parameter is missing", responseStatus.BAD_REQUEST
-            )
-
-        user_id = UUID(user_id)
-
-        if user_id != current_user.id:
-            return error_message("Unauthorized access", responseStatus.UNAUTHORIZED)
 
         update_queries = {
             "post-notifications": lambda: PostNotification.query.filter(

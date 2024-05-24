@@ -9,9 +9,11 @@ from app import db
 from app.models.tag import Tag
 from app.utils.api_utils import error_message
 from app.utils.helper import format_datetime
+from app.utils.decorators import api_login_required
 
 
 @api.route("/tags", methods=["GET"])
+@api_login_required
 def get_tags():
     """
     Get all tag-name and tag-color pairs.
@@ -21,19 +23,29 @@ def get_tags():
     """
     try:
         tags = Tag.query.all()
+
         tags_dict = {}
+
         for tag in tags:
             tags_dict[tag.name] = tag.color
-        return jsonify(tags_dict), responseStatus.OK
+
+        return jsonify(
+            {
+                "status": responseStatus.OK,
+                "message": "Tags retrieved successfully",
+                "tags": tags_dict,
+            },
+            responseStatus.OK,
+        )
     except Exception as e:
         print(e)
-        return (
-            error_message("Internal Server Error"),
-            responseStatus.INTERNAL_SERVER_ERROR,
+        return error_message(
+            "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
         )
 
 
 @api.route("/tags", methods=["POST"])
+@api_login_required
 def create_tag():
     """
     Create a new tag.
@@ -88,6 +100,7 @@ def create_tag():
 
 
 @api.route("/tags/<tag_id>", methods=["GET"])
+@api_login_required
 def get_tag(tag_id):
     """
     Get a tag by its id.
@@ -125,6 +138,7 @@ def get_tag(tag_id):
 
 
 @api.route("/tags/<tag_id>", methods=["PUT"])
+@api_login_required
 def edit_tag(tag_id):
     """
     Edit a tag by its id.
@@ -181,6 +195,7 @@ def edit_tag(tag_id):
 
 
 @api.route("/tags/<tag_id>", methods=["DELETE"])
+@api_login_required
 def delete_tag(tag_id):
     """
     Delete a tag by its id.

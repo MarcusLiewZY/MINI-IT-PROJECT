@@ -378,7 +378,9 @@ form {
 
 /* navbar */
 .navbar {
-  position: relative;
+  position: fixed;
+  top: 0px;
+  z-index: 1000;
   height: 100px;
   width: 100%;
   box-shadow: var(--card-shadow);
@@ -567,6 +569,7 @@ form {
 
 /* home page */
 .home-page-body {
+  margin-top: 100px;
   background-color: var(--color---neutral--neutral95);
   min-height: 100vh;
   padding-top: 24px;
@@ -804,6 +807,7 @@ form {
 
 /* community guideline */
 .community-guideline-container {
+  margin-top: 100px;
   width: 744px;
   gap: 32px;
 }
@@ -855,6 +859,10 @@ form {
 }
 
 /* user info */
+.user-info-section {
+  margin-top: 100px;
+}
+
 .user-info-section .user-info-container .user-info {
   align-items: center;
 }
@@ -896,6 +904,8 @@ form {
 
 /* Style for FAQ Section */
 .faq-section {
+  margin-top: 100px;
+  padding-top: 4rem;
   text-align: center;
 }
 
@@ -983,11 +993,17 @@ form {
 }
 
 /* notification */
+.notification-section {
+  position: relative;
+  margin-top: 100px;
+  min-height: calc(100vh - 100px);
+}
+
 .notification-section .filter-container {
   width: 264px;
   height: 100%;
   position: sticky;
-  top: 20px;
+  top: 120px;
 }
 
 .notification-section .filter-heading {
@@ -1101,11 +1117,16 @@ form {
 }
 
 /* admin */
+.admin-section {
+  margin-top: 100px;
+  min-height: calc(100vh - 100px);
+}
+
 .admin-section .filter-container {
   width: 264px;
   height: 100%;
   position: sticky;
-  top: 20px;
+  top: 120px;
 }
 
 .admin-section .filter-heading {

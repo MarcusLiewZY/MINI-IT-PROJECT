@@ -1,64 +1,56 @@
 {% extends "layouts/base.html" %}
 
-{% block title %}Notification{% endblock title %}
+{% block title %}Campus Selection{% endblock title %}
 
 {% block content %}
-  <!doctype html>
-  <html>
-    <head>
-      <title>MMU Confession</title>
-      <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='styles/campus.css') }}"
-      />
-      <!-- Link to external CSS file -->
-    </head>
-    <body>
-      <!-- Confession title -->
-      <h1 class="confession-title">
-        <span class="mmu-m">MM</span><span class="mmu-u">U</span> Confession
-      </h1>
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/campus.css') }}"
+  />
 
-      <!-- Welcome message (centered) -->
-      <div id="welcome-message">
-        <h2>Welcome to MMU Confession! Please select which Campus you are.</h2>
-      </div>
-
-      <!-- Grid for campuses -->
-      <div id="home">
-        <div class="grid-container">
-          <div class="grid-item">
-            <a
-              href="{{ url_for('main.campus_selection_handler', campus = 'CYBERJAYA') }}"
-              ><img
-                src="{{ url_for('static', filename='img/mmucyber.png') }}"
-                alt="MMU Cyberjaya"
-            /></a>
-            <div class="location"><span>MMU Cyberjaya</span></div>
-            <div class="message">
-              <p>
-                Multimedia University, Persiaran Multimedia, 63100 Cyberjaya,
-                Selangor, Malaysia
-              </p>
-            </div>
+  <section class="py-8 campus-selection-section">
+    <!-- Confession title -->
+    <h1 class="confession-title">
+      <span class="mmu-m">MM</span><span class="mmu-u">U</span> Confession
+    </h1>
+    <!-- Welcome message (centered) -->
+    <div id="welcome-message">
+      <h2>Welcome to MMU Confession! Please select which Campus you are.</h2>
+    </div>
+    <!-- Grid for campuses -->
+    <div id="home">
+      <div class="grid-container">
+        <div class="grid-item">
+          <a
+            href="{{ url_for('main.campus_selection_handler', campus = 'CYBERJAYA') }}"
+            ><img
+              src="{{ url_for('static', filename='img/mmucyber.png') }}"
+              alt="MMU Cyberjaya"
+          /></a>
+          <div class="location"><span>MMU Cyberjaya</span></div>
+          <div class="message">
+            <p>
+              Multimedia University, Persiaran Multimedia, 63100 Cyberjaya,
+              Selangor, Malaysia
+            </p>
           </div>
-          <div class="grid-item">
-            <a
-              href="{{ url_for('main.campus_selection_handler', campus = 'MALACCA') }}"
-              ><img
-                src="{{ url_for('static', filename='img/mmumelaka.png') }}"
-                alt="MMU Malacca"
-            /></a>
-            <div class="location"><span>MMU Malacca</span></div>
-            <div class="message">
-              <p>
-                Multimedia University, Jalan Ayer Keroh Lama, 75450 Bukit
-                Beruang, Malacca, Malaysia
-              </p>
-            </div>
+        </div>
+        <div class="grid-item">
+          <a
+            href="{{ url_for('main.campus_selection_handler', campus = 'MALACCA') }}"
+            ><img
+              src="{{ url_for('static', filename='img/mmumelaka.png') }}"
+              alt="MMU Malacca"
+          /></a>
+          <div class="location"><span>MMU Malacca</span></div>
+          <div class="message">
+            <p>
+              Multimedia University, Jalan Ayer Keroh Lama, 75450 Bukit Beruang,
+              Malacca, Malaysia
+            </p>
           </div>
         </div>
       </div>
-    </body>
-  </html>
+    </div>
+  </section>
 {% endblock content %}

@@ -42,10 +42,10 @@ class CommentHandler {
         const data = await this.fetchAPI(
           `/api/comments/${commentId}?isLike=${!this.isCommentLikedByUser}`,
           "POST",
-          { userId: this.userId },
+          null,
         );
 
-        if (data.status === 200) {
+        if (data[0].status === 200) {
           const likeCommentCount = document.querySelector(
             `#like-count-${commentId}`,
           );
@@ -185,7 +185,6 @@ class CommentHandler {
             `/api/comments/${commentId}/reply`,
             "POST",
             {
-              userId: this.userId,
               postId,
               comment,
             },
@@ -236,7 +235,6 @@ class CommentHandler {
         const data = await this.fetchAPI(
           `/api/comments/${commentId}`,
           "DELETE",
-          { userId: this.userId },
         );
 
         if (data.status === 200) {
@@ -326,7 +324,6 @@ class CommentHandler {
             `/api/comments/${commentId}`,
             "PUT",
             {
-              userId: this.userId,
               postId,
               comment: commentContent.textContent,
             },
@@ -370,7 +367,6 @@ class CommentHandler {
         const data = await this.fetchAPI(
           `/api/comments/${commentId}/reporting?isReport=${!this.isReported}`,
           "PUT",
-          { userId: this.userId },
         );
 
         if (data.status === 200) {
