@@ -354,7 +354,10 @@ const multiSelect = (tagNameColorPair) => {
 const getTags = async () => {
   try {
     const res = await fetch("/api/tags");
-    tagNameColorPair = await res.json();
+    const data = await res.json();
+
+    tagNameColorPair = data[0]["tags"];
+
     return tagNameColorPair;
   } catch (error) {
     console.error(error);

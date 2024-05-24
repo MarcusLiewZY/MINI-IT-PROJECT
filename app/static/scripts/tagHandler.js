@@ -227,13 +227,13 @@ class EditTagModalHandler {
   constructor() {
     this.isEventListenersAttached = false;
     this.editTagModal = document.querySelector("#editTagModal");
-    this.closeEditTagModalButton = this.editTagModal?.querySelector(
+    this.closeEditTagModalButton = this.editTagModal.querySelector(
       "#editTagModalCloseButton",
     );
-    this.deleteTagButton = this.editTagModal?.querySelector(
+    this.deleteTagButton = this.editTagModal.querySelector(
       "#editTagModalDeleteButton",
     );
-    this.errorMessage = this.editTagModal?.querySelector(
+    this.errorMessage = this.editTagModal.querySelector(
       "#editTagModalErrorMessage",
     );
 
@@ -275,7 +275,7 @@ class EditTagModalHandler {
       this.onCloseEditTagModalClick,
     );
     this.deleteTagButton.addEventListener("click", this.onDeleteTagClick);
-    this.editTagForm.addEventListener("submit", this.onEditTagFormSubmit);
+    this.editTagForm?.addEventListener("submit", this.onEditTagFormSubmit);
 
     this.onColorPickerChange();
     this.autoResizeTextarea();
@@ -299,12 +299,12 @@ class EditTagModalHandler {
       this.editTagModal?.querySelector("#tagColorPreview");
 
     tagColorPreview
-      .closest(".color-swatch-container")
+      ?.closest(".color-swatch-container")
       .addEventListener("click", () => {
         this.tagColorInput.click();
       });
 
-    this.tagColorInput.addEventListener("change", () => {
+    this.tagColorInput?.addEventListener("change", () => {
       tagColorPreview.style.backgroundColor = this.tagColorInput.value;
 
       if (this.tagColorInput.value === "#ffffff") {

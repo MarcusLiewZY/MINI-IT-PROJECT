@@ -8,9 +8,11 @@ from app import db
 from app.models import User
 from app.utils.helper import format_datetime
 from app.utils.api_utils import error_message
+from app.utils.decorators import api_login_required
 
 
 @api.route("/admin/<user_id>", methods=["PUT"])
+@api_login_required
 def update_to_admin(user_id):
     """
     Update a user to admin.
@@ -42,6 +44,7 @@ def update_to_admin(user_id):
         )
 
     except Exception as e:
+        db.session.rollback()
         print(e)
         return error_message(
             "Internal server error", responseStatus.INTERNAL_SERVER_ERROR
@@ -49,6 +52,7 @@ def update_to_admin(user_id):
 
 
 @api.route("/admin/<user_id>/cancel-admin", methods=["PUT"])
+@api_login_required
 def cancel_admin(user_id):
     """
     Cancel a user's admin role to normal user.
@@ -80,6 +84,7 @@ def cancel_admin(user_id):
             responseStatus.OK,
         )
     except Exception as e:
+        db.session.rollback()
         print(e)
         return error_message(
             "Internal server error", responseStatus.INTERNAL_SERVER_ERROR

@@ -36,12 +36,12 @@ class PostCardHandler {
 
       try {
         const data = await this.fetchAPI(
-          `/api/posts/${postId}/${this.userId}?isLike=${!isPostLikedByUser}`,
+          `/api/posts/${postId}/interactions?isLike=${!isPostLikedByUser}`,
           "POST",
           null,
         );
 
-        if (data.status === 200) {
+        if (data[0].status === 200) {
           const likeButton = postCard.querySelector(".like-button");
           const likeButtonImg = likeButton.querySelector("img");
           const likeButtonCount = postCard.querySelector(
@@ -61,8 +61,6 @@ class PostCardHandler {
           }
 
           isPostLikedByUser = !isPostLikedByUser;
-          console.log(isPostLikedByUser);
-          console.log(likeButtonImg);
           button.dataset.isPostLikedByUser = isPostLikedByUser.toString();
         }
       } catch (error) {
@@ -81,12 +79,12 @@ class PostCardHandler {
 
       try {
         const data = await this.fetchAPI(
-          `/api/posts/${postId}/${this.userId}?isBookmark=${!isPostBookmarkedByUser}`,
+          `/api/posts/${postId}/interactions?isBookmark=${!isPostBookmarkedByUser}`,
           "POST",
           null,
         );
 
-        if (data.status === 200) {
+        if (data[0].status === 200) {
           const bookmarkButton = postCard.querySelector(".bookmark-button");
           const bookmarkButtonImg = bookmarkButton.querySelector("img");
 
@@ -122,10 +120,8 @@ class PostCardHandler {
 
   deleteButtonHandler(postId) {
     return async () => {
-      console.log(this.userId);
       try {
         const data = await this.fetchAPI(`/api/posts/${postId}`, "DELETE", {
-          userId: this.userId,
           isSoftDelete: true,
         });
 
