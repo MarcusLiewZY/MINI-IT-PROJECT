@@ -8,11 +8,11 @@
       <h2 class="flex text-title-lg">{{ post.postTitle }}</h2>
       <div class="flex gap-3 post-heading__meta">
         <div class="text-label-md date">{{ post.timeAgo }}</div>
-        {% if post.postStatus.value == 'Pending' %}
+        {% if post.postStatus == 'Pending' %}
           <div class="post-status post-status-pending">Pending</div>
-        {% elif post.postStatus.value == 'Unread_approved' %}
+        {% elif post.postStatus == 'Unread_approved' %}
           <div class="post-status post-status-approved">Approved</div>
-        {% elif post.postStatus.value == 'Unread_rejected' %}
+        {% elif post.postStatus == 'Unread_rejected' %}
           <div class="post-status post-status-rejected">Rejected</div>
         {% endif %}
       </div>

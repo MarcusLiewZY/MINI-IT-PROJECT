@@ -60,7 +60,7 @@ def get_posts():
 
 
 @api.route("/posts/<post_id>", methods=["GET"])
-@api_login_required
+# @api_login_required
 def get_post(post_id):
     """
     Get a post by its ID.

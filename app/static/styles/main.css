@@ -852,6 +852,7 @@ form {
 
 /* post detail page */
 .post-detail-page-body {
+  margin-top: 100px;
   min-height: 100vh;
   background-color: var(--color---neutral--neutral95);
   padding-top: 24px;
