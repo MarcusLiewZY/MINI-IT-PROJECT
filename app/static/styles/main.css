@@ -721,6 +721,10 @@ form {
   gap: 12px;
 }
 
+.post-card__add-comment-container-form {
+  margin-bottom: 2rem;
+}
+
 .post-card__add-comment-container .form-control button {
   position: absolute;
   top: 8px;

@@ -10,5 +10,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 3000);
   });
 });
-
-// const printToast = (message, type) => console.log(message, type);

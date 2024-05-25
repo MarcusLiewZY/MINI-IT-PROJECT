@@ -1,12 +1,12 @@
-const modal = document.querySelector("#userProfileModal");
-const openButton = document.querySelector(".open-button");
+const userProfileModal = document.querySelector("#userProfileModal");
+const userProfileModalOpenButton = document.querySelector(".open-button");
 
-openButton.addEventListener("click", () => {
-  modal.showModal();
+userProfileModalOpenButton.addEventListener("click", () => {
+  userProfileModal.showModal();
 });
 
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    modal.close();
+userProfileModal.addEventListener("click", (e) => {
+  if (e.target === userProfileModal) {
+    userProfileModal.close();
   }
 });

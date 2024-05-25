@@ -1,3 +1,6 @@
+import "./userProfileModal.js";
+import "./toast.js";
+
 import "./postCardHandler.js";
 import "./createCommentHandler.js";
 import "./commentHandler.js";
