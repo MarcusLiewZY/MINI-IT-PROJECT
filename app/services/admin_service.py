@@ -1,6 +1,6 @@
-from typing import List, Union, Tuple, Dict
+from typing import List, Union, Tuple
 
-from app.models import User, Post, Status, Comment
+from app.models import Post, PostStatus, Comment
 from app.dto import AdminNotificationDTO
 
 
@@ -30,7 +30,7 @@ def get_approving_post():
         Tuple[int, List[Post]]: Number of approving posts and approving posts.
     """
     approving_post = (
-        Post.query.filter(Post.status == Status.PENDING)
+        Post.query.filter(Post.status == PostStatus.PENDING)
         .order_by(Post.updated_at.asc())
         .all()
     )
@@ -123,7 +123,7 @@ def get_paginate_approving_post(
     # )
 
     approving_posts = (
-        Post.query.filter(Post.status == Status.PENDING)
+        Post.query.filter(Post.status == PostStatus.PENDING)
         .order_by(Post.updated_at.asc())
         .paginate(page=page, per_page=per_page, error_out=False)
     )

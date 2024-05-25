@@ -1,6 +1,6 @@
 from typing import List, Union, Tuple, Dict
 
-from app.models import PostNotification, CommentNotification, Post, User, Status
+from app.models import PostNotification, CommentNotification, Post, User, PostStatus
 from app.dto.notification_dto import NotificationDTO
 
 
@@ -70,9 +70,13 @@ def get_posts(user: User) -> Tuple[int, List[Post]]:
         Post.query.filter(
             (Post.user_id == user.id)
             & (
-                (Post.status == Status.PENDING)
+                (Post.status == PostStatus.PENDING)
                 | (
-                    (Post.status.in_([Status.UNREAD_APPROVED, Status.UNREAD_REJECTED]))
+                    (
+                        Post.status.in_(
+                            [PostStatus.UNREAD_APPROVED, PostStatus.UNREAD_REJECTED]
+                        )
+                    )
                     & (Post.created_at != Post.updated_at)
                 )
             )
@@ -209,9 +213,13 @@ def get_paginate_posts(
         Post.query.filter(
             (Post.user_id == user.id)
             & (
-                (Post.status == Status.PENDING)
+                (Post.status == PostStatus.PENDING)
                 | (
-                    (Post.status.in_([Status.UNREAD_APPROVED, Status.UNREAD_REJECTED]))
+                    (
+                        Post.status.in_(
+                            [PostStatus.UNREAD_APPROVED, PostStatus.UNREAD_REJECTED]
+                        )
+                    )
                     & (Post.created_at != Post.updated_at)
                 )
             )

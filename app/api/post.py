@@ -7,7 +7,7 @@ from http import HTTPStatus as responseStatus
 
 from . import api
 from app import db
-from app.models import PostLike, PostBookmark, Post, Status
+from app.models import PostLike, PostBookmark, Post, PostStatus
 from app.dto.post_dto import PostDTO
 from app.utils.api_utils import error_message
 from app.utils.helper import format_datetime
@@ -38,7 +38,7 @@ def get_posts():
 
         if isApproved:
             query = query.filter(
-                Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED])
+                Post.status.in_([PostStatus.APPROVED, PostStatus.UNREAD_APPROVED])
             )
 
         posts = query.order_by(Post.updated_at.desc()).all()
@@ -111,7 +111,7 @@ def edit_post_status(post_id):
                 "Missing required parameter postStatus", responseStatus.BAD_REQUEST
             )
 
-        if post_status not in [status.value.upper() for status in Status]:
+        if post_status not in [status.value.upper() for status in PostStatus]:
             return error_message("Invalid post status", responseStatus.BAD_REQUEST)
 
         post = Post.query.get(UUID(post_id))

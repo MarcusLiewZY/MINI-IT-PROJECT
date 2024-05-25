@@ -6,7 +6,7 @@ from http import HTTPStatus as responseStatus
 
 from . import api
 from app import db
-from app.models import Post, PostNotification, CommentNotification, Comment, Status
+from app.models import Post, PostNotification, CommentNotification, Comment, PostStatus
 from app.services.notification_service import get_all_notifications
 from app.utils.helper import format_datetime
 from app.utils.api_utils import error_message
@@ -166,16 +166,16 @@ def update_notification(id):
             if post is None:
                 return error_message("Post not found", responseStatus.NOT_FOUND)
 
-            if post.status == Status.PENDING:
+            if post.status == PostStatus.PENDING:
                 pass
             elif (
-                post.status == Status.UNREAD_APPROVED
-                or post.status == Status.UNREAD_REJECTED
+                post.status == PostStatus.UNREAD_APPROVED
+                or post.status == PostStatus.UNREAD_REJECTED
             ):
-                if post.status == Status.UNREAD_APPROVED:
-                    post.status = Status.APPROVED
+                if post.status == PostStatus.UNREAD_APPROVED:
+                    post.status = PostStatus.APPROVED
                 else:
-                    post.status = Status.REJECTED
+                    post.status = PostStatus.REJECTED
 
                 post.updated_at = format_datetime(datetime.now())
                 db.session.commit()
@@ -332,21 +332,21 @@ def mark_all_as_read_notifications():
             ).update({CommentNotification.is_read: True}),
             "approved-posts": lambda: Post.query.filter(
                 Post.user_id == user_id,
-                Post.status == Status.UNREAD_APPROVED,
+                Post.status == PostStatus.UNREAD_APPROVED,
                 Post.is_delete == False,
             ).update(
                 {
-                    Post.status: Status.APPROVED,
+                    Post.status: PostStatus.APPROVED,
                     Post.updated_at: format_datetime(datetime.now()),
                 }
             ),
             "rejected-posts": lambda: Post.query.filter(
                 Post.user_id == user_id,
-                Post.status == Status.UNREAD_REJECTED,
+                Post.status == PostStatus.UNREAD_REJECTED,
                 Post.is_delete == False,
             ).update(
                 {
-                    Post.status: Status.UNREAD_REJECTED,
+                    Post.status: PostStatus.UNREAD_REJECTED,
                     Post.updated_at: format_datetime(datetime.now()),
                 }
             ),
