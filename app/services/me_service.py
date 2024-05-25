@@ -1,7 +1,6 @@
-from typing import List, Dict, Union
+from typing import Dict
 
-from app.models import Post, Status, User, Comment
-from app.dto.post_dto import PostDTO
+from app.models import Post, PostStatus, User
 
 
 def get_user_agg_interaction(user: User) -> Dict[str, int]:
@@ -18,7 +17,7 @@ def get_user_agg_interaction(user: User) -> Dict[str, int]:
 
     created_posts = Post.query.filter(
         Post.user_id == user.id,
-        Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED]),
+        Post.status.in_([PostStatus.APPROVED, PostStatus.UNREAD_APPROVED]),
         Post.is_delete == False,
     ).count()
 
@@ -26,7 +25,7 @@ def get_user_agg_interaction(user: User) -> Dict[str, int]:
 
     for post in user.liked_posts:
         if (
-            post.status in [Status.APPROVED, Status.UNREAD_APPROVED]
+            post.status in [PostStatus.APPROVED, PostStatus.UNREAD_APPROVED]
             and not post.is_delete
         ):
             liked_posts += 1
@@ -35,7 +34,8 @@ def get_user_agg_interaction(user: User) -> Dict[str, int]:
 
     for comment in user.comments:
         if (
-            comment.commented_post.status in [Status.APPROVED, Status.UNREAD_APPROVED]
+            comment.commented_post.status
+            in [PostStatus.APPROVED, PostStatus.UNREAD_APPROVED]
             and not comment.commented_post.is_delete
         ):
             all_commented_posts.add(comment.commented_post)
@@ -43,14 +43,14 @@ def get_user_agg_interaction(user: User) -> Dict[str, int]:
     bookmarked_posts = 0
     for post in user.bookmarked_posts:
         if (
-            post.status in [Status.APPROVED, Status.UNREAD_APPROVED]
+            post.status in [PostStatus.APPROVED, PostStatus.UNREAD_APPROVED]
             and not post.is_delete
         ):
             bookmarked_posts += 1
 
     rejected_posts = Post.query.filter(
         Post.user_id == user.id,
-        Post.status.in_([Status.REJECTED, Status.UNREAD_REJECTED]),
+        Post.status.in_([PostStatus.REJECTED, PostStatus.UNREAD_REJECTED]),
         Post.is_delete == False,
     ).count()
 

@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List, Dict, Union, Tuple
 from flask_login import current_user
 
-from app.models import Post, Status, PostLike, PostBookmark, User, Tag, Comment
+from app.models import Post, PostStatus, PostLike, PostBookmark, User, Tag, Comment
 from app.dto.post_dto import PostDTO
 from app import db, app
 from app.forms import CreatePostForm
@@ -41,7 +41,7 @@ def create_post(form: CreatePostForm) -> Tuple[bool, str]:
         for tag_name in form.tags.data:
             post.tags.append(Tag.query.filter_by(name=tag_name).first())
 
-        post.status = Status.PENDING
+        post.status = PostStatus.PENDING
         post.user_id = current_user.id
         db.session.commit()
         return True, "Post created successfully"
@@ -66,7 +66,7 @@ def get_posts(
     """
     posts = (
         Post.query.filter(
-            Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED]),
+            Post.status.in_([PostStatus.APPROVED, PostStatus.UNREAD_APPROVED]),
             Post.is_delete == False,
         )
         .order_by(Post.updated_at.desc())
@@ -134,7 +134,7 @@ def edit_post(post: Post, form: CreatePostForm) -> Tuple[bool, str]:
             if tag:
                 post.tags.append(tag)
 
-        post.status = Status.PENDING
+        post.status = PostStatus.PENDING
 
         db.session.commit()
 
@@ -163,7 +163,7 @@ def get_created_posts(
     created_posts = (
         Post.query.filter(
             Post.user_id == user.id,
-            Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED]),
+            Post.status.in_([PostStatus.APPROVED, PostStatus.UNREAD_APPROVED]),
             Post.is_delete == False,
         )
         .order_by(Post.updated_at.desc())
@@ -196,7 +196,7 @@ def get_liked_posts(
 
     liked_posts = (
         Post.query.filter(
-            Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED]),
+            Post.status.in_([PostStatus.APPROVED, PostStatus.UNREAD_APPROVED]),
             Post.is_delete == False,
         )
         .join(PostLike, PostLike.c.post_id == Post.id)
@@ -245,7 +245,7 @@ def get_replies_posts(
     for comment in comments:
         commented_post = comment.commented_post
         if (
-            commented_post.status in [Status.APPROVED, Status.UNREAD_APPROVED]
+            commented_post.status in [PostStatus.APPROVED, PostStatus.UNREAD_APPROVED]
             and not commented_post.is_delete
         ):
             if commented_post not in seen_posts:
@@ -287,7 +287,7 @@ def get_bookmarked_posts(
 
     bookmarked_posts = (
         Post.query.filter(
-            Post.status.in_([Status.APPROVED, Status.UNREAD_APPROVED]),
+            Post.status.in_([PostStatus.APPROVED, PostStatus.UNREAD_APPROVED]),
             Post.is_delete == False,
         )
         .join(PostBookmark, PostBookmark.c.post_id == Post.id)
@@ -325,7 +325,7 @@ def get_rejected_posts(
     rejected_posts = (
         Post.query.filter(
             Post.user_id == user.id,
-            Post.status.in_([Status.REJECTED, Status.UNREAD_REJECTED]),
+            Post.status.in_([PostStatus.REJECTED, PostStatus.UNREAD_REJECTED]),
             Post.is_delete == False,
         )
         .order_by(Post.updated_at.desc())

@@ -6,7 +6,7 @@ from app import db
 
 
             
-class Status(Enum):
+class PostStatus(Enum):
     PENDING = "Pending"
     APPROVED = "Approved"
     REJECTED = "Rejected"
@@ -29,7 +29,7 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     image_url = db.Column(db.String(120))
     is_delete = db.Column(db.Boolean, default=False)
-    status = db.Column(db.Enum(Status), nullable=False)
+    status = db.Column(db.Enum(PostStatus), nullable=False)
     updated_at = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.Text, nullable=False)
 
@@ -60,7 +60,7 @@ class Post(db.Model):
         self.title = post_dist.get("title") 
         self.content = post_dist.get("content")
         self.image_url = post_dist.get("image_url")
-        self.status = Status.PENDING
+        self.status = PostStatus.PENDING
         self.created_at = post_dist.get("created_at")
         self.updated_at = self.created_at
 

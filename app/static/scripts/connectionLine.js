@@ -11,54 +11,56 @@ export const setConnectionLine = () => {
       let marginLeft = 2.5 * (commentLevel - 1);
       commentContainer.style.marginLeft = `${marginLeft}rem`;
     } else if (commentLevel > 4) {
-      let marginLeft = 2.5 * 2;
+      let marginLeft = 2.5 * 3.5;
       commentContainer.style.marginLeft = `${marginLeft}rem`;
+      const avatar = commentContainer.querySelector(".avatar");
+      avatar.style.scale = "0.8";
     }
   });
 
   commentContainers.forEach((commentContainer) => {
     var commentLevel = commentContainer.getAttribute("data-commentLevel");
 
-    if (commentLevel > 1) {
-      var avatarContainer = commentContainer.querySelector(".avatar-container");
+    if (commentLevel <= 1 || commentLevel > 4) return;
 
-      var previousCommentContainerHeight =
-        commentContainer.previousElementSibling?.offsetHeight ||
-        commentContainer.parentNode.previousElementSibling?.offsetHeight ||
-        0;
+    var avatarContainer = commentContainer.querySelector(".avatar-container");
 
-      var avatarHeight = avatarContainer.querySelector(".avatar").offsetHeight;
+    var previousCommentContainerHeight =
+      commentContainer.previousElementSibling?.offsetHeight ||
+      commentContainer.parentNode.previousElementSibling?.offsetHeight ||
+      0;
 
-      avatarContainer.classList.add("reply-avatar-container");
+    var avatarHeight = avatarContainer.querySelector(".avatar").offsetHeight;
 
-      var paddingBottomOfCommentContainer = 20;
+    avatarContainer.classList.add("reply-avatar-container");
 
-      var connectLineLength = previousCommentContainerHeight - avatarHeight / 2;
+    var paddingBottomOfCommentContainer = 20;
 
-      var offsetHeight = 8;
+    var connectLineLength = previousCommentContainerHeight - avatarHeight / 2;
 
-      var connectLineTopPosition =
-        previousCommentContainerHeight -
-        avatarHeight +
-        paddingBottomOfCommentContainer +
-        offsetHeight;
+    var offsetHeight = 8;
 
-      var connectLineTopPosition =
-        previousCommentContainerHeight -
-        avatarHeight +
-        paddingBottomOfCommentContainer +
-        offsetHeight;
+    var connectLineTopPosition =
+      previousCommentContainerHeight -
+      avatarHeight +
+      paddingBottomOfCommentContainer +
+      offsetHeight;
 
-      avatarContainer.style.setProperty(
-        "--before-height",
-        `${connectLineLength + paddingBottomOfCommentContainer + offsetHeight}px`,
-      );
+    var connectLineTopPosition =
+      previousCommentContainerHeight -
+      avatarHeight +
+      paddingBottomOfCommentContainer +
+      offsetHeight;
 
-      avatarContainer.style.setProperty(
-        "--before-top",
-        `-${connectLineTopPosition}px`,
-      );
-    }
+    avatarContainer.style.setProperty(
+      "--before-height",
+      `${connectLineLength + paddingBottomOfCommentContainer + offsetHeight}px`,
+    );
+
+    avatarContainer.style.setProperty(
+      "--before-top",
+      `-${connectLineTopPosition}px`,
+    );
   });
 };
 

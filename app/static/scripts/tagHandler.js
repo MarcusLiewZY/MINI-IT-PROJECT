@@ -20,6 +20,8 @@ const adminPageCreateTagModalButton = tagListContainer?.querySelector(
 const flashMessageContainer = document.querySelector("#flashMessage");
 
 const onToggleTagList = () => {
+  if (!adminPageTagToggleList) return;
+
   adminPageTagToggleList.classList.toggle("show");
 
   const tagListToggleButtonImg =
@@ -71,6 +73,8 @@ class CreateTagModalHandler {
   }
 
   attachEventListeners() {
+    if (!this.createTagModal) return;
+
     this.onOpenCreateTagModalClick();
     this.onCloseCreateTagModalClick();
     this.onColorPickerChange();
@@ -227,13 +231,13 @@ class EditTagModalHandler {
   constructor() {
     this.isEventListenersAttached = false;
     this.editTagModal = document.querySelector("#editTagModal");
-    this.closeEditTagModalButton = this.editTagModal.querySelector(
+    this.closeEditTagModalButton = this.editTagModal?.querySelector(
       "#editTagModalCloseButton",
     );
-    this.deleteTagButton = this.editTagModal.querySelector(
+    this.deleteTagButton = this.editTagModal?.querySelector(
       "#editTagModalDeleteButton",
     );
-    this.errorMessage = this.editTagModal.querySelector(
+    this.errorMessage = this.editTagModal?.querySelector(
       "#editTagModalErrorMessage",
     );
 
@@ -263,7 +267,7 @@ class EditTagModalHandler {
     this.showErrorMessage = this.showErrorMessage.bind(this);
 
     // Attach initial event listeners
-    this.attachEventListeners();
+    if (this.editTagModal) this.attachEventListeners();
   }
 
   attachEventListeners() {
@@ -470,11 +474,12 @@ const editTagModalHandler = new EditTagModalHandler();
 
 document.addEventListener("DOMContentLoaded", () => {
   // Toggle tag list
-  adminPageTagListToggleButton.addEventListener("click", onToggleTagList);
+  adminPageTagListToggleButton?.addEventListener("click", onToggleTagList);
 
   createTagModalHandler.attachEventListeners();
 
   // Attach click event listeners to each tag
+  if (!tagListContentContainer) return;
   [...tagListContentContainer.children].forEach((tag) => {
     tag.addEventListener("click", () => {
       const tagId = tag.id;

@@ -1,13 +1,10 @@
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import current_user
-from sqlalchemy import and_, desc
 
 from . import me_bp
-from app.models import Post, Status, User, PostLike, PostBookmark, Comment
-from app.dto.post_dto import PostDTO
 from app.utils.decorators import login_required
 from app.services.me_service import get_user_agg_interaction
-from app.utils.helper import upload_image, delete_image, parse_datetime
+from app.utils.helper import upload_image, delete_image
 from app import app, db
 
 

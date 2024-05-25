@@ -6,7 +6,7 @@ from faker import Faker
 from app import app
 from app import db
 from app.models.user import User, PostLike, PostBookmark
-from app.models.post import Post, Status
+from app.models.post import Post, PostStatus
 from app.models.comment import Comment
 from app.models.postNotification import PostNotification
 from app.models.commentNotification import CommentNotification
@@ -136,7 +136,7 @@ def seeds():
                     ),
                 }
             )
-            post.status = Status.APPROVED
+            post.status = PostStatus.APPROVED
             post.user_id = user.id
             db.session.add(post)
         db.session.commit()

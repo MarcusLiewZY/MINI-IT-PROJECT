@@ -19,7 +19,7 @@ class PostDTO:
         self.content = post.content if post else None
         self.image_url = post.image_url if post else None
         self.tags = [(tag.name, tag.color) for tag in post.tags] or []
-        self.postStatus = post.status if post else None
+        self.postStatus = post.status.value if post else None
         self.timeAgo = getTimeAgo(post.updated_at) if post else None
         self.postCreator = PostDTO._get_user(postCreator)
         self.isCreator = True if postCreator.id == user.id else False
@@ -66,15 +66,15 @@ class PostDTO:
         newComments = []
 
         for comment in comments:
-            # stop the loop if the post is a preview and the number of comments is 3
 
+            # stop the loop if the post is a preview and the number of comments is 3
             if isPreview and len(newComments) >= 3:
                 break
 
             elif comment:
-                # if the comment is a reply, set the level to -1
+                # if the comment is a reply on the first comment level, skip it
                 if level == 1 and comment.replied_comment:
-                    level = -1
+                    continue
 
                 newComments.append(
                     {

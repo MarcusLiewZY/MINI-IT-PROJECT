@@ -4,7 +4,7 @@ from flask_login import current_user
 
 from . import post
 from app.main import main
-from app.models.post import Post, Status
+from app.models.post import Post
 from app.models.user import User
 from app.dto.post_dto import PostDTO
 from app.utils.decorators import login_required
