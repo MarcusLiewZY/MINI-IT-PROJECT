@@ -2,17 +2,17 @@ import { setConnectionLine } from "./connectionLine.js";
 import { insertLineBreaks } from "./utils.js";
 import { autoResizeCommentInput } from "./postCardHandler.js";
 
-class CommentReplyForm {
-  constructor(commentReplyButton) {
-    this.commentReplyButton = commentReplyButton;
-    this.commentReplyForm = this.commentReplyButton
-      .closest(".comment-group-container")
-      .querySelector(".reserve-elements .reserve-element.comment-form")
-      .cloneNode(true);
-    this.commentReplyFormCancelButton =
-      this.commentReplyForm.querySelector(".cancel-button");
-  }
-}
+// class CommentReplyForm {
+//   constructor(commentReplyButton) {
+//     this.commentReplyButton = commentReplyButton;
+//     this.commentReplyForm = this.commentReplyButton
+//       .closest(".comment-group-container")
+//       .querySelector(".reserve-elements .reserve-element.comment-form")
+//       .cloneNode(true);
+//     this.commentReplyFormCancelButton =
+//       this.commentReplyForm.querySelector(".cancel-button");
+//   }
+// }
 
 class CommentHandler {
   constructor(commentContainer) {
@@ -30,14 +30,14 @@ class CommentHandler {
 
     // reply elements
     this.commentReplyButton =
-      this.commentInfoContainer.querySelector(".comment-reply");
-    // this.commentReplyForm = this.commentReplyButton
-    //   .closest(".comment-group-container")
-    //   .querySelector(".reserve-elements .reserve-element.comment-form")
-    //   .cloneNode(true);
-    // this.commentReplyFormCancelButton =
-    //   this.commentReplyForm.querySelector(".cancel-button");
-    this.commentReplyForm = null;
+      this.commentInfoContainer.querySelector(".comment-reply") || null;
+    this.commentReplyForm =
+      this.commentReplyButton
+        ?.closest(".comment-group-container")
+        ?.querySelector(".reserve-elements .reserve-element.comment-form")
+        ?.cloneNode(true) || null;
+    this.commentReplyFormCancelButton =
+      this.commentReplyForm?.querySelector(".cancel-button") || null;
 
     //   edit elements
     this.editCommentButton =
@@ -184,26 +184,31 @@ class CommentHandler {
   }
 
   async onCommentReplyClick() {
+    const replyForm = this.commentReplyForm.querySelector("form");
+
     this.commentReplyForm.style.marginLeft = "2.5rem";
 
-    commentContainer.appendChild(newCommentReplyForm);
+    this.commentContainer.appendChild(this.commentReplyForm);
     autoResizeCommentInput();
 
     this.commentReplyButton.classList.add("d-none");
 
     this.commentReplyFormCancelButton.addEventListener("click", () => {
-      newCommentReplyForm.remove();
+      replyForm.reset();
+      this.commentReplyForm.remove();
       this.commentReplyButton.classList.remove("d-none");
     });
 
-    this.commentReplyForm.addEventListener("submit", async (e) => {
+    const handleCommentReply = async (e) => {
       try {
         e.preventDefault();
 
-        const replyForm = this.commentReplyForm.querySelector("form");
-
         const formData = new FormData(replyForm);
         const { comment } = Object.fromEntries(formData.entries());
+
+        // const commentGroupContainer = document.querySelector(
+        //   `#comment-${this.commentId}`,
+        // ).parentNode;
 
         const { status } = await this.fetchAPI(
           `/api/comments/${this.commentId}/reply`,
@@ -216,47 +221,57 @@ class CommentHandler {
 
         if (status !== 201) throw new Error("Failed to reply to the comment");
 
+        replyForm.reset();
+
         this.isCommentRepliedByUser = !this.isCommentRepliedByUser;
-        this.commentContainer.removeChild(newCommentReplyForm);
+        this.commentReplyForm.remove();
 
-        console.log("Comment replied successfully");
+        // construct the comment
+        const { status: renderStatus, html } = await this.fetchAPI(
+          `/api/comments/${this.commentId}/construct-comment`,
+          "PUT",
+          { commentLevel: this.commentContainer.dataset.commentLevel },
+        );
 
-        setTimeout(() => {
-          window.location.href = `/posts/${this.postId}#comment-${this.commentId}`;
-        }, 3000);
+        if (renderStatus !== 200)
+          throw new Error("Failed to construct the comment");
 
-        // todo: call another api to construct the reply comment and append it to the comment container
+        // append the new comment to the comment container
+        const tempDiv = document.createElement("div");
+        const repliedComment = document.querySelector(
+          `#comment-${this.commentId}`,
+        );
 
-        // const newComment = this.constructCommentReply(
-        //   postId,
-        //   commentContainer,
-        //   data,
-        // );
+        const newCommentGroupContainer = `
+        <div class="flex flex-col comment-group-container">
+        ${html}
+        </div>
+        `;
 
-        // const replyCommentCount = commentContainer.querySelector(
-        //   `#reply-count-${commentId}`,
-        // );
+        tempDiv.innerHTML = newCommentGroupContainer;
 
-        // if (replyCommentCount.textContent === "0") {
-        //   replyCommentCount.parentNode.classList.remove("d-none");
-        //   replyCommentCount.textContent = 1;
-        // } else {
-        //   replyCommentCount.textContent =
-        //     parseInt(replyCommentCount.textContent) + 1;
-        // }
+        while (tempDiv.firstElementChild) {
+          repliedComment.insertAdjacentElement(
+            "afterend",
+            tempDiv.firstElementChild,
+          );
+        }
 
-        // replyCommentCount.nextElementSibling.textContent =
-        //   replyCommentCount.textContent === "1" ? " reply" : " replies";
+        // init the comment handler for the new comment
+        // const newCommentContainer = commentGroupContainer.lastElementChild;
 
-        // replyCommentCount.parentNode.classList.add("text-active");
-        // button.classList.remove("hidden");
-        // button.classList.add("text-active");
-
-        // this.setupCommentContainer(newComment);
+        // const newCommentHandler = new CommentHandler(newCommentContainer);
+        // setConnectionLine();
       } catch (error) {
         console.error("Error from commentReplyHandler:", error);
       }
-    });
+    };
+
+    // Remove the previous event listener
+    this.commentReplyForm.removeEventListener("submit", handleCommentReply);
+
+    // Add the new event listener
+    this.commentReplyForm.addEventListener("submit", handleCommentReply);
   }
 
   async onCommentEditClick() {

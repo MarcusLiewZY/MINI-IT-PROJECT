@@ -27,7 +27,7 @@ class PostDTO:
         self.userInteraction = self._get_user_on_post_interaction(post, user)
         self.isPreview = isPreview
         self.comments = self._get_comments(
-            post.comments, commentLevel=1, isPreview=isPreview, user=user
+            post.comments, isPreview=isPreview, user=user
         )
 
     @staticmethod
@@ -54,19 +54,16 @@ class PostDTO:
 
     @staticmethod
     def _get_comments(
-        comments: List[Comment], commentLevel: int, isPreview: bool, user: User
+        comments: List[Comment], isPreview: bool, user: User
     ) -> List[Dict[str, Union[int, str, bool, List]]]:
-        # base case
-        if not comments:
-            return []
-
-        # base case for preview version
-        if isPreview and commentLevel > 2:
-            return []
 
         newComments = []
 
-        for comment in comments:
+        sortedComments = sorted(
+            comments, key=lambda comment: comment.created_at, reverse=False
+        )
+
+        for comment in sortedComments:
 
             # stop the loop if the post is a preview and the number of comments is 3
             if isPreview and len(newComments) >= 3:
@@ -74,16 +71,14 @@ class PostDTO:
 
             elif comment:
                 # if the comment is a reply on the first comment level, skip it
-                if commentLevel == 1 and comment.replied_comment:
+                if comment.replied_comment:
                     continue
 
-                commentDTO = CommentDTO(
-                    comment=comment, user=user, commentLevel=commentLevel
-                )
+            commentDTO = CommentDTO(comment=comment, user=user, commentLevel=1)
 
-                commentDTO.get_replies()
+            commentDTO.get_replies(maxCommentLevel=10000, isPreview=isPreview)
 
-                newComments.append(commentDTO.to_dict())
+            newComments.append(commentDTO.to_dict())
 
         return newComments
 

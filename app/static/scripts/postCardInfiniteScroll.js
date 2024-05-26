@@ -1,7 +1,7 @@
 import { setConnectionLine } from "./connectionLine.js";
 import { postCardHandler } from "./postCardHandler.js";
-import { onLoadCreateCommentHandler } from "./createCommentHandler.js";
-import { onLoadCommentHandler } from "./comment2.js";
+// import { onLoadCreateCommentHandler } from "./createCommentHandler.js";
+// import { onLoadCommentHandler } from "./comment2.js";
 
 const baseUrl = "/api/paginate";
 const meBaseUrl = `${baseUrl}/me`;
@@ -67,6 +67,10 @@ const fetchPosts = async (
 
       state.hasNextPage = has_next;
     }
+
+    // create custom event to notify that the pagination is loaded
+    const postCardsPaginationLoaded = new Event("postCardsPaginationLoaded");
+    document.dispatchEvent(postCardsPaginationLoaded);
   } catch (error) {
     console.error(error);
   } finally {
@@ -101,8 +105,8 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       await fetchPosts(postContainer, loadingContainer, apiPaginateUrl, state);
       postCardHandler();
-      onLoadCreateCommentHandler();
-      onLoadCommentHandler();
+      // onLoadCreateCommentHandler();
+      // onLoadCommentHandler();
       setConnectionLine();
     } catch (error) {
       console.error("Error from onLoadInfiniteScroll: ", error);

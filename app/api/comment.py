@@ -1,5 +1,5 @@
 from uuid import UUID
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 from flask_login import current_user
 from datetime import datetime
 from sqlalchemy import select, insert, delete
@@ -15,6 +15,7 @@ from app.models import (
     PostNotification,
     CommentNotification,
 )
+from app.dto.comment_dto import CommentDTO
 from app.utils.api_utils import error_message
 from app.utils.decorators import api_login_required
 
@@ -479,6 +480,66 @@ def report_comment(comment_id):
 
     except Exception as e:
         db.session.rollback()
+        print(e)
+        return error_message(
+            "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
+        )
+
+
+@api.route("/comments/<comment_id>/construct-comment", methods=["PUT"])
+@api_login_required
+def construct_comment(comment_id):
+    """
+    Construct a comment by its ID.
+    Args:
+        comment_id: The ID of the comment.
+        commentLevel: The nested level of the comment.
+    Returns:
+        A JSON object containing the constructed comment with an HTTP status code.
+    """
+    try:
+        commentLevel = request.json.get("commentLevel")
+
+        if commentLevel is None:
+            return error_message(
+                "Missing required commentLevel parameter", responseStatus.BAD_REQUEST
+            )
+
+        commentLevel = int(commentLevel)
+        comment = Comment.query.get(UUID(comment_id))
+
+        if comment is None:
+            return error_message("Comment not found", responseStatus.NOT_FOUND)
+
+        commentDTO = CommentDTO(comment, current_user, commentLevel)
+        commentDTO.get_replies(maxCommentLevel=10000, isPreview=False)
+
+        post = {"isPreview": False, "id": comment.commented_post.id}
+
+        repliedUser = (
+            comment.replied_comment.commentCreator if comment.replied_comment else None
+        )
+
+        rendered_comment = render_template(
+            "layouts/comment.html",
+            comment=commentDTO.to_dict(),
+            user=current_user,
+            repliedUser=repliedUser,
+            post=post,
+        )
+
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": "Comment constructed successfully",
+                    "html": rendered_comment,
+                }
+            ),
+            responseStatus.OK,
+        )
+
+    except Exception as e:
         print(e)
         return error_message(
             "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR

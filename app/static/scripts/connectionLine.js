@@ -5,7 +5,7 @@ export const setConnectionLine = () => {
   // if the comment level is 1, margin left is 0rem
   // else margin left is 2.5rem * (comment level - 1)
   commentContainers.forEach((commentContainer) => {
-    var commentLevel = commentContainer.getAttribute("data-commentLevel");
+    var commentLevel = commentContainer.dataset.commentLevel;
 
     if (commentLevel > 0 && commentLevel <= 4) {
       let marginLeft = 2.5 * (commentLevel - 1);
@@ -19,7 +19,7 @@ export const setConnectionLine = () => {
   });
 
   commentContainers.forEach((commentContainer) => {
-    var commentLevel = commentContainer.getAttribute("data-commentLevel");
+    var commentLevel = commentContainer.dataset.commentLevel;
 
     if (commentLevel <= 1 || commentLevel > 4) return;
 

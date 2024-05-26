@@ -193,6 +193,14 @@ form {
   animation: fadeOut 0.5s forwards;
 }
 
+/* scroll to top button */
+#scrollToTop {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
 /* link */
 .link {
   text-decoration: none;
@@ -379,6 +387,7 @@ form {
 /* navbar */
 .navbar {
   position: fixed;
+  align-items: center;
   top: 0px;
   z-index: 1000;
   height: 100px;
@@ -389,6 +398,7 @@ form {
 
 .navbar .container {
   align-items: center;
+  width: 1128px;
 }
 
 .navbar .mid-col {

@@ -134,7 +134,7 @@
       </div>
 
       {% if not post.isPreview %}
-        {% with class='post-card__add-comment-container-form' %}
+        {% with class='post-card__add-comment-container-form', id = 'addCommentForm' %}
           {% include "layouts/commentForm.html" %}
         {% endwith %}
       {% endif %}
@@ -169,7 +169,7 @@
   {% if post.postStatus in ['Approved', 'Unread_approved'] %}
     {# reply to comment form #}
     {% if post.isPreview %}
-      {% with class="" %}
+      {% with class="", id = 'addCommentForm' %}
         {% include "layouts/commentForm.html" %}
       {% endwith %}
     {% endif %}

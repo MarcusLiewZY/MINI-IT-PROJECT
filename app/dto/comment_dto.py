@@ -1,4 +1,5 @@
 from typing import List, Dict, Union
+
 from app.utils.helper import getTimeAgo
 from app.models import User, Comment, CommentStatus
 
@@ -39,21 +40,47 @@ class CommentDTO:
         return {"likes": len(comment.liked_by), "replies": len(comment.replies)}
 
     # @staticmethod
-    def get_replies(self) -> List[Dict[str, Union[int, str, bool, List]]]:
-
-        if not self.comment.replies:
+    def get_replies(
+        self, maxCommentLevel: int, isPreview: bool
+    ) -> List[Dict[str, Union[int, str, bool, List]]]:
+        # base case: no replies or max comment level reached
+        if not self.comment.replies or self.commentLevel >= maxCommentLevel:
             return []
 
-        replies = []
+        # base case for preview version
+        if isPreview and self.commentLevel >= 2:
+            return []
 
-        for reply in self.comment.replies:
-            replyDTO = CommentDTO(reply, reply.commentCreator, self.commentLevel + 1)
+        replyDTOs = []
 
-            replyDTO.get_replies()
+        # order by updated_at
+        replies = sorted(
+            self.comment.replies, key=lambda reply: reply.created_at, reverse=False
+        )
 
-            replies.append(replyDTO.to_dict())
+        for reply in replies:
 
-        self.replies = replies
+            # stop the loop if the post is a preview and the number of the comments is 3
+            if isPreview and len(replyDTOs) >= 3:
+                break
+
+            elif reply:
+                # if the comment is a reply on the first comment level, skip it
+                if self.commentLevel == 1 and self.comment.replied_comment:
+                    continue
+
+                replyDTO = CommentDTO(
+                    reply, reply.commentCreator, self.commentLevel + 1
+                )
+
+                replyDTO.get_replies(
+                    maxCommentLevel=maxCommentLevel,
+                    isPreview=isPreview,
+                )
+
+                replyDTOs.append(replyDTO.to_dict())
+
+        self.replies = replyDTOs
 
     def to_dict(self):
         return {
