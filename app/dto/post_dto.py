@@ -1,6 +1,7 @@
 from typing import List, Dict, Union
 from app.utils.helper import getTimeAgo
-from app.models import Post, User, Comment
+from app.models import Post, User, Comment, CommentStatus
+from .comment_dto import CommentDTO
 
 # isPreview
 # a post with maximum 3 comments, and each comment with maximum 3 replies
@@ -26,7 +27,7 @@ class PostDTO:
         self.userInteraction = self._get_user_on_post_interaction(post, user)
         self.isPreview = isPreview
         self.comments = self._get_comments(
-            post.comments, level=1, isPreview=isPreview, user=user
+            post.comments, commentLevel=1, isPreview=isPreview, user=user
         )
 
     @staticmethod
@@ -53,14 +54,14 @@ class PostDTO:
 
     @staticmethod
     def _get_comments(
-        comments: List[Comment], level: int, isPreview: bool, user: User
+        comments: List[Comment], commentLevel: int, isPreview: bool, user: User
     ) -> List[Dict[str, Union[int, str, bool, List]]]:
         # base case
         if not comments:
             return []
 
         # base case for preview version
-        if isPreview and level > 2:
+        if isPreview and commentLevel > 2:
             return []
 
         newComments = []
@@ -73,30 +74,16 @@ class PostDTO:
 
             elif comment:
                 # if the comment is a reply on the first comment level, skip it
-                if level == 1 and comment.replied_comment:
+                if commentLevel == 1 and comment.replied_comment:
                     continue
 
-                newComments.append(
-                    {
-                        "commentLevel": level,
-                        "id": comment.id,
-                        "content": comment.content,
-                        "timeAgo": getTimeAgo(comment.updated_at),
-                        "commentCreator": PostDTO._get_user(comment.commentCreator),
-                        "userInteraction": PostDTO._get_user_on_comment_interaction(
-                            comment
-                        ),
-                        "replies": PostDTO._get_comments(
-                            comment.replies, level + 1, isPreview, user
-                        ),
-                        "isReply": True if comment.replied_comment else False,
-                        "isLikedByUser": user in comment.liked_by,
-                        "isRepliedByUser": any(
-                            reply.commentCreator == user for reply in comment.replies
-                        ),
-                        "isReported": comment.is_report,
-                    }
+                commentDTO = CommentDTO(
+                    comment=comment, user=user, commentLevel=commentLevel
                 )
+
+                commentDTO.get_replies()
+
+                newComments.append(commentDTO.to_dict())
 
         return newComments
 

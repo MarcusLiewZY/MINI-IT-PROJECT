@@ -8,14 +8,13 @@ from http import HTTPStatus as responseStatus
 from . import api
 from app import db
 from app.models import (
-    User,
     Comment,
+    CommentStatus,
     CommentLike,
     Post,
     PostNotification,
     CommentNotification,
 )
-from app.utils.helper import format_datetime
 from app.utils.api_utils import error_message
 from app.utils.decorators import api_login_required
 
@@ -57,9 +56,7 @@ def create_comment():
                 responseStatus.NOT_FOUND,
             )
 
-        comment = Comment(
-            {"content": content, "created_at": format_datetime(datetime.now())}
-        )
+        comment = Comment({"content": content, "created_at": datetime.now()})
 
         comment.user_id = user_id
         comment.post_id = post.id
@@ -72,7 +69,7 @@ def create_comment():
                 "user_id": post.user_id,
                 "post_id": post.id,
                 "unread_comment_id": comment.id,
-                "created_at": format_datetime(datetime.now()),
+                "created_at": datetime.now(),
             }
         )
 
@@ -180,7 +177,7 @@ def edit_comment(comment_id):
             )
 
         comment.content = content
-        comment.updated_at = format_datetime(datetime.now())
+        comment.updated_at = datetime.now()
 
         db.session.commit()
 
@@ -189,8 +186,10 @@ def edit_comment(comment_id):
                 {
                     "status": responseStatus.OK,
                     "message": "Comment updated successfully",
-                    "comment_id": comment.id,
-                    "content": comment.content,
+                    "comment": {
+                        "comment_id": comment.id,
+                        "content": comment.content,
+                    },
                 }
             ),
             responseStatus.OK,
@@ -288,9 +287,7 @@ def create_reply(replied_comment_id):
         if replied_comment is None:
             return error_message("Replied comment not found", responseStatus.NOT_FOUND)
 
-        comment = Comment(
-            {"content": content, "created_at": format_datetime(datetime.now())}
-        )
+        comment = Comment({"content": content, "created_at": datetime.now()})
 
         comment.user_id = user_id
         comment.post_id = post.id
@@ -304,7 +301,7 @@ def create_reply(replied_comment_id):
                 "user_id": replied_comment.user_id,
                 "comment_id": replied_comment.id,
                 "unread_comment_id": comment.id,
-                "created_at": format_datetime(datetime.now()),
+                "created_at": datetime.now(),
             }
         )
 
@@ -392,13 +389,15 @@ def comment_interaction_handler(comment_id):
 
         db.session.commit()
 
-        return jsonify(
-            {
-                "status": responseStatus.OK,
-                "message": "Comment interaction successful",
-                "isLike": "true" if isLikeSuccess else "false",
-                "comment_id": comment.id,
-            },
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": "Comment interaction successful",
+                    "isLike": "true" if isLikeSuccess else "false",
+                    "comment_id": comment.id,
+                },
+            ),
             responseStatus.OK,
         )
 
@@ -423,7 +422,6 @@ def report_comment(comment_id):
 
     """
     try:
-        user_id = current_user.id
         isReport = request.args.get("isReport")
 
         if isReport is None:
@@ -437,15 +435,19 @@ def report_comment(comment_id):
             return error_message("Comment not found", responseStatus.NOT_FOUND)
 
         if isReport == "true":
-            if comment.is_report is True:
+            if comment.status == CommentStatus.REPORTED:
                 return error_message(
                     "Comment already reported", responseStatus.BAD_REQUEST
                 )
+            elif comment.status == CommentStatus.ALLOWED:
+                return error_message(
+                    "Comment already allowed", responseStatus.BAD_REQUEST
+                )
 
-            comment.is_report = True
+            comment.status = CommentStatus.REPORTED
 
         elif isReport == "false":
-            if comment.is_report is False:
+            if comment.status == CommentStatus.ALLOWED:
                 return error_message(
                     "Comment already cancel reported", responseStatus.BAD_REQUEST
                 )
@@ -455,7 +457,7 @@ def report_comment(comment_id):
                     "Unauthorized with admin role", responseStatus.UNAUTHORIZED
                 )
 
-            comment.is_report = False
+            comment.status = CommentStatus.ALLOWED
 
         else:
             return error_message(
@@ -468,7 +470,7 @@ def report_comment(comment_id):
             jsonify(
                 {
                     "status": responseStatus.OK,
-                    "message": f"Comment is {'cancel' if not comment.is_report else ''} reported successful",
+                    "message": f"Comment is {'cancel' if not comment.status == CommentStatus.ALLOWED else ''} reported successful",
                     "comment_id": comment.id,
                 }
             ),

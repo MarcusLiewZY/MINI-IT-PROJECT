@@ -6,7 +6,6 @@ from http import HTTPStatus as responseStatus
 from . import api
 from app import db
 from app.models import User
-from app.utils.helper import format_datetime
 from app.utils.api_utils import error_message
 from app.utils.decorators import api_login_required
 
@@ -28,7 +27,7 @@ def update_to_admin(user_id):
             return error_message("User not found", responseStatus.NOT_FOUND)
 
         user.is_admin = True
-        user.updated_at = format_datetime(datetime.now())
+        user.updated_at = datetime.now()
 
         db.session.commit()
 
@@ -69,7 +68,7 @@ def cancel_admin(user_id):
             return error_message("User not found", responseStatus.NOT_FOUND)
 
         user.is_admin = False
-        user.updated_at = format_datetime(datetime.now())
+        user.updated_at = datetime.now()
 
         db.session.commit()
 

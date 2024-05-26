@@ -10,7 +10,6 @@ from app import db
 from app.models import PostLike, PostBookmark, Post, PostStatus
 from app.dto.post_dto import PostDTO
 from app.utils.api_utils import error_message
-from app.utils.helper import format_datetime
 from app.utils.decorators import api_login_required, api_is_admin
 
 
@@ -125,7 +124,7 @@ def edit_post_status(post_id):
             )
 
         post.status = post_status
-        post.updated_at = format_datetime(datetime.now())
+        post.updated_at = datetime.now()
 
         db.session.commit()
 
@@ -252,9 +251,7 @@ def post_interaction_handler(post_id):
 
             if liked_post is None:
                 liked_post_insert_stmt = insert(PostLike).values(
-                    post_id=post.id,
-                    user_id=user_id,
-                    created_at=format_datetime(datetime.now()),
+                    post_id=post.id, user_id=user_id, created_at=datetime.now()
                 )
                 db.session.execute(liked_post_insert_stmt)
                 isLikeSuccess = True
@@ -278,9 +275,7 @@ def post_interaction_handler(post_id):
 
             if bookmarked_post is None:
                 bookmarked_post_insert_stmt = insert(PostBookmark).values(
-                    post_id=post.id,
-                    user_id=user_id,
-                    created_at=format_datetime(datetime.now()),
+                    post_id=post.id, user_id=user_id, created_at=datetime.now()
                 )
                 db.session.execute(bookmarked_post_insert_stmt)
                 isBookmarkSuccess = True

@@ -5,7 +5,6 @@ from flask.cli import FlaskGroup
 from app import app, db
 from config import admin_users
 from app.utils.cliColor import Colors
-from app.utils.helper import format_datetime
 
 cli = FlaskGroup(app)
 
@@ -43,7 +42,7 @@ def create_admin(manual, auto):
                         'username': form.username.data,
                         'password': form.password.data,
                         'is_admin': True,
-                        'created_at': format_datetime(datetime.now())
+                        'created_at': datetime.now()
                     }
                 )
 
@@ -61,7 +60,7 @@ def create_admin(manual, auto):
                         "username": admin_data["username"],
                         "password": admin_data["password"],
                         "is_admin": True,
-                        "created_at": format_datetime(datetime.now()),
+                        "created_at": datetime.now()
                     }
                 )
                 db.session.add(user)
@@ -94,12 +93,12 @@ def change_user_role(admin, non_admin):
         
         if admin:
             user.is_admin = True
-            user.updated_at = format_datetime(datetime.now())
+            user.updated_at = datetime.now()
             db.session.commit()
             print(Colors.fg.green, f"User with email {email} is now an admin.")
         elif non_admin:
             user.is_admin = False
-            user.updated_at = format_datetime(datetime.now())
+            user.updated_at = datetime.now()
             db.session.commit()
             print(Colors.fg.green, f'User with email {email} is now a non-admin.')            
                     
@@ -164,7 +163,7 @@ def create_resource(post, tag):
                         "title": post_data['title'],
                         "content": post_data['content'],
                         'image_url': post_data['image_url'],
-                        'created_at': format_datetime(post_data['created_at'])
+                        'created_at': post_data['created_at']
                     }
                 )
                 db.session.add(post)
@@ -177,7 +176,7 @@ def create_resource(post, tag):
                         'name': tag_data['name'],
                         'color': tag_data['color'],
                         'description': tag_data['description'],
-                        'created_at': format_datetime(datetime.now())
+                        'created_at': datetime.now()
 
                     }
                 )

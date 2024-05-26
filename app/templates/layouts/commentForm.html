@@ -1,6 +1,4 @@
-<div
-  class="flex mb-4 post-card__add-comment-container post-card__add-comment-container-form"
->
+<div class="flex mb-4 post-card__add-comment-container {{ class }}">
   {% with avatar_url=user.avatar_url, owner = user %}
     {% include "layouts/avatar.html" %}
   {% endwith %}

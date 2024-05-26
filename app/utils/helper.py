@@ -13,8 +13,8 @@ def parse_datetime(value: str) -> datetime:
     return datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
 
 
-def getTimeAgo(time: str) -> str:
-    return humanize.naturaltime(parse_datetime(time))
+def getTimeAgo(time: datetime) -> str:
+    return humanize.naturaltime(time)
 
 
 def upload_image(image, folder_name):

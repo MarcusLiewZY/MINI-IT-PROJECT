@@ -134,7 +134,9 @@
       </div>
 
       {% if not post.isPreview %}
-        {% include "layouts/commentForm.html" %}
+        {% with class='post-card__add-comment-container-form' %}
+          {% include "layouts/commentForm.html" %}
+        {% endwith %}
       {% endif %}
 
       {# comment section #}
@@ -167,7 +169,9 @@
   {% if post.postStatus in ['Approved', 'Unread_approved'] %}
     {# reply to comment form #}
     {% if post.isPreview %}
-      {% include "layouts/commentForm.html" %}
+      {% with class="" %}
+        {% include "layouts/commentForm.html" %}
+      {% endwith %}
     {% endif %}
 
     {# reserve elements #}

@@ -1,7 +1,7 @@
 import { setConnectionLine } from "./connectionLine.js";
 import { postCardHandler } from "./postCardHandler.js";
 import { onLoadCreateCommentHandler } from "./createCommentHandler.js";
-import { onLoadCommentHandler } from "./commentHandler.js";
+import { onLoadCommentHandler } from "./comment2.js";
 
 const baseUrl = "/api/paginate";
 const meBaseUrl = `${baseUrl}/me`;

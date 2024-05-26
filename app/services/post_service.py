@@ -6,7 +6,7 @@ from app.models import Post, PostStatus, PostLike, PostBookmark, User, Tag, Comm
 from app.dto.post_dto import PostDTO
 from app import db, app
 from app.forms import CreatePostForm
-from app.utils.helper import format_datetime, upload_image, delete_image
+from app.utils.helper import upload_image, delete_image
 
 
 def create_post(form: CreatePostForm) -> Tuple[bool, str]:
@@ -32,7 +32,7 @@ def create_post(form: CreatePostForm) -> Tuple[bool, str]:
                 "title": form.title.data,
                 "content": form.content.data,
                 "image_url": cloudinary_image_url,
-                "created_at": format_datetime(datetime.now()),
+                "created_at": datetime.now(),
             }
         )
 
@@ -113,7 +113,7 @@ def edit_post(post: Post, form: CreatePostForm) -> Tuple[bool, str]:
         post.title = form.title.data
         post.content = form.content.data
         post.image_url = cloudinary_image_url
-        post.updated_at = format_datetime(datetime.now())
+        post.updated_at = datetime.now()
 
         tags_to_remove = []
         for tag in post.tags:

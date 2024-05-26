@@ -8,7 +8,6 @@ from . import api
 from app import db
 from app.models.tag import Tag
 from app.utils.api_utils import error_message
-from app.utils.helper import format_datetime
 from app.utils.decorators import api_login_required
 
 
@@ -68,7 +67,7 @@ def create_tag():
                 "name": name,
                 "color": data.get("color"),
                 "description": data.get("description"),
-                "created_at": format_datetime(datetime.now()),
+                "created_at": datetime.now(),
             }
         )
 
@@ -166,7 +165,7 @@ def edit_tag(tag_id):
         tag.name = name
         tag.color = data.get("color")
         tag.description = data.get("description")
-        tag.updated_at = format_datetime(datetime.now())
+        tag.updated_at = datetime.now()
 
         db.session.commit()
 

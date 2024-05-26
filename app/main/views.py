@@ -8,7 +8,6 @@ from . import main
 from app import db
 from app.models import User, Campus, Tag
 from app.forms import CreatePostForm
-from app.utils.helper import format_datetime
 from app.services.post_service import get_posts, create_post
 
 
@@ -59,10 +58,9 @@ def campus_selection():
 
 @main.route("/campus-selection/<campus>")
 def campus_selection_handler(campus):
-    print("campus is selected")
     user = User.query.get(current_user.id)
     user.campus = campus
-    user.updated_at = format_datetime(datetime.now())
+    user.updated_at = datetime.now()
     db.session.commit()
     flash("Welcome to MMU Confession", "success")
     return redirect(url_for("main.index"))

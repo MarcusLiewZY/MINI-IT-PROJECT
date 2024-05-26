@@ -273,6 +273,7 @@ class CommentHandler {
       const commentContainer = button.closest(".comment-container");
       const commentInfoContainer =
         commentContainer.querySelector(".comment-info");
+
       const editCommentCancelButton = commentInfoContainer.querySelector(
         ".edit-comment__cancel-button",
       );
