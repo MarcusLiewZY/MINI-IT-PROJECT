@@ -5,7 +5,7 @@
   {% with avatar_url=user.avatar_url, owner = user %}
     {% include "layouts/avatar.html" %}
   {% endwith %}
-  <form id="comment-form-{{ post.id }}">
+  <form id="comment-form-{{ post.id }}" action="" method="post">
     <div class="form-control">
       <textarea
         name="comment"

@@ -1,5 +1,3 @@
-import { insertLineBreaks } from "./utils.js";
-import { autoResizeCommentInput } from "./postCardHandler.js";
 import { fetchAPI, scrollToTopElement } from "./utils.js";
 
 class CommentHandler {
@@ -18,60 +16,37 @@ class CommentHandler {
   }
 }
 
-class CommentFormHandler {
-  constructor() {
-    this.isEventListenersAttached = false;
+const onCreateCommentHandlerSubmit = async (
+  e,
+  {
+    postId,
+    createCommentForm,
+    createCommentFormContainer,
+    outermostCommentGroupContainer,
+    isSubmitting,
+  },
+) => {
+  e.preventDefault();
 
-    this.postId = null;
-    this.createCommentForm = null;
-    this.createCommentFormOutermostContainer = null;
-    this.outermostCommentGroupContainer = null;
+  if (isSubmitting) return;
 
-    // bind the method to the instance
-    this.onCreateCommentFormSubmit = this.onCreateCommentFormSubmit.bind(this);
-  }
+  isSubmitting = true;
+  createCommentForm.disabled = true;
 
-  setupCommentFormHandler(postCard) {
-    if (!postCard) return;
-
-    this.postId = postCard.dataset.postId;
-    this.createCommentForm = postCard.querySelector(
-      `#addCommentForm-${this.postId}`,
-    );
-    this.outermostCommentGroupContainer = postCard.querySelector(
-      ".post-card__post-comment-container .comment-group-container",
-    );
-    this.createCommentFormOutermostContainer = postCard.querySelector(
-      ".post-card__add-comment-container",
-    );
-
-    this.setupEventListeners();
-  }
-
-  setupEventListeners() {
-    if (this.isEventListenersAttached) return;
-
-    this.createCommentForm.addEventListener(
-      "submit",
-      this.onCreateCommentFormSubmit,
-    );
-
-    this.isEventListenersAttached = true;
-  }
-
-  async onCreateCommentFormSubmit(e) {
-    e.preventDefault();
-
-    const commentFormData = new FormData(this.createCommentForm);
+  try {
+    const commentFormData = new FormData(createCommentForm);
 
     const commentFormDataObj = Object.fromEntries(commentFormData.entries());
+
+    // clear the comment form
+    createCommentForm.reset();
 
     const { status: createPostStatus, comment_id: commentId } = await fetchAPI(
       "/api/comments",
       "POST",
       {
         ...commentFormDataObj,
-        postId: this.postId,
+        postId: postId,
       },
     );
 
@@ -89,27 +64,66 @@ class CommentFormHandler {
     const newComment = document.createElement("div");
     newComment.innerHTML = newCommentHTML;
 
-    this.outermostCommentGroupContainer.appendChild(newComment);
+    outermostCommentGroupContainer.appendChild(newComment);
 
-    // clear the comment form
-    this.createCommentForm.reset();
+    // if the current page is not the post detail page, return
+    if (!(window.location.pathname === `/posts/${postId}`)) return;
 
     // navigate to the newly created comment
     newComment.scrollIntoView({ behavior: "smooth" });
 
-    scrollToTopElement(this.createCommentFormOutermostContainer, 20);
+    scrollToTopElement(createCommentFormContainer, 20);
+  } catch (error) {
+    console.error("Error from createCommentHandler:", error);
+  } finally {
+    isSubmitting = false;
+    createCommentForm.disabled = false;
   }
-}
+};
 
-const commentHandler = new CommentHandler();
-const commentFormHandler = new CommentFormHandler();
+export const onLoadCreateCommentHandler = () => {
+  const createCommentFormContainers = document.querySelectorAll(
+    ".post-card__add-comment-container",
+  );
+
+  createCommentFormContainers.forEach((createCommentFormContainer) => {
+    if (!createCommentFormContainer) return;
+
+    const postId =
+      createCommentFormContainer.closest(".post-card").dataset.postId;
+
+    const createCommentForm = createCommentFormContainer.querySelector(
+      `#comment-form-${postId}`,
+    );
+
+    const postCard = createCommentFormContainer.closest(".post-card");
+
+    const outermostCommentGroupContainer = postCard?.querySelector(
+      ".post-card__post-comment-container .comment-group-container",
+    );
+
+    let isSubmitting = false;
+
+    const createCommentFormObj = {
+      postId,
+      createCommentForm,
+      createCommentFormContainer,
+      outermostCommentGroupContainer,
+      isSubmitting,
+    };
+
+    createCommentForm.addEventListener("submit", async (e) => {
+      try {
+        await onCreateCommentHandlerSubmit(e, createCommentFormObj);
+      } catch (error) {
+        console.error("Error from createCommentHandler:", error);
+      }
+    });
+  });
+};
 
 ["DOMContentLoaded", "postCardsPaginationLoaded"].forEach((e) => {
   document.addEventListener(e, () => {
-    const postCards = document.querySelectorAll(".post-card");
-
-    postCards.forEach((postCard) => {
-      commentFormHandler.setupCommentFormHandler(postCard);
-    });
+    onLoadCreateCommentHandler();
   });
 });
