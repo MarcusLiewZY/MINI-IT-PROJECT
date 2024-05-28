@@ -1,3 +1,5 @@
+import { onLoadCommentHandler } from "./comment2.js";
+
 export const setConnectionLine = () => {
   var commentContainers = document.querySelectorAll(".comment-container");
 
@@ -64,9 +66,29 @@ export const setConnectionLine = () => {
   });
 };
 
-// comment connection line and avatar position
+// // comment connection line and avatar position
 Array("resize", "load", "DOMContentLoaded").forEach((e) => {
   window.addEventListener(e, () => {
     setConnectionLine();
   });
 });
+
+// Create a new observer instance
+let observer = new MutationObserver((mutations) => {
+  // For each mutation
+  mutations.forEach((mutation) => {
+    // If the mutation is an addition of nodes
+    if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+      // Call setConnectionLine function
+      setConnectionLine();
+    }
+  });
+});
+
+// Configuration of the observer
+// childList: look for changes in the child elements of the target node
+// subtree: look for changes in the target node and its descendants, not just direct children
+let config = { childList: true, subtree: true };
+
+// Pass in the target node (in this case, the whole document) and the observer options
+observer.observe(document, config);

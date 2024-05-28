@@ -1,20 +1,5 @@
 import { fetchAPI, scrollToTopElement } from "./utils.js";
-
-class CommentHandler {
-  constructor() {
-    this.isEventListenersAttached = false;
-  }
-
-  setupCommentHandler() {
-    this.setupEventListeners();
-  }
-
-  setupEventListeners() {
-    if (this.isEventListenersAttached) return;
-
-    this.isEventListenersAttached = true;
-  }
-}
+import { CommentHandler } from "./comment2.js";
 
 const onCreateCommentHandlerSubmit = async (
   e,
@@ -61,10 +46,13 @@ const onCreateCommentHandlerSubmit = async (
     if (constructCommentStatus !== 200)
       throw new Error("Failed to construct a comment");
 
-    const newComment = document.createElement("div");
-    newComment.innerHTML = newCommentHTML;
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = newCommentHTML;
+
+    const newComment = tempDiv.firstChild;
 
     outermostCommentGroupContainer.appendChild(newComment);
+    console.log("newComment2:", newComment);
 
     // if the current page is not the post detail page, return
     if (!(window.location.pathname === `/posts/${postId}`)) return;
@@ -73,6 +61,8 @@ const onCreateCommentHandlerSubmit = async (
     newComment.scrollIntoView({ behavior: "smooth" });
 
     scrollToTopElement(createCommentFormContainer, 20);
+
+    return newComment;
   } catch (error) {
     console.error("Error from createCommentHandler:", error);
   } finally {
@@ -114,7 +104,15 @@ export const onLoadCreateCommentHandler = () => {
 
     createCommentForm.addEventListener("submit", async (e) => {
       try {
-        await onCreateCommentHandlerSubmit(e, createCommentFormObj);
+        const newComment = await onCreateCommentHandlerSubmit(
+          e,
+          createCommentFormObj,
+        );
+
+        if (!newComment) throw new Error("Failed to create a comment");
+
+        // initialize the comment handler for the new comment
+        new CommentHandler(newComment);
       } catch (error) {
         console.error("Error from createCommentHandler:", error);
       }

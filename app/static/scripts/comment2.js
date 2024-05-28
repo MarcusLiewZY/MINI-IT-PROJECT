@@ -1,20 +1,8 @@
 import { setConnectionLine } from "./connectionLine.js";
-import { insertLineBreaks } from "./utils.js";
 import { autoResizeCommentInput } from "./postCardHandler.js";
+import { fetchAPI, scrollToTopElement } from "./utils.js";
 
-// class CommentReplyForm {
-//   constructor(commentReplyButton) {
-//     this.commentReplyButton = commentReplyButton;
-//     this.commentReplyForm = this.commentReplyButton
-//       .closest(".comment-group-container")
-//       .querySelector(".reserve-elements .reserve-element.comment-form")
-//       .cloneNode(true);
-//     this.commentReplyFormCancelButton =
-//       this.commentReplyForm.querySelector(".cancel-button");
-//   }
-// }
-
-class CommentHandler {
+export class CommentHandler {
   constructor(commentContainer) {
     this.commentContainer = commentContainer;
     this.userId = document.querySelector(".current-user-id").dataset.userId;
@@ -27,17 +15,6 @@ class CommentHandler {
     // like elements
     this.commentLikeButton =
       this.commentInfoContainer.querySelector(".comment-like");
-
-    // reply elements
-    this.commentReplyButton =
-      this.commentInfoContainer.querySelector(".comment-reply") || null;
-    this.commentReplyForm =
-      this.commentReplyButton
-        ?.closest(".comment-group-container")
-        ?.querySelector(".reserve-elements .reserve-element.comment-form")
-        ?.cloneNode(true) || null;
-    this.commentReplyFormCancelButton =
-      this.commentReplyForm?.querySelector(".cancel-button") || null;
 
     //   edit elements
     this.editCommentButton =
@@ -60,21 +37,16 @@ class CommentHandler {
     this.isCommentLikedByUser =
       this.commentLikeButton.dataset.isCommentLikedByUser.toLowerCase() ===
       "true";
-    this.isCommentRepliedByUser =
-      this.commentReplyButton.dataset.isCommentRepliedByUser.toLowerCase() ===
-      "true";
     this.isReported = false;
 
     // bind the context of the class methods
     this.onCommentLikeClick = this.onCommentLikeClick.bind(this);
-    this.onCommentReplyClick = this.onCommentReplyClick.bind(this);
     this.onCommentEditClick = this.onCommentEditClick.bind(this);
     this.onCommentSaveButtonClick = this.onCommentSaveButtonClick.bind(this);
     this.onCommentCancelButtonClick =
       this.onCommentCancelButtonClick.bind(this);
     this.onCommentDeleteClick = this.onCommentDeleteClick.bind(this);
     this.onCommentReportClick = this.onCommentReportClick.bind(this);
-    this.fetchAPI = this.fetchAPI.bind(this);
 
     this.isEventListenersAttached = false;
 
@@ -87,10 +59,6 @@ class CommentHandler {
     if (this.isEventListenersAttached) return;
 
     this.commentLikeButton?.addEventListener("click", this.onCommentLikeClick);
-    this.commentReplyButton?.addEventListener(
-      "click",
-      this.onCommentReplyClick,
-    );
     this.editCommentButton?.addEventListener("click", this.onCommentEditClick);
     this.deleteCommentButton?.addEventListener(
       "click",
@@ -104,26 +72,9 @@ class CommentHandler {
     this.isEventListenersAttached = true;
   }
 
-  // utility functions
-  async fetchAPI(url, method, body = null) {
-    try {
-      const response = await fetch(url, {
-        method: method,
-        body: JSON.stringify(body),
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
-
-      return await response.json();
-    } catch (error) {
-      console.error("Error from fetchAPI:", error);
-    }
-  }
-
   async onCommentLikeClick() {
     try {
-      const { status } = await this.fetchAPI(
+      const { status } = await fetchAPI(
         `/api/comments/${this.commentId}?isLike=${!this.isCommentLikedByUser}`,
         "POST",
         null,
@@ -183,97 +134,6 @@ class CommentHandler {
     }
   }
 
-  async onCommentReplyClick() {
-    const replyForm = this.commentReplyForm.querySelector("form");
-
-    this.commentReplyForm.style.marginLeft = "2.5rem";
-
-    this.commentContainer.appendChild(this.commentReplyForm);
-    autoResizeCommentInput();
-
-    this.commentReplyButton.classList.add("d-none");
-
-    this.commentReplyFormCancelButton.addEventListener("click", () => {
-      replyForm.reset();
-      this.commentReplyForm.remove();
-      this.commentReplyButton.classList.remove("d-none");
-    });
-
-    const handleCommentReply = async (e) => {
-      try {
-        e.preventDefault();
-
-        const formData = new FormData(replyForm);
-        const { comment } = Object.fromEntries(formData.entries());
-
-        // const commentGroupContainer = document.querySelector(
-        //   `#comment-${this.commentId}`,
-        // ).parentNode;
-
-        const { status } = await this.fetchAPI(
-          `/api/comments/${this.commentId}/reply`,
-          "POST",
-          {
-            postId: this.postId,
-            comment,
-          },
-        );
-
-        if (status !== 201) throw new Error("Failed to reply to the comment");
-
-        replyForm.reset();
-
-        this.isCommentRepliedByUser = !this.isCommentRepliedByUser;
-        this.commentReplyForm.remove();
-
-        // construct the comment
-        const { status: renderStatus, html } = await this.fetchAPI(
-          `/api/comments/${this.commentId}/construct-comment`,
-          "PUT",
-          { commentLevel: this.commentContainer.dataset.commentLevel },
-        );
-
-        if (renderStatus !== 200)
-          throw new Error("Failed to construct the comment");
-
-        // append the new comment to the comment container
-        const tempDiv = document.createElement("div");
-        const repliedComment = document.querySelector(
-          `#comment-${this.commentId}`,
-        );
-
-        const newCommentGroupContainer = `
-        <div class="flex flex-col comment-group-container">
-        ${html}
-        </div>
-        `;
-
-        tempDiv.innerHTML = newCommentGroupContainer;
-
-        while (tempDiv.firstElementChild) {
-          repliedComment.insertAdjacentElement(
-            "afterend",
-            tempDiv.firstElementChild,
-          );
-        }
-
-        // init the comment handler for the new comment
-        // const newCommentContainer = commentGroupContainer.lastElementChild;
-
-        // const newCommentHandler = new CommentHandler(newCommentContainer);
-        // setConnectionLine();
-      } catch (error) {
-        console.error("Error from commentReplyHandler:", error);
-      }
-    };
-
-    // Remove the previous event listener
-    this.commentReplyForm.removeEventListener("submit", handleCommentReply);
-
-    // Add the new event listener
-    this.commentReplyForm.addEventListener("submit", handleCommentReply);
-  }
-
   async onCommentEditClick() {
     const comment = this.commentContainer.querySelector(".comment");
     const commentContent = comment.querySelector(".reply");
@@ -326,6 +186,7 @@ class CommentHandler {
       this.editCommentCancelButton.classList.add("d-none");
       this.editCommentSaveButton.classList.add("d-none");
       comment.classList.remove("editing");
+      this.reportCommentButton.classList.remove("d-none");
 
       this.editCommentButton.textContent = "Edited";
       this.editCommentButton.classList.add("text-active");
@@ -336,7 +197,7 @@ class CommentHandler {
 
   async onCommentSaveButtonClick(commentContent) {
     try {
-      const { comment: commentObj, status } = await this.fetchAPI(
+      const { comment: commentObj, status } = await fetchAPI(
         `/api/comments/${this.commentId}`,
         "PUT",
         {
@@ -372,14 +233,16 @@ class CommentHandler {
 
   async onCommentDeleteClick() {
     try {
-      const { status } = await this.fetchAPI(
+      const { status } = await fetchAPI(
         `/api/comments/${this.commentId}`,
         "DELETE",
       );
 
       if (status !== 200) throw new Error("Failed to delete the comment");
 
-      this.deleteCommentButton.closest(".comment-container").remove();
+      this.deleteCommentButton
+        .closest(".comment-container")
+        .classList.add("d-none");
 
       const commentCount = document.querySelector(
         `#comment-count-${this.postId}`,
@@ -411,7 +274,7 @@ class CommentHandler {
     if (this.isReported === true) return;
 
     try {
-      const { status } = await this.fetchAPI(
+      const { status } = await fetchAPI(
         `/api/comments/${this.commentId}/reporting?isReport=${!this.isReported}`,
         "PUT",
       );
@@ -435,10 +298,328 @@ export const onLoadCommentHandler = () => {
   const commentContainers = document.querySelectorAll(".comment-container");
 
   commentContainers.forEach((commentContainer) => {
-    const commentHandler = new CommentHandler(commentContainer);
+    new CommentHandler(commentContainer);
   });
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  onLoadCommentHandler();
+const onCreateCommentHandlerSubmit = async (
+  e,
+  {
+    postId,
+    createCommentForm,
+    createCommentFormContainer,
+    outermostCommentGroupContainer,
+    isSubmitting,
+  },
+) => {
+  e.preventDefault();
+
+  if (isSubmitting) return;
+
+  isSubmitting = true;
+  createCommentForm.disabled = true;
+
+  try {
+    const commentFormData = new FormData(createCommentForm);
+
+    const commentFormDataObj = Object.fromEntries(commentFormData.entries());
+
+    // clear the comment form
+    createCommentForm.reset();
+
+    const { status: createPostStatus, comment_id: commentId } = await fetchAPI(
+      "/api/comments",
+      "POST",
+      {
+        ...commentFormDataObj,
+        postId: postId,
+      },
+    );
+
+    if (createPostStatus !== 201) throw new Error("Failed to create a comment");
+
+    // construct a new comment element by calling the construct api
+    const { status: constructCommentStatus, html: newCommentHTML } =
+      await fetchAPI(`/api/comments/${commentId}/construct-comment`, "PUT", {
+        commentLevel: 1,
+      });
+
+    if (constructCommentStatus !== 200)
+      throw new Error("Failed to construct a comment");
+
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = newCommentHTML;
+
+    const newComment = tempDiv.firstChild;
+
+    outermostCommentGroupContainer.appendChild(newComment);
+
+    // if the current page is not the post detail page, return
+    if (!(window.location.pathname === `/posts/${postId}`)) return;
+
+    // navigate to the newly created comment
+    newComment.scrollIntoView({ behavior: "smooth" });
+
+    scrollToTopElement(createCommentFormContainer, 20);
+
+    return newComment;
+  } catch (error) {
+    console.error("Error from createCommentHandler:", error);
+  } finally {
+    isSubmitting = false;
+    createCommentForm.disabled = false;
+  }
+};
+
+const onLoadCreateCommentHandler = () => {
+  const createCommentFormContainers = document.querySelectorAll(
+    ".post-card__add-comment-container",
+  );
+
+  createCommentFormContainers.forEach((createCommentFormContainer) => {
+    if (!createCommentFormContainer) return;
+
+    const postId =
+      createCommentFormContainer.closest(".post-card").dataset.postId;
+
+    const createCommentForm = createCommentFormContainer.querySelector(
+      `#comment-form-${postId}`,
+    );
+
+    const postCard = createCommentFormContainer.closest(".post-card");
+
+    const outermostCommentGroupContainer = postCard?.querySelector(
+      ".post-card__post-comment-container .comment-group-container",
+    );
+
+    let isSubmitting = false;
+
+    const createCommentFormObj = {
+      postId,
+      createCommentForm,
+      createCommentFormContainer,
+      outermostCommentGroupContainer,
+      isSubmitting,
+    };
+
+    createCommentForm.addEventListener("submit", async (e) => {
+      try {
+        const newComment = await onCreateCommentHandlerSubmit(
+          e,
+          createCommentFormObj,
+        );
+
+        if (!newComment) throw new Error("Failed to create a comment");
+
+        // initialize the comment handler for the new comment
+        new CommentHandler(newComment);
+      } catch (error) {
+        console.error("Error from createCommentHandler:", error);
+      }
+    });
+  });
+};
+
+const onCreateReplyHandlerSubmit = async (
+  e,
+  {
+    postId,
+    commentId,
+    isCommentRepliedByUser,
+    commentContainer,
+    commentReplyForm,
+    commentReplyFormContainer,
+    commentReplyButton,
+    isSubmitting,
+  },
+) => {
+  if (isSubmitting) return;
+
+  isSubmitting = true;
+  commentReplyForm.disabled = true;
+
+  try {
+    e.preventDefault();
+
+    const formData = new FormData(commentReplyForm);
+    const { comment } = Object.fromEntries(formData.entries());
+
+    const { status } = await fetchAPI(
+      `/api/comments/${commentId}/reply`,
+      "POST",
+      {
+        postId,
+        comment,
+      },
+    );
+
+    if (status !== 201) throw new Error("Failed to reply to the comment");
+
+    commentReplyForm.reset();
+
+    isCommentRepliedByUser = !isCommentRepliedByUser;
+    commentReplyFormContainer.classList.add("d-none");
+
+    // Fetch the constructed comment HTML
+    const { status: renderStatus, html } = await fetchAPI(
+      `/api/comments/${commentId}/construct-comment`,
+      "PUT",
+      { commentLevel: commentContainer.dataset.commentLevel },
+    );
+
+    if (renderStatus !== 200)
+      throw new Error("Failed to construct the comment");
+
+    // Create a temporary div to hold the new reply HTML
+    const tempDiv = document.createElement("div");
+    const newCommentGroupContainer = `
+        <div class="flex flex-col comment-group-container">
+          ${html}
+        </div>
+      `;
+
+    tempDiv.innerHTML = newCommentGroupContainer;
+
+    // Find the new reply element inside the temporary div
+    const newReplyGroupContainer = tempDiv.querySelector(
+      ".comment-group-container",
+    ).lastElementChild;
+
+    // Append the new reply element to the current comment container's replies
+
+    let currentElement = commentContainer;
+
+    while (
+      currentElement.nextElementSibling &&
+      currentElement.nextElementSibling.classList.contains(
+        "comment-group-container",
+      )
+    ) {
+      currentElement = currentElement.nextElementSibling;
+    }
+
+    currentElement.insertAdjacentElement("afterend", newReplyGroupContainer);
+
+    // Initialize the CommentHandler for the new reply
+    commentReplyButton.classList.remove("d-none");
+
+    const newReplyCommentContainer =
+      newReplyGroupContainer.querySelector(".comment-container");
+
+    new CommentHandler(newReplyCommentContainer);
+    setConnectionLine();
+
+    return newReplyCommentContainer;
+  } catch (error) {
+    console.error("Error from commentReplyHandler:", error);
+  } finally {
+    isSubmitting = false;
+    commentReplyForm.disabled = false;
+  }
+};
+
+const initializeReplyEventListeners = (commentContainer) => {
+  const postId = commentContainer.closest(".post-card").dataset.postId;
+  const commentId = commentContainer.id.split("-").slice(1).join("-");
+  const commentInfoContainer = commentContainer.querySelector(".comment-info");
+  const commentReplyButton =
+    commentInfoContainer.querySelector(".comment-reply");
+  const isCommentRepliedByUser =
+    commentReplyButton.dataset.isCommentRepliedByUser.toLowerCase() === "true";
+
+  let commentReplyFormContainer = commentReplyButton
+    ?.closest(".comment-container")
+    ?.querySelector(".reserve-elements + .reserve-element.comment-form");
+
+  if (!commentReplyFormContainer) {
+    commentReplyFormContainer = commentReplyButton
+      ?.closest(".comment-container")
+      ?.querySelector(".reserve-elements .reserve-element.comment-form")
+      .cloneNode(true);
+
+    commentContainer.appendChild(commentReplyFormContainer);
+    autoResizeCommentInput();
+  }
+
+  const commentReplyFormCancelButton =
+    commentReplyFormContainer.querySelector(".cancel-button");
+  const commentReplyForm = commentReplyFormContainer.querySelector("form");
+
+  commentReplyFormContainer.style.marginLeft = "2.5rem";
+  commentReplyFormContainer.classList.add("d-none");
+
+  const handleReplyButtonClick = () => {
+    commentReplyFormContainer.classList.remove("d-none");
+    commentReplyForm.querySelector("textarea").focus();
+    commentReplyButton.classList.add("d-none");
+  };
+
+  const handleReplyCancelButtonClick = () => {
+    commentReplyForm.reset();
+    commentReplyFormContainer.classList.add("d-none");
+    commentReplyButton.classList.remove("d-none");
+  };
+
+  let isSubmitting = false;
+
+  const createReplyHandlerObj = {
+    postId,
+    commentId,
+    isCommentRepliedByUser,
+    commentContainer,
+    commentReplyFormContainer,
+    commentReplyForm,
+    commentReplyButton,
+    isSubmitting,
+  };
+
+  const handleReplyFormSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const newReply = await onCreateReplyHandlerSubmit(
+        e,
+        createReplyHandlerObj,
+      );
+
+      if (!newReply) throw new Error("Failed to create a reply");
+
+      // Initialize event listeners for the new reply only
+      initializeReplyEventListeners(newReply);
+    } catch (error) {
+      console.error("Error from commentReplyHandler:", error);
+    }
+  };
+
+  // Remove existing event listeners
+  commentReplyButton.removeEventListener("click", handleReplyButtonClick);
+  commentReplyFormCancelButton.removeEventListener(
+    "click",
+    handleReplyCancelButtonClick,
+  );
+  commentReplyForm.removeEventListener("submit", handleReplyFormSubmit);
+
+  // Add event listeners
+  commentReplyButton.addEventListener("click", handleReplyButtonClick);
+  commentReplyFormCancelButton.addEventListener(
+    "click",
+    handleReplyCancelButtonClick,
+  );
+  commentReplyForm.addEventListener("submit", handleReplyFormSubmit);
+};
+
+const onCommentReplyHandler = () => {
+  const commentContainers = document.querySelectorAll(
+    ".comment-container[id]:not([id=''])",
+  );
+  commentContainers.forEach(initializeReplyEventListeners);
+};
+
+["DOMContentLoaded", "postCardsPaginationLoaded"].forEach((e) => {
+  document.addEventListener(e, () => {
+    onLoadCreateCommentHandler();
+    onLoadCommentHandler();
+
+    // todo: test for second pages
+    onCommentReplyHandler();
+  });
 });

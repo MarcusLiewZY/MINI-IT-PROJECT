@@ -4,9 +4,9 @@ import "./toast.js";
 import "./postCardHandler.js";
 // import "./createCommentHandler.js";
 // import "./commentHandler.js";
-// import "./comment2.js";
 
-import "./comment3.js";
+// import "./comment3.js";
+import "./comment2.js";
 
 import "./multiSelect.js";
 import "./createPostModal.js";
