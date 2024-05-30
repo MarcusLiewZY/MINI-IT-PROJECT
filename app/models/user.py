@@ -1,4 +1,5 @@
-import uuid, random
+from uuid import uuid4
+import random
 from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import UUID
 from enum import Enum
@@ -36,16 +37,23 @@ CommentLike = db.Table(
 class User(UserMixin, db.Model):
     __tablename__ = "User"
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid4,
+        unique=True,
+        nullable=False,
+        server_default=db.text("(gen_random_uuid())"),
+    )
     email = db.Column(db.String(60), unique=True, nullable=False)
     anon_no = db.Column(db.String(4), nullable=True)
-    password = db.Column(db.String(60), nullable=False)
+    password = db.Column(db.String(200), nullable=False)
     username = db.Column(db.String(60), nullable=False)
     avatar_url = db.Column(db.String(200), nullable=True)
     campus = db.Column(db.Enum(Campus), default=Campus.NONE)
     is_admin = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.Text, nullable=False)
-    updated_at = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
 
     # relationship
     posts = db.relationship(
@@ -96,11 +104,11 @@ class User(UserMixin, db.Model):
         return "".join(map(str, random_no))
 
 
+# The user_loader callback is used to reload the user object from the user ID stored in the session.
 @login_manager.user_loader
 def user_loader(user_id):
-    try:
-        user_id = uuid.UUID(user_id)
-    except ValueError:
+    # user_id = user_id
+    if not user_id:
         return None  # Return None if user_id is not a valid UUID
 
     return User.query.filter(User.id == user_id).first()

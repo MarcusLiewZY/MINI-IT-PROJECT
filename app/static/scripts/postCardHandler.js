@@ -1,3 +1,5 @@
+import { fetchAPI } from "./utils.js";
+
 class PostCardHandler {
   constructor(userId) {
     this.userId = userId;
@@ -6,24 +8,6 @@ class PostCardHandler {
     this.bookmarkButtonHandler = this.bookmarkButtonHandler.bind(this);
     this.editButtonHandler = this.editButtonHandler.bind(this);
     this.deleteButtonHandler = this.deleteButtonHandler.bind(this);
-  }
-
-  async fetchAPI(url, method, body = null) {
-    try {
-      const response = await fetch(url, {
-        method: method,
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const data = await response.json();
-
-      return data;
-    } catch (error) {
-      console.error("Error from fetchAPI: ", error);
-    }
   }
 
   likeButtonHandler(postId) {
@@ -35,34 +19,38 @@ class PostCardHandler {
       );
 
       try {
-        const data = await this.fetchAPI(
+        const { status } = await fetchAPI(
           `/api/posts/${postId}/interactions?isLike=${!isPostLikedByUser}`,
           "POST",
           null,
         );
 
-        if (data[0].status === 200) {
-          const likeButton = postCard.querySelector(".like-button");
-          const likeButtonImg = likeButton.querySelector("img");
-          const likeButtonCount = postCard.querySelector(
-            `#like-count-${postId}`,
+        if (status !== 200) throw new Error("Liking post failed");
+
+        isPostLikedByUser = !isPostLikedByUser;
+        button.dataset.isPostLikedByUser = isPostLikedByUser.toString();
+
+        const likeButton = postCard.querySelector(".like-button");
+        const likeButtonImg = likeButton.querySelector("img");
+        const likeButtonCount = postCard.querySelector(`#like-count-${postId}`);
+
+        if (isPostLikedByUser) {
+          likeButtonImg.src = "/static/svg/like-blue.svg";
+          likeButtonCount.textContent =
+            parseInt(likeButtonCount.textContent) + 1;
+
+          likeButtonCount.parentNode.classList.add("text-active");
+        } else {
+          likeButtonImg.src = "/static/svg/like.svg";
+          likeButtonCount.textContent = Math.max(
+            0,
+            parseInt(likeButtonCount.textContent) - 1,
           );
-
-          if (isPostLikedByUser) {
-            likeButtonImg.src = "/static/svg/like.svg";
-            likeButtonCount.textContent = Math.max(
-              0,
-              parseInt(likeButtonCount.textContent) - 1,
-            );
-          } else {
-            likeButtonImg.src = "/static/svg/like-blue.svg";
-            likeButtonCount.textContent =
-              parseInt(likeButtonCount.textContent) + 1;
-          }
-
-          isPostLikedByUser = !isPostLikedByUser;
-          button.dataset.isPostLikedByUser = isPostLikedByUser.toString();
+          likeButtonCount.parentNode.classList.remove("text-active");
         }
+
+        likeButtonCount.nextElementSibling.textContent =
+          likeButtonCount.textContent === "1" ? " like" : " likes";
       } catch (error) {
         console.error("Error from likeButtonHandler:", error);
       }
@@ -78,26 +66,24 @@ class PostCardHandler {
       );
 
       try {
-        const data = await this.fetchAPI(
+        const { status } = await fetchAPI(
           `/api/posts/${postId}/interactions?isBookmark=${!isPostBookmarkedByUser}`,
           "POST",
           null,
         );
 
-        if (data[0].status === 200) {
-          const bookmarkButton = postCard.querySelector(".bookmark-button");
-          const bookmarkButtonImg = bookmarkButton.querySelector("img");
+        if (status !== 200) throw new Error("Bookmarking post failed");
 
-          if (isPostBookmarkedByUser) {
-            bookmarkButtonImg.src = "/static/svg/bookmark-gray.svg";
-          } else {
-            bookmarkButtonImg.src = "/static/svg/bookmark-brown.svg";
-          }
+        isPostBookmarkedByUser = !isPostBookmarkedByUser;
+        button.dataset.isPostBookmarkedByUser =
+          isPostBookmarkedByUser.toString();
 
-          isPostBookmarkedByUser = !isPostBookmarkedByUser;
-          button.dataset.isPostBookmarkedByUser =
-            isPostBookmarkedByUser.toString();
-        }
+        const bookmarkButton = postCard.querySelector(".bookmark-button");
+        const bookmarkButtonImg = bookmarkButton.querySelector("img");
+
+        bookmarkButtonImg.src = isPostBookmarkedByUser
+          ? "/static/svg/bookmark-brown.svg"
+          : "/static/svg/bookmark-gray.svg";
       } catch (error) {
         console.error("Error from likeButtonHandler:", error);
       }
@@ -121,7 +107,7 @@ class PostCardHandler {
   deleteButtonHandler(postId) {
     return async () => {
       try {
-        const data = await this.fetchAPI(`/api/posts/${postId}`, "DELETE", {
+        const data = await fetchAPI(`/api/posts/${postId}`, "DELETE", {
           isSoftDelete: true,
         });
 

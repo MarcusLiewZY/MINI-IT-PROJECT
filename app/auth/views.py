@@ -6,7 +6,6 @@ from app import oauth, db
 from app.models import User
 from . import user
 from app.utils.decorators import logout_required
-from app.utils.helper import format_datetime
 
 
 @user.route("/sign-up")
@@ -54,7 +53,7 @@ def microsoft_auth():
                 "password": user_info["mail"],
                 "username": user_info["displayName"],
                 "avatar_url": avatar_url,
-                "created_at": format_datetime(datetime.now()),
+                "created_at": datetime.now(),
             }
         )
         db.session.add(user)

@@ -1,5 +1,5 @@
 from uuid import UUID
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 from flask_login import current_user
 from datetime import datetime
 from sqlalchemy import select, insert, delete
@@ -8,14 +8,14 @@ from http import HTTPStatus as responseStatus
 from . import api
 from app import db
 from app.models import (
-    User,
     Comment,
+    CommentStatus,
     CommentLike,
     Post,
     PostNotification,
     CommentNotification,
 )
-from app.utils.helper import format_datetime
+from app.dto.comment_dto import CommentDTO
 from app.utils.api_utils import error_message
 from app.utils.decorators import api_login_required
 
@@ -57,9 +57,7 @@ def create_comment():
                 responseStatus.NOT_FOUND,
             )
 
-        comment = Comment(
-            {"content": content, "created_at": format_datetime(datetime.now())}
-        )
+        comment = Comment({"content": content, "created_at": datetime.now()})
 
         comment.user_id = user_id
         comment.post_id = post.id
@@ -72,7 +70,7 @@ def create_comment():
                 "user_id": post.user_id,
                 "post_id": post.id,
                 "unread_comment_id": comment.id,
-                "created_at": format_datetime(datetime.now()),
+                "created_at": datetime.now(),
             }
         )
 
@@ -180,7 +178,7 @@ def edit_comment(comment_id):
             )
 
         comment.content = content
-        comment.updated_at = format_datetime(datetime.now())
+        comment.updated_at = datetime.now()
 
         db.session.commit()
 
@@ -189,8 +187,10 @@ def edit_comment(comment_id):
                 {
                     "status": responseStatus.OK,
                     "message": "Comment updated successfully",
-                    "comment_id": comment.id,
-                    "content": comment.content,
+                    "comment": {
+                        "comment_id": comment.id,
+                        "content": comment.content,
+                    },
                 }
             ),
             responseStatus.OK,
@@ -213,6 +213,7 @@ def delete_comment(comment_id):
         comment_id: The ID of the comment.
     Returns:
         A JSON object containing the comment's id and an HTTP status code.
+        Note that the replied_comment_id can be null if the comment is not a reply.
     """
 
     try:
@@ -235,6 +236,7 @@ def delete_comment(comment_id):
                     "status": responseStatus.OK,
                     "message": "Comment deleted successfully",
                     "comment_id": comment_id,
+                    "replied_comment_id": comment.replied_comment_id,
                 }
             ),
             responseStatus.OK,
@@ -288,9 +290,7 @@ def create_reply(replied_comment_id):
         if replied_comment is None:
             return error_message("Replied comment not found", responseStatus.NOT_FOUND)
 
-        comment = Comment(
-            {"content": content, "created_at": format_datetime(datetime.now())}
-        )
+        comment = Comment({"content": content, "created_at": datetime.now()})
 
         comment.user_id = user_id
         comment.post_id = post.id
@@ -304,7 +304,7 @@ def create_reply(replied_comment_id):
                 "user_id": replied_comment.user_id,
                 "comment_id": replied_comment.id,
                 "unread_comment_id": comment.id,
-                "created_at": format_datetime(datetime.now()),
+                "created_at": datetime.now(),
             }
         )
 
@@ -392,13 +392,15 @@ def comment_interaction_handler(comment_id):
 
         db.session.commit()
 
-        return jsonify(
-            {
-                "status": responseStatus.OK,
-                "message": "Comment interaction successful",
-                "isLike": "true" if isLikeSuccess else "false",
-                "comment_id": comment.id,
-            },
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": "Comment interaction successful",
+                    "isLike": "true" if isLikeSuccess else "false",
+                    "comment_id": comment.id,
+                },
+            ),
             responseStatus.OK,
         )
 
@@ -423,7 +425,6 @@ def report_comment(comment_id):
 
     """
     try:
-        user_id = current_user.id
         isReport = request.args.get("isReport")
 
         if isReport is None:
@@ -437,15 +438,19 @@ def report_comment(comment_id):
             return error_message("Comment not found", responseStatus.NOT_FOUND)
 
         if isReport == "true":
-            if comment.is_report is True:
+            if comment.status == CommentStatus.REPORTED:
                 return error_message(
                     "Comment already reported", responseStatus.BAD_REQUEST
                 )
+            elif comment.status == CommentStatus.ALLOWED:
+                return error_message(
+                    "Comment already allowed", responseStatus.BAD_REQUEST
+                )
 
-            comment.is_report = True
+            comment.status = CommentStatus.REPORTED
 
         elif isReport == "false":
-            if comment.is_report is False:
+            if comment.status == CommentStatus.ALLOWED:
                 return error_message(
                     "Comment already cancel reported", responseStatus.BAD_REQUEST
                 )
@@ -455,7 +460,7 @@ def report_comment(comment_id):
                     "Unauthorized with admin role", responseStatus.UNAUTHORIZED
                 )
 
-            comment.is_report = False
+            comment.status = CommentStatus.ALLOWED
 
         else:
             return error_message(
@@ -468,7 +473,7 @@ def report_comment(comment_id):
             jsonify(
                 {
                     "status": responseStatus.OK,
-                    "message": f"Comment is {'cancel' if not comment.is_report else ''} reported successful",
+                    "message": f"Comment is {'cancel' if not comment.status == CommentStatus.ALLOWED else ''} reported successful",
                     "comment_id": comment.id,
                 }
             ),
@@ -477,6 +482,66 @@ def report_comment(comment_id):
 
     except Exception as e:
         db.session.rollback()
+        print(e)
+        return error_message(
+            "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
+        )
+
+
+@api.route("/comments/<comment_id>/construct-comment", methods=["PUT"])
+@api_login_required
+def construct_comment(comment_id):
+    """
+    Construct a comment by its ID.
+    Args:
+        comment_id: The ID of the comment.
+        commentLevel: The nested level of the comment.
+    Returns:
+        A JSON object containing the constructed comment with an HTTP status code.
+    """
+    try:
+        commentLevel = request.json.get("commentLevel")
+
+        if commentLevel is None:
+            return error_message(
+                "Missing required commentLevel parameter", responseStatus.BAD_REQUEST
+            )
+
+        commentLevel = int(commentLevel)
+        comment = Comment.query.get(UUID(comment_id))
+
+        if comment is None:
+            return error_message("Comment not found", responseStatus.NOT_FOUND)
+
+        commentDTO = CommentDTO(comment, current_user, commentLevel)
+        commentDTO.get_replies(maxCommentLevel=10000, isPreview=False)
+
+        post = {"isPreview": False, "id": comment.commented_post.id}
+
+        repliedUser = (
+            comment.replied_comment.commentCreator if comment.replied_comment else None
+        )
+
+        rendered_comment = render_template(
+            "layouts/comment.html",
+            comment=commentDTO.to_dict(),
+            user=current_user,
+            repliedUser=repliedUser,
+            post=post,
+        )
+
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": "Comment constructed successfully",
+                    "html": rendered_comment,
+                }
+            ),
+            responseStatus.OK,
+        )
+
+    except Exception as e:
         print(e)
         return error_message(
             "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR

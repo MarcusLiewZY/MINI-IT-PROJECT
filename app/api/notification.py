@@ -8,7 +8,6 @@ from . import api
 from app import db
 from app.models import Post, PostNotification, CommentNotification, Comment, PostStatus
 from app.services.notification_service import get_all_notifications
-from app.utils.helper import format_datetime
 from app.utils.api_utils import error_message
 from app.utils.decorators import api_login_required
 
@@ -177,7 +176,7 @@ def update_notification(id):
                 else:
                     post.status = PostStatus.REJECTED
 
-                post.updated_at = format_datetime(datetime.now())
+                post.updated_at = datetime.now()
                 db.session.commit()
             else:
                 return error_message(
@@ -337,7 +336,7 @@ def mark_all_as_read_notifications():
             ).update(
                 {
                     Post.status: PostStatus.APPROVED,
-                    Post.updated_at: format_datetime(datetime.now()),
+                    Post.updated_at: datetime.now(),
                 }
             ),
             "rejected-posts": lambda: Post.query.filter(
@@ -347,7 +346,7 @@ def mark_all_as_read_notifications():
             ).update(
                 {
                     Post.status: PostStatus.UNREAD_REJECTED,
-                    Post.updated_at: format_datetime(datetime.now()),
+                    Post.updated_at: datetime.now(),
                 }
             ),
         }

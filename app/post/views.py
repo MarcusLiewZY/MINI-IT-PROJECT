@@ -22,13 +22,12 @@ def get_post(post_id):
     editPostForm = CreatePostForm()
     editPostForm.set_tag_choices()
 
-    if request.method == "POST":
-        if editPostForm.validate_on_submit():
+    if editPostForm.validate_on_submit():
 
-            isSuccess, message = edit_post(post, editPostForm)
-            flash(message, "success" if isSuccess else "error")
-            if isSuccess:
-                return redirect(url_for("main.index"))
+        isSuccess, message = edit_post(post, editPostForm)
+        flash(message, "success" if isSuccess else "error")
+        if isSuccess:
+            return redirect(url_for("main.index"))
 
     editPostForm.title.data = post.title
     editPostForm.content.data = post.content

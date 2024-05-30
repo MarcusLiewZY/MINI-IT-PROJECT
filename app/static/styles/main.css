@@ -193,6 +193,18 @@ form {
   animation: fadeOut 0.5s forwards;
 }
 
+/* scroll to top button */
+#scrollToTop {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 1000;
+}
+
+#scrollToTop.fade-out {
+  animation: scrollToTopFadeOut 0.3s ease;
+}
+
 /* link */
 .link {
   text-decoration: none;
@@ -379,6 +391,7 @@ form {
 /* navbar */
 .navbar {
   position: fixed;
+  align-items: center;
   top: 0px;
   z-index: 1000;
   height: 100px;
@@ -389,6 +402,7 @@ form {
 
 .navbar .container {
   align-items: center;
+  width: 1128px;
 }
 
 .navbar .mid-col {
@@ -448,12 +462,8 @@ form {
   width: 0px;
 }
 
-/* .modal::backdrop {
-  background: rgb(0 0 0 / 0.4);
-} */
-
 #userProfileModal {
-  position: absolute;
+  position: fixed;
   width: 232px;
   border-radius: 4px;
   top: 82px;
@@ -462,6 +472,12 @@ form {
   box-shadow: var(--modal-shadow);
   background-color: var(--color---base---white);
   animation: modalFadeIn 0.3s ease;
+}
+
+#userProfileModal::backdrop {
+  background-color: var(--color---base---black);
+  background-blend-mode: multiply;
+  opacity: 0.3;
 }
 
 #userProfileModal .user-profile-container {
@@ -565,6 +581,11 @@ form {
 
 .modal-footer span {
   padding: 0px 0.125rem;
+}
+
+/* faked user login page */
+.faked-user-login-section {
+  margin-top: 100px;
 }
 
 /* home page */
@@ -722,7 +743,7 @@ form {
 }
 
 .post-card__add-comment-container-form {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .post-card__add-comment-container .form-control button {

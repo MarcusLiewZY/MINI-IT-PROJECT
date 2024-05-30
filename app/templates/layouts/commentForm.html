@@ -1,10 +1,11 @@
 <div
-  class="flex mb-4 post-card__add-comment-container post-card__add-comment-container-form"
+  class="flex mb-4 post-card__add-comment-container {{ class }}"
+  id="{{ id }}-{{ post.id }}"
 >
   {% with avatar_url=user.avatar_url, owner = user %}
     {% include "layouts/avatar.html" %}
   {% endwith %}
-  <form action="" method="post" id="comment-form-{{ post.id }}">
+  <form id="comment-form-{{ post.id }}" action="" method="post">
     <div class="form-control">
       <textarea
         name="comment"

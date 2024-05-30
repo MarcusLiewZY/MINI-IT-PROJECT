@@ -1,7 +1,7 @@
 <div
   class="flex flex-col comment-container"
   id="comment-{{ comment.id }}"
-  data-commentLevel="{{ comment.commentLevel }}"
+  data-comment-level="{{ comment.commentLevel }}"
   data-current-user-id="{{ user.id }}"
 >
   <div class="flex pb-5 ">
@@ -66,33 +66,48 @@
       </div>
       <div class="mt-2 ml-1 flex comment-info">
         <div class="date">{{ comment.timeAgo }}</div>
-        <div
+        <button
+          type="button"
           class="link text-label-sm comment-like
         {{ 'text-active' if comment.isLikedByUser else '' }}
         "
           data-is-comment-liked-by-user="{{ comment.isLikedByUser }}"
         >
           Like
-        </div>
-        <div
+        </button>
+        <button
+          type="button"
           class="link text-label-sm comment-reply
         {{ 'text-active' if comment.isRepliedByUser else '' }}
         "
           data-is-comment-replied-by-user="{{ comment.isRepliedByUser }}"
         >
           Reply
-        </div>
+        </button>
         {% if user.id == comment.commentCreator.id %}
-          {% if not comment.replies %}
-            <div class="link text-label-sm comment-edit">Edit</div>
-          {% endif %}
-          {% if not comment.replies %}
-            <div class="link text-label-sm comment-delete">Delete</div>
-          {% endif %}
+          <button
+            type="button"
+            class="link text-label-sm comment-edit
+            {{ 'd-none' if comment.replies }}
+            "
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            class="link text-label-sm comment-delete
+            {{ 'd-none' if comment.replies }}
+            "
+          >
+            Delete
+          </button>
         {% endif %}
-        <div class="link text-label-sm edit-comment__save-button d-none">
+        <button
+          type="button"
+          class="link text-label-sm edit-comment__save-button d-none"
+        >
           Save
-        </div>
+        </button>
         <div class="link text-label-sm edit-comment__cancel-button d-none">
           Cancel
         </div>
@@ -102,6 +117,8 @@
   <div class="reserve-elements d-none">
     {# create reply form element #}
     <div class="flex flex-col mb-5 reserve-element comment-form ">
+      {% with class="", id = 'reservedAddCommentForm' %}
+      {% endwith %}
       {% include "layouts/commentForm.html" %}
       <div class="link text-label-sm cancel-button ml-14">Cancel</div>
     </div>
@@ -116,17 +133,4 @@
       {% endwith %}
     </div>
   {% endfor %}
-  {% if post.isPreview and comment.replies|length > 3 %}
-    <div class="ml-2 flex view-more-reply">
-      <img
-        src="{{ url_for('static', filename = 'svg/arrow-right.svg') }}"
-        alt="arrow-right"
-      />
-      <a
-        href="{{ url_for('post.get_post', post_id = post.id) }}"
-        class="link text-label-lg"
-        >View more replies</a
-      >
-    </div>
-  {% endif %}
 {% endif %}

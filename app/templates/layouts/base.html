@@ -23,12 +23,15 @@
     {% block content %}
     {% endblock content %}
 
+    <button type="button" class="btn d-none" id="scrollToTop">
+      Scroll to top
+    </button>
+
     <!-- scripts -->
     <script></script>
     <script
       type="module"
       src="{{ url_for('static', filename='scripts/main.js') }}"
-      defer
     ></script>
     {% block js %}{% endblock %}
   </body>

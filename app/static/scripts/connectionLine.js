@@ -1,3 +1,5 @@
+import { onLoadCommentHandler } from "./commentHandler.js";
+
 export const setConnectionLine = () => {
   var commentContainers = document.querySelectorAll(".comment-container");
 
@@ -5,7 +7,7 @@ export const setConnectionLine = () => {
   // if the comment level is 1, margin left is 0rem
   // else margin left is 2.5rem * (comment level - 1)
   commentContainers.forEach((commentContainer) => {
-    var commentLevel = commentContainer.getAttribute("data-commentLevel");
+    var commentLevel = commentContainer.dataset.commentLevel;
 
     if (commentLevel > 0 && commentLevel <= 4) {
       let marginLeft = 2.5 * (commentLevel - 1);
@@ -19,7 +21,7 @@ export const setConnectionLine = () => {
   });
 
   commentContainers.forEach((commentContainer) => {
-    var commentLevel = commentContainer.getAttribute("data-commentLevel");
+    var commentLevel = commentContainer.dataset.commentLevel;
 
     if (commentLevel <= 1 || commentLevel > 4) return;
 
@@ -64,9 +66,36 @@ export const setConnectionLine = () => {
   });
 };
 
-// comment connection line and avatar position
+// // comment connection line and avatar position
 Array("resize", "load", "DOMContentLoaded").forEach((e) => {
   window.addEventListener(e, () => {
     setConnectionLine();
   });
 });
+
+// Create a new observer instance
+let observer = new MutationObserver((mutations) => {
+  // For each mutation
+  mutations.forEach((mutation) => {
+    // If the mutation is an addition of nodes
+    if (mutation.type === "childList") {
+      if (mutation.addedNodes.length > 0) {
+        // Nodes added
+        setConnectionLine();
+      }
+
+      if (mutation.removedNodes.length > 0) {
+        // Nodes removed
+        setConnectionLine();
+      }
+    }
+  });
+});
+
+// Configuration of the observer
+// childList: look for changes in the child elements of the target node
+// subtree: look for changes in the target node and its descendants, not just direct children
+let config = { childList: true, subtree: true };
+
+// Pass in the target node (in this case, the whole document) and the observer options
+observer.observe(document, config);

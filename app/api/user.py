@@ -8,7 +8,6 @@ from http import HTTPStatus as responseStatus
 from . import api
 from app import db
 from app.models import User
-from app.utils.helper import format_datetime
 from app.utils.api_utils import error_message
 from app.utils.decorators import api_login_required, api_logout_required, api_is_admin
 
@@ -80,7 +79,7 @@ def microsoft_auth():
                 password=user_info["mail"],
                 username=user_info["displayName"],
                 avatar_url=avatar_url,
-                created_at=format_datetime(datetime.now()),
+                created_at=datetime.now(),
             )
             db.session.add(user)
             db.session.commit()

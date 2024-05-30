@@ -117,14 +117,18 @@
 
       {# post react count #}
       <div class="flex text-label-md my-8 post-card__react-count-container ">
-        <div>
+        <div
+          class="{{ 'text-active' if post.userInteraction.isLikedByUser else '' }}"
+        >
           <span id="like-count-{{ post.id }}"
             >{{ post.userInteraction.likes }}</span
           ><span>
             {{ 'like' if post.userInteraction.likes == 1 else 'likes' }}</span
           >
         </div>
-        <div>
+        <div
+          class="{{ 'text-active' if post.userInteraction.isCommentedByUser > 0 else '' }}"
+        >
           <span id="comment-count-{{ post.id }}"
             >{{ post.userInteraction.comments }}</span
           ><span>
@@ -134,7 +138,9 @@
       </div>
 
       {% if not post.isPreview %}
-        {% include "layouts/commentForm.html" %}
+        {% with class='post-card__add-comment-container-form', id = 'addCommentForm' %}
+          {% include "layouts/commentForm.html" %}
+        {% endwith %}
       {% endif %}
 
       {# comment section #}
@@ -167,7 +173,9 @@
   {% if post.postStatus in ['Approved', 'Unread_approved'] %}
     {# reply to comment form #}
     {% if post.isPreview %}
-      {% include "layouts/commentForm.html" %}
+      {% with class="", id = 'addCommentForm' %}
+        {% include "layouts/commentForm.html" %}
+      {% endwith %}
     {% endif %}
 
     {# reserve elements #}
