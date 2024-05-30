@@ -1,7 +1,5 @@
 import { setConnectionLine } from "./connectionLine.js";
 import { postCardHandler } from "./postCardHandler.js";
-// import { onLoadCreateCommentHandler } from "./createCommentHandler.js";
-// import { onLoadCommentHandler } from "./comment2.js";
 
 const baseUrl = "/api/paginate";
 const meBaseUrl = `${baseUrl}/me`;
@@ -105,8 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       await fetchPosts(postContainer, loadingContainer, apiPaginateUrl, state);
       postCardHandler();
-      // onLoadCreateCommentHandler();
-      // onLoadCommentHandler();
       setConnectionLine();
     } catch (error) {
       console.error("Error from onLoadInfiniteScroll: ", error);

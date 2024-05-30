@@ -1,4 +1,4 @@
-import { onLoadCommentHandler } from "./comment2.js";
+import { onLoadCommentHandler } from "./commentHandler.js";
 
 export const setConnectionLine = () => {
   var commentContainers = document.querySelectorAll(".comment-container");
@@ -78,9 +78,16 @@ let observer = new MutationObserver((mutations) => {
   // For each mutation
   mutations.forEach((mutation) => {
     // If the mutation is an addition of nodes
-    if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
-      // Call setConnectionLine function
-      setConnectionLine();
+    if (mutation.type === "childList") {
+      if (mutation.addedNodes.length > 0) {
+        // Nodes added
+        setConnectionLine();
+      }
+
+      if (mutation.removedNodes.length > 0) {
+        // Nodes removed
+        setConnectionLine();
+      }
     }
   });
 });

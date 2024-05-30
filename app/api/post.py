@@ -288,14 +288,16 @@ def post_interaction_handler(post_id):
 
         db.session.commit()
 
-        return jsonify(
-            {
-                "status": responseStatus.OK,
-                "message": "Post interaction successful",
-                "isLike": "true" if isLikeSuccess else "false",
-                "isBookmark": "true" if isBookmarkSuccess else "false",
-                "post_id": post.id,
-            },
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": "Post interaction successful",
+                    "isLike": "true" if isLikeSuccess else "false",
+                    "isBookmark": "true" if isBookmarkSuccess else "false",
+                    "post_id": post.id,
+                },
+            ),
             responseStatus.OK,
         )
 

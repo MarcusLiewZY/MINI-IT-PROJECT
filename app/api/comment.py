@@ -213,6 +213,7 @@ def delete_comment(comment_id):
         comment_id: The ID of the comment.
     Returns:
         A JSON object containing the comment's id and an HTTP status code.
+        Note that the replied_comment_id can be null if the comment is not a reply.
     """
 
     try:
@@ -235,6 +236,7 @@ def delete_comment(comment_id):
                     "status": responseStatus.OK,
                     "message": "Comment deleted successfully",
                     "comment_id": comment_id,
+                    "replied_comment_id": comment.replied_comment_id,
                 }
             ),
             responseStatus.OK,

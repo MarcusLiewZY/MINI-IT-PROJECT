@@ -196,9 +196,13 @@ form {
 /* scroll to top button */
 #scrollToTop {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 1.25rem;
+  right: 1.25rem;
   z-index: 1000;
+}
+
+#scrollToTop.fade-out {
+  animation: scrollToTopFadeOut 0.3s ease;
 }
 
 /* link */

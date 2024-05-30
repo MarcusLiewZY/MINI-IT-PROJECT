@@ -20,15 +20,35 @@ export const fetchAPI = async (url, methods, body = null) => {
 
 export const scrollToTopElement = (element = window, offsetY = 0) => {
   const scrollToTopButton = document.querySelector("#scrollToTop");
+  let fadeOutTimeout = null;
+  let hideTimeout = null;
 
-  scrollToTopButton.classList.remove("d-none");
+  const handleClick = () => {
+    clearTimeout(fadeOutTimeout);
+    clearTimeout(hideTimeout);
 
-  scrollToTopButton.addEventListener("click", () => {
     window.scrollTo({
       top: element.offsetTop - offsetY,
       behavior: "smooth",
     });
 
     scrollToTopButton.classList.add("d-none");
-  });
+  };
+
+  scrollToTopButton.classList.remove("d-none", "fade-out");
+
+  scrollToTopButton.removeEventListener("click", handleClick);
+
+  scrollToTopButton.addEventListener("click", handleClick);
+
+  clearTimeout(fadeOutTimeout);
+  clearTimeout(hideTimeout);
+
+  fadeOutTimeout = setTimeout(() => {
+    scrollToTopButton.classList.add("fade-out");
+  }, 3000);
+
+  hideTimeout = setTimeout(() => {
+    scrollToTopButton.classList.add("d-none");
+  }, 3300); // 3000ms + 300ms (assume fade-out duration is 300ms)
 };

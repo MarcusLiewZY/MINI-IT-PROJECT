@@ -50,6 +50,14 @@ class PostDTO:
             "comments": len(post.comments),
             "isLikedByUser": user in post.liked_by,
             "isBookmarkedByUser": user in post.bookmarked_by,
+            "isCommentedByUser": any(
+                [
+                    comment
+                    for comment in post.comments
+                    if comment.commentCreator == user
+                    and comment.status != CommentStatus.REPORTED
+                ]
+            ),
         }
 
     @staticmethod

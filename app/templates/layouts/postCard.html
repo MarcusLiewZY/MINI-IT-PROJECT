@@ -117,14 +117,18 @@
 
       {# post react count #}
       <div class="flex text-label-md my-8 post-card__react-count-container ">
-        <div>
+        <div
+          class="{{ 'text-active' if post.userInteraction.isLikedByUser else '' }}"
+        >
           <span id="like-count-{{ post.id }}"
             >{{ post.userInteraction.likes }}</span
           ><span>
             {{ 'like' if post.userInteraction.likes == 1 else 'likes' }}</span
           >
         </div>
-        <div>
+        <div
+          class="{{ 'text-active' if post.userInteraction.isCommentedByUser > 0 else '' }}"
+        >
           <span id="comment-count-{{ post.id }}"
             >{{ post.userInteraction.comments }}</span
           ><span>

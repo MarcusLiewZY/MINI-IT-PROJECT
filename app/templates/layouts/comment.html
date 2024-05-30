@@ -66,33 +66,48 @@
       </div>
       <div class="mt-2 ml-1 flex comment-info">
         <div class="date">{{ comment.timeAgo }}</div>
-        <div
+        <button
+          type="button"
           class="link text-label-sm comment-like
         {{ 'text-active' if comment.isLikedByUser else '' }}
         "
           data-is-comment-liked-by-user="{{ comment.isLikedByUser }}"
         >
           Like
-        </div>
-        <div
+        </button>
+        <button
+          type="button"
           class="link text-label-sm comment-reply
         {{ 'text-active' if comment.isRepliedByUser else '' }}
         "
           data-is-comment-replied-by-user="{{ comment.isRepliedByUser }}"
         >
           Reply
-        </div>
+        </button>
         {% if user.id == comment.commentCreator.id %}
-          {% if not comment.replies %}
-            <div class="link text-label-sm comment-edit">Edit</div>
-          {% endif %}
-          {% if not comment.replies %}
-            <div class="link text-label-sm comment-delete">Delete</div>
-          {% endif %}
+          <button
+            type="button"
+            class="link text-label-sm comment-edit
+            {{ 'd-none' if comment.replies }}
+            "
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            class="link text-label-sm comment-delete
+            {{ 'd-none' if comment.replies }}
+            "
+          >
+            Delete
+          </button>
         {% endif %}
-        <div class="link text-label-sm edit-comment__save-button d-none">
+        <button
+          type="button"
+          class="link text-label-sm edit-comment__save-button d-none"
+        >
           Save
-        </div>
+        </button>
         <div class="link text-label-sm edit-comment__cancel-button d-none">
           Cancel
         </div>

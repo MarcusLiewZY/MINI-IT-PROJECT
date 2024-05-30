@@ -1397,3 +1397,27 @@
     opacity: 1;
   }
 }
+
+@keyframes scrollToTopFadeOut {
+  from {
+    opacity: 1;
+    bottom: 1.25rem;
+  }
+
+  to {
+    opacity: 0;
+    bottom: 2rem;
+  }
+}
+
+@-webkit-keyframes scrollToTopFadeOut {
+  from {
+    opacity: 1;
+    bottom: 1.25rem;
+  }
+
+  to {
+    opacity: 0;
+    bottom: 2rem;
+  }
+}
