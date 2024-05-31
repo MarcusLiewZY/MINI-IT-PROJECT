@@ -6,6 +6,7 @@ from . import post
 from app.main import main
 from app.models.post import Post
 from app.models.user import User
+from app.models.tag import Tag
 from app.dto.post_dto import PostDTO
 from app.utils.decorators import login_required
 from app.forms.postForms import CreatePostForm
@@ -42,9 +43,31 @@ def get_post(post_id):
 
     postDTO = PostDTO(post, postCreator, user)
 
+    # todo: remove the edit post form
+
     return render_template(
         "post/postDetail.html",
         post=postDTO.to_dict(),
         user=current_user,
         editPostForm=editPostForm,
+        isView=True,
+    )
+
+
+@post.route("/new-post", methods=["GET"])
+@login_required
+def new_post():
+    tags = Tag.query.all()
+    tag_list = []
+    for tag in tags:
+        tag_list.append(
+            {
+                "id": tag.id,
+                "name": tag.name,
+                "color": tag.color,
+            }
+        )
+
+    return render_template(
+        "post/postDetail.html", user=current_user, tags=tag_list, isView=False
     )

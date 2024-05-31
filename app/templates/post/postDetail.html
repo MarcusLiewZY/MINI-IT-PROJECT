@@ -1,15 +1,21 @@
 {% extends "layouts/base.html" %}
 
-{% block title %}{{ post.title }}{% endblock title %}
+{% block title %}{{ post.title if post else '' }}{% endblock title %}
 
 {% block content %}
   <div class="post-detail-page-body">
     <section class="mx-auto post-section">
       <div class="container flex flex-col mt-12 mb-12 post-card-container">
-        {% include "layouts/postCard.html" %}
+        {% if isView %}
+          {% include "layouts/postCard.html" %}
+        {% else %}
+          {% include "post/createPostCard.html" %}
+        {% endif %}
       </div>
     </section>
   </div>
 
-  {% include "post/editPostModal.html" %}
+  {% if isView %}
+    {% include "post/editPostModal.html" %}
+  {% endif %}
 {% endblock content %}

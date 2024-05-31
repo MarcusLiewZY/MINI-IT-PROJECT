@@ -1,10 +1,12 @@
+import "./utils.js";
 import "./userProfileModal.js";
 import "./toast.js";
 
+import "./postHandler.js";
 import "./postCardHandler.js";
 import "./commentHandler.js";
 
-import "./multiSelect.js";
+// import "./multiSelect.js";
 import "./createPostModal.js";
 import "./editPostModal.js";
 import "./postCardInfiniteScroll.js";

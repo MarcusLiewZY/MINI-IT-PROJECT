@@ -10,7 +10,7 @@
           {% include "layouts/avatar.html" %}
         {% endwith %}
         <div
-          id="createPostModalOpenButton"
+          id="createPostPageButton"
           class="flex px-4 py-2 create-post-container text-body-md"
         >
           <img
@@ -36,8 +36,6 @@
       </div>
     </section>
   </div>
-
-  {% include "post/createPostModal.html" %}
 
   <div class="hidden" id="userInfo" data-user-info="{{ user }}"></div>
 {% endblock content %}

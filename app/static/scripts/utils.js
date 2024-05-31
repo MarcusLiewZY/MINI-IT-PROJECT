@@ -18,6 +18,14 @@ export const fetchAPI = async (url, methods, body = null) => {
   }
 };
 
+export const autoResizeTextarea = (textArea, maxHeight) => {
+  textArea?.addEventListener("input", () => {
+    textArea.style.height = "auto";
+    textArea.style.maxHeight = `${maxHeight || 280}px`;
+    textArea.style.height = `${textArea.scrollHeight}px`;
+  });
+};
+
 export const scrollToTopElement = (element = window, offsetY = 0) => {
   const scrollToTopButton = document.querySelector("#scrollToTop");
   let fadeOutTimeout = null;

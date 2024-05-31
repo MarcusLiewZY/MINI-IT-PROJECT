@@ -630,11 +630,6 @@ form {
   position: relative;
 }
 
-.post-card__user-info-container .react-container,
-.post-card__post-preview-container .post-tag-container {
-  gap: 8px;
-}
-
 .post-card__react-count-container {
   gap: 12px;
   color: var(--color---neutral--neutral40);
@@ -754,7 +749,6 @@ form {
 }
 
 /* create-post-modal */
-#createPostModal,
 #editPostModal,
 #createTagModal,
 #editTagModal {
@@ -772,7 +766,6 @@ form {
   animation: modalFadeIn 0.3s ease;
 }
 
-#createPostModal::backdrop,
 #editPostModal::backdrop,
 #createTagModal::backdrop,
 #editTagModal::backdrop {
@@ -781,12 +774,133 @@ form {
   opacity: 0.6;
 }
 
-#createPostModal .error-message,
+#createPostCard .error-message,
 #editPostModal .error-message,
 #createTagModal .error-message,
 #editTagModal .error-message {
+  cursor: default;
   color: var(--color---alert---error);
 }
+
+.post-form-container {
+  position: relative;
+}
+
+.post-form-container input {
+  border: none;
+  background: none;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+  cursor: text;
+  outline: none;
+}
+
+.post-form-container input#postTitle {
+  width: 80%;
+}
+
+.post-form-container .upload-image-container {
+  align-items: center;
+}
+
+.post-form-container .upload-image-container .upload-image-info {
+  color: var(--color---neutral--neutral50);
+}
+
+.post-tag__menu-dropdown-button {
+  border-radius: 8px;
+  border: 1px dashed var(--color---neutral--neutral70);
+  background-color: var(--color---neutral--neutral95);
+}
+
+.post-tag-dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: relative;
+}
+
+.dropdown-content {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  background-color: #f9f9f9;
+  min-width: 230px;
+  z-index: 1;
+  max-height: 280px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color---neutral--neutral80);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--color---neutral--neutral95);
+  }
+}
+
+.dropdown-content input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+.dropdown-content ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-content ul li {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.dropdown-content ul li:hover {
+  background-color: #ddd;
+}
+
+.dropdown-content ul li input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.show {
+  display: block;
+}
+
+.badge-container {
+  margin-top: 10px;
+}
+
+.badge {
+  display: inline-block;
+  background-color: #4caf50;
+  color: white;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 15px;
+}
+
+.badge .remove-badge {
+  margin-left: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#dropdownList li.selected {
+  background-color: var(--color---neutral--neutral80);
+}
+
+/* todo: remove the unused css */
 
 .create-post-modal-container .user-info-container {
   align-items: center;
@@ -811,11 +925,16 @@ form {
   border-radius: 12px;
 }
 
-.create-post-modal-container .divider {
+.post-card form#createPostForm {
+  width: 100%;
+}
+
+.post-card .divider {
   height: 1px;
   background-color: var(--color---neutral--neutral90);
-  width: 936px;
-  margin-left: -24px;
+  margin-left: -2rem;
+  width: calc(100% + 2 * 2rem);
+  overflow-x: hidden;
 }
 
 .create-post-modal-container .upload-image-container {
@@ -1313,7 +1432,8 @@ form {
 }
 
 .admin-content-container .action-button-container,
-#createTagModal .action-button-container {
+#createTagModal .action-button-container,
+.post-card .action-button-container {
   justify-content: flex-end;
 }
 
