@@ -92,15 +92,8 @@ class PostCardHandler {
 
   editButtonHandler(postId) {
     return () => {
-      // redirect user to edit post page: /posts/:postId
-      const path = `/posts/${postId}`;
-      const editPostModal = document.querySelector("#editPostModal");
-
-      if (window.location.pathname === path) {
-        editPostModal.showModal();
-      } else {
-        window.location.href = `${path}?isEdit=true`;
-      }
+      // redirect user to edit post page
+      window.location.href = `/posts/${postId}/edit-post`;
     };
   }
 

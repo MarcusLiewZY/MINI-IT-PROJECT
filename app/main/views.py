@@ -14,22 +14,11 @@ from app.services.post_service import get_posts, create_post
 @main.route("/", methods=["GET"])
 @login_required
 def index():
-    # createPostForm = CreatePostForm()
-    # createPostForm.set_tag_choices()
-    # if createPostForm.validate_on_submit():
-    #     isSuccess, message = create_post(createPostForm)
-    #     flash(message, "success" if isSuccess else "error")
-    #     if isSuccess:
-    #         return redirect(url_for("main.index"))
-
     user = User.query.get(current_user.id)
-    # tags = Tag.query.all()
 
     return render_template(
         "main/index.html",
         user=user,
-        # tags=tags,
-        # createPostForm=createPostForm,
     )
 
 

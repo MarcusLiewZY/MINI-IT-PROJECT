@@ -1,4 +1,4 @@
-import { autoResizeTextarea } from "./utils.js";
+import { autoResizeTextarea, fetchAPI } from "./utils.js";
 
 class MultiSelectDropdownMenu {
   constructor(postForm) {
@@ -12,6 +12,7 @@ class MultiSelectDropdownMenu {
     this.dropdownSearch = postForm.querySelector("#postTagDropDownSearch");
     this.dropdownList = postForm.querySelector("#postTagDropDownList");
 
+    this.selectedItemsOrder = []; // Store the order of selected items
     this.eventListeners = {}; // Store references to added event listeners
 
     this.init();
@@ -21,7 +22,7 @@ class MultiSelectDropdownMenu {
     this.dropdownSearch.addEventListener("keyup", this.filterItems);
     this.dropdownButton.addEventListener("click", this.toggleDropdown);
     document.addEventListener("click", this.closeDropdown);
-    document.querySelectorAll("#dropdownList li").forEach((li) => {
+    this.dropdownList.querySelectorAll("li").forEach((li) => {
       li.addEventListener("click", this.toggleItem);
     });
 
@@ -39,6 +40,8 @@ class MultiSelectDropdownMenu {
       },
       { element: document, event: "click", handler: this.closeDropdown },
     ]);
+
+    this.updateStateFromLoadedItems();
   };
 
   addEventListeners = (listeners) => {
@@ -58,11 +61,26 @@ class MultiSelectDropdownMenu {
     this.eventListeners = {};
   };
 
+  updateStateFromLoadedItems = () => {
+    const loadedItems = this.badgeContainer.querySelectorAll(".post-tag__edit");
+
+    loadedItems.forEach((badge) => {
+      const checkbox = document.getElementById(
+        badge.id.replace("post-tag-badge-", ""),
+      );
+      if (checkbox) {
+        checkbox.checked = true;
+        this.selectedItemsOrder.push(checkbox.id);
+        checkbox.closest("li").classList.add("selected");
+      }
+    });
+  };
+
   filterItems = (event) => {
     const filter = event.target.value.toUpperCase();
-    const li = this.dropdownList.querySelectorAll("#dropdownList li");
+    const dropdownItems = this.dropdownList.querySelectorAll("li");
 
-    li.forEach((item) => {
+    dropdownItems.forEach((item) => {
       const label = item.querySelector("label").innerText;
       item.style.display =
         label.toUpperCase().indexOf(filter) > -1 ? "" : "none";
@@ -72,7 +90,6 @@ class MultiSelectDropdownMenu {
   toggleDropdown = (event) => {
     event.stopPropagation();
     this.isDropdownOpen = !this.isDropdownOpen;
-
     if (!this.isDropdownOpen) {
       this.updateBadges(); // Call the function when closing the dropdown
     }
@@ -81,7 +98,10 @@ class MultiSelectDropdownMenu {
   };
 
   closeDropdown = (event) => {
-    if (this.isDropdownOpen && !event.target.closest(".post-tag-dropdown")) {
+    if (
+      this.isDropdownOpen &&
+      !event.target.closest("#postTagBadgeContainer")
+    ) {
       this.updateBadges();
     }
   };
@@ -95,30 +115,41 @@ class MultiSelectDropdownMenu {
 
     if (checkbox.checked) {
       event.currentTarget.classList.add("selected");
+      this.selectedItemsOrder.push(checkbox.id);
     } else {
       event.currentTarget.classList.remove("selected");
+      this.selectedItemsOrder = this.selectedItemsOrder.filter(
+        (id) => id !== checkbox.id,
+      );
     }
   };
 
   updateBadges = () => {
-    const checkboxes = this.postTagContainer.querySelectorAll(
-      '#postTagDropDownList input[type="checkbox"]',
-    );
+    // clear existing badges
+    this.badgeContainer
+      .querySelectorAll(".post-tag__edit")
+      .forEach((badge) => badge.remove());
 
-    // Update badges for all selected/deselected items
-    checkboxes.forEach((checkbox) => {
-      if (
-        checkbox.checked &&
-        !this.postTagContainer.getElementById(checkbox.id)
-      ) {
-        console.log(checkbox.value, checkbox.id);
+    // get the checkbox in the order of user selection
+    const selectedCheckboxes = this.selectedItemsOrder
+      .map((id) => document.getElementById(id))
+      .filter((checkbox) => checkbox.checked);
+
+    // Add badges for selected items, up to 5
+    selectedCheckboxes.slice(0, 5).forEach((checkbox) => {
+      if (!document.getElementById(`post-tag-badge-${checkbox.id}`)) {
         this.addBadge(checkbox.value, checkbox.id, checkbox.dataset.color);
-      } else if (
-        !checkbox.checked &&
-        this.postTagContainer.getElementById(checkbox.id)
-      ) {
-        this.removeBadge(checkbox.id);
+        checkbox.closest("li").classList.add("selected");
       }
+    });
+
+    // Deselect any remaining checkboxes beyond the first 5 selected
+    selectedCheckboxes.slice(5).forEach((checkbox) => {
+      checkbox.checked = false;
+      checkbox.closest("li").classList.remove("selected");
+      this.selectedItemsOrder = this.selectedItemsOrder.filter(
+        (id) => id !== checkbox.id,
+      );
     });
 
     // Clear the search field
@@ -135,31 +166,29 @@ class MultiSelectDropdownMenu {
     const tempDiv = document.createElement("div");
 
     const badgeHtml = `
-    <div class="text-label-sm post-tag" id="${id}"
-    style="background-color: ${tagColor}"
-    >
-      ${value}
-      <span class="remove-badge" data-id="${id}">&times;</span>
-    </div>`;
+      <div class="text-label-sm post-tag post-tag__edit" id="post-tag-badge-${id}"
+      style="background-color: ${tagColor}"
+      >
+        ${value}
+      </div>`;
 
     tempDiv.innerHTML = badgeHtml;
 
     // Use tempDiv.children[0] to get the first child element, ignoring text nodes
     const badge = tempDiv.children[0];
 
-    console.log(tempDiv);
-    console.log(badge);
+    // this.badgeContainer.appendChild(badge);
+    this.dropdownButton.insertAdjacentElement("beforebegin", badge);
 
-    this.badgeContainer.insertAdjacentHTML("afterbegin", badge);
-
-    badge.querySelector(".remove-badge").addEventListener("click", () => {
-      console.log("remove badge clicked");
-      console.log(id);
+    badge.addEventListener("click", () => {
       const checkbox = document.getElementById(id);
       checkbox.checked = false;
       this.removeBadge(id);
       checkbox.closest("li").classList.remove("selected");
     });
+
+    // Update the visibility of the toggle button
+    this.updateToggleButtonVisibility();
   };
 
   removeBadge = (id) => {
@@ -167,110 +196,484 @@ class MultiSelectDropdownMenu {
     if (badge) {
       badge.remove();
     }
+
+    this.selectedItemsOrder = this.selectedItemsOrder.filter(
+      (selectedId) => selectedId !== id,
+    );
+
+    // Update the visibility of the toggle button
+    this.updateToggleButtonVisibility();
   };
 
-  // this method is not used, it will pass the selected items to the formhandler class
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const checkboxes = document.querySelectorAll(
-      '#dropdownList input[type="checkbox"]',
+  updateToggleButtonVisibility = () => {
+    const selectedItemsCount = this.getSelectedItems().length;
+
+    this.dropdownButton.style.display =
+      selectedItemsCount >= 5 ? "none" : "block";
+  };
+
+  destroy = () => {
+    this.removeEventListeners();
+  };
+
+  getSelectedItems = () => {
+    const checkboxes = this.postTagContainer.querySelectorAll(
+      '#postTagDropDownList input[type="checkbox"]',
     );
+
     const selectedItems = Array.from(checkboxes)
       .filter((checkbox) => checkbox.checked)
       .map((checkbox) => checkbox.value);
 
-    // const formData = new FormData(event.target);
-    // formData.append("selectedItems", JSON.stringify(selectedItems));
-    // const data = Object.fromEntries(formData.entries());
-    // const parsedData = JSON.parse(data.selectedItems);
-    // console.log(parsedData);
+    return JSON.parse(JSON.stringify(selectedItems));
   };
 }
 
-class PostFormHandler {
+class CreatePostFormHandler {
   constructor(postForm) {
     this.postForm = postForm;
-    this.imageUpload = document.getElementById("imageUpload");
-    this.imagePreviewContainer = document.getElementById(
-      "imagePreviewContainer",
-    );
-    this.imagePreview = document.getElementById("imagePreview");
-    this.removeImageButton = document.getElementById("removeImageButton");
-    this.customUploadButton = document.getElementById("customUploadButton");
 
+    // Post title element
+    this.postTitle = postForm.querySelector("#postTitle");
+
+    // Post tag element
+    this.postTags = new MultiSelectDropdownMenu(postForm);
+
+    // Post content element
+    this.postContent = postForm.querySelector("#postContent");
+
+    // Image upload elements
+    this.imageUpload = postForm.querySelector("#createPostUploadImageInput");
+    this.imagePreviewContainer = postForm.querySelector(
+      "#createPostPreviewImageContainer",
+    );
+    this.imagePreview = this.imagePreviewContainer.querySelector("img");
+    this.removeImageButton = postForm.querySelector(
+      "#createPostRemoveImageButton",
+    );
+    this.customUploadButton = postForm.querySelector(
+      "#createPostUploadImageButton",
+    );
+
+    // Error message element
+    this.errorMessage = postForm.querySelector("#createPostErrorMessage");
+
+    // Submit button
+    this.submitButton = postForm.querySelector("#createPostSubmitButton");
+
+    // Cancel button
+    this.cancelButton = postForm.querySelector("#createPostCancelButton");
+
+    this.bindAll();
     this.init();
   }
 
-  init = () => {
-    document
-      .getElementById("dropdownForm")
-      .addEventListener("submit", this.handleSubmit);
+  bindAll() {
+    this.focusOnPostTitle = this.focusOnPostTitle.bind(this);
+    this.onCreatePostSubmit = this.onCreatePostSubmit.bind(this);
+    this.onCallCreatePostAPI = this.onCallCreatePostAPI.bind(this);
+    this.handleImageUpload = this.handleImageUpload.bind(this);
+    this.removeImage = this.removeImage.bind(this);
+    this.triggerImageUpload = this.triggerImageUpload.bind(this);
+    this.showErrorMessage = this.showErrorMessage.bind(this);
+    this.clearErrorMessage = this.clearErrorMessage.bind(this);
+    this.disableForm = this.disableForm.bind(this);
+    this.enableForm = this.enableForm.bind(this);
+    this.returnToPreviousPage = this.returnToPreviousPage.bind(this);
+    this.destroy = this.destroy.bind(this);
+  }
+
+  init() {
+    this.postForm.addEventListener("submit", this.onCreatePostSubmit);
+
+    // image upload handlers
     this.imageUpload.addEventListener("change", this.handleImageUpload);
     this.removeImageButton.addEventListener("click", this.removeImage);
     this.customUploadButton.addEventListener("click", this.triggerImageUpload);
+    this.cancelButton.addEventListener("click", this.returnToPreviousPage);
 
-    // Add event listeners and store their references
-    this.addEventListeners([
-      {
-        element: document.getElementById("dropdownForm"),
-        event: "submit",
-        handler: this.handleSubmit,
-      },
-      {
-        element: this.imageUpload,
-        event: "change",
-        handler: this.handleImageUpload,
-      },
-      {
-        element: this.removeImageButton,
-        event: "click",
-        handler: this.removeImage,
-      },
-      {
-        element: this.customUploadButton,
-        event: "click",
-        handler: this.triggerImageUpload,
-      },
-    ]);
-  };
+    this.focusOnPostTitle();
 
-  handleImageUpload = (event) => {
-    const file = event.target.files[0];
+    autoResizeTextarea(this.postContent, 1000);
+  }
+
+  async onCallCreatePostAPI() {
+    const postData = new FormData(this.postForm);
+    this.disableForm();
+
+    try {
+      let tags = this.postTags.getSelectedItems();
+      postData.append("tags", JSON.stringify(tags));
+
+      const {
+        status,
+        errors,
+        post_id: postId,
+      } = await fetchAPI("/api/posts", "POST", postData);
+
+      if (status === 400 && errors) {
+        this.showErrorMessage(errors[0]);
+        return;
+      }
+
+      this.postForm.reset();
+
+      return postId;
+    } catch (error) {
+      throw new Error("Error creating post handler", error);
+    }
+  }
+
+  async onCreatePostSubmit(e) {
+    e.preventDefault();
+    this.clearErrorMessage();
+
+    try {
+      const postId = await this.onCallCreatePostAPI();
+
+      if (!postId) {
+        throw new Error("Post ID is missing");
+      }
+
+      // todo: create a new function to navigate to the notification page
+
+      sessionStorage.setItem("newPostId", postId);
+
+      window.location.href = `/notifications?filter=all`;
+    } catch (error) {
+      throw new Error("Error creating post", error);
+    } finally {
+      this.enableForm();
+    }
+  }
+
+  focusOnPostTitle() {
+    this.postTitle.focus();
+
+    // Place the cursor at the end of the text
+    const titleLength = this.postTitle.value.length;
+    this.postTitle.setSelectionRange(titleLength, titleLength);
+  }
+
+  handleImageUpload(e) {
+    const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         this.imagePreview.src = e.target.result;
-        this.imagePreview.style.display = "block";
-        this.removeImageButton.style.display = "block";
+        this.imagePreview.classList.remove("d-none");
+        this.removeImageButton.classList.remove("d-none");
       };
       reader.readAsDataURL(file);
-      this.customUploadButton.style.display = "none";
+      this.customUploadButton.parentNode.classList.add("d-none");
     }
-  };
+  }
 
-  removeImage = () => {
+  removeImage() {
     this.imagePreview.src = "";
-    this.imagePreview.style.display = "none";
+    this.imagePreview.classList.add("d-none");
+    this.removeImageButton.classList.add("d-none");
     this.imageUpload.value = "";
-    this.removeImageButton.style.display = "none";
-    this.customUploadButton.style.display = "block";
-  };
+    this.customUploadButton.parentNode.classList.remove("d-none");
+  }
 
-  triggerImageUpload = () => {
+  triggerImageUpload() {
     this.imageUpload.click();
-  };
+  }
 
-  onSubmit = () => {};
+  showErrorMessage(message) {
+    this.errorMessage.textContent = message;
+    this.errorMessage.classList.remove("d-none");
+  }
 
-  destroy = () => {
-    // Cleanup logic
+  clearErrorMessage() {
+    this.errorMessage.textContent = "";
+    this.errorMessage.classList.add("d-none");
+  }
+
+  disableForm() {
+    const allInteractiveElements = [];
+    const targetElements = ["input", "textarea", "button"];
+
+    targetElements.forEach((targetElement) => {
+      allInteractiveElements.push(
+        ...this.postForm.querySelectorAll(targetElement),
+      );
+    });
+
+    allInteractiveElements.forEach((el) => {
+      el.disabled = true;
+    });
+  }
+
+  enableForm() {
+    const allInteractiveElements = [];
+    const targetElements = ["input", "textarea", "button"];
+
+    targetElements.forEach((targetElement) => {
+      allInteractiveElements.push(
+        ...this.postForm.querySelectorAll(targetElement),
+      );
+    });
+
+    allInteractiveElements.forEach((el) => {
+      el.disabled = false;
+    });
+  }
+
+  returnToPreviousPage() {
+    window.history.back();
+  }
+
+  destroy() {
     this.removeEventListeners();
-  };
+    this.postTags.destroy();
+  }
 }
 
-class CreatePostFormHandler extends PostFormHandler {}
+class EditPostFormHandler {
+  constructor(postForm) {
+    this.postForm = postForm;
 
-class EditPostFormHandler extends PostFormHandler {}
+    // Post title element
+    this.postTitle = postForm.querySelector("#postTitle");
+
+    // Post tag element
+    this.postTags = new MultiSelectDropdownMenu(postForm);
+
+    // Post content element
+    this.postContent = postForm.querySelector("#postContent");
+
+    // Image upload elements
+    this.imageUpload = postForm.querySelector("#editPostUploadImageInput");
+    this.imagePreviewContainer = postForm.querySelector(
+      "#editPostPreviewImageContainer",
+    );
+    this.imagePreview = this.imagePreviewContainer.querySelector("img");
+    this.removeImageButton = postForm.querySelector(
+      "#editPostRemoveImageButton",
+    );
+    this.customUploadButton = postForm.querySelector(
+      "#editPostUploadImageButton",
+    );
+
+    // Error message element
+    this.errorMessage = postForm.querySelector("#editPostErrorMessage");
+
+    // Submit button
+    this.submitButton = postForm.querySelector("#editPostSubmitButton");
+
+    // Cancel button
+    this.cancelButton = postForm.querySelector("#editPostCancelButton");
+
+    this.bindAll();
+    this.init();
+  }
+
+  bindAll() {
+    this.disableSubmitButtonOnLoad = this.disableSubmitButtonOnLoad.bind(this);
+    this.focusOnPostTitle = this.focusOnPostTitle.bind(this);
+    this.onEditPostSubmit = this.onEditPostSubmit.bind(this);
+    this.onCallCreatePostAPI = this.onCallCreatePostAPI.bind(this);
+    this.onCallDeletePostAPI = this.onCallDeletePostAPI.bind(this);
+    this.handleImageUpload = this.handleImageUpload.bind(this);
+    this.removeImage = this.removeImage.bind(this);
+    this.triggerImageUpload = this.triggerImageUpload.bind(this);
+    this.showErrorMessage = this.showErrorMessage.bind(this);
+    this.clearErrorMessage = this.clearErrorMessage.bind(this);
+    this.disableForm = this.disableForm.bind(this);
+    this.enableForm = this.enableForm.bind(this);
+    this.returnToPreviousPage = this.returnToPreviousPage.bind(this);
+    this.destroy = this.destroy.bind(this);
+  }
+
+  init() {
+    this.postForm.addEventListener("submit", this.onEditPostSubmit);
+
+    // image upload handlers
+    this.imageUpload.addEventListener("change", this.handleImageUpload);
+    this.removeImageButton.addEventListener("click", this.removeImage);
+    this.customUploadButton.addEventListener("click", this.triggerImageUpload);
+    this.cancelButton.addEventListener("click", this.returnToPreviousPage);
+
+    this.disableSubmitButtonOnLoad();
+    this.focusOnPostTitle();
+    this.setPostLineBreaks();
+
+    autoResizeTextarea(this.postContent, 1000);
+  }
+
+  async onCallCreatePostAPI() {
+    const postData = new FormData(this.postForm);
+    this.disableForm();
+
+    try {
+      let tags = this.postTags.getSelectedItems();
+      postData.append("tags", JSON.stringify(tags));
+
+      const {
+        status,
+        errors,
+        post_id: postId,
+      } = await fetchAPI(`/api/posts`, "POST", postData);
+
+      if (status === 400 && errors) {
+        this.showErrorMessage(errors[0]);
+        return;
+      }
+
+      return postId;
+    } catch (error) {
+      throw new Error("Error editing post handler", error);
+    }
+  }
+
+  async onCallDeletePostAPI() {
+    try {
+      // get the post id from the url
+      const oldPostId = window.location.pathname.split("/").at(-2);
+
+      const { status } = await fetchAPI(
+        `/api/posts/${oldPostId}?isSoftDelete=true`,
+        "DELETE",
+        {
+          isSoftDelete: true,
+        },
+      );
+
+      return status === 200;
+    } catch (error) {
+      throw new Error("Error deleting post", error);
+    }
+  }
+
+  async onEditPostSubmit(e) {
+    e.preventDefault();
+    this.clearErrorMessage();
+
+    try {
+      const postId = await this.onCallCreatePostAPI();
+
+      if (!postId) {
+        throw new Error("Post ID is missing");
+      }
+
+      const isOldPostSoftDeleted = await this.onCallDeletePostAPI();
+
+      if (!isOldPostSoftDeleted) {
+        throw new Error("Old post is not deleted");
+      }
+
+      window.location.href = `/notifications?filter=all`;
+    } catch (error) {
+      throw new Error("Error editing post", error);
+    } finally {
+      this.enableForm();
+    }
+  }
+
+  disableSubmitButtonOnLoad() {
+    this.submitButton.disabled = true;
+
+    this.postForm.addEventListener("input", () => {
+      this.submitButton.disabled = false;
+    });
+  }
+
+  focusOnPostTitle() {
+    this.postTitle.focus();
+
+    // Place the cursor at the end of the text
+    const titleLength = this.postTitle.value.length;
+    this.postTitle.setSelectionRange(titleLength, titleLength);
+  }
+
+  setPostLineBreaks() {
+    this.postContent.rows = this.postContent.value.split("\n").length;
+
+    // once the post content is changed, set the row to 1
+    this.postContent.addEventListener("input", () => {
+      this.postContent.rows = 1;
+    });
+  }
+
+  handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imagePreview.src = e.target.result;
+        this.imagePreview.classList.remove("d-none");
+        this.removeImageButton.classList.remove("d-none");
+      };
+
+      // open and read the file, once the file is read, the onload event is triggered for further processing
+      reader.readAsDataURL(file);
+      this.customUploadButton.parentNode.classList.add("d-none");
+    }
+  }
+
+  removeImage() {
+    this.imagePreview.src = "";
+    this.imagePreview.classList.add("d-none");
+    this.removeImageButton.classList.add("d-none");
+    this.imageUpload.value = "";
+    this.customUploadButton.parentNode.classList.remove("d-none");
+  }
+
+  triggerImageUpload() {
+    this.imageUpload.click();
+  }
+
+  showErrorMessage(message) {
+    this.errorMessage.textContent = message;
+    this.errorMessage.classList.remove("d-none");
+  }
+
+  clearErrorMessage() {
+    this.errorMessage.textContent = "";
+    this.errorMessage.classList.add("d-none");
+  }
+
+  disableForm() {
+    const allInteractiveElements = [];
+    const targetElements = ["input", "textarea", "button"];
+
+    targetElements.forEach((targetElement) => {
+      allInteractiveElements.push(
+        ...this.postForm.querySelectorAll(targetElement),
+      );
+    });
+
+    allInteractiveElements.forEach((el) => {
+      el.disabled = true;
+    });
+  }
+
+  enableForm() {
+    const allInteractiveElements = [];
+    const targetElements = ["input", "textarea", "button"];
+
+    targetElements.forEach((targetElement) => {
+      allInteractiveElements.push(
+        ...this.postForm.querySelectorAll(targetElement),
+      );
+    });
+
+    allInteractiveElements.forEach((el) => {
+      el.disabled = false;
+    });
+  }
+
+  returnToPreviousPage() {
+    window.history.back();
+  }
+
+  destroy() {
+    this.removeEventListeners();
+    this.postTags.destroy();
+  }
+}
 
 const onCreatePostPageButtonNavigate = () => {
   const createPostPageButton = document.querySelector("#createPostPageButton");
@@ -283,10 +686,14 @@ const onCreatePostPageButtonNavigate = () => {
 document.addEventListener("DOMContentLoaded", () => {
   onCreatePostPageButtonNavigate();
 
-  const postContent = document.querySelector("#postContent");
-  autoResizeTextarea(postContent, 1000);
-  // todo: put into the form handler
+  const createPostForm = document.querySelector("#createPostForm");
+  if (createPostForm) {
+    new CreatePostFormHandler(createPostForm);
+  }
 
-  const postForm = document.querySelector("#createPostForm");
-  const multiSelectDropdownMenu = new MultiSelectDropdownMenu(postForm);
+  const editPostForm = document.querySelector("#editPostForm");
+
+  if (editPostForm) {
+    new EditPostFormHandler(editPostForm);
+  }
 });

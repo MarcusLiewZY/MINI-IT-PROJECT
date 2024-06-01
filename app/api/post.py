@@ -88,7 +88,6 @@ def create_post():
         createPostForm.set_tag_choices()
 
         if not createPostForm.validate_on_submit():
-            print(createPostForm.errors)
             errors_list = [
                 error for errors in createPostForm.errors.values() for error in errors
             ]
@@ -132,7 +131,7 @@ def create_post():
 
 
 @api.route("/posts/<post_id>", methods=["GET"])
-# @api_login_required
+@api_login_required
 def get_post(post_id):
     """
     Get a post by its ID.
@@ -240,10 +239,6 @@ def delete_post(post_id):
         if post is None:
             return error_message("Post not found", responseStatus.NOT_FOUND)
 
-        # print(user_id, post.user_id)
-        # print(type(user_id), type(post.user_id))
-        # print(user_id != post.user_id)
-
         if user_id != post.user_id:
             return error_message(
                 "User is not the owner of the post", responseStatus.UNAUTHORIZED
@@ -255,6 +250,8 @@ def delete_post(post_id):
                     "Post already soft deleted", responseStatus.BAD_REQUEST
                 )
             post.is_delete = True
+            post.updated_at = datetime.now()
+
         else:
             db.session.delete(post)
 

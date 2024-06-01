@@ -13,6 +13,10 @@
   padding: 0;
   margin: 0;
   /* border: 1px solid rgba(255, 0, 0, 0.5); */
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 body {
@@ -749,7 +753,6 @@ form {
 }
 
 /* create-post-modal */
-#editPostModal,
 #createTagModal,
 #editTagModal {
   position: fixed;
@@ -766,7 +769,6 @@ form {
   animation: modalFadeIn 0.3s ease;
 }
 
-#editPostModal::backdrop,
 #createTagModal::backdrop,
 #editTagModal::backdrop {
   background-color: var(--color---base---black);
@@ -775,7 +777,7 @@ form {
 }
 
 #createPostCard .error-message,
-#editPostModal .error-message,
+#editPostCard .error-message,
 #createTagModal .error-message,
 #editTagModal .error-message {
   cursor: default;
@@ -898,6 +900,14 @@ form {
   background-color: var(--color---neutral--neutral80);
 }
 
+#createPostSubmitButton:disabled,
+#editPostSubmitButton:disabled,
+#createPostCancelButton:disabled,
+#editPostCancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* todo: remove the unused css */
 
 .create-post-modal-container .user-info-container {
@@ -923,7 +933,8 @@ form {
   border-radius: 12px;
 }
 
-.post-card form#createPostForm {
+.post-card form#createPostForm,
+.post-card form#editPostForm {
   width: 100%;
 }
 

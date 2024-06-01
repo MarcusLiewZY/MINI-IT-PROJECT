@@ -47,5 +47,3 @@ class CreatePostForm(FlaskForm):
         from app.models.tag import Tag
 
         self.tags.choices = [(tag.name, tag.name) for tag in Tag.query.all()]
-
-        print(self.tags.choices)
