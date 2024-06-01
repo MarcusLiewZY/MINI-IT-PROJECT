@@ -9,7 +9,7 @@ class CreatePostForm(FlaskForm):
     title = StringField(
         "Title",
         validators=[
-            DataRequired(),
+            DataRequired(message="Title is required."),
             Length(max=120, message="Title must be less than 120 characters"),
         ],
     )
@@ -24,8 +24,14 @@ class CreatePostForm(FlaskForm):
             Optional(),
         ],
     )
-    content = TextAreaField("Content", validators=[DataRequired()])
-    image_url = FileField(
+    content = TextAreaField(
+        "Content",
+        validators=[
+            DataRequired(message="Content is required."),
+            Length(max=15000, message="Content must be less than 15000 characters"),
+        ],
+    )
+    image = FileField(
         "Image",
         validators=[
             FileAllowed(
@@ -41,3 +47,5 @@ class CreatePostForm(FlaskForm):
         from app.models.tag import Tag
 
         self.tags.choices = [(tag.name, tag.name) for tag in Tag.query.all()]
+
+        print(self.tags.choices)

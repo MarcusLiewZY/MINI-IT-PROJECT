@@ -2,7 +2,8 @@ import "./utils.js";
 import "./userProfileModal.js";
 import "./toast.js";
 
-import "./postHandler.js";
+// import "./postHandler.js";
+import "./postHandler2.js";
 import "./postCardHandler.js";
 import "./commentHandler.js";
 

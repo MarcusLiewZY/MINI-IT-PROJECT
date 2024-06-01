@@ -18,6 +18,7 @@ def getTimeAgo(time: datetime) -> str:
 
 
 def upload_image(image, folder_name):
+    print(type(image))
     try:
         if isinstance(image, FileStorage):
             upload_result = cloudinary_uploader.upload(

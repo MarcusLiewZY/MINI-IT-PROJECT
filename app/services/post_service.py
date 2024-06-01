@@ -9,19 +9,19 @@ from app.forms import CreatePostForm
 from app.utils.helper import upload_image, delete_image
 
 
-def create_post(form: CreatePostForm) -> Tuple[bool, str]:
+def create_post(form: CreatePostForm) -> Tuple[bool, Dict[str, str]]:
     """
     Create a post.
     Args:
         form (CreatePostForm): The form containing the post data.
     Returns:
-        Tuple[bool, str]: A tuple containing a boolean indicating if the post was created successfully and a message.
+        Tuple[bool, Dict[str, str]: A tuple containing a boolean indicating if the post was created successfully and the post id.
     """
     try:
         cloudinary_image_url = None
-        if form.image_url.data:
+        if form.image.data:
             cloudinary_image_url = upload_image(
-                form.image_url.data,
+                form.image.data,
                 app.config["CLOUDINARY_POST_IMAGE_FOLDER"],
             )
             if cloudinary_image_url is None:
@@ -44,9 +44,13 @@ def create_post(form: CreatePostForm) -> Tuple[bool, str]:
         post.status = PostStatus.PENDING
         post.user_id = current_user.id
         db.session.commit()
-        return True, "Post created successfully"
+
+        body = {"post_id": post.id}
+
+        return True, body
 
     except Exception as e:
+        db.session.rollback()
         print(e)
         return (False,)
 

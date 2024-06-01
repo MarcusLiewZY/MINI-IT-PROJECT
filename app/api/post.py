@@ -1,3 +1,5 @@
+from werkzeug.datastructures import MultiDict
+import json
 from datetime import datetime
 from uuid import UUID
 from sqlalchemy import select, insert, delete
@@ -8,6 +10,8 @@ from http import HTTPStatus as responseStatus
 from . import api
 from app import db
 from app.models import PostLike, PostBookmark, Post, PostStatus
+from app.services.post_service import create_post as create_post_service
+from app.forms import CreatePostForm
 from app.dto.post_dto import PostDTO
 from app.utils.api_utils import error_message
 from app.utils.decorators import api_login_required, api_is_admin
@@ -48,6 +52,75 @@ def get_posts():
 
         return (
             jsonify({"status": responseStatus.OK, "posts": postDTOs}),
+            responseStatus.OK,
+        )
+
+    except Exception as e:
+        print(e)
+        return error_message(
+            "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
+        )
+
+
+@api.route("/posts", methods=["POST"])
+@api_login_required
+def create_post():
+    """
+    Create a new post.
+    Args:
+        title: The title of the post.
+        content: The content of the post.
+        tags: The tags of the post.
+        image_url: The image URL of the post.
+    Returns:
+        A JSON object containing the post's data and an HTTP status code.
+    """
+    try:
+        postFormObj = request.form.to_dict()
+
+        # Convert the 'tags' field back into an array
+        if "tags" in postFormObj:
+            postFormObj["tags"] = json.loads(postFormObj["tags"])
+
+        image = request.files.get("image")
+
+        createPostForm = CreatePostForm(formdata=MultiDict(postFormObj), image=image)
+        createPostForm.set_tag_choices()
+
+        if not createPostForm.validate_on_submit():
+            print(createPostForm.errors)
+            errors_list = [
+                error for errors in createPostForm.errors.values() for error in errors
+            ]
+
+            print(errors_list)
+
+            return (
+                jsonify(
+                    {
+                        "status": responseStatus.BAD_REQUEST,
+                        "message": "Invalid form data",
+                        "errors": errors_list,
+                    }
+                ),
+                responseStatus.BAD_REQUEST,
+            )
+
+        isSuccess, body = create_post_service(createPostForm)
+
+        if not isSuccess:
+            return error_message("Post failed to created", responseStatus.BAD_REQUEST)
+
+        postId = body["post_id"]
+
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": "Post created successfully",
+                    "post_id": postId,
+                }
+            ),
             responseStatus.OK,
         )
 

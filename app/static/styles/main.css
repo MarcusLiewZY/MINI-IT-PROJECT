@@ -810,19 +810,19 @@ form {
 
 .post-tag__menu-dropdown-button {
   border-radius: 8px;
-  border: 1px dashed var(--color---neutral--neutral70);
+  border: 2px dashed var(--color---neutral--neutral70);
   background-color: var(--color---neutral--neutral95);
+  color: var(--color---neutral--neutral20);
 }
 
 .post-tag-dropdown {
   position: relative;
-}
-
-.dropdown-menu {
-  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 .dropdown-content {
+  display: none;
   position: absolute;
   top: calc(100% + 0.5rem);
   background-color: #f9f9f9;
@@ -866,7 +866,11 @@ form {
 }
 
 .dropdown-content ul li:hover {
-  background-color: #ddd;
+  background-color: var(--color---neutral--neutral90);
+}
+
+.dropdown-content ul li.selected {
+  background-color: var(--color---neutral--neutral80);
 }
 
 .dropdown-content ul li input[type="checkbox"] {
@@ -877,8 +881,8 @@ form {
   display: block;
 }
 
-.badge-container {
-  margin-top: 10px;
+.badge-container .post-tag__edit {
+  cursor: pointer;
 }
 
 .badge {
@@ -888,12 +892,6 @@ form {
   padding: 5px 10px;
   margin: 5px;
   border-radius: 15px;
-}
-
-.badge .remove-badge {
-  margin-left: 10px;
-  cursor: pointer;
-  font-weight: bold;
 }
 
 #dropdownList li.selected {

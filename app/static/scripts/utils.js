@@ -2,15 +2,31 @@ export const insertLineBreaks = (text) => {
   return text.replace(/\n/g, "<br>");
 };
 
-export const fetchAPI = async (url, methods, body = null) => {
+export const fetchAPI = async (url, method, body = null) => {
   try {
-    const response = await fetch(url, {
-      method: methods,
+    // const response = await fetch(url, {
+    //   method: methods,
+    //   headers: {
+    //     "Content-type": "application/json",
+    //   },
+    //   body: JSON.stringify(body),
+    // });
+
+    const options = {
+      method,
       headers: {
-        "Content-type": "application/json",
+        Accept: "application/json",
       },
-      body: JSON.stringify(body),
-    });
+    };
+
+    if (body instanceof FormData) {
+      options.body = body;
+    } else {
+      options.headers["Content-Type"] = "application/json";
+      options.body = JSON.stringify(body);
+    }
+
+    const response = await fetch(url, options);
 
     return await response.json();
   } catch (error) {

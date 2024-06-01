@@ -25,7 +25,11 @@
     id="createPostForm"
   >
     {# error message #}
-    <div class="text-label-lg error-message">Error message</div>
+    <div class="text-label-lg error-message d-none" id="createPostErrorMessage">
+      Error message
+    </div>
+
+    {# post title #}
     <div class="flex flex-col post-card__post-preview-container">
       <div class="mb-4 form-container">
         <label for="postTitle" class="d-none"></label>
@@ -36,36 +40,37 @@
           class="text-title-lg"
           placeholder="Post Title..."
           autofill="off"
+          autocomplete="off"
         />
       </div>
 
-      {# todo: fix position of the modal #}
       {# post tags #}
       <div class="mb-2 flex post-tag-container post-tag-dropdown">
-        <div class="badge-container" id="PostTagBadgeContainer"></div>
-        <div class="dropdown-menu" id="PostTagDropDownMenu"></div>
-        <button
-          type="button"
-          class="text-label-sm post-tag post-tag__menu-dropdown-button"
-          id="PostTagDropDownButton"
-        >
-          Add Tag (Max 5 Tags)
-        </button>
-        <div class="dropdown-content shadow-card d-none">
+        <div class="flex gap-2 badge-container" id="postTagBadgeContainer">
+          <button
+            type="button"
+            class="text-label-sm post-tag post-tag__menu-dropdown-button"
+            id="postTagDropDownButton"
+          >
+            Add Tag (Max 5 Tags)
+          </button>
+        </div>
+        <div class="dropdown-content shadow-card">
           <input
             type="text"
             placeholder="Search..."
-            id="PostTagDropDownSearch"
+            id="postTagDropDownSearch"
           />
-          <ul id="PostTagDropDownList">
+          <ul id="postTagDropDownList">
             {% for tag in tags %}
               <li class="text-label-sm post-tag__menu-dropdown-item">
                 <input
                   type="checkbox"
-                  id="tag-{{ tag.id }}"
+                  id="{{ tag.id }}"
                   value="{{ tag.name }}"
+                  data-color="{{ tag.color }}"
                 />
-                <label for="tag-{{ tag.id }}">{{ tag.name }}</label>
+                <label for="{{ tag.id }}">{{ tag.name }}</label>
               </li>
             {% endfor %}
           </ul>
@@ -94,6 +99,7 @@
           >
             <img src="" alt="preview image" class="d-none" />
           </div>
+          <label for="createPostUploadImageInput" class="d-none"></label>
           <input
             type="file"
             id="createPostUploadImageInput"
@@ -102,7 +108,7 @@
             name="image"
           />
           <div class="flex gap-2 upload-image-container">
-            <button type="button" id="createPostUploadImagebutton" class="link">
+            <button type="button" id="createPostUploadImageButton" class="link">
               Upload Image
             </button>
             <span class="text-label-sm upload-image-info"

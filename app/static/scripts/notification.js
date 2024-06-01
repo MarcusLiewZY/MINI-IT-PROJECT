@@ -1,4 +1,5 @@
 // navigation and filter for notification page
+import { scrollToTopElement } from "./utils.js";
 
 const notificationsMapping = [
   {
@@ -223,4 +224,15 @@ document.addEventListener("notificationPaginationLoaded", () => {
 
   onLoadNotification(notificationContentContainer);
   onLoadMarkAllAsRead();
+
+  const newPostId = sessionStorage.getItem("newPostId");
+
+  if (newPostId) {
+    const newPost = document.getElementById(newPostId);
+    console.log(newPost);
+    if (newPost) {
+      scrollToTopElement(newPost);
+      sessionStorage.removeItem("newPostId");
+    }
+  }
 });
