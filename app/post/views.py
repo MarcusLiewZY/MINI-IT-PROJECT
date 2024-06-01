@@ -20,21 +20,6 @@ def get_post(post_id):
     user = User.query.get(current_user.id)
     post = Post.query.get(UUID(post_id))
 
-    # editPostForm = CreatePostForm()
-    # editPostForm.set_tag_choices()
-
-    # if editPostForm.validate_on_submit():
-
-    #     isSuccess, message = edit_post(post, editPostForm)
-    #     flash(message, "success" if isSuccess else "error")
-    #     if isSuccess:
-    #         return redirect(url_for("main.index"))
-
-    # editPostForm.title.data = post.title
-    # editPostForm.content.data = post.content
-    # editPostForm.tags.data = [tag.name for tag in post.tags]
-    # editPostForm.image_url.data = post.image_url if post.image_url else None
-
     if not post or post.is_delete:
         flash("Post not found", "error")
         return redirect(url_for("main.index"))
@@ -47,7 +32,6 @@ def get_post(post_id):
         "post/postDetail.html",
         post=postDTO.to_dict(),
         user=current_user,
-        # editPostForm=editPostForm,
         operation="read",
     )
 

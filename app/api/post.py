@@ -105,10 +105,16 @@ def create_post():
                 responseStatus.BAD_REQUEST,
             )
 
-        isSuccess, body = create_post_service(createPostForm)
+        image_url = postFormObj["image_url"] or None
 
-        if not isSuccess:
-            return error_message("Post failed to created", responseStatus.BAD_REQUEST)
+        response = create_post_service(createPostForm, image_url)
+
+        isSuccess = response.get("is_success")
+        message = response.get("message")
+        body = response.get("body", None)
+
+        if not isSuccess or body is None:
+            return error_message(message, responseStatus.BAD_REQUEST)
 
         postId = body["post_id"]
 
@@ -116,7 +122,7 @@ def create_post():
             jsonify(
                 {
                     "status": responseStatus.OK,
-                    "message": "Post created successfully",
+                    "message": message,
                     "post_id": postId,
                 }
             ),

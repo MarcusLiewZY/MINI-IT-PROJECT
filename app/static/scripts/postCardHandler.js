@@ -206,6 +206,7 @@ class PostCardHandler {
         hoverImagePath,
         onClickFunction,
       }) => {
+        if (!reactContainer) return;
         const button = reactContainer.querySelector(buttonSelector);
         const callBackFunction = onClickFunction(postId);
         this.setupButtonEvents(

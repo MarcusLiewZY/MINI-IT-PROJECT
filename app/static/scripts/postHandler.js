@@ -305,6 +305,9 @@ class CreatePostFormHandler {
       let tags = this.postTags.getSelectedItems();
       postData.append("tags", JSON.stringify(tags));
 
+      // append image url for compatibility with the API
+      postData.append("image_url", "");
+
       const {
         status,
         errors,
@@ -335,11 +338,9 @@ class CreatePostFormHandler {
         throw new Error("Post ID is missing");
       }
 
-      // todo: create a new function to navigate to the notification page
+      sessionStorage.setItem("isLoadAllPostStatus", true);
 
-      sessionStorage.setItem("newPostId", postId);
-
-      window.location.href = `/notifications?filter=all`;
+      window.location.href = `/notifications?filter=post-status#${postId}`;
     } catch (error) {
       throw new Error("Error creating post", error);
     } finally {
@@ -498,7 +499,7 @@ class EditPostFormHandler {
 
     this.disableSubmitButtonOnLoad();
     this.focusOnPostTitle();
-    this.setPostLineBreaks();
+    this.setPostContentLineBreaks();
 
     autoResizeTextarea(this.postContent, 1000);
   }
@@ -510,6 +511,18 @@ class EditPostFormHandler {
     try {
       let tags = this.postTags.getSelectedItems();
       postData.append("tags", JSON.stringify(tags));
+
+      // append image url if the image is the previous image
+      // also need to add the condition src not equal to window.location.href, because the imagePreview.src is set to window.location.href when the image is removed
+      if (
+        this.imagePreview.src &&
+        this.imagePreview.src !== window.location.href &&
+        !this.imageUpload.files.length
+      ) {
+        postData.append("image_url", this.imagePreview.src);
+      } else {
+        postData.append("image_url", "");
+      }
 
       const {
         status,
@@ -557,14 +570,15 @@ class EditPostFormHandler {
       if (!postId) {
         throw new Error("Post ID is missing");
       }
-
       const isOldPostSoftDeleted = await this.onCallDeletePostAPI();
 
       if (!isOldPostSoftDeleted) {
         throw new Error("Old post is not deleted");
       }
 
-      window.location.href = `/notifications?filter=all`;
+      sessionStorage.setItem("isLoadAllPostStatus", true);
+
+      window.location.href = `/notifications?filter=post-status#${postId}`;
     } catch (error) {
       throw new Error("Error editing post", error);
     } finally {
@@ -588,7 +602,7 @@ class EditPostFormHandler {
     this.postTitle.setSelectionRange(titleLength, titleLength);
   }
 
-  setPostLineBreaks() {
+  setPostContentLineBreaks() {
     this.postContent.rows = this.postContent.value.split("\n").length;
 
     // once the post content is changed, set the row to 1

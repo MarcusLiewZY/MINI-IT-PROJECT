@@ -9,23 +9,44 @@ from app.forms import CreatePostForm
 from app.utils.helper import upload_image, delete_image
 
 
-def create_post(form: CreatePostForm) -> Tuple[bool, Dict[str, str]]:
+def create_post(form: CreatePostForm, image_url: str) -> Dict[str, Union[bool, str]]:
     """
     Create a post.
     Args:
         form (CreatePostForm): The form containing the post data.
     Returns:
-        Tuple[bool, Dict[str, str]: A tuple containing a boolean indicating if the post was created successfully and the post id.
+        Dict[str, Union[bool, str]]: A dictionary containing a boolean indicating if the post was created successfully and a response message.
     """
     try:
         cloudinary_image_url = None
+
+        if image_url and form.image.data:
+            return {
+                "is_success": False,
+                "message": "Please choose only one image source",
+            }
+
         if form.image.data:
             cloudinary_image_url = upload_image(
                 form.image.data,
                 app.config["CLOUDINARY_POST_IMAGE_FOLDER"],
             )
             if cloudinary_image_url is None:
-                return False, "Image upload failed, please try again"
+                return {
+                    "is_success": False,
+                    "message": "Image upload failed, please try again",
+                }
+
+        elif image_url:
+            cloudinary_image_url = upload_image(
+                image_url,
+                app.config["CLOUDINARY_POST_IMAGE_FOLDER"],
+            )
+            if cloudinary_image_url is None:
+                return {
+                    "is_success": False,
+                    "message": "Image upload failed, please try again",
+                }
 
         post = Post(
             {
@@ -47,12 +68,19 @@ def create_post(form: CreatePostForm) -> Tuple[bool, Dict[str, str]]:
 
         body = {"post_id": post.id}
 
-        return True, body
+        return {
+            "is_success": True,
+            "message": "Post created successfully",
+            "body": body,
+        }
 
     except Exception as e:
         db.session.rollback()
         print(e)
-        return (False,)
+        return {
+            "is_success": False,
+            "message": "Failed to create post, please try again",
+        }
 
 
 def get_posts(

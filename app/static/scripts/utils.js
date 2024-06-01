@@ -4,14 +4,6 @@ export const insertLineBreaks = (text) => {
 
 export const fetchAPI = async (url, method, body = null) => {
   try {
-    // const response = await fetch(url, {
-    //   method: methods,
-    //   headers: {
-    //     "Content-type": "application/json",
-    //   },
-    //   body: JSON.stringify(body),
-    // });
-
     const options = {
       method,
       headers: {
@@ -42,7 +34,11 @@ export const autoResizeTextarea = (textArea, maxHeight) => {
   });
 };
 
-export const scrollToTopElement = (element = window, offsetY = 0) => {
+export const scrollToTopElement = (
+  element = window,
+  offsetY = 0,
+  animationTime = 3000,
+) => {
   const scrollToTopButton = document.querySelector("#scrollToTop");
   let fadeOutTimeout = null;
   let hideTimeout = null;
@@ -70,9 +66,9 @@ export const scrollToTopElement = (element = window, offsetY = 0) => {
 
   fadeOutTimeout = setTimeout(() => {
     scrollToTopButton.classList.add("fade-out");
-  }, 3000);
+  }, animationTime);
 
   hideTimeout = setTimeout(() => {
     scrollToTopButton.classList.add("d-none");
-  }, 3300); // 3000ms + 300ms (assume fade-out duration is 300ms)
+  }, animationTime); // 3000ms + 300ms (assume fade-out duration is 300ms)
 };
