@@ -31,9 +31,15 @@ class Comment(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
 
     # Foreign keys
-    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id"))
-    post_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Post.id"))
-    replied_comment_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Comment.id"))
+    user_id = db.Column(
+        UUID(as_uuid=True), db.ForeignKey("User.id", ondelete="CASCADE")
+    )
+    post_id = db.Column(
+        UUID(as_uuid=True), db.ForeignKey("Post.id", ondelete="CASCADE")
+    )
+    replied_comment_id = db.Column(
+        UUID(as_uuid=True), db.ForeignKey("Comment.id", ondelete="CASCADE")
+    )
 
     # relationship
     # self-referential relationship

@@ -19,9 +19,15 @@ class PostNotification(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
 
     # Foreign keys
-    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id"))
-    post_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Post.id"))
-    unread_comment_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Comment.id"))
+    user_id = db.Column(
+        UUID(as_uuid=True), db.ForeignKey("User.id", ondelete="CASCADE")
+    )
+    post_id = db.Column(
+        UUID(as_uuid=True), db.ForeignKey("Post.id", ondelete="CASCADE")
+    )
+    unread_comment_id = db.Column(
+        UUID(as_uuid=True), db.ForeignKey("Comment.id", ondelete="CASCADE")
+    )
 
     def __init__(self, post_notification_dict, *args, **kwargs):
         self.is_read = post_notification_dict.get("is_read", False)

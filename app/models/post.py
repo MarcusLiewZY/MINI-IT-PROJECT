@@ -16,8 +16,8 @@ class PostStatus(Enum):
 
 PostTag = db.Table(
     "PostTag",
-    db.Column("post_id", UUID(as_uuid=True), db.ForeignKey("Post.id")),
-    db.Column("tag_id", UUID(as_uuid=True), db.ForeignKey("Tag.id")),
+    db.Column("post_id", UUID(as_uuid=True), db.ForeignKey("Post.id", ondelete = 'CASCADE')),
+    db.Column("tag_id", UUID(as_uuid=True), db.ForeignKey("Tag.id", ondelete = 'CASCADE')),
 )
 
 
@@ -42,7 +42,7 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, server_default= db.func.now())
 
     # Foreign keys
-    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id"))
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id", ondelete = 'CASCADE'))
 
     # relationship
     tags = db.relationship(

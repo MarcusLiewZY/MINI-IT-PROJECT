@@ -29,12 +29,20 @@ def get_post_notifications(user: User) -> Tuple[int, List[PostNotification]]:
     """
     post_notifications = (
         PostNotification.query.filter(
-            PostNotification.user_id == user.id, PostNotification.is_read == False
+            PostNotification.user_id == user.id,
+            PostNotification.is_read == False,
         )
         .order_by(PostNotification.created_at.asc())
         .all()
     )
-    return len(post_notifications), post_notifications
+
+    filtered_post_notifications = []
+
+    for post_notification in post_notifications:
+        if post_notification.notified_post_by_post.is_delete == False:
+            filtered_post_notifications.append(post_notification)
+
+    return len(filtered_post_notifications), filtered_post_notifications
 
 
 def get_comment_notifications(user: User) -> Tuple[int, List[CommentNotification]]:
@@ -47,13 +55,21 @@ def get_comment_notifications(user: User) -> Tuple[int, List[CommentNotification
     """
     comment_notifications = (
         CommentNotification.query.filter(
-            CommentNotification.user_id == user.id, CommentNotification.is_read == False
+            CommentNotification.user_id == user.id,
+            CommentNotification.is_read == False,
         )
         .order_by(CommentNotification.created_at.asc())
         .all()
     )
 
-    return len(comment_notifications), comment_notifications
+    filtered_comment_notifications = []
+
+    for comment_notification in comment_notifications:
+        post = comment_notification.notified_comment_by_comment.commented_post
+        if post.is_delete == False:
+            filtered_comment_notifications.append(comment_notification)
+
+    return len(filtered_comment_notifications), filtered_comment_notifications
 
 
 def get_posts(user: User) -> Tuple[int, List[Post]]:
@@ -80,6 +96,7 @@ def get_posts(user: User) -> Tuple[int, List[Post]]:
                     & (Post.created_at != Post.updated_at)
                 )
             )
+            & (Post.is_delete == False)
         )
         .order_by(Post.updated_at.asc())
         .all()
@@ -148,7 +165,8 @@ def get_paginate_post_notifications(
     """
     post_notifications = (
         PostNotification.query.filter(
-            PostNotification.user_id == user.id, PostNotification.is_read == False
+            PostNotification.user_id == user.id,
+            PostNotification.is_read == False,
         )
         .order_by(PostNotification.created_at.asc())
         .paginate(page=page, per_page=per_page, error_out=False)
@@ -157,8 +175,15 @@ def get_paginate_post_notifications(
     has_next = post_notifications.has_next
     post_notification_list = post_notifications.items
 
+    filtered_post_notifications = []
+
+    for post_notification in post_notification_list:
+        post = post_notification.notified_post_by_post
+        if post.is_delete == False:
+            filtered_post_notifications.append(post_notification)
+
     postNotificationDTOs = [
-        NotificationDTO(obj).to_dict() for obj in post_notification_list
+        NotificationDTO(obj).to_dict() for obj in filtered_post_notifications
     ]
 
     return has_next, postNotificationDTOs
@@ -187,8 +212,15 @@ def get_paginate_comment_notifications(
     has_next = comment_notifications.has_next
     comment_notification_list = comment_notifications.items
 
+    filtered_comment_notifications = []
+
+    for comment_notification in comment_notification_list:
+        post = comment_notification.notified_comment_by_comment.commented_post
+        if post.is_delete == False:
+            filtered_comment_notifications.append(comment_notification)
+
     commentNotificationDTOs = [
-        NotificationDTO(obj).to_dict() for obj in comment_notification_list
+        NotificationDTO(obj).to_dict() for obj in filtered_comment_notifications
     ]
 
     return has_next, commentNotificationDTOs
