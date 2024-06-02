@@ -835,6 +835,10 @@ form {
   border: 2px dashed var(--color---neutral--neutral70);
   background-color: var(--color---neutral--neutral95);
   color: var(--color---neutral--neutral20);
+
+  &:hover {
+    background-color: var(--color---neutral--neutral80);
+  }
 }
 
 .post-tag-dropdown {
