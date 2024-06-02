@@ -39,6 +39,11 @@ def microsoft_auth():
 
     if user:
         login_user(user)
+
+        # when the user sign up for the first time, the user.anon_no is None
+        if user.anon_no is None:
+            return redirect(url_for("main.community_guidelines"))
+
         flash("Successfully logged in", "success")
         return redirect(url_for("main.index"))
     else:

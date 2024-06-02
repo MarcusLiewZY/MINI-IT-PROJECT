@@ -30,8 +30,19 @@ def is_admin(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
         if not current_user.is_admin:
-            flash("You are not authorized to access this page", "danger")
+            flash("You are not authorized to access this page", "warning")
             return redirect(url_for("main.index"))
+        return func(*args, **kwargs)
+
+    return decorated_function
+
+
+def require_accept_community_guideline(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if current_user.anon_no is None:
+            flash("Please accept the community guidelines first", "warning")
+            return redirect(url_for("main.community_guidelines"))
         return func(*args, **kwargs)
 
     return decorated_function

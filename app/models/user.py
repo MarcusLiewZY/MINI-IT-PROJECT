@@ -100,7 +100,7 @@ class User(UserMixin, db.Model):
 
     def __init__(self, user_dict, *args, **kwargs):
         self.email = user_dict.get("email")
-        self.anon_no = self.generate_anon_no()
+        self.anon_no = None  # only assign when the user accept the community guidelines
         self.password = bcrypt.generate_password_hash(user_dict.get("password"))
         self.username = user_dict.get("username")
         self.avatar_url = user_dict.get("avatar_url")
@@ -113,7 +113,8 @@ class User(UserMixin, db.Model):
         return f"<User {self.username} with email {self.email}>"
 
     # four random digits, exp: 3932
-    def generate_anon_no(self):
+    @staticmethod
+    def generate_anon_no():
         random_no = [random.randint(0, 9) for _ in range(4)]
         return "".join(map(str, random_no))
 

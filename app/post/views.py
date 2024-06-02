@@ -1,20 +1,18 @@
 from uuid import UUID
-from flask import flash, redirect, url_for, render_template, request
+from flask import flash, redirect, url_for, render_template
 from flask_login import current_user
 
 from . import post
-from app.main import main
 from app.models.post import Post, PostStatus
 from app.models.user import User
 from app.models.tag import Tag
 from app.dto.post_dto import PostDTO
-from app.utils.decorators import login_required
-from app.forms.postForms import CreatePostForm
-from app.services.post_service import edit_post
+from app.utils.decorators import login_required, require_accept_community_guideline
 
 
 @post.route("/<post_id>", methods=["GET"])
 @login_required
+@require_accept_community_guideline
 def get_post(post_id):
 
     user = User.query.get(current_user.id)
@@ -38,6 +36,7 @@ def get_post(post_id):
 
 @post.route("/new-post", methods=["GET"])
 @login_required
+@require_accept_community_guideline
 def new_post():
     tags = Tag.query.all()
     tag_list = []
@@ -57,8 +56,8 @@ def new_post():
 
 @post.route("/<post_id>/edit-post", methods=["GET"])
 @login_required
+@require_accept_community_guideline
 def edit_post(post_id):
-    # todo: populate form with post data
     post = Post.query.get(UUID(post_id))
 
     if not post or post.is_delete or post.status == PostStatus.PENDING:

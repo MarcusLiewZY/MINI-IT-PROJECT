@@ -3,11 +3,12 @@ from flask import render_template, request, redirect, url_for
 
 from . import notification
 from app.services.notification_service import get_agg_notifications
-from app.utils.decorators import login_required
+from app.utils.decorators import login_required, require_accept_community_guideline
 
 
 @notification.route("/notifications")
 @login_required
+@require_accept_community_guideline
 def notifications():
     filter = request.args.get("filter")
 

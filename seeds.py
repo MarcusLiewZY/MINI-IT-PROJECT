@@ -84,6 +84,9 @@ def seeds():
         print(Colors.fg.green, f"User {i+1} created")
         db.session.add(user)
         db.session.commit()
+
+        user.anon_no = User.generate_anon_no()
+
     print(Colors.fg.green, "-" * 50)
     print(Colors.fg.green, "Users created successfully!")
 

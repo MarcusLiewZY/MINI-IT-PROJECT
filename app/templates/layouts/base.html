@@ -25,16 +25,15 @@
   </head>
   <body>
     <div class="overlay d-none" id="dropdownOverlay"></div>
+    <button type="button" class="btn d-none" id="scrollToTop">
+      Scroll to top
+    </button>
 
     {% include "layouts/navbar.html" %}
     {% include "layouts/toast.html" %}
 
     {% block content %}
     {% endblock content %}
-
-    <button type="button" class="btn d-none" id="scrollToTop">
-      Scroll to top
-    </button>
 
     <!-- scripts -->
     <script></script>

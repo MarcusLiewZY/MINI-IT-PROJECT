@@ -66,7 +66,9 @@
             {% include "layouts/avatar.html" %}
           {% endwith %}
           <div class="flex flex-between user-profile-info">
-            <div class="text-label-lg">Anonymous_{{ user.anon_no }}</div>
+            <div class="text-label-lg">
+              Anonymous_{{ user.anon_no if user.anon_no else 'None' }}
+            </div>
             <img
               src="{{ url_for('static', filename='svg/chevron-right.svg') }}"
               alt="chevron-right"
