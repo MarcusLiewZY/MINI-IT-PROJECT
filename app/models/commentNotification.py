@@ -19,9 +19,15 @@ class CommentNotification(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
 
     # Foreign keys
-    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id"))
-    comment_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Comment.id"))
-    unread_comment_id = db.Column(UUID(as_uuid=True), db.ForeignKey("Comment.id"))
+    user_id = db.Column(
+        UUID(as_uuid=True), db.ForeignKey("User.id", ondelete="CASCADE")
+    )
+    comment_id = db.Column(
+        UUID(as_uuid=True), db.ForeignKey("Comment.id", ondelete="CASCADE")
+    )
+    unread_comment_id = db.Column(
+        UUID(as_uuid=True), db.ForeignKey("Comment.id", ondelete="CASCADE")
+    )
 
     # relationship
 
