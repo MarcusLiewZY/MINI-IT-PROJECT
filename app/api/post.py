@@ -1,3 +1,5 @@
+from werkzeug.datastructures import MultiDict
+import json
 from datetime import datetime
 from uuid import UUID
 from sqlalchemy import select, insert, delete
@@ -8,6 +10,8 @@ from http import HTTPStatus as responseStatus
 from . import api
 from app import db
 from app.models import PostLike, PostBookmark, Post, PostStatus
+from app.services.post_service import create_post as create_post_service
+from app.forms import CreatePostForm
 from app.dto.post_dto import PostDTO
 from app.utils.api_utils import error_message
 from app.utils.decorators import api_login_required, api_is_admin
@@ -58,8 +62,81 @@ def get_posts():
         )
 
 
+@api.route("/posts", methods=["POST"])
+@api_login_required
+def create_post():
+    """
+    Create a new post.
+    Args:
+        Form Object: Consist of title, content, tags, image_url
+        Image file: The image file to upload.
+        image_url and image can not be provided at the same time.
+    Returns:
+        A JSON object containing the post's data and an HTTP status code.
+    """
+    try:
+        postFormObj = request.form.to_dict()
+
+        # Convert the 'tags' field back into an array
+        if "tags" in postFormObj:
+            postFormObj["tags"] = json.loads(postFormObj["tags"])
+
+        image = request.files.get("image")
+
+        createPostForm = CreatePostForm(formdata=MultiDict(postFormObj), image=image)
+        createPostForm.set_tag_choices()
+
+        if not createPostForm.validate_on_submit():
+            errors_list = [
+                error for errors in createPostForm.errors.values() for error in errors
+            ]
+
+            print(errors_list)
+
+            return (
+                jsonify(
+                    {
+                        "status": responseStatus.BAD_REQUEST,
+                        "message": "Invalid form data",
+                        "errors": errors_list,
+                    }
+                ),
+                responseStatus.BAD_REQUEST,
+            )
+
+        image_url = postFormObj["image_url"] or None
+
+        response = create_post_service(createPostForm, image_url)
+
+        isSuccess = response.get("is_success")
+        message = response.get("message")
+        body = response.get("body", None)
+
+        if not isSuccess or body is None:
+            return error_message(message, responseStatus.BAD_REQUEST)
+
+        postId = body["post_id"]
+
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": message,
+                    "post_id": postId,
+                }
+            ),
+            responseStatus.OK,
+        )
+
+    except Exception as e:
+        print(e)
+        return error_message(
+            "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
+        )
+
+
 @api.route("/posts/<post_id>", methods=["GET"])
-# @api_login_required
+@api_login_required
 def get_post(post_id):
     """
     Get a post by its ID.
@@ -167,10 +244,6 @@ def delete_post(post_id):
         if post is None:
             return error_message("Post not found", responseStatus.NOT_FOUND)
 
-        # print(user_id, post.user_id)
-        # print(type(user_id), type(post.user_id))
-        # print(user_id != post.user_id)
-
         if user_id != post.user_id:
             return error_message(
                 "User is not the owner of the post", responseStatus.UNAUTHORIZED
@@ -182,6 +255,8 @@ def delete_post(post_id):
                     "Post already soft deleted", responseStatus.BAD_REQUEST
                 )
             post.is_delete = True
+            post.updated_at = datetime.now()
+
         else:
             db.session.delete(post)
 

@@ -493,9 +493,13 @@ const onCreateCommentHandlerSubmit = async (
     commentCount.parentNode.classList.add("text-active");
 
     // if the current page is not the post detail page, return the newComment
+    const commentContainer = newComment.closest(
+      ".post-card__post-comment-container",
+    );
+
     if (
       window.location.pathname === `/posts/${postId}` &&
-      document.body.offsetHeight > 1500
+      commentContainer.offsetHeight > 800
     ) {
       // navigate to the newly created comment
       newComment.scrollIntoView({ behavior: "smooth" });

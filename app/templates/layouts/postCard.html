@@ -22,7 +22,7 @@
         </div>
       </div>
 
-      <div class="flex flex-center react-container">
+      <div class="flex flex-center gap-2 react-container">
         {% if post.postStatus != 'Pending' %}
           {% if post.postStatus in ['Approved', 'Unread_approved'] %}
             <div
@@ -70,7 +70,7 @@
         {% endif %}
 
         {# post status  #}
-        {% if post.postStatus in ['Approved', 'Unread_approved'] %}
+        {% if post.postStatus not in ['Approved', 'Unread_approved'] %}
           {% if post.postStatus == 'Pending' %}
             <div class="post-status post-status-pending">Pending</div>
           {% elif post.postStatus in ['Rejected', 'Unread_rejected'] %}
@@ -83,7 +83,7 @@
     {# post #}
     <div class="post-card__post-preview-container">
       <h2 class="mb-4 text-title-lg">{{ post.title }}</h2>
-      <div class="mb-2 flex post-tag-container">
+      <div class="mb-2 flex gap-2 post-tag-container">
         {% for tagName, tagColor in post.tags %}
           <div
             class="text-label-sm post-tag"

@@ -209,6 +209,7 @@ def get_paginate_posts(
     Returns:
          Tuple[bool, List[PostNotification]]: A tuple containing a boolean indicating if there are more notified posts and a list of notificationDTOs.
     """
+
     posts = (
         Post.query.filter(
             (Post.user_id == user.id)
@@ -223,6 +224,7 @@ def get_paginate_posts(
                     & (Post.created_at != Post.updated_at)
                 )
             )
+            & (Post.is_delete == False)
         )
         .order_by(Post.updated_at.asc())
         .paginate(page=page, per_page=per_page, error_out=False)

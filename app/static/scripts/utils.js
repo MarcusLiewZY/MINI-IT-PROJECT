@@ -2,15 +2,23 @@ export const insertLineBreaks = (text) => {
   return text.replace(/\n/g, "<br>");
 };
 
-export const fetchAPI = async (url, methods, body = null) => {
+export const fetchAPI = async (url, method, body = null) => {
   try {
-    const response = await fetch(url, {
-      method: methods,
+    const options = {
+      method,
       headers: {
-        "Content-type": "application/json",
+        Accept: "application/json",
       },
-      body: JSON.stringify(body),
-    });
+    };
+
+    if (body instanceof FormData) {
+      options.body = body;
+    } else {
+      options.headers["Content-Type"] = "application/json";
+      options.body = JSON.stringify(body);
+    }
+
+    const response = await fetch(url, options);
 
     return await response.json();
   } catch (error) {
@@ -18,7 +26,19 @@ export const fetchAPI = async (url, methods, body = null) => {
   }
 };
 
-export const scrollToTopElement = (element = window, offsetY = 0) => {
+export const autoResizeTextarea = (textArea, maxHeight) => {
+  textArea?.addEventListener("input", () => {
+    textArea.style.height = "auto";
+    textArea.style.maxHeight = `${maxHeight || 280}px`;
+    textArea.style.height = `${textArea.scrollHeight}px`;
+  });
+};
+
+export const scrollToTopElement = (
+  element = window,
+  offsetY = 0,
+  animationTime = 3000,
+) => {
   const scrollToTopButton = document.querySelector("#scrollToTop");
   let fadeOutTimeout = null;
   let hideTimeout = null;
@@ -46,9 +66,9 @@ export const scrollToTopElement = (element = window, offsetY = 0) => {
 
   fadeOutTimeout = setTimeout(() => {
     scrollToTopButton.classList.add("fade-out");
-  }, 3000);
+  }, animationTime);
 
   hideTimeout = setTimeout(() => {
     scrollToTopButton.classList.add("d-none");
-  }, 3300); // 3000ms + 300ms (assume fade-out duration is 300ms)
+  }, animationTime); // 3000ms + 300ms (assume fade-out duration is 300ms)
 };

@@ -4,35 +4,21 @@ from flask_login import current_user
 
 from . import post
 from app.main import main
-from app.models.post import Post
+from app.models.post import Post, PostStatus
 from app.models.user import User
+from app.models.tag import Tag
 from app.dto.post_dto import PostDTO
 from app.utils.decorators import login_required
 from app.forms.postForms import CreatePostForm
 from app.services.post_service import edit_post
 
 
-@post.route("/<post_id>", methods=["GET", "POST"])
+@post.route("/<post_id>", methods=["GET"])
 @login_required
 def get_post(post_id):
 
     user = User.query.get(current_user.id)
     post = Post.query.get(UUID(post_id))
-
-    editPostForm = CreatePostForm()
-    editPostForm.set_tag_choices()
-
-    if editPostForm.validate_on_submit():
-
-        isSuccess, message = edit_post(post, editPostForm)
-        flash(message, "success" if isSuccess else "error")
-        if isSuccess:
-            return redirect(url_for("main.index"))
-
-    editPostForm.title.data = post.title
-    editPostForm.content.data = post.content
-    editPostForm.tags.data = [tag.name for tag in post.tags]
-    editPostForm.image_url.data = post.image_url if post.image_url else None
 
     if not post or post.is_delete:
         flash("Post not found", "error")
@@ -46,5 +32,48 @@ def get_post(post_id):
         "post/postDetail.html",
         post=postDTO.to_dict(),
         user=current_user,
-        editPostForm=editPostForm,
+        operation="read",
+    )
+
+
+@post.route("/new-post", methods=["GET"])
+@login_required
+def new_post():
+    tags = Tag.query.all()
+    tag_list = []
+    for tag in tags:
+        tag_list.append(
+            {
+                "id": tag.id,
+                "name": tag.name,
+                "color": tag.color,
+            }
+        )
+
+    return render_template(
+        "post/postDetail.html", user=current_user, tags=tag_list, operation="create"
+    )
+
+
+@post.route("/<post_id>/edit-post", methods=["GET"])
+@login_required
+def edit_post(post_id):
+    # todo: populate form with post data
+    post = Post.query.get(UUID(post_id))
+
+    if not post or post.is_delete or post.status == PostStatus.PENDING:
+        flash("Post not found", "error")
+        return redirect(url_for("main.index"))
+
+    tags = Tag.query.all()
+    tag_list = []
+    for tag in tags:
+        tag_list.append({"id": tag.id, "name": tag.name, "color": tag.color})
+
+    return render_template(
+        "post/postDetail.html",
+        user=current_user,
+        tags=tag_list,
+        operation="update",
+        post=post,
     )
