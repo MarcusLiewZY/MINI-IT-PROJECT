@@ -65,14 +65,26 @@ class MultiSelectDropdownMenu {
     const loadedItems = this.badgeContainer.querySelectorAll(".post-tag__edit");
 
     loadedItems.forEach((badge) => {
-      const checkbox = document.getElementById(
-        badge.id.replace("post-tag-badge-", ""),
-      );
+      const checkboxId = badge.id.replace("post-tag-badge-", "");
+      const checkbox = document.getElementById(checkboxId);
+
+      // update the selected items order array
       if (checkbox) {
         checkbox.checked = true;
         this.selectedItemsOrder.push(checkbox.id);
         checkbox.closest("li").classList.add("selected");
       }
+
+      // add the click event listener to the badge
+      badge.addEventListener("click", () => {
+        checkbox.checked = false;
+        this.removeBadge(checkboxId);
+        console.log(checkbox.closest("li"));
+        checkbox.closest("li").classList.remove("selected");
+      });
+
+      // Update the visibility of the toggle button
+      this.updateToggleButtonVisibility();
     });
   };
 
@@ -89,10 +101,18 @@ class MultiSelectDropdownMenu {
 
   toggleDropdown = (event) => {
     event.stopPropagation();
+
     this.isDropdownOpen = !this.isDropdownOpen;
+
+    this.toggleWindowScroll();
+
     if (!this.isDropdownOpen) {
-      this.updateBadges(); // Call the function when closing the dropdown
+      this.updateBadges();
     }
+
+    document
+      .querySelector("#dropdownOverlay")
+      .classList.toggle("d-none", !this.isDropdownOpen);
 
     this.dropdownMenu.classList.toggle("show", this.isDropdownOpen);
   };
@@ -158,8 +178,12 @@ class MultiSelectDropdownMenu {
     // Reset the filter to show all items
     this.filterItems({ target: { value: "" } });
 
-    this.dropdownMenu.classList.remove("show");
     this.isDropdownOpen = false;
+    this.dropdownMenu.classList.remove("show");
+    document
+      .querySelector("#dropdownOverlay")
+      .classList.toggle("d-none", !this.isDropdownOpen);
+    this.toggleWindowScroll();
   };
 
   addBadge = (value, id, tagColor) => {
@@ -210,6 +234,26 @@ class MultiSelectDropdownMenu {
 
     this.dropdownButton.style.display =
       selectedItemsCount >= 5 ? "none" : "block";
+  };
+
+  toggleWindowScroll = () => {
+    // get the width of the dropdown button to prevent the window slide to right when the overflow style is set to hidden
+
+    if (this.isDropdownOpen) {
+      const scrollbarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+      document.body.style.overflow = "hidden";
+
+      document.querySelector(".navbar").style.paddingRight =
+        `${scrollbarWidth}px`;
+    } else {
+      document.body.style.paddingRight = "0px";
+      document.body.style.overflow = "";
+
+      document.querySelector(".navbar").style.paddingRight = "0px";
+    }
   };
 
   destroy = () => {

@@ -68,10 +68,9 @@ def create_post():
     """
     Create a new post.
     Args:
-        title: The title of the post.
-        content: The content of the post.
-        tags: The tags of the post.
-        image_url: The image URL of the post.
+        Form Object: Consist of title, content, tags, image_url
+        Image file: The image file to upload.
+        image_url and image can not be provided at the same time.
     Returns:
         A JSON object containing the post's data and an HTTP status code.
     """

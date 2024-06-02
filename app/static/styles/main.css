@@ -133,6 +133,26 @@ textarea::-webkit-scrollbar {
   width: 0px;
 }
 
+.divider {
+  height: 1px;
+  background-color: var(--color---neutral--neutral90);
+  margin-left: -2rem;
+  width: calc(100% + 2 * 2rem);
+  overflow-x: hidden;
+}
+
+.overlay {
+  z-index: 500; /* Ensure it's above other elements */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color---base---black);
+  background-blend-mode: multiply;
+  opacity: 0.3;
+}
+
 /* form */
 .form-control {
   position: relative;
@@ -397,7 +417,7 @@ form {
   position: fixed;
   align-items: center;
   top: 0px;
-  z-index: 1000;
+  z-index: 300;
   height: 100px;
   width: 100%;
   box-shadow: var(--card-shadow);
@@ -829,7 +849,7 @@ form {
   top: calc(100% + 0.5rem);
   background-color: #f9f9f9;
   min-width: 230px;
-  z-index: 1;
+  z-index: 600;
   max-height: 280px;
   overflow-y: auto;
 
@@ -908,54 +928,33 @@ form {
   cursor: not-allowed;
 }
 
-/* todo: remove the unused css */
-
-.create-post-modal-container .user-info-container {
+/* create and edit tag modal */
+.create-tag-modal-container .user-info-container {
   align-items: center;
   height: fit-content;
 }
 
-.create-post-modal-container .user-info-container .text-label-lg {
+.create-tag-modal-container .user-info-container .text-label-lg {
   font-weight: 700;
 }
 
-.create-post-modal-container .title-input {
+.create-tag-modal-container .title-input {
   width: 100%;
   border: 1px solid transparent;
 }
 
-.create-post-modal-container .content-form-control {
+.create-tag-modal-container .content-form-control {
   align-items: start;
   gap: 4px;
   width: 100%;
 }
-.create-post-modal-container .content-form-control .comment-input {
+.create-tag-modal-container .content-form-control .comment-input {
   border-radius: 12px;
 }
 
 .post-card form#createPostForm,
 .post-card form#editPostForm {
   width: 100%;
-}
-
-.post-card .divider {
-  height: 1px;
-  background-color: var(--color---neutral--neutral90);
-  margin-left: -2rem;
-  width: calc(100% + 2 * 2rem);
-  overflow-x: hidden;
-}
-
-.create-post-modal-container .upload-image-container {
-  align-items: center;
-}
-
-.create-post-modal-container .select-image-message {
-  color: var(--color---base---active);
-}
-
-.create-post-modal-container .remove-image {
-  cursor: pointer;
 }
 
 /* community guideline */
@@ -1061,6 +1060,7 @@ form {
   margin-top: 100px;
   padding-top: 4rem;
   text-align: center;
+  overflow-x: hidden;
 }
 
 .faq-text {
@@ -1332,11 +1332,28 @@ form {
   cursor: pointer;
 }
 
-.filter-container .toggle-heading-container {
-  display: flex;
-  gap: 0.5rem;
+/* create and edit tag modal */
+.create-tag-modal-container .user-info-container {
+  align-items: center;
+  height: fit-content;
+}
+
+.create-tag-modal-container .user-info-container .text-label-lg {
+  font-weight: 700;
+}
+
+.create-tag-modal-container .title-input {
   width: 100%;
-  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.create-tag-modal-container .content-form-control {
+  align-items: start;
+  gap: 4px;
+  width: 100%;
+}
+.create-tag-modal-container .content-form-control .comment-input {
+  border-radius: 12px;
 }
 
 #createTagModal .title-input,
@@ -1378,6 +1395,14 @@ form {
   transform: translate(-50%, -50%);
   width: 80%;
   height: 80%;
+}
+
+/* admin - filter section */
+.filter-container .toggle-heading-container {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  cursor: pointer;
 }
 
 .filter-category-container .filter-category-item {
@@ -1448,6 +1473,7 @@ form {
 
 /* About Section Styles */
 .about-section {
+  margin-top: 100px;
   opacity: 0;
   animation: fadeInAbout 3s ease forwards;
 }

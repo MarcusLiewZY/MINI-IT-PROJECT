@@ -147,17 +147,16 @@ document.addEventListener("DOMContentLoaded", () => {
       // get the post id from the url and scroll to that post
       const postId = window.location.hash.split("#")[1];
 
-      if (postId) {
-        const postElement = document.getElementById(postId);
+      if (!postId) return;
 
-        console.log("postElement: ", postElement);
+      const postElement = document.getElementById(postId);
 
-        if (postElement) {
-          postElement.scrollIntoView({ behavior: "smooth" });
+      if (!postElement) return;
 
-          scrollToTopElement(document, 0, 5000);
-        }
-      }
+      if (notificationContainer.offsetHeight <= window.innerHeight) return;
+
+      postElement.scrollIntoView({ behavior: "smooth" });
+      scrollToTopElement(document, 0, 5000);
     } catch (error) {
       console.error("Error from onLoadAllPostStatus: ", error);
     }
