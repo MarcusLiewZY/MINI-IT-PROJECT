@@ -8,6 +8,21 @@
 
 /* reset & normalize */
 
+html {
+  block-size: 100%;
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+@supports not (color-scheme: dark) {
+  html[data-theme="dark"] {
+    background: #111;
+  }
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -26,6 +41,11 @@ body {
   background-color: var(--color---base---white);
   line-height: 1.6;
   color: var(--color---base---gray);
+}
+
+[data-theme="dark"] body {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+  color: var(--color---dark-mode---neutral--neutral40);
 }
 
 section::-webkit-scrollbar {
@@ -77,9 +97,17 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px var(--color---base---white) inset !important;
   transition: background-color 0.5s ease-in-out 0s;
 }
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover {
   -webkit-box-shadow: 0 0 0 30px var(--color---neutral--neutral95) inset !important;
+  transition: background-color 0.5s ease-in-out 0s;
+}
+
+[data-theme="dark"] input:-webkit-autofill,
+[data-theme="dark"] input:-webkit-autofill:hover {
+  -webkit-box-shadow: 0 0 0 30px var(--color---dark-mode---neutral--neutral95)
+    inset !important;
   transition: background-color 0.5s ease-in-out 0s;
 }
 
@@ -129,6 +157,22 @@ textarea::placeholder {
   letter-spacing: 0.25px;
 }
 
+/* todo: set the input dark if needed */
+/* [data-theme="dark"] input:focus {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+} */
+
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] textarea {
+  &:focus {
+    background-color: var(--color---dark-mode---neutral--neutral100);
+  }
+
+  &::placeholder {
+    color: var(--color---dark-mode---neutral--neutral70);
+  }
+}
+
 textarea::-webkit-scrollbar {
   width: 0px;
 }
@@ -141,6 +185,10 @@ textarea::-webkit-scrollbar {
   overflow-x: hidden;
 }
 
+[data-theme="dark"] .divider {
+  background-color: var(--color---dark-mode---neutral--neutral90);
+}
+
 .overlay {
   z-index: 500; /* Ensure it's above other elements */
   position: fixed;
@@ -151,6 +199,12 @@ textarea::-webkit-scrollbar {
   background-color: var(--color---base---black);
   background-blend-mode: multiply;
   opacity: 0.3;
+}
+
+[data-theme="dark"] .overlay {
+  background-color: var(--color---dark-mode---neutral--neutral0);
+  background-blend-mode: screen;
+  opacity: 0.15;
 }
 
 /* form */
@@ -171,6 +225,14 @@ textarea::-webkit-scrollbar {
   }
 }
 
+[data-theme="dark"] .form-control > *:is(input, textarea) {
+  background-color: var(--color---dark-mode---neutral--neutral95);
+  &:focus {
+    background-color: var(--color---dark-mode---neutral--neutral100);
+    border: 1px solid var(--color---dark-mode---neutral--neutral40);
+  }
+}
+
 form {
   width: 100%;
 }
@@ -182,6 +244,11 @@ form {
 
 /*  message */
 /* display at top center */
+[data-theme="dark"] .flash {
+  background-color: var(--color---dark-mode---neutral--neutral50);
+  box-shadow: var(--dark-modal-shadow);
+}
+
 .flash {
   position: fixed;
   top: 3vh;
@@ -248,6 +315,22 @@ form {
   }
 }
 
+[data-theme="dark"] .link {
+  color: var(--color---base---white);
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: var(--color---base---white);
+  }
+
+  &:disabled {
+    color: var(--color---dark-mode---neutral--neutral50);
+  }
+}
+
 /* icon */
 .icon {
   display: inline-block;
@@ -282,7 +365,7 @@ form {
 
 /* campus tag */
 .campus-tag {
-  background: #e1e3e3;
+  background-color: #e1e3e3;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -291,6 +374,11 @@ form {
   overflow: hidden;
   border-radius: 8px;
   padding: 0px 1rem;
+}
+
+[data-theme="dark"] .campus-tag {
+  color: var(--color---dark-mode---neutral--neutral100);
+  background-color: var(--color---dark-mode---neutral--neutral50);
 }
 
 /* button */
@@ -325,6 +413,17 @@ form {
   }
 }
 
+[data-theme="dark"] .btn-error {
+  background-color: var(--color---dark-mode---base---error);
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--color---dark-mode---base---error);
+    opacity: 0.8;
+  }
+}
+
 .btn-success {
   background-color: var(--color---alert---success);
 
@@ -344,8 +443,18 @@ form {
   &:focus,
   &:active {
     background-color: var(--color---neutral--neutral95);
-    /* background-color: red; */
     color: var(--color---neutral--neutral50);
+  }
+}
+
+[data-theme="dark"] .btn-muted {
+  color: var(--color---dark-mode---neutral--neutral70);
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--color---dark-mode---neutral--neutral95);
+    color: var(--color---dark-mode---neutral--neutral50);
   }
 }
 
@@ -371,6 +480,10 @@ form {
   }
 }
 
+[data-theme="dark"] .post-status {
+  color: var(--color---dark-mode---neutral--neutral10);
+}
+
 /* post tag */
 .post-tag {
   display: inline-flex;
@@ -394,11 +507,20 @@ form {
   }
 }
 
+[data-theme="dark"] .post-tag {
+  color: var(--color---dark-mode---neutral--neutral100);
+}
+
 /* card */
 .card {
   background-color: var(--color---base---white);
   box-shadow: var(--card-shadow);
   border-radius: 8px;
+}
+
+[data-theme="dark"] .card {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+  box-shadow: var(--dark-card-shadow);
 }
 
 /* other(mics) */
@@ -413,6 +535,10 @@ form {
   letter-spacing: 0.5px;
 }
 
+[data-theme="dark"] .date {
+  color: var(--color---dark-mode---neutral--neutral50);
+}
+
 /* navbar */
 .navbar {
   position: fixed;
@@ -423,6 +549,11 @@ form {
   width: 100%;
   box-shadow: var(--card-shadow);
   background-color: var(--color---base---white);
+}
+
+[data-theme="dark"] .navbar {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+  box-shadow: var(--dark-card-shadow);
 }
 
 .navbar .container {
@@ -449,6 +580,11 @@ form {
   border-bottom: 2px solid var(--color---base---error);
 }
 
+[data-theme="dark"] .mid-col .link:hover,
+[data-theme="dark"] .mid-col .active {
+  border-bottom: 2px solid var(--color---dark-mode---base---error);
+}
+
 .mid-col ul .link:hover {
   text-decoration: none;
 }
@@ -468,6 +604,12 @@ form {
   box-shadow: var(--card-shadow);
 }
 
+[data-theme="dark"] .mid-col .search-bar {
+  border: 1px solid var(--color---dark-mode---neutral--neutral70);
+  background-color: var(--color---dark-mode---neutral--neutral100);
+  box-shadow: var(--dark-card-shadow);
+}
+
 .mid-col .search-bar .search-bar-input {
   width: 100%;
 }
@@ -476,11 +618,135 @@ form {
   min-width: fit-content;
 }
 
+/* theme toggle */
+@import "https://unpkg.com/open-props/easings.min.css";
+
+.sun-and-moon > :is(.moon, .sun, .sun-beams) {
+  transform-origin: center center;
+}
+
+.sun-and-moon > :is(.moon, .sun) {
+  fill: var(--icon-fill);
+}
+
+.theme-toggle:is(:hover, :focus-visible) > .sun-and-moon > :is(.moon, .sun) {
+  fill: var(--icon-fill-hover);
+}
+
+.sun-and-moon > .sun-beams {
+  stroke: var(--icon-fill);
+  stroke-width: 2px;
+}
+
+.theme-toggle:is(:hover, :focus-visible) .sun-and-moon > .sun-beams {
+  stroke: var(--icon-fill-hover);
+}
+
+[data-theme="dark"] .sun-and-moon > .sun {
+  transform: scale(1.75);
+}
+
+[data-theme="dark"] .sun-and-moon > .sun-beams {
+  opacity: 0;
+}
+
+[data-theme="dark"] .sun-and-moon > .moon > circle {
+  transform: translateX(-7px);
+}
+
+@supports (cx: 1) {
+  [data-theme="dark"] .sun-and-moon > .moon > circle {
+    transform: translateX(0);
+    cx: 17;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sun-and-moon > .sun {
+    transition: transform 0.5s var(--ease-elastic-3);
+  }
+
+  .sun-and-moon > .sun-beams {
+    transition:
+      transform 0.5s var(--ease-elastic-4),
+      opacity 0.5s var(--ease-3);
+  }
+
+  .sun-and-moon .moon > circle {
+    transition: transform 0.25s var(--ease-out-5);
+  }
+
+  @supports (cx: 1) {
+    .sun-and-moon .moon > circle {
+      transition: cx 0.25s var(--ease-out-5);
+    }
+  }
+
+  [data-theme="dark"] .sun-and-moon > .sun {
+    transform: scale(1.75);
+    transition-timing-function: var(--ease-3);
+    transition-duration: 0.25s;
+  }
+
+  [data-theme="dark"] .sun-and-moon > .sun-beams {
+    transform: rotateZ(-25deg);
+    transition-duration: 0.15s;
+  }
+
+  [data-theme="dark"] .sun-and-moon > .moon > circle {
+    transition-delay: 0.25s;
+    transition-duration: 0.5s;
+  }
+}
+
+.theme-toggle {
+  --size: 2rem;
+  --icon-fill: hsl(210 10% 30%);
+  --icon-fill-hover: hsl(210 10% 15%);
+
+  background: none;
+  border: none;
+  padding: 0;
+
+  inline-size: var(--size);
+  block-size: var(--size);
+  aspect-ratio: 1;
+  border-radius: 50%;
+
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+
+  outline-offset: 5px;
+}
+
+.theme-toggle > svg {
+  inline-size: 100%;
+  block-size: 100%;
+  stroke-linecap: round;
+}
+
+[data-theme="dark"] .theme-toggle {
+  --icon-fill: hsl(210 10% 70%);
+  --icon-fill-hover: hsl(210 15% 90%);
+}
+
+@media (hover: none) {
+  .theme-toggle {
+    --size: 48px;
+  }
+}
+
 /* modal */
 .modal {
   border: 0;
   box-shadow: var(--modal-shadow);
   background-color: var(--color---base---white);
+}
+
+[data-theme="dark"] .modal {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+  box-shadow: var(--dark-modal-shadow);
 }
 
 .modal::-webkit-scrollbar {
@@ -499,10 +765,21 @@ form {
   animation: modalFadeIn 0.3s ease;
 }
 
+[data-theme="dark"] #userProfileModal {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+  box-shadow: var(--dark-modal-shadow);
+}
+
 #userProfileModal::backdrop {
   background-color: var(--color---base---black);
   background-blend-mode: multiply;
   opacity: 0.3;
+}
+
+[data-theme="dark"] #userProfileModal::backdrop {
+  background-color: var(--color---dark-mode---neutral--neutral0);
+  background-blend-mode: screen;
+  opacity: 0.15;
 }
 
 #userProfileModal .user-profile-container {
@@ -515,12 +792,21 @@ form {
 }
 
 .user-profile-container .text-label-lg {
-  color: var(--color---base---black);
+  color: var(--color---neutral--neutral40);
+}
+
+[data-theme="dark"] #userProfileModal .user-profile-container .text-label-lg {
+  color: var(--color---dark-mode---neutral--neutral60);
 }
 
 #userProfileModal .navigation-container {
   border-top: 1px solid var(--color---neutral--neutral90);
   border-bottom: 1px solid var(--color---neutral--neutral90);
+}
+
+[data-theme="dark"] #userProfileModal .navigation-container {
+  border-top: 1px solid var(--color---dark-mode---neutral--neutral90);
+  border-bottom: 1px solid var(--color---dark-mode---neutral--neutral90);
 }
 
 .navigation-container > li {
@@ -545,8 +831,21 @@ form {
   }
 }
 
+[data-theme="dark"] .navigation-container > li:hover,
+[data-theme="dark"] .navigation-container > li:focus {
+  background-color: var(--color---dark-mode---neutral--neutral90);
+
+  & a {
+    color: var(--color---dark-mode---neutral--neutral50);
+  }
+}
+
 .navigation-container li a {
   color: var(--color---neutral--neutral40);
+}
+
+[data-theme="dark"] .navigation-container li a {
+  color: var(--color---dark-mode---neutral--neutral60);
 }
 
 .navigation-container li .notification-count {
@@ -566,6 +865,10 @@ form {
   cursor: default;
 }
 
+[data-theme="dark"] .navigation-container li .notification-count {
+  background-color: var(--color---dark-mode---base---error);
+}
+
 #userProfileModal .log-out {
   padding: 10px 1rem;
 
@@ -579,11 +882,22 @@ form {
   }
 }
 
+[data-theme="dark"] #userProfileModal .log-out a {
+  color: var(--color---dark-mode---neutral--neutral60);
+}
+
 #userProfileModal .user-profile-container:hover,
-#userProfileModal .usr-profile-container:active,
+#userProfileModal .user-profile-container:active,
 #userProfileModal .log-out:hover,
 #userProfileModal .log-out:active {
   background-color: var(--color---neutral--neutral90);
+}
+
+[data-theme="dark"] #userProfileModal .user-profile-container:hover,
+[data-theme="dark"] #userProfileModal .user-profile-container:active,
+[data-theme="dark"] #userProfileModal .log-out:hover,
+[data-theme="dark"] #userProfileModal .log-out:active {
+  background-color: var(--color---dark-mode---neutral--neutral90);
 }
 
 #userProfileModal .modal-footer {
@@ -593,6 +907,10 @@ form {
   background-color: var(--color---neutral--neutral95);
 }
 
+[data-theme="dark"] #userProfileModal .modal-footer {
+  background-color: var(--color---dark-mode---neutral--neutral99);
+}
+
 .modal-footer .link {
   font-size: 10px;
   line-height: 1rem;
@@ -600,8 +918,16 @@ form {
   color: var(--color---neutral--neutral50);
 }
 
+[data-theme="dark"] .modal-footer .link {
+  color: var(--color---dark-mode---neutral--neutral60);
+}
+
 .modal-footer .link:hover {
   color: var(--color---neutral--neutral40);
+}
+
+[data-theme="dark"] .modal-footer .link:hover {
+  color: var(--color---dark-mode---neutral--neutral50);
 }
 
 .modal-footer span {
@@ -622,6 +948,10 @@ form {
   padding-bottom: 48px;
 }
 
+[data-theme="dark"] .home-page-body {
+  background-color: var(--color---dark-mode---neutral--neutral95);
+}
+
 .post-section .create-post-card {
   align-items: center;
   gap: 24px;
@@ -639,6 +969,12 @@ form {
   border-radius: 12px;
   border: 1px solid var(--color---neutral--neutral70);
   cursor: text;
+}
+
+/* todo: need to change the font color if needed */
+[data-theme="dark"] .create-post-container {
+  color: var(--color---dark-mode---neutral--neutral50);
+  border: 1px solid var(--color---dark-mode---neutral--neutral70);
 }
 
 /* post card */
@@ -662,6 +998,11 @@ form {
   border-bottom: 1px solid var(--color---neutral--neutral80);
 }
 
+[data-theme="dark"] .post-card__react-count-container {
+  color: var(--color---dark-mode---neutral--neutral60);
+  border-bottom: 1px solid var(--color---dark-mode---neutral--neutral90);
+}
+
 .post-card__post-comment-container {
   cursor: default;
 }
@@ -672,6 +1013,10 @@ form {
   padding: 8px 16px 12px 16px;
   border-radius: 12px;
   background-color: var(--color---neutral--neutral95);
+}
+
+[data-theme="dark"] .comment-container .comment {
+  background-color: var(--color---dark-mode---neutral--neutral99);
 }
 
 .comment-container .avatar-container {
@@ -692,6 +1037,12 @@ form {
   z-index: 1;
 }
 
+/* todo: check for this */
+[data-theme="dark"] .comment-container .reply-avatar-container::before {
+  border-left: 2px solid var(--color---dark-mode---neutral--neutral90);
+  border-bottom: 2px solid var(--color---dark-mode---neutral--neutral90);
+}
+
 .comment-container .comment-react-container {
   align-self: start;
   gap: 8px;
@@ -702,8 +1053,16 @@ form {
   text-decoration: none;
 }
 
+[data-theme="dark"] .comment-container .comment-react-container .link:hover {
+  color: var(--color---dark-mode---base---active);
+}
+
 .comment-container .comment-header .replied-user {
   color: var(--color---neutral--neutral50);
+}
+
+[data-theme="dark"] .comment-container .comment-header .replied-user {
+  color: var(--color---dark-mode---neutral--neutral60);
 }
 
 .comment-container .comment-info {
@@ -719,11 +1078,21 @@ form {
   outline: none;
 }
 
+[data-theme="dark"] .comment-container .reply:focus {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+}
+
 .comment-container .editing {
   cursor: auto;
   background-color: var(--color---base---white);
   border-radius: 12px;
   border: 1px solid var(--color---neutral--neutral40);
+}
+
+/* todo: what is this */
+[data-theme="dark"] .comment-container .editing {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+  border: 1px solid var(--color---dark-mode---neutral--neutral40);
 }
 
 .comment-container .comment-info > :not(:first-child),
@@ -738,6 +1107,11 @@ form {
   color: var(--color---base---error);
 }
 
+[data-theme="dark"] .comment-container .comment-info .comment-delete:hover,
+[data-theme="dark"] .comment-container .comment-info .comment-delete:active {
+  color: var(--color---dark-mode---base---error);
+}
+
 .comment-container .comment-header .user-interaction-container__reply:hover,
 .comment-container .comment-header .user-interaction-container__reply:active {
   text-decoration: none;
@@ -746,6 +1120,42 @@ form {
     color: var(--color---base---gray);
   }
 }
+
+[data-theme="dark"]
+  .comment-container
+  .comment-header
+  .user-interaction-container__reply {
+  color: var(--color---dark-mode---neutral--neutral40);
+}
+
+[data-theme="dark"]
+  .comment-container
+  .comment-header
+  .user-interaction-container__reply:hover,
+[data-theme="dark"]
+  .comment-container
+  .comment-header
+  .user-interaction-container__reply:active {
+  & .replied-user {
+    color: var(--color---dark-mode---neutral--neutral40);
+  }
+}
+
+/* todo: what is this */
+/* [data-theme="dark"]
+  .comment-container
+  .comment-header
+  .user-interaction-container__reply:hover,
+[data-theme="dark"]
+  .comment-container
+  .comment-header
+  .user-interaction-container__reply:active {
+  text-decoration: none;
+  color: var(--color---base---white);
+  & .replied-user {
+    color: var(--color---base---gray);
+  }
+} */
 
 .post-card__post-comment-container .view-more-reply {
   margin-top: -0.25rem;
@@ -790,11 +1200,24 @@ form {
   animation: modalFadeIn 0.3s ease;
 }
 
+[data-theme="dark"] #createTagModal,
+[data-theme="dark"] #editTagModal {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+  box-shadow: var(--dark-modal-shadow);
+}
+
 #createTagModal::backdrop,
 #editTagModal::backdrop {
   background-color: var(--color---base---black);
   background-blend-mode: multiply;
   opacity: 0.6;
+}
+
+[data-theme="dark"] #createTagModal::backdrop,
+[data-theme="dark"] #editTagModal::backdrop {
+  background-color: var(--color---dark-mode---neutral--neutral0);
+  background-blend-mode: screen;
+  opacity: 0.3;
 }
 
 #createPostCard .error-message,
@@ -831,6 +1254,13 @@ form {
   color: var(--color---neutral--neutral50);
 }
 
+[data-theme="dark"]
+  .post-form-container
+  .upload-image-container
+  .upload-image-info {
+  color: var(--color---dark-mode---neutral--neutral60);
+}
+
 .post-tag__menu-dropdown-button {
   border-radius: 8px;
   border: 2px dashed var(--color---neutral--neutral70);
@@ -839,6 +1269,15 @@ form {
 
   &:hover {
     background-color: var(--color---neutral--neutral80);
+  }
+}
+
+[data-theme="dark"] .post-tag__menu-dropdown-button {
+  background-color: var(--color---dark-mode---neutral--neutral99);
+  color: var(--color---dark-mode---neutral--neutral20);
+
+  &:hover {
+    background-color: var(--color---dark-mode---neutral--neutral90);
   }
 }
 
@@ -863,12 +1302,24 @@ form {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: var(--color---neutral--neutral80);
+    background-color: var(--color---neutral--neutral70);
     border-radius: 4px;
   }
 
   &::-webkit-scrollbar-track {
-    background-color: var(--color---neutral--neutral95);
+    background-color: var(--color---neutral--neutral99);
+  }
+}
+
+[data-theme="dark"] .dropdown-content {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color---dark-mode---neutral--neutral80);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--color---dark-mode---neutral--neutral95);
   }
 }
 
@@ -896,12 +1347,24 @@ form {
   background-color: var(--color---neutral--neutral90);
 }
 
+[data-theme="dark"] .dropdown-content ul li:hover {
+  background-color: var(--color---dark-mode---neutral--neutral90);
+}
+
 .dropdown-content ul li.selected {
   background-color: var(--color---neutral--neutral80);
 }
 
+[data-theme="dark"] .dropdown-content ul li.selected {
+  background-color: var(--color---dark-mode---neutral--neutral80);
+}
+
 .dropdown-content ul li input[type="checkbox"] {
   margin-right: 10px;
+}
+
+[data-theme="dark"] .dropdown-content ul li input[type="checkbox"] {
+  background-color: var(--color---dark-mode---neutral--neutral100);
 }
 
 .show {
@@ -919,10 +1382,6 @@ form {
   padding: 5px 10px;
   margin: 5px;
   border-radius: 15px;
-}
-
-#dropdownList li.selected {
-  background-color: var(--color---neutral--neutral80);
 }
 
 #createPostSubmitButton:disabled,
@@ -1016,6 +1475,10 @@ form {
   padding-bottom: 48px;
 }
 
+[data-theme="dark"] .post-detail-page-body {
+  background-color: var(--color---dark-mode---neutral--neutral95);
+}
+
 /* user info */
 .user-info-section {
   margin-top: 100px;
@@ -1040,6 +1503,10 @@ form {
   padding-bottom: 1rem;
 }
 
+[data-theme="dark"] .user-info-section .user-content-container {
+  border-bottom: 2px solid var(--color---dark-mode---neutral--neutral90);
+}
+
 .user-info-section .user-content-container a:hover,
 .user-info-section .user-content-container a:focus,
 .user-info-section .user-content-container .active {
@@ -1053,11 +1520,19 @@ form {
   color: var(--color---base---active);
 }
 
+[data-theme="dark"] .user-info-section .rejected-page-info {
+  color: var(--color---dark-mode---base---active);
+}
+
 #avatarForm .recommend-dimension {
   align-self: flex-end;
   font-size: 0.75rem;
   font-weight: 400;
   color: var(--color---neutral--neutral60);
+}
+
+[data-theme="dark"] #avatarForm .recommend-dimension {
+  color: var(--color---dark-mode---neutral--neutral60);
 }
 
 /* Style for FAQ Section */
@@ -1086,7 +1561,6 @@ form {
 
 .faq-box {
   font-family: "Times New Roman", Times, serif; /* Change font to Times New Roman */
-  color: black; /* Text color */
   width: 60%; /* Adjust the width as needed */
   margin: 20px auto; /* Center align and add margin */
   border: 2px solid #ccc; /* Border color */
@@ -1099,8 +1573,17 @@ form {
   background-color: #f9f9f9; /* Light gray background color */
 }
 
+[data-theme="dark"] .faq-box {
+  background-color: var(--color---dark-mode---neutral--neutral99);
+  border: 2px solid var(--color---dark-mode---neutral--neutral90);
+}
+
 .faq-box:hover {
   border-color: #555; /* Darker border color on hover */
+}
+
+[data-theme="dark"] .faq-box:hover {
+  border-color: var(--color---dark-mode---neutral--neutral70);
 }
 
 .faq-question {
@@ -1114,6 +1597,11 @@ form {
   border: 1px solid #ccc; /* Border color */
   border-radius: 8px; /* Rounded corners */
   display: none; /* Initially hide the answer */
+}
+
+[data-theme="dark"] .faq-answer-box {
+  background-color: var(--color---dark-mode---neutral--neutral90);
+  border: 1px solid var(--color---dark-mode---neutral--neutral90);
 }
 
 .faq-answer {
@@ -1140,11 +1628,21 @@ form {
   transition: background-color 0.3s ease;
 }
 
+[data-theme="dark"] .btn-FAQ {
+  background-color: var(--color---dark-mode---base---active);
+}
+
 .btn-FAQ:hover,
 .btn-FAQ:focus,
 .btn-FAQ:active {
   background-color: var(--color---base---active-hover);
   opacity: 0.8;
+}
+
+[data-theme="dark"] .btn-FAQ:hover,
+[data-theme="dark"] .btn-FAQ:focus,
+[data-theme="dark"] .btn-FAQ:active {
+  background-color: var(--color---dark-mode---base---active-hover);
 }
 
 .reserve-element.comment-form .cancel-button {
@@ -1158,6 +1656,10 @@ form {
   min-height: calc(100vh - 100px);
 }
 
+[data-theme="dark"] .notification-section {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+}
+
 .notification-section .filter-container {
   width: 264px;
   height: 100%;
@@ -1169,11 +1671,19 @@ form {
   border-bottom: 2px solid var(--color---neutral--neutral90);
 }
 
+[data-theme="dark"] .notification-section .filter-heading {
+  border-bottom: 2px solid var(--color---dark-mode---neutral--neutral90);
+}
+
 .notification-section .notification-heading {
   width: 100%;
   border-bottom: 2px solid var(--color---neutral--neutral90);
   height: auto;
   align-items: flex-end;
+}
+
+[data-theme="dark"] .notification-section .notification-heading {
+  border-bottom: 2px solid var(--color---dark-mode---neutral--neutral90);
 }
 
 .filter-category-container .filter-category-item {
@@ -1219,6 +1729,27 @@ form {
   }
 }
 
+[data-theme="dark"] .notification-content-container .notification-reply:hover,
+[data-theme="dark"] .notification-content-container .notification-reply:focus,
+[data-theme="dark"]
+  .notification-content-container
+  .notification-comment-on-post:hover,
+[data-theme="dark"]
+  .notification-content-container
+  .notification-comment-on-post:focus,
+[data-theme="dark"]
+  .notification-content-container
+  .notification-post-status:hover,
+[data-theme="dark"]
+  .notification-content-container
+  .notification-post-status:focus {
+  background-color: var(--color---dark-mode---neutral--neutral90);
+
+  & .divider {
+    background-color: var(--color---dark-mode---neutral--neutral80);
+  }
+}
+
 .notification-content-container .notification-reply,
 .notification-content-container .notification-comment-on-post,
 .notification-content-container .notification-post-status {
@@ -1228,6 +1759,14 @@ form {
   cursor: pointer;
   border-radius: 4px;
   background-color: var(--color---neutral--neutral95);
+}
+
+[data-theme="dark"] .notification-content-container .notification-reply,
+[data-theme="dark"]
+  .notification-content-container
+  .notification-comment-on-post,
+[data-theme="dark"] .notification-content-container .notification-post-status {
+  background-color: var(--color---dark-mode---neutral--neutral99);
 }
 
 .notification-content-container .notification-post-status {
@@ -1244,6 +1783,13 @@ form {
 
 .notification-content-container .notification-reply .replied-user {
   color: var(--color---neutral--neutral50);
+}
+
+[data-theme="dark"]
+  .notification-content-container
+  .notification-reply
+  .replied-user {
+  color: var(--color---dark-mode---neutral--neutral60);
 }
 
 .notification-content-container .post-heading .post-heading__main {
@@ -1265,6 +1811,13 @@ form {
   background-color: var(--color---neutral--neutral80);
 }
 
+[data-theme="dark"]
+  .notification-content-container
+  .notification-comment-on-post
+  .divider {
+  background-color: var(--color---dark-mode---neutral--neutral90);
+}
+
 .notification-content-container .read {
   background-color: var(--color---base---white);
   border-bottom: 1px solid var(--color---neutral--neutral80);
@@ -1275,10 +1828,23 @@ form {
   }
 }
 
+[data-theme="dark"] .notification-content-container .read {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+  border-bottom: 1px solid var(--color---dark-mode---neutral--neutral90);
+
+  & .divider {
+    background-color: var(--color---dark-mode---neutral--neutral99);
+  }
+}
+
 /* admin */
 .admin-section {
   margin-top: 100px;
   min-height: calc(100vh - 100px);
+}
+
+[data-theme="dark"] .admin-section {
+  background-color: var(--color---dark-mode---neutral--neutral100);
 }
 
 .admin-section .filter-container {
@@ -1303,9 +1869,17 @@ form {
   background-color: var(--color---neutral--neutral80);
 }
 
+[data-theme="dark"] .filter-container .tag-toggle {
+  background-color: var(--color---dark-mode---neutral--neutral95);
+}
+
 .tag-toggle #adminPageCreateTagModalButton:hover {
   background-color: var(--color---neutral--neutral70);
   border-radius: 50%;
+}
+
+[data-theme="dark"] .tag-toggle #adminPageCreateTagModalButton:hover {
+  background-color: var(--color---dark-mode---neutral--neutral80);
 }
 
 .tag-list-container .tag-list {
@@ -1315,6 +1889,11 @@ form {
   overflow: hidden;
   transform: translateY(-0.25rem);
 }
+
+[data-theme="dark"] .tag-list-container .tag-list {
+  background-color: var(--color---dark-mode---neutral--neutral80);
+}
+
 .tag-list-container .tag-list.show {
   opacity: 1;
   max-height: 500px;
@@ -1361,6 +1940,10 @@ form {
   border-radius: 12px;
 }
 
+[data-theme="dark"] .create-tag-modal-container {
+  color: var(--color---dark-mode---neutral--neutral40);
+}
+
 #createTagModal .title-input,
 #editTagModal .title-input {
   width: 90%;
@@ -1378,6 +1961,11 @@ form {
   justify-content: center;
   background-color: var(--color---neutral--neutral95);
   cursor: pointer;
+}
+
+[data-theme="dark"] #createTagModal .color-swatch-container,
+[data-theme="dark"] #editTagModal .color-swatch-container {
+  background-color: var(--color---dark-mode---neutral--neutral10);
 }
 
 #createTagModal .color-swatch,
@@ -1447,6 +2035,12 @@ form {
   gap: 0.75rem;
   background-color: var(--color---base---white);
   border-bottom: 1px solid var(--color---neutral--neutral80);
+}
+
+[data-theme="dark"] .admin-content-container .reporting-comment,
+[data-theme="dark"] .admin-content-container .approving-post {
+  background-color: var(--color---dark-mode---neutral--neutral99);
+  border-bottom: 1px solid var(--color---dark-mode---neutral--neutral70);
 }
 
 .admin-content-container .approving-post {
@@ -1564,6 +2158,18 @@ form {
   color: rgb(0, 0, 0);
 }
 
+[data-theme="dark"] .pic-text p {
+  color: var(--color---dark-mode---neutral--neutral50);
+}
+
 .posts-text {
   font-size: 24px;
+}
+
+[data-theme="dark"] {
+  --stroke-color: var(--stroke-color-dark);
+}
+
+[data-theme="light"] {
+  --stroke-color: var(--stroke-color-light);
 }

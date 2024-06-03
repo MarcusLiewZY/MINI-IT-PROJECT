@@ -50,11 +50,14 @@
       </form>
     </div>
 
-    {# user profile pop up modal using dialog html tag #}
-    <div class="flex flex-center open-button">
-      {% with avatar_url=user.avatar_url, owner = user %}
-        {% include "layouts/avatar.html" %}
-      {% endwith %}
+    <div class="flex flex-center gap-4 right-col">
+      {% include "layouts/themeToggle.html" %}
+      {# user profile pop up modal using dialog html tag #}
+      <div class="flex flex-center open-button">
+        {% with avatar_url=user.avatar_url, owner = user %}
+          {% include "layouts/avatar.html" %}
+        {% endwith %}
+      </div>
     </div>
   </div>
 
