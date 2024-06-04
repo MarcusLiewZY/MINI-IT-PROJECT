@@ -24,6 +24,12 @@
     {% block css %}{% endblock %}
   </head>
   <body>
+    {# theme toggle before the content is loaded #}
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='scripts/themeToggle.js') }}"
+    ></script>
+
     {# overlay #}
     <div class="overlay d-none" id="dropdownOverlay"></div>
 

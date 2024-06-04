@@ -41,11 +41,7 @@
           class="search-bar-input"
         />
         <button type="submit" class="flex flex-center">
-          <img
-            src="{{ url_for('static', filename = 'svg/search.svg') }}"
-            alt="search-icon"
-            class="icon"
-          />
+          {% include "svgs/search.html" %}
         </button>
       </form>
     </div>
@@ -72,53 +68,44 @@
             <div class="text-label-lg">
               Anonymous_{{ user.anon_no if user.anon_no else 'None' }}
             </div>
-            <img
-              src="{{ url_for('static', filename='svg/chevron-right.svg') }}"
-              alt="chevron-right"
-            />
+            {% include "svgs/chevron-right.html" %}
           </div>
         </a>
       </div>
       <ul class="flex flex-col text-body-md navigation-container">
-        <li class="flex">
-          <img
-            src="{{ url_for('static', filename = 'svg/notification.svg') }}"
-            alt="notification"
-          />
-          <a href="{{ url_for('notification.notifications') }}"
-            >Notifications</a
-          >
-          <div class="text-body-sm notification-count"></div>
+        <li>
+          <a href="{{ url_for('notification.notifications') }}" class="flex">
+            {% include "svgs/notification.html" %}
+            <span>Notifications</span>
+            <div class="text-body-sm notification-count"></div>
+          </a>
         </li>
-        <li class="flex">
-          <img
-            src="{{ url_for('static', filename = 'svg/bookmark-small.svg') }}"
-            alt="bookmark-small"
-          />
-          <a href="{{ url_for('me.bookmarks') }}">Bookmarks</a>
+        <li>
+          <a href="{{ url_for('me.bookmarks') }}" class="flex">
+            {% with class='svg-stroke-black bookmark-small' %}
+              {% include "svgs/bookmark.html" %}
+            {% endwith %}
+            <span>Bookmarks</span>
+          </a>
         </li>
         {% if user.is_admin %}
-          <li class="flex">
-            <img
-              src="{{ url_for('static', filename = 'svg/admin.svg') }}"
-              alt="admin"
-            />
-            <a href="{{ url_for('admin.index') }}">Admin</a>
+          <li>
+            <a href="{{ url_for('admin.index') }}" class="flex">
+              {% include "svgs/admin.html" %}
+              <span>Admin</span>
+            </a>
           </li>
         {% endif %}
-        <li class="flex">
-          <img
-            src="{{ url_for('static', filename = 'svg/guideline.svg') }}"
-            alt="guideline"
-          />
-          <a href="{{ url_for('main.community_guidelines') }}"
-            >Community Guidelines</a
-          >
+        <li>
+          <a href="{{ url_for('main.community_guidelines') }}" class="flex">
+            {% include "svgs/community-guideline.html" %}
+            <span>Community Guidelines</span>
+          </a>
         </li>
       </ul>
-      <div class="text-body-md log-out">
-        <a href="{{ url_for('user.logout') }}">Log out</a>
-      </div>
+      <a href="{{ url_for('user.logout') }}" class="text-body-md log-out">
+        Log out
+      </a>
       <div class="py-2 px-4 modal-footer">
         <a href="{{ url_for('faq.get_faq') }}" class="link">FAQ</a><span>·</span
         ><a href="{{ url_for('about.get_about') }}" class="link">About</a>

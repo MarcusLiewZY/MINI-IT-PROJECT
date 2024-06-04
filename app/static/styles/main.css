@@ -6,6 +6,9 @@
 /* utilities */
 @import url("utilities.css");
 
+/* import files here */
+@import url("svgs.css");
+
 /* reset & normalize */
 
 html {
@@ -161,7 +164,6 @@ textarea::placeholder {
 /* [data-theme="dark"] input:focus {
   background-color: var(--color---dark-mode---neutral--neutral100);
 } */
-
 [data-theme="dark"] input[type="text"],
 [data-theme="dark"] textarea {
   &:focus {
@@ -329,17 +331,6 @@ form {
   &:disabled {
     color: var(--color---dark-mode---neutral--neutral50);
   }
-}
-
-/* icon */
-.icon {
-  display: inline-block;
-  /* align-items: center; */
-  /* justify-content: center; */
-  padding: 0.1875rem; /* 3px */
-  flex-shrink: 0;
-  width: auto;
-  height: auto;
 }
 
 /* avatar */
@@ -809,7 +800,7 @@ form {
   border-bottom: 1px solid var(--color---dark-mode---neutral--neutral90);
 }
 
-.navigation-container > li {
+.navigation-container li > a {
   padding: 10px 16px;
   gap: 0.25rem;
   transition: background-color 0.3s ease;
@@ -829,6 +820,15 @@ form {
   & .notification-count {
     opacity: 0.8;
   }
+
+  /* change the svg stroke to black */
+  & .svg-stroke-black path {
+    stroke: var(--color---base---black);
+  }
+
+  & .svg-fill-black path {
+    fill: var(--color---base---black);
+  }
 }
 
 [data-theme="dark"] .navigation-container > li:hover,
@@ -836,7 +836,7 @@ form {
   background-color: var(--color---dark-mode---neutral--neutral90);
 
   & a {
-    color: var(--color---dark-mode---neutral--neutral50);
+    color: var(--color---dark-mode---neutral--neutral20);
   }
 }
 
@@ -872,18 +872,20 @@ form {
 #userProfileModal .log-out {
   padding: 10px 1rem;
 
-  & a {
-    color: var(--color---neutral--neutral40);
-  }
+  color: var(--color---neutral--neutral40);
 
-  &:hover a,
-  &:active a {
+  &:hover,
+  &:active {
     color: var(--color---base---black);
   }
 }
 
-[data-theme="dark"] #userProfileModal .log-out a {
+[data-theme="dark"] #userProfileModal .log-out {
   color: var(--color---dark-mode---neutral--neutral60);
+
+  &:hover {
+    color: var(--color---dark-mode---neutral--neutral20);
+  }
 }
 
 #userProfileModal .user-profile-container:hover,
@@ -898,6 +900,10 @@ form {
 [data-theme="dark"] #userProfileModal .log-out:hover,
 [data-theme="dark"] #userProfileModal .log-out:active {
   background-color: var(--color---dark-mode---neutral--neutral90);
+
+  & .text-label-lg {
+    color: var(--color---dark-mode---neutral--neutral20);
+  }
 }
 
 #userProfileModal .modal-footer {
@@ -1178,7 +1184,7 @@ form {
 
 .post-card__add-comment-container .form-control button {
   position: absolute;
-  top: 8px;
+  top: 11px;
   right: 10px;
   height: auto;
 }
@@ -1900,11 +1906,11 @@ form {
   transform: translateY(0);
 }
 
-.tag-list-container #adminPageTagListToggleButton img {
+.tag-list-container #adminPageTagListToggleButton svg {
   transform: rotate(0deg);
 }
 
-.tag-list-container #adminPageTagListToggleButton img.rotate-down-90 {
+.tag-list-container #adminPageTagListToggleButton svg.rotate-down-90 {
   transform: rotate(90deg);
 }
 

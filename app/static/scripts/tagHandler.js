@@ -24,13 +24,13 @@ const onToggleTagList = () => {
 
   adminPageTagToggleList.classList.toggle("show");
 
-  const tagListToggleButtonImg =
-    adminPageTagListToggleButton.querySelector("img");
+  const tagListToggleButtonIcon =
+    adminPageTagListToggleButton.querySelector("svg");
 
   if (adminPageTagToggleList.classList.contains("show")) {
-    tagListToggleButtonImg.classList.add("rotate-down-90");
+    tagListToggleButtonIcon.classList.add("rotate-down-90");
   } else {
-    tagListToggleButtonImg.classList.remove("rotate-down-90");
+    tagListToggleButtonIcon.classList.remove("rotate-down-90");
   }
 };
 

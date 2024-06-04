@@ -94,13 +94,13 @@ body {
   gap: 8px;
 }
 
-.signup-link img {
+.signup-link svg {
   width: 32px;
   height: auto;
   transition: transform 0.3s ease; /* Adding animation effect */
 }
 
-.signup-link:hover img {
+.signup-link:hover svg {
   transform: scale(1.1); /* Scaling up the icon on hover */
 }
 
