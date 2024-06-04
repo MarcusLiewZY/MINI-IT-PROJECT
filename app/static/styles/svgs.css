@@ -2,8 +2,16 @@
   fill: var(--color---neutral--neutral40);
 }
 
+[data-theme="dark"] .svg-fill-gray path {
+  fill: var(--color---dark-mode---neutral--neutral50);
+}
+
 .svg-stroke-gray path {
   stroke: var(--color---neutral--neutral40);
+}
+
+[data-theme="dark"] .svg-stroke-gray path {
+  stroke: var(--color---dark-mode---neutral--neutral50);
 }
 
 .bookmark-small {
@@ -21,14 +29,30 @@
   fill: var(--color---base---brown);
 }
 
+[data-theme="dark"] .bookmark.svg-fill-brown:hover path,
+[data-theme="dark"] .bookmark.bookmarked path {
+  stroke: var(--color---dark-mode---base---brown);
+  fill: var(--color---dark-mode---base---brown);
+}
+
 .svg-fill-blue:hover path,
 .like.liked path {
   stroke: var(--color---base---active);
   fill: var(--color---base---active);
 }
 
+[data-theme="dark"] .svg-fill-blue:hover path,
+[data-theme="dark"] .like.liked path {
+  stroke: var(--color---dark-mode---base---active-hover);
+  fill: var(--color---dark-mode---base---active-hover);
+}
+
 .search.svg-fill-blue path {
   fill: var(--color---base---active);
+}
+
+[data-theme="dark"] .search.svg-fill-blue path {
+  fill: var(--color---dark-mode---base---active-hover);
 }
 
 .svg-fill-red:hover path {
@@ -36,11 +60,25 @@
   fill: var(--color---base---error);
 }
 
+[data-theme="dark"] .svg-fill-red:hover path {
+  stroke: var(--color---dark-mode---base---error);
+  fill: var(--color---dark-mode---base---error);
+}
+
 .sent path {
   stroke: var(--color---base---active);
   fill: var(--color---base---active);
 }
 
+[data-theme="dark"] .sent path {
+  stroke: var(--color---dark-mode---base---active-hover);
+  fill: var(--color---dark-mode---base---active-hover);
+}
+
 .infinity-loading-spinner.svg-stroke-blue path {
   stroke: var(--color---base---active);
+}
+
+[data-theme="dark"] .infinity-loading-spinner.svg-stroke-blue path {
+  stroke: var(--color---dark-mode---base---active-hover);
 }

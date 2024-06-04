@@ -41,9 +41,7 @@
   --color---dark-mode---base---active: #1ac8df;
   --color---dark-mode---base---active-hover: #00e1ff;
   --color---dark-mode---base---error: #ff3a3a;
-
-  --stroke-color-light: #2563eb;
-  --stroke-color-dark: #1ac8df;
+  --color---dark-mode---base---brown: #993800;
 
   /* accent and state color */
   --color---purple--purple90: #65558f;

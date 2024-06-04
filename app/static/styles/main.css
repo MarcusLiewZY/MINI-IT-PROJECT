@@ -838,6 +838,15 @@ form {
   & a {
     color: var(--color---dark-mode---neutral--neutral20);
   }
+
+  /* change the svg stroke to black */
+  & .svg-stroke-black path {
+    stroke: var(--color---dark-mode---neutral--neutral40);
+  }
+
+  & .svg-fill-black path {
+    fill: var(--color---dark-mode---neutral--neutral40);
+  }
 }
 
 .navigation-container li a {
