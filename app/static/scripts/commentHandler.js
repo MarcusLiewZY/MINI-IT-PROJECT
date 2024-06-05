@@ -833,7 +833,6 @@ document
   .querySelectorAll(".user-interaction-container__reply")
   .forEach((replyLink) => {
     // user function syntax to make sure this keyword is bound to the element
-    console.log(replyLink.offsetParent);
     replyLink.addEventListener("click", function (e) {
       e.preventDefault();
       const href = this.getAttribute("href");
