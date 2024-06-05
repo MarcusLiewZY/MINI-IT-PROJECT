@@ -1061,6 +1061,14 @@ form {
   color: var(--color---alert---error);
 }
 
+[data-theme="dark"] #createPostCard .error-message,
+[data-theme="dark"] #editPostCard .error-message,
+[data-theme="dark"] #createTagModal .error-message,
+[data-theme="dark"] #editTagModal .error-message {
+  cursor: default;
+  color: var(--color---dark-mode---base---error);
+}
+
 .post-form-container {
   position: relative;
 }
