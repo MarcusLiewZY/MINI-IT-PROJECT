@@ -770,7 +770,7 @@ form {
 [data-theme="dark"] #userProfileModal::backdrop {
   background-color: var(--color---dark-mode---neutral--neutral0);
   background-blend-mode: screen;
-  opacity: 0.15;
+  opacity: 0.4;
 }
 
 #userProfileModal .user-profile-container {
