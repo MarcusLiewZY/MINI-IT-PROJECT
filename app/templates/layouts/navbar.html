@@ -1,11 +1,6 @@
 <div class="flex navbar">
   <div class="flex flex-between container">
-    <a href="/"
-      ><img
-        src="{{ url_for('static', filename = 'img/mmu-logo.png') }}"
-        alt="MMU Logo"
-        class="logo"
-    /></a>
+    <a href="/">{% include "svgs/mmu-logo.html" %}</a>
 
     <div class="flex flex-center text-body-lg mid-col">
       <nav>

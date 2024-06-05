@@ -82,3 +82,31 @@
 [data-theme="dark"] .infinity-loading-spinner.svg-stroke-blue path {
   stroke: var(--color---dark-mode---base---active-hover);
 }
+
+svg#mmuLogo {
+  & path#firstBlueEdge,
+  & path#secondBlueEdge,
+  & path#firstMCharacter,
+  & path#secondMCharacter {
+    fill: #064fa3;
+  }
+
+  & path#redCircle,
+  & path#UCharacter {
+    fill: #ea2229;
+  }
+}
+
+[data-theme="dark"] svg#mmuLogo {
+  & path#firstBlueEdge,
+  & path#secondBlueEdge,
+  & path#firstMCharacter,
+  & path#secondMCharacter {
+    fill: var(--color---dark-mode---base---active-hover);
+  }
+
+  & path#redCircle,
+  & path#UCharacter {
+    fill: var(--color---dark-mode---base---error);
+  }
+}

@@ -37,7 +37,7 @@
     <div class="menu">
         <!-- Start Box -->
         <div class="start-box">
-            <img src="{{ url_for('static', filename='img/mmu-logo.png') }}" alt="MMU Logo" class="mmulogo">
+            {% include "svgs/mmu-logo.html" %}
             <a href="{{ url_for('user.microsoft_login') }}" class="signup-link">
             {% include "svgs/microsoft-logo.html" %}
             
