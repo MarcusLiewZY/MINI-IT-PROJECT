@@ -120,7 +120,7 @@ class MultiSelectDropdownMenu {
   closeDropdown = (event) => {
     if (
       this.isDropdownOpen &&
-      !event.target.closest("#postTagBadgeContainer")
+      !event.target.closest(".post-tag-dropdown .dropdown-content")
     ) {
       this.updateBadges();
     }
