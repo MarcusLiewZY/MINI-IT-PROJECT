@@ -148,6 +148,7 @@ export class CommentHandler {
     });
 
     this.reportCommentButton.classList.add("d-none");
+    setConnectionLine();
 
     const oldCommentContent = commentContent.textContent;
 
@@ -702,6 +703,7 @@ const initializeReplyEventListeners = (commentContainer) => {
 
   const handleReplyButtonClick = () => {
     commentReplyFormContainer.classList.remove("d-none");
+    setConnectionLine();
     commentReplyForm.querySelector("textarea").focus();
 
     [...commentInfoContainer.querySelectorAll("button")]
@@ -713,7 +715,9 @@ const initializeReplyEventListeners = (commentContainer) => {
 
   const handleReplyCancelButtonClick = () => {
     commentReplyForm.reset();
+
     commentReplyFormContainer.classList.add("d-none");
+    setConnectionLine();
 
     [...commentInfoContainer.querySelectorAll("button")]
       .filter(
@@ -823,3 +827,24 @@ const onCommentReplyHandler = () => {
     onCommentReplyHandler();
   });
 });
+
+// Scroll to the replied comment when the reply link is clicked
+document
+  .querySelectorAll(".user-interaction-container__reply")
+  .forEach((replyLink) => {
+    // user function syntax to make sure this keyword is bound to the element
+    console.log(replyLink.offsetParent);
+    replyLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      const href = this.getAttribute("href");
+      const repliedCommentId = href.split("#")[1];
+      const repliedComment = document.getElementById(repliedCommentId);
+
+      if (repliedComment) {
+        window.scrollTo({
+          top: repliedComment.offsetTop - 10,
+          behavior: "smooth",
+        });
+      }
+    });
+  });
