@@ -95,7 +95,16 @@ let observer = new MutationObserver((mutations) => {
 // Configuration of the observer
 // childList: look for changes in the child elements of the target node
 // subtree: look for changes in the target node and its descendants, not just direct children
-let config = { childList: true, subtree: true };
+let config = {
+  childList: true,
+  subtree: true,
+};
 
 // Pass in the target node (in this case, the whole document) and the observer options
-observer.observe(document, config);
+let postCommentContainers = document.querySelectorAll(
+  ".post-card__post-comment-container",
+);
+
+postCommentContainers.forEach((node) => {
+  observer.observe(node, config);
+});

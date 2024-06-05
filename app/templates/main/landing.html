@@ -37,8 +37,11 @@
     <div class="menu">
         <!-- Start Box -->
         <div class="start-box">
-            <img src="{{ url_for('static', filename='img/mmu-logo.png') }}" alt="MMU Logo" class="mmulogo">
-            <a href="{{ url_for('user.microsoft_login') }}" class="signup-link"><img src="{{ url_for('static', filename='svg/microsoft-logo.svg') }}">Sign up with student email</a>
+            {% include "svgs/mmu-logo.html" %}
+            <a href="{{ url_for('user.microsoft_login') }}" class="signup-link">
+            {% include "svgs/microsoft-logo.html" %}
+            
+            Sign up with student email</a>
         </div>
         
         <!-- Menu Links -->
@@ -460,7 +463,7 @@
         });
     }
 </script>
-    <script src="{{ url_for('static', filename='img/postInteractions.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/postInteractions.js') }}"></script>
     <script>
         function toggleAnswer(element) {
             element.classList.toggle('active');

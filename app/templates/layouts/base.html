@@ -24,7 +24,16 @@
     {% block css %}{% endblock %}
   </head>
   <body>
+    {# theme toggle before the content is loaded #}
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='scripts/themeToggle.js') }}"
+    ></script>
+
+    {# overlay #}
     <div class="overlay d-none" id="dropdownOverlay"></div>
+
+    {# scroll to top button #}
     <button type="button" class="btn d-none" id="scrollToTop">
       Scroll to top
     </button>

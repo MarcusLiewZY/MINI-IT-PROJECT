@@ -9,6 +9,8 @@
   --color---base---gray: #1a1a1a;
   --color---base---active-hover: #0050ff;
   --color---base---brown: #78350f;
+
+  /* light mode  */
   --color---neutral--neutral100: #ffffff;
   --color---neutral--neutral99: #fffbff;
   --color---neutral--neutral95: #f4f0ef;
@@ -21,6 +23,27 @@
   --color---neutral--neutral20: #313030;
   --color---neutral--neutral10: #1c1b1c;
   --color---neutral--neutral0: #000000;
+
+  /* dark mode  */
+  --color---dark-mode---neutral--neutral100: #1f2933;
+  --color---dark-mode---neutral--neutral99: #323f4b;
+  --color---dark-mode---neutral--neutral95: #3e4c59;
+  --color---dark-mode---neutral--neutral90: #52606d;
+  --color---dark-mode---neutral--neutral80: #616e7c;
+  --color---dark-mode---neutral--neutral70: #7b8794;
+  --color---dark-mode---neutral--neutral60: #9aa5b1;
+  --color---dark-mode---neutral--neutral50: #cbd2d9;
+  --color---dark-mode---neutral--neutral40: #e4e7eb;
+  --color---dark-mode---neutral--neutral20: #f5f7fa;
+  --color---dark-mode---neutral--neutral10: #f8fafc;
+  --color---dark-mode---neutral--neutral0: #ffffff;
+
+  --color---dark-mode---base---active: #1ac8df;
+  --color---dark-mode---base---active-hover: #00e1ff;
+  --color---dark-mode---base---error: #ff3a3a;
+  --color---dark-mode---base---brown: #993800;
+
+  /* accent and state color */
   --color---purple--purple90: #65558f;
   --color---purple--purple10: #eaddff;
   --color---status---pending: #9ca3af;
@@ -51,10 +74,19 @@
   --text--title--small: 0.88rem;
 
   /* Effect styles */
+  /* light mode */
   --small-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3),
     0px 2px 6px 2px rgba(0, 0, 0, 0.15);
   --card-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1),
     0px 4px 8px 3px rgba(0, 0, 0, 0.05);
   --modal-shadow: 0px 8px 16px rgba(0, 0, 0, 0.05),
     0px 2px 4px rgba(0, 0, 0, 0.25);
+
+  /* dark mode */
+  --dark-small-shadow: 0px 1px 2px hsla(180, 100%, 80%, 0.3),
+    0px 2px 6px 2px hsla(180, 100%, 80%, 0.15);
+  --dark-card-shadow: 0px 1px 3px hsla(180, 100%, 80%, 0.2),
+    0px 4px 8px 3px hsla(180, 100%, 80%, 0.1);
+  --dark-modal-shadow: 0px 8px 16px hsla(180, 100%, 80%, 0.1),
+    0px 2px 4px hsla(180, 100%, 80%, 0.5);
 }

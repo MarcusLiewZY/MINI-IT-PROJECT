@@ -16,11 +16,7 @@
       ></textarea>
 
       <button type="submit" class="flex flex-center submit-comment-button">
-        <img
-          src="{{ url_for('static', filename = 'svg/send-gray.svg') }}"
-          alt=""
-          class="icon"
-        />
+        {% include "svgs/send.html" %}
       </button>
     </div>
   </form>

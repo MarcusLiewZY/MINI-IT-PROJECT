@@ -31,17 +31,17 @@ class PostCardHandler {
         button.dataset.isPostLikedByUser = isPostLikedByUser.toString();
 
         const likeButton = postCard.querySelector(".like-button");
-        const likeButtonImg = likeButton.querySelector("img");
+        const likeButtonIcon = likeButton.querySelector("svg");
         const likeButtonCount = postCard.querySelector(`#like-count-${postId}`);
 
         if (isPostLikedByUser) {
-          likeButtonImg.src = "/static/svg/like-blue.svg";
+          likeButtonIcon.classList.add("liked");
           likeButtonCount.textContent =
             parseInt(likeButtonCount.textContent) + 1;
 
           likeButtonCount.parentNode.classList.add("text-active");
         } else {
-          likeButtonImg.src = "/static/svg/like.svg";
+          likeButtonIcon.classList.remove("liked");
           likeButtonCount.textContent = Math.max(
             0,
             parseInt(likeButtonCount.textContent) - 1,
@@ -79,11 +79,13 @@ class PostCardHandler {
           isPostBookmarkedByUser.toString();
 
         const bookmarkButton = postCard.querySelector(".bookmark-button");
-        const bookmarkButtonImg = bookmarkButton.querySelector("img");
+        const bookmarkButtonIcon = bookmarkButton.querySelector("svg");
 
-        bookmarkButtonImg.src = isPostBookmarkedByUser
-          ? "/static/svg/bookmark-brown.svg"
-          : "/static/svg/bookmark-gray.svg";
+        if (isPostBookmarkedByUser) {
+          bookmarkButtonIcon.classList.add("bookmarked");
+        } else {
+          bookmarkButtonIcon.classList.remove("bookmarked");
+        }
       } catch (error) {
         console.error("Error from likeButtonHandler:", error);
       }
@@ -122,41 +124,12 @@ class PostCardHandler {
   }
 
   // Setup button events
-  setupButtonEvents(
-    button,
-    defaultImagePath,
-    hoverImagePath,
-    callbackFunction,
-  ) {
+  setupButtonEvents(button, callbackFunction) {
     if (!button) return;
 
     // clone and replace to effectively remove multiple event listeners of the same node
     const newButton = button.cloneNode(true);
     button.parentNode.replaceChild(newButton, button);
-
-    const buttonImg = newButton.querySelector("img");
-
-    newButton.addEventListener("mouseover", () => {
-      buttonImg.src = hoverImagePath;
-    });
-
-    newButton.addEventListener("mouseout", () => {
-      const isPostLikedByUser =
-        newButton.dataset?.isPostLikedByUser?.toLowerCase() === "true";
-      const isPostBookmarkedByUser =
-        newButton.dataset?.isPostBookmarkedByUser?.toLowerCase() === "true";
-
-      if (isPostLikedByUser && newButton.classList.contains("like-button")) {
-        buttonImg.src = hoverImagePath;
-      } else if (
-        isPostBookmarkedByUser &&
-        newButton.classList.contains("bookmark-button")
-      ) {
-        buttonImg.src = hoverImagePath;
-      } else {
-        buttonImg.src = defaultImagePath;
-      }
-    });
 
     newButton.addEventListener("click", async () => {
       try {
@@ -175,48 +148,28 @@ class PostCardHandler {
     const buttonsInfo = [
       {
         buttonSelector: ".like-button",
-        defaultImagePath: "/static/svg/like.svg",
-        hoverImagePath: "/static/svg/like-blue.svg",
         onClickFunction: this.likeButtonHandler,
       },
       {
         buttonSelector: ".bookmark-button",
-        defaultImagePath: "/static/svg/bookmark-gray.svg",
-        hoverImagePath: "/static/svg/bookmark-brown.svg",
         onClickFunction: this.bookmarkButtonHandler,
       },
       {
         buttonSelector: ".edit-button",
-        defaultImagePath: "/static/svg/edit-gray.svg",
-        hoverImagePath: "/static/svg/edit-blue.svg",
         onClickFunction: this.editButtonHandler,
       },
       {
         buttonSelector: ".delete-button",
-        defaultImagePath: "/static/svg/bin-gray.svg",
-        hoverImagePath: "/static/svg/bin-red.svg",
         onClickFunction: this.deleteButtonHandler,
       },
     ];
 
-    buttonsInfo.forEach(
-      ({
-        buttonSelector,
-        defaultImagePath,
-        hoverImagePath,
-        onClickFunction,
-      }) => {
-        if (!reactContainer) return;
-        const button = reactContainer.querySelector(buttonSelector);
-        const callBackFunction = onClickFunction(postId);
-        this.setupButtonEvents(
-          button,
-          defaultImagePath,
-          hoverImagePath,
-          callBackFunction,
-        );
-      },
-    );
+    buttonsInfo.forEach(({ buttonSelector, onClickFunction }) => {
+      if (!reactContainer) return;
+      const button = reactContainer.querySelector(buttonSelector);
+      const callBackFunction = onClickFunction(postId);
+      this.setupButtonEvents(button, callBackFunction);
+    });
   }
 }
 
@@ -228,7 +181,7 @@ export const autoResizeCommentInput = () => {
     var commentInput = addCommentContainer.querySelector(".comment-input");
     const commentForm = addCommentContainer.querySelector("form");
     var submitButton = addCommentContainer.querySelector(
-      ".submit-comment-button img",
+      ".submit-comment-button svg",
     );
 
     ["input", "focus"].forEach((e) => {
@@ -243,19 +196,17 @@ export const autoResizeCommentInput = () => {
       commentInput.style.height = "auto";
     });
 
-    var defaultImagePath = "/static/svg/send-gray.svg";
-    var activeImagePath = "/static/svg/send-blue.svg";
+    // var defaultImagePath = "/static/svg/send-gray.svg";
+    // var activeImagePath = "/static/svg/send-blue.svg";
 
     ["focus", "input"].forEach((event) => {
       commentInput.addEventListener(event, () => {
-        submitButton.src = commentInput.value
-          ? activeImagePath
-          : defaultImagePath;
+        submitButton.classList.toggle("sent", commentInput.value.length > 0);
       });
     });
 
     commentInput.addEventListener("blur", () => {
-      submitButton.src = defaultImagePath;
+      submitButton.classList.remove("sent");
     });
   });
 };

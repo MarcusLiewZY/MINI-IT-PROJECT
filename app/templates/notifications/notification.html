@@ -87,10 +87,7 @@
       >
         {% include "notifications/notificationList.html" %}
         <div class="flex flex-center loading-container d-none">
-          <img
-            src="{{ url_for('static', filename = 'svg/loading-spinner-infinity.svg') }}"
-            alt="Loading spinner infinity"
-          />
+          {% include "svgs/infinity-loading-spinner.html" %}
         </div>
       </div>
     </div>

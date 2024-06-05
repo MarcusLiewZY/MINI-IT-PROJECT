@@ -14,9 +14,7 @@
             <span class="text-label-lg"
               >Anonymous_{{ post.postCreator.anon_no }}</span
             >
-            <div class="ml-2 campus-tag">
-              {{ post.postCreator.campus.value }}
-            </div>
+            <div class="ml-2 campus-tag">{{ post.postCreator.campus }}</div>
           </div>
           <div class="date">{{ post.timeAgo }}</div>
         </div>
@@ -29,42 +27,30 @@
               class="inline-flex like-button"
               data-is-post-liked-by-user="{{ post.userInteraction.isLikedByUser }}"
             >
-              <img
-                src="{{ url_for('static', filename= 'svg/like-blue.svg' if post.userInteraction.isLikedByUser else 'svg/like.svg') }}"
-                alt="like"
-                class="icon"
-              />
+              {% with isLikedByUser = 'liked' if post.userInteraction.isLikedByUser else '' %}
+                {% include "svgs/like.html" %}
+              {% endwith %}
             </div>
 
             <div
               class="inline-flex bookmark-button"
               data-is-post-bookmarked-by-user="{{ post.userInteraction.isBookmarkedByUser }}"
             >
-              <img
-                src="{{ url_for('static', filename= 'svg/bookmark-brown.svg' if post.userInteraction.isBookmarkedByUser else 'svg/bookmark-gray.svg') }}"
-                alt="bookmark"
-                class="icon"
-              />
+              {% with class= 'svg-fill-brown', isBookmarkedByUser = 'bookmarked' if post.userInteraction.isBookmarkedByUser else '' %}
+                {% include "svgs/bookmark.html" %}
+              {% endwith %}
             </div>
           {% endif %}
 
           {% if post.isCreator %}
             <div class="inline-flex edit-button">
-              <img
-                src="{{ url_for('static', filename= 'svg/edit-gray.svg') }}"
-                alt="edit"
-                class="icon"
-              />
+              {% include "svgs/edit.html" %}
             </div>
           {% endif %}
 
           {% if post.isCreator %}
             <div class="inline-flex delete-button">
-              <img
-                src="{{ url_for('static', filename= 'svg/bin-gray.svg') }}"
-                alt="bin"
-                class="icon"
-              />
+              {% include "svgs/bin.html" %}
             </div>
           {% endif %}
         {% endif %}
