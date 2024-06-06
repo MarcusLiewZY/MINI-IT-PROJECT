@@ -51,5 +51,5 @@ window
   .matchMedia("(prefers-color-scheme: dark)")
   .addEventListener("change", ({ matches: isDark }) => {
     theme.value = isDark ? "dark" : "light";
-    setThemePreference;
+    setThemePreference();
   });

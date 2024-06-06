@@ -115,6 +115,7 @@ class MultiSelectDropdownMenu {
       .classList.toggle("d-none", !this.isDropdownOpen);
 
     this.dropdownMenu.classList.toggle("show", this.isDropdownOpen);
+    this.dropdownSearch.focus();
   };
 
   closeDropdown = (event) => {
