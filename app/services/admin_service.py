@@ -1,6 +1,6 @@
-from typing import List, Union, Tuple, Dict
+from typing import List, Union, Tuple
 
-from app.models import User, Post, Status, Comment
+from app.models import Post, PostStatus, Comment, CommentStatus
 from app.dto import AdminNotificationDTO
 
 
@@ -13,7 +13,7 @@ def get_reporting_comments() -> Tuple[int, List[Comment]]:
         Tuple[int, List[Comment]]: Number of reporting comments and reporting comments.
     """
     reporting_comments = (
-        Comment.query.filter(Comment.is_report == True)
+        Comment.query.filter(Comment.status == CommentStatus.REPORTED)
         .order_by(Comment.updated_at.asc())
         .all()
     )
@@ -30,7 +30,7 @@ def get_approving_post():
         Tuple[int, List[Post]]: Number of approving posts and approving posts.
     """
     approving_post = (
-        Post.query.filter(Post.status == Status.PENDING)
+        Post.query.filter(Post.status == PostStatus.PENDING)
         .order_by(Post.updated_at.asc())
         .all()
     )
@@ -89,7 +89,7 @@ def get_paginate_reporting_comments(
     """
 
     reporting_comments = (
-        Comment.query.filter(Comment.is_report == True)
+        Comment.query.filter(Comment.status == CommentStatus.REPORTED)
         .order_by(Comment.updated_at.asc())
         .paginate(page=page, per_page=per_page, error_out=False)
     )
@@ -116,14 +116,8 @@ def get_paginate_approving_post(
         Tuple[bool, List[Comment]]: A tuple containing a boolean indicating if there are more approving posts and a list of adminNotificationDTOs.
     """
 
-    # approving_posts = (
-    #     Comment.query.filter(Comment.is_report == True)
-    #     .order_by(Comment.updated_at.asc())
-    #     .paginate(page=page, per_page=per_page, error_out=False)
-    # )
-
     approving_posts = (
-        Post.query.filter(Post.status == Status.PENDING)
+        Post.query.filter(Post.status == PostStatus.PENDING)
         .order_by(Post.updated_at.asc())
         .paginate(page=page, per_page=per_page, error_out=False)
     )

@@ -51,7 +51,7 @@
           </div>
         </li>
         <li
-          class="trnsition-medium filter-category-item
+          class="transition-medium filter-category-item
         {{ 'filter-category-item__active' if request.args.get('filter') == 'post-status' else '' }}
         "
           id="notificationPagePostStatusFilter"
@@ -73,7 +73,6 @@
         <div>
           <h2 class="text-headline-sm">Notifications</h2>
         </div>
-        {# todo: implement mark all as read feature #}
         <div class="mb-2 mark-as-read" id="notificationPageMarkAsReadButton">
           <button type="button" class="link text-label-lg">
             Mark all as read
@@ -88,10 +87,7 @@
       >
         {% include "notifications/notificationList.html" %}
         <div class="flex flex-center loading-container d-none">
-          <img
-            src="{{ url_for('static', filename = 'svg/loading-spinner-infinity.svg') }}"
-            alt="Loading spinner infinity"
-          />
+          {% include "svgs/infinity-loading-spinner.html" %}
         </div>
       </div>
     </div>

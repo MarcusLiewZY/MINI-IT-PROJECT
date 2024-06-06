@@ -184,7 +184,6 @@ class ApprovingPostHandler {
         const response = await fetch(`/api/posts/${postId}/post-status`, {
           method: "PUT",
           body: JSON.stringify({
-            userId: this.userId,
             postStatus: "unread_approved",
           }),
           headers: {
@@ -207,7 +206,6 @@ class ApprovingPostHandler {
         const response = await fetch(`/api/posts/${postId}/post-status`, {
           method: "PUT",
           body: JSON.stringify({
-            userId: this.userId,
             postStatus: "unread_rejected",
           }),
           headers: {

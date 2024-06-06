@@ -1,3 +1,5 @@
+import { scrollToTopElement } from "./utils.js";
+
 const notificationFilterMapping = {
   all: "all",
   posts: "posts",
@@ -123,6 +125,47 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
   };
+
+  const isLoadAllPostStatus = sessionStorage.getItem("isLoadAllPostStatus");
+
+  const onLoadAllPostStatus = async () => {
+    try {
+      await notificationOnLoadInfiniteScroll(
+        notificationContainer,
+        "post-status",
+        notificationBaseUrl,
+        {
+          page: 1,
+          perPage: 10000,
+          isLoading: false,
+          hasNextPage: true,
+        },
+      );
+
+      sessionStorage.removeItem("isLoadAllPostStatus");
+
+      // get the post id from the url and scroll to that post
+      const postId = window.location.hash.split("#")[1];
+
+      if (!postId) return;
+
+      const postElement = document.getElementById(postId);
+
+      if (!postElement) return;
+
+      if (notificationContainer.offsetHeight <= window.innerHeight) return;
+
+      postElement.scrollIntoView({ behavior: "smooth" });
+      scrollToTopElement(document, 0, 5000);
+    } catch (error) {
+      console.error("Error from onLoadAllPostStatus: ", error);
+    }
+  };
+
+  if (isLoadAllPostStatus) {
+    onLoadAllPostStatus();
+    return;
+  }
 
   window.addEventListener("scroll", () => {
     notificationHandleScroll(

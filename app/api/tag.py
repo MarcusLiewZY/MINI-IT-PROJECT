@@ -8,10 +8,11 @@ from . import api
 from app import db
 from app.models.tag import Tag
 from app.utils.api_utils import error_message
-from app.utils.helper import format_datetime
+from app.utils.decorators import api_login_required
 
 
 @api.route("/tags", methods=["GET"])
+@api_login_required
 def get_tags():
     """
     Get all tag-name and tag-color pairs.
@@ -21,19 +22,29 @@ def get_tags():
     """
     try:
         tags = Tag.query.all()
+
         tags_dict = {}
+
         for tag in tags:
             tags_dict[tag.name] = tag.color
-        return jsonify(tags_dict), responseStatus.OK
+
+        return jsonify(
+            {
+                "status": responseStatus.OK,
+                "message": "Tags retrieved successfully",
+                "tags": tags_dict,
+            },
+            responseStatus.OK,
+        )
     except Exception as e:
         print(e)
-        return (
-            error_message("Internal Server Error"),
-            responseStatus.INTERNAL_SERVER_ERROR,
+        return error_message(
+            "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
         )
 
 
 @api.route("/tags", methods=["POST"])
+@api_login_required
 def create_tag():
     """
     Create a new tag.
@@ -46,12 +57,17 @@ def create_tag():
     """
     try:
         data = request.json
+        name = data.get("name")
+
+        if Tag.query.filter(Tag.name == name).first():
+            return error_message("Tag already exists", responseStatus.CONFLICT)
+
         tag = Tag(
             {
-                "name": data.get("name"),
+                "name": name,
                 "color": data.get("color"),
                 "description": data.get("description"),
-                "created_at": format_datetime(datetime.now()),
+                "created_at": datetime.now(),
             }
         )
 
@@ -83,6 +99,7 @@ def create_tag():
 
 
 @api.route("/tags/<tag_id>", methods=["GET"])
+@api_login_required
 def get_tag(tag_id):
     """
     Get a tag by its id.
@@ -120,6 +137,7 @@ def get_tag(tag_id):
 
 
 @api.route("/tags/<tag_id>", methods=["PUT"])
+@api_login_required
 def edit_tag(tag_id):
     """
     Edit a tag by its id.
@@ -139,10 +157,15 @@ def edit_tag(tag_id):
         if tag is None:
             return error_message("Tag not found", responseStatus.NOT_FOUND)
 
-        tag.name = data.get("name")
+        name = data.get("name")
+
+        if Tag.query.filter(Tag.name == name).first() is not None:
+            return error_message("Tag already exists", responseStatus.CONFLICT)
+
+        tag.name = name
         tag.color = data.get("color")
         tag.description = data.get("description")
-        tag.updated_at = format_datetime(datetime.now())
+        tag.updated_at = datetime.now()
 
         db.session.commit()
 
@@ -171,6 +194,7 @@ def edit_tag(tag_id):
 
 
 @api.route("/tags/<tag_id>", methods=["DELETE"])
+@api_login_required
 def delete_tag(tag_id):
     """
     Delete a tag by its id.

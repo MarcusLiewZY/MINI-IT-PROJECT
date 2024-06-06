@@ -6,7 +6,6 @@ from app import oauth, db
 from app.models import User
 from . import user
 from app.utils.decorators import logout_required
-from app.utils.helper import format_datetime
 
 
 @user.route("/sign-up")
@@ -33,13 +32,18 @@ def microsoft_auth():
 
     avatar_response = microsoft_client.get(avatar_endpoint)
 
+    avatar_url = None
+
     if avatar_response.status_code == 200:
         avatar_url = avatar_endpoint
-    else:
-        avatar_url = None  # or a default avatar URL
 
     if user:
         login_user(user)
+
+        # when the user sign up for the first time, the user.anon_no is None
+        if user.anon_no is None:
+            return redirect(url_for("main.community_guidelines"))
+
         flash("Successfully logged in", "success")
         return redirect(url_for("main.index"))
     else:
@@ -54,7 +58,7 @@ def microsoft_auth():
                 "password": user_info["mail"],
                 "username": user_info["displayName"],
                 "avatar_url": avatar_url,
-                "created_at": format_datetime(datetime.now()),
+                "created_at": datetime.now(),
             }
         )
         db.session.add(user)

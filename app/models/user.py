@@ -1,4 +1,5 @@
-import uuid, random
+from uuid import uuid4
+import random
 from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import UUID
 from enum import Enum
@@ -14,38 +15,59 @@ class Campus(Enum):
 
 PostLike = db.Table(
     "PostLike",
-    db.Column("user_id", UUID(as_uuid=True), db.ForeignKey("User.id")),
-    db.Column("post_id", UUID(as_uuid=True), db.ForeignKey("Post.id")),
+    db.Column(
+        "user_id", UUID(as_uuid=True), db.ForeignKey("User.id", ondelete="CASCADE")
+    ),
+    db.Column(
+        "post_id", UUID(as_uuid=True), db.ForeignKey("Post.id", ondelete="CASCADE")
+    ),
     db.Column("created_at", db.Text, nullable=False),
 )
 
 PostBookmark = db.Table(
     "PostBookmark",
-    db.Column("user_id", UUID(as_uuid=True), db.ForeignKey("User.id")),
-    db.Column("post_id", UUID(as_uuid=True), db.ForeignKey("Post.id")),
+    db.Column(
+        "user_id", UUID(as_uuid=True), db.ForeignKey("User.id", ondelete="CASCADE")
+    ),
+    db.Column(
+        "post_id", UUID(as_uuid=True), db.ForeignKey("Post.id", ondelete="CASCADE")
+    ),
     db.Column("created_at", db.Text, nullable=False),
 )
 
 CommentLike = db.Table(
     "CommentLike",
-    db.Column("user_id", UUID(as_uuid=True), db.ForeignKey("User.id")),
-    db.Column("comment_id", UUID(as_uuid=True), db.ForeignKey("Comment.id")),
+    db.Column(
+        "user_id", UUID(as_uuid=True), db.ForeignKey("User.id", ondelete="CASCADE")
+    ),
+    db.Column(
+        "comment_id",
+        UUID(as_uuid=True),
+        db.ForeignKey("Comment.id", ondelete="CASCADE"),
+    ),
 )
 
 
 class User(UserMixin, db.Model):
     __tablename__ = "User"
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id = db.Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid4,
+        unique=True,
+        nullable=False,
+        server_default=db.text("(gen_random_uuid())"),
+    )
     email = db.Column(db.String(60), unique=True, nullable=False)
     anon_no = db.Column(db.String(4), nullable=True)
-    password = db.Column(db.String(60), nullable=False)
+    password = db.Column(db.String(200), nullable=False)
     username = db.Column(db.String(60), nullable=False)
     avatar_url = db.Column(db.String(200), nullable=True)
     campus = db.Column(db.Enum(Campus), default=Campus.NONE)
     is_admin = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.Text, nullable=False)
-    updated_at = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
 
     # relationship
     posts = db.relationship(
@@ -78,7 +100,7 @@ class User(UserMixin, db.Model):
 
     def __init__(self, user_dict, *args, **kwargs):
         self.email = user_dict.get("email")
-        self.anon_no = self.generate_anon_no()
+        self.anon_no = None  # only assign when the user accept the community guidelines
         self.password = bcrypt.generate_password_hash(user_dict.get("password"))
         self.username = user_dict.get("username")
         self.avatar_url = user_dict.get("avatar_url")
@@ -91,16 +113,17 @@ class User(UserMixin, db.Model):
         return f"<User {self.username} with email {self.email}>"
 
     # four random digits, exp: 3932
-    def generate_anon_no(self):
+    @staticmethod
+    def generate_anon_no():
         random_no = [random.randint(0, 9) for _ in range(4)]
         return "".join(map(str, random_no))
 
 
+# The user_loader callback is used to reload the user object from the user ID stored in the session.
 @login_manager.user_loader
 def user_loader(user_id):
-    try:
-        user_id = uuid.UUID(user_id)
-    except ValueError:
+    # user_id = user_id
+    if not user_id:
         return None  # Return None if user_id is not a valid UUID
 
     return User.query.filter(User.id == user_id).first()

@@ -1,0 +1,165 @@
+<div class="card py-6 flex flex-col post-card" id="editPostCard">
+  <div class="flex flex-col px-8">
+    <div class="flex flex-between post-card__user-info-container">
+      <div class="flex flex-center user-container">
+        {% with avatar_url=user.avatar_url , owner = user %}
+          {% include "layouts/avatar.html" %}
+        {% endwith %}
+        <div class="ml-6 flex flex-col">
+          <div class="mb-1 flex flex-center user-info-text">
+            <span class="text-label-lg">Anonymous_{{ user.anon_no }}</span>
+            <div class="ml-2 campus-tag">{{ user.campus.value }}</div>
+          </div>
+          <div class="date">just now</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# post #}
+  <form
+    class="px-8 flex flex-col gap-4 post-form-container"
+    action=""
+    method="POST"
+    enctype="multipart/form-data"
+    id="editPostForm"
+  >
+    {# error message #}
+    <div class="text-label-lg error-message d-none" id="editPostErrorMessage">
+      Error message
+    </div>
+
+    {# post title #}
+    <div class="flex flex-col post-card__post-preview-container">
+      <div class="mb-4 form-container">
+        <label for="postTitle" class="d-none"></label>
+        <input
+          type="text"
+          id="postTitle"
+          name="title"
+          class="text-title-lg"
+          placeholder="Post Title..."
+          autofill="off"
+          autocomplete="off"
+          value="{{ post.title }}"
+        />
+      </div>
+
+      {# post tags #}
+      <div class="mb-2 flex post-tag-container post-tag-dropdown">
+        <div class="flex gap-2 badge-container" id="postTagBadgeContainer">
+          {% for tag in post.tags %}
+            <div
+              class="text-label-sm post-tag post-tag__edit"
+              id="post-tag-badge-{{ tag.id }}"
+              style="background-color: {{ tag.color }};"
+            >
+              {{ tag.name }}
+            </div>
+          {% endfor %}
+          <button
+            type="button"
+            class="text-label-sm post-tag post-tag__menu-dropdown-button"
+            id="postTagDropDownButton"
+          >
+            Add Tag (Max 5 Tags)
+          </button>
+        </div>
+        <div class="dropdown-content shadow-card dropdown-overlay">
+          <input
+            type="text"
+            placeholder="Search..."
+            id="postTagDropDownSearch"
+          />
+          <ul id="postTagDropDownList">
+            {% for tag in tags %}
+              <li class="text-label-sm post-tag__menu-dropdown-item">
+                <input
+                  type="checkbox"
+                  id="{{ tag.id }}"
+                  value="{{ tag.name }}"
+                  data-color="{{ tag.color }}"
+                />
+                <label for="{{ tag.id }}">{{ tag.name }}</label>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      {# post content #}
+      <div class="mb-4 form-container">
+        <label for="postContent" class="d-none"></label>
+        <textarea
+          name="content"
+          id="postContent"
+          class="py-1 text-body-lg"
+          placeholder="Post content..."
+          rows="1"
+        >
+{{ post.content }}</textarea
+        >
+      </div>
+
+      {# upload image field #}
+      <div class="form-container">
+        <div class="image-upload-container">
+          <div
+            class="create-post-preview-image-cont
+          ainer"
+            id="editPostPreviewImageContainer"
+          >
+            <img
+              src="{{ post.image_url if post.image_url else '' }}"
+              alt="preview image"
+              class="{{ 'd-none' if not post.image_url else '' }}"
+            />
+          </div>
+          <label for="createPostUploadImageInput" class="d-none"></label>
+          <input
+            type="file"
+            id="editPostUploadImageInput"
+            accept="image/*"
+            class="d-none"
+            name="image"
+            value="{{ post.image_url }}"
+          />
+          <div
+            class="flex gap-2 upload-image-container {{ 'd-none' if post.image_url else '' }}"
+          >
+            <button type="button" id="editPostUploadImageButton" class="link">
+              Upload Image
+            </button>
+            <span class="text-label-sm upload-image-info"
+              >(only one picture is allowed)</span
+            >
+          </div>
+          <button
+            type="button"
+            class="link {{ 'd-none' if not post.image_url else '' }}"
+            id="editPostRemoveImageButton"
+          >
+            Remove Image
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <footer>
+      <div class="flex gap-3 action-button-container">
+        <button
+          type="button"
+          class="btn btn-muted buttonclose "
+          id="editPostCancelButton"
+        >
+          Cancel
+        </button>
+        <button type="submit" class="btn" id="editPostSubmitButton">
+          Save
+        </button>
+      </div>
+    </footer>
+  </form>
+</div>

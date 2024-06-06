@@ -24,7 +24,7 @@
         </li>
         <li
           class="transition-medium filter-category-item
-        {{ 'filter-category-item__active' if request.args.get('filter') == 'approving-post' else '' }}
+        {{ 'filter-category-item__active' if request.args.get('filter') == 'approving-posts' else '' }}
         "
           id="adminPageApprovingPostsFilter"
         >
@@ -58,11 +58,7 @@
             class="transition-slow toggle-heading-container"
             id="adminPageTagListToggleButton"
           >
-            <img
-              src="{{ url_for('static', filename = 'svg/chevron-right.svg') }}"
-              alt="chevron-right"
-              class="transition-medium"
-            />
+            {% include "svgs/chevron-right.html" %}
             <div class="text-headline-sm">Tags</div>
           </div>
           <button
@@ -70,10 +66,7 @@
             class="inline-flex flex-center px-2 py-1 transition-fast"
             id="adminPageCreateTagModalButton"
           >
-            <img
-              src="{{ url_for('static', filename = 'svg/plus.svg') }}"
-              alt="plus-button"
-            />
+            {% include "svgs/plus.html" %}
           </button>
         </div>
         <div class="tag-list transition-medium" id="adminPageTagToggleList">
@@ -107,10 +100,7 @@
       >
         {% include "admin/adminList.html" %}
         <div class="flex flex-center loading-container d-none">
-          <img
-            src="{{ url_for('static', filename = 'svg/loading-spinner-infinity.svg') }}"
-            alt="Loading spinner infinity"
-          />
+          {% include "svgs/infinity-loading-spinner.html" %}
         </div>
       </div>
     </div>

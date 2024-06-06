@@ -10,14 +10,10 @@
           {% include "layouts/avatar.html" %}
         {% endwith %}
         <div
-          id="createPostModalOpenButton"
+          id="createPostPageButton"
           class="flex px-4 py-2 create-post-container text-body-md"
         >
-          <img
-            src="{{ url_for('static', filename = 'svg/pencil.svg') }}"
-            alt="pencil"
-            class="icon"
-          />
+          {% include "svgs/pencil.html" %}
           <div>Create post...</div>
         </div>
       </div>
@@ -28,16 +24,11 @@
       >
         {% include "layouts/postCardList.html" %}
         <div class="flex flex-center loading-container d-none">
-          <img
-            src="{{ url_for('static', filename = 'svg/loading-spinner-infinity.svg') }}"
-            alt="Loading spinner infinity"
-          />
+          {% include "svgs/infinity-loading-spinner.html" %}
         </div>
       </div>
     </section>
   </div>
-
-  {% include "post/createPostModal.html" %}
 
   <div class="hidden" id="userInfo" data-user-info="{{ user }}"></div>
 {% endblock content %}

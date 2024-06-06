@@ -1,37 +1,28 @@
 import os
+from datetime import datetime
 from flask import render_template, request, flash, redirect, url_for
 from flask_login import current_user
-from app.utils.decorators import login_required, logout_required
-from datetime import datetime
 
 from . import main
 from app import db
-from app.models import User, Campus, Tag
-from app.forms import CreatePostForm
-from app.utils.helper import format_datetime
-from app.services.post_service import get_posts, create_post
+from app.models import User, Campus
+from app.services.post_service import get_posts
+from app.utils.decorators import (
+    login_required,
+    logout_required,
+    require_accept_community_guideline,
+)
 
 
-@main.route("/", methods=["GET", "POST"])
+@main.route("/", methods=["GET"])
 @login_required
+@require_accept_community_guideline
 def index():
-    createPostForm = CreatePostForm()
-    createPostForm.set_tag_choices()
-    if request.method == "POST":
-        if createPostForm.validate_on_submit():
-            isSuccess, message = create_post(createPostForm)
-            flash(message, "success" if isSuccess else "error")
-            if isSuccess:
-                return redirect(url_for("main.index"))
-
     user = User.query.get(current_user.id)
-    tags = Tag.query.all()
 
     return render_template(
         "main/index.html",
         user=user,
-        tags=tags,
-        createPostForm=createPostForm,
     )
 
 
@@ -45,7 +36,7 @@ def landing():
 @login_required
 def community_guidelines():
     user = User.query.get(current_user.id)
-    need_confirm = True if user.campus is Campus.NONE else False
+    need_confirm = True if user.anon_no is None else False
     return render_template(
         "main/communityGuidelines.html", need_confirm=need_confirm, user=user
     )
@@ -54,15 +45,23 @@ def community_guidelines():
 @main.route("/campus-selection", methods=["GET", "POST"])
 @login_required
 def campus_selection():
+
+    # update the user anon number as the user accept the community guidelines
+    if request.method == "POST":
+        user = User.query.get(current_user.id)
+        user.anon_no = User.generate_anon_no()
+        db.session.commit()
+
     return render_template("campus-selection/campus.html", user=current_user)
 
 
 @main.route("/campus-selection/<campus>")
+@login_required
+@require_accept_community_guideline
 def campus_selection_handler(campus):
-    print("campus is selected")
     user = User.query.get(current_user.id)
     user.campus = campus
-    user.updated_at = format_datetime(datetime.now())
+    user.updated_at = datetime.now()
     db.session.commit()
     flash("Welcome to MMU Confession", "success")
     return redirect(url_for("main.index"))

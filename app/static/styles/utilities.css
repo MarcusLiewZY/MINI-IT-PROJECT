@@ -29,6 +29,10 @@
   background-color: var(--color---neutral--neutral95);
 }
 
+[data-theme="dark"] .bg-neutral-95 {
+  background-color: var(--color---dark-mode---neutral--neutral95);
+}
+
 /* topography */
 .text-display-lg {
   font-size: var(--text--display--large);
@@ -149,12 +153,24 @@
   font-weight: 500;
 }
 
+[data-theme="dark"] .text-active {
+  color: var(--color---dark-mode---base---active) !important;
+}
+
 .text-muted {
-  color: var(--color---neutral--neutral50) !important;
+  color: var(--color---dark-mode---neutral--neutral50) !important;
+}
+
+[data-theme="dark"] .text-muted {
+  color: var(--color---dark-mode---neutral50) !important;
 }
 
 .text-error {
   color: var(--color---base---error) !important;
+}
+
+[data-theme="dark"] .text-error {
+  color: var(--color---dark-mode---base---error) !important;
 }
 
 /* layout */
@@ -1320,6 +1336,18 @@
   box-shadow: var(--modal-shadow);
 }
 
+[data-theme="dark"] .shadow-small {
+  box-shadow: var(--dark-small-shadow);
+}
+
+[data-theme="dark"] .shadow-card {
+  box-shadow: var(--dark-card-shadow);
+}
+
+[data-theme="dark"] .shadow-modal {
+  box-shadow: var(--dark-modal-shadow);
+}
+
 /* transition */
 .transition-fast {
   transition: all 0.1s ease;
@@ -1395,5 +1423,29 @@
 
   to {
     opacity: 1;
+  }
+}
+
+@keyframes scrollToTopFadeOut {
+  from {
+    opacity: 1;
+    bottom: 1.25rem;
+  }
+
+  to {
+    opacity: 0;
+    bottom: 2rem;
+  }
+}
+
+@-webkit-keyframes scrollToTopFadeOut {
+  from {
+    opacity: 1;
+    bottom: 1.25rem;
+  }
+
+  to {
+    opacity: 0;
+    bottom: 2rem;
   }
 }

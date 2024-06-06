@@ -3,12 +3,18 @@ from flask_login import login_user, current_user
 
 from . import admin
 from app.models import User, Tag
-from app.utils.decorators import logout_required, login_required, is_admin
+from app.utils.decorators import (
+    logout_required,
+    login_required,
+    is_admin,
+    require_accept_community_guideline,
+)
 from app.services.admin_service import get_agg_admin_notifications
 
 
 @admin.route("")
 @login_required
+@require_accept_community_guideline
 @is_admin
 def index():
     filter = request.args.get("filter")

@@ -6,12 +6,12 @@ from faker import Faker
 from app import app
 from app import db
 from app.models.user import User, PostLike, PostBookmark
-from app.models.post import Post, Status
+from app.models.post import Post, PostStatus
 from app.models.comment import Comment
 from app.models.postNotification import PostNotification
 from app.models.commentNotification import CommentNotification
 from app.models.tag import Tag
-from app.utils.helper import format_datetime, upload_image
+from app.utils.helper import upload_image
 from app.utils.cliColor import Colors
 
 fake = Faker()
@@ -75,17 +75,18 @@ def seeds():
                 "avatar_url": cloudinary_avatar_url,
                 "campus": random.choice(["CYBERJAYA", "MALACCA"]),
                 "is_admin": False,
-                "created_at": format_datetime(
-                    fake.date_between(
-                        start_date=datetime(2020, 1, 1),
-                        end_date=datetime(2021, 12, 31),
-                    )
+                "created_at": fake.date_between(
+                    start_date=datetime(2020, 1, 1),
+                    end_date=datetime(2021, 12, 31),
                 ),
             }
         )
         print(Colors.fg.green, f"User {i+1} created")
         db.session.add(user)
         db.session.commit()
+
+        user.anon_no = User.generate_anon_no()
+
     print(Colors.fg.green, "-" * 50)
     print(Colors.fg.green, "Users created successfully!")
 
@@ -100,9 +101,7 @@ def seeds():
                 "name": tag_data["name"],
                 "color": tag_data["color"],
                 "description": tag_data["description"],
-                "created_at": format_datetime(
-                    datetime.strptime("2018-01-01", "%Y-%m-%d")
-                ),
+                "created_at": datetime(2018, 1, 1),
             }
         )
         db.session.add(tag)
@@ -126,17 +125,13 @@ def seeds():
                     "title": fake.text(max_nb_chars=120),
                     "content": "\n".join(fake.paragraphs(nb=random.randint(2, 6))),
                     "image_url": cloudinary_image_url,
-                    "created_at": format_datetime(
-                        fake.date_between(
-                            start_date=datetime.strptime(
-                                user.created_at, "%Y-%m-%d %H:%M:%S"
-                            ),
-                            end_date=datetime(2021, 12, 31),
-                        )
+                    "created_at": fake.date_between(
+                        start_date=user.created_at,
+                        end_date=datetime(2021, 12, 31),
                     ),
                 }
             )
-            post.status = Status.APPROVED
+            post.status = PostStatus.APPROVED
             post.user_id = user.id
             db.session.add(post)
         db.session.commit()
@@ -166,11 +161,9 @@ def seeds():
         for user in random.sample(
             users, random.randint(MIN_LIKES_PER_POST, MAX_LIKES_PER_POST)
         ):
-            created_at = format_datetime(
-                fake.date_between(
-                    start_date=datetime.strptime(post.updated_at, "%Y-%m-%d %H:%M:%S"),
-                    end_date=datetime(2023, 12, 31),
-                )
+            created_at = fake.date_between(
+                start_date=post.updated_at,
+                end_date=datetime(2023, 12, 31),
             )
             liked_post_user = insert(PostLike).values(
                 user_id=user.id, post_id=post.id, created_at=created_at
@@ -189,12 +182,11 @@ def seeds():
         for user in random.sample(
             users, random.randint(MIN_BOOKMARKS_PER_POST, MAX_BOOKMARKS_PER_POST)
         ):
-            created_at = format_datetime(
-                fake.date_between(
-                    start_date=datetime.strptime(post.updated_at, "%Y-%m-%d %H:%M:%S"),
-                    end_date=datetime(2023, 12, 31),
-                )
+            created_at = fake.date_between(
+                start_date=post.updated_at,
+                end_date=datetime(2023, 12, 31),
             )
+
             bookmarked_post_user = insert(PostBookmark).values(
                 user_id=user.id, post_id=post.id, created_at=created_at
             )
@@ -213,13 +205,9 @@ def seeds():
             comment = Comment(
                 {
                     "content": fake.text(),
-                    "created_at": format_datetime(
-                        fake.date_between(
-                            start_date=datetime.strptime(
-                                post.created_at, "%Y-%m-%d %H:%M:%S"
-                            ),
-                            end_date=datetime(2022, 12, 31),
-                        )
+                    "created_at": fake.date_between(
+                        start_date=post.created_at,
+                        end_date=datetime(2022, 12, 31),
                     ),
                 }
             )
@@ -252,13 +240,9 @@ def seeds():
             reply_comment = Comment(
                 {
                     "content": fake.text(),
-                    "created_at": format_datetime(
-                        fake.date_between(
-                            start_date=datetime.strptime(
-                                comment.created_at, "%Y-%m-%d %H:%M:%S"
-                            ),
-                            end_date=datetime(2023, 12, 31),
-                        )
+                    "created_at": fake.date_between(
+                        start_date=comment.created_at,
+                        end_date=datetime(2023, 12, 31),
                     ),
                 }
             )

@@ -6,15 +6,14 @@ from http import HTTPStatus as responseStatus
 
 from . import api
 from app import db
-from app.models import Post, PostNotification, CommentNotification, Comment, Status
+from app.models import Post, PostNotification, CommentNotification, Comment, PostStatus
 from app.services.notification_service import get_all_notifications
-from app.utils.helper import format_datetime
 from app.utils.api_utils import error_message
-from app.utils.decorators import login_required
+from app.utils.decorators import api_login_required
 
 
 @api.route("/notifications/count", methods=["GET"])
-@login_required
+@api_login_required
 def get_all_notification_count():
     """
     Get the count of all the notifications for the current user
@@ -44,7 +43,7 @@ def get_all_notification_count():
 
 
 @api.route("/notifications/<id>", methods=["PUT"])
-@login_required
+@api_login_required
 def update_notification(id):
     """
     Update the notification based on the notification type.
@@ -166,18 +165,18 @@ def update_notification(id):
             if post is None:
                 return error_message("Post not found", responseStatus.NOT_FOUND)
 
-            if post.status == Status.PENDING:
+            if post.status == PostStatus.PENDING:
                 pass
             elif (
-                post.status == Status.UNREAD_APPROVED
-                or post.status == Status.UNREAD_REJECTED
+                post.status == PostStatus.UNREAD_APPROVED
+                or post.status == PostStatus.UNREAD_REJECTED
             ):
-                if post.status == Status.UNREAD_APPROVED:
-                    post.status = Status.APPROVED
+                if post.status == PostStatus.UNREAD_APPROVED:
+                    post.status = PostStatus.APPROVED
                 else:
-                    post.status = Status.REJECTED
+                    post.status = PostStatus.REJECTED
 
-                post.updated_at = format_datetime(datetime.now())
+                post.updated_at = datetime.now()
                 db.session.commit()
             else:
                 return error_message(
@@ -203,6 +202,7 @@ def update_notification(id):
             )
 
     except Exception as e:
+        db.session.rollback()
         print(e)
         return error_message(
             "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
@@ -212,6 +212,7 @@ def update_notification(id):
 @api.route(
     "/notifications/post-notifications/<post_notification_id>", methods=["DELETE"]
 )
+@api_login_required
 def delete_post_notification(post_notification_id):
     """
     Permanent delete a post notification.
@@ -247,6 +248,7 @@ def delete_post_notification(post_notification_id):
         )
 
     except Exception as e:
+        db.session.rollback()
         print(e)
         return error_message(
             "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
@@ -256,6 +258,7 @@ def delete_post_notification(post_notification_id):
 @api.route(
     "/notifications/comment-notifications/<comment_notification_id>", methods=["DELETE"]
 )
+@api_login_required
 def delete_comment_notification(comment_notification_id):
     """
     Permanent delete a comment notification.
@@ -291,6 +294,7 @@ def delete_comment_notification(comment_notification_id):
         )
 
     except Exception as e:
+        db.session.rollback()
         print(e)
         return error_message(
             "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
@@ -298,6 +302,7 @@ def delete_comment_notification(comment_notification_id):
 
 
 @api.route("/notifications/mark-all-as-read", methods=["PUT"])
+@api_login_required
 def mark_all_as_read_notifications():
     """
     Mark all as read notifications.
@@ -308,22 +313,12 @@ def mark_all_as_read_notifications():
     """
     try:
         filter = request.args.get("filter")
-        user_id = request.json.get("user_id")
+        user_id = current_user.id
 
         if filter is None:
             return error_message(
                 "Filter required parameter is missing", responseStatus.BAD_REQUEST
             )
-
-        if user_id is None:
-            return error_message(
-                "User id required parameter is missing", responseStatus.BAD_REQUEST
-            )
-
-        user_id = UUID(user_id)
-
-        if user_id != current_user.id:
-            return error_message("Unauthorized access", responseStatus.UNAUTHORIZED)
 
         update_queries = {
             "post-notifications": lambda: PostNotification.query.filter(
@@ -336,22 +331,22 @@ def mark_all_as_read_notifications():
             ).update({CommentNotification.is_read: True}),
             "approved-posts": lambda: Post.query.filter(
                 Post.user_id == user_id,
-                Post.status == Status.UNREAD_APPROVED,
+                Post.status == PostStatus.UNREAD_APPROVED,
                 Post.is_delete == False,
             ).update(
                 {
-                    Post.status: Status.APPROVED,
-                    Post.updated_at: format_datetime(datetime.now()),
+                    Post.status: PostStatus.APPROVED,
+                    Post.updated_at: datetime.now(),
                 }
             ),
             "rejected-posts": lambda: Post.query.filter(
                 Post.user_id == user_id,
-                Post.status == Status.UNREAD_REJECTED,
+                Post.status == PostStatus.UNREAD_REJECTED,
                 Post.is_delete == False,
             ).update(
                 {
-                    Post.status: Status.UNREAD_REJECTED,
-                    Post.updated_at: format_datetime(datetime.now()),
+                    Post.status: PostStatus.UNREAD_REJECTED,
+                    Post.updated_at: datetime.now(),
                 }
             ),
         }
