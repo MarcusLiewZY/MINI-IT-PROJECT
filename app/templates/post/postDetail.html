@@ -1,10 +1,7 @@
 {% extends "layouts/base.html" %}
 
 {% block title %}
-  {%
-    if operation == 'read
-    '
-  %}
+  {% if operation == 'read' %}
     {{ post.title }}
   {% elif operation == 'create' %}
     {{ 'Create Post' }}
