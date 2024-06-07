@@ -1,5 +1,6 @@
 import { setConnectionLine } from "./connectionLine.js";
 import { postCardHandler } from "./postCardHandler.js";
+import { fetchAPI } from "./utils.js";
 
 const baseUrl = "/api/paginate";
 const meBaseUrl = `${baseUrl}/me`;
@@ -29,6 +30,23 @@ const pageMapping = {
     postContainerId: "myPageRejectedPostCardContainer",
     apiPaginateUrl: `${meBaseUrl}/rejected-post-list`,
   },
+  "/posts": {
+    postContainerId: "searchPostCardContainer",
+    apiPaginateUrl: `${baseUrl}/search-post-list`,
+  },
+};
+
+const getExtraParams = () => {
+  const extraParams = new URLSearchParams(window.location.search);
+
+  // convert the extraParams to object
+  let extraParamsObj = {};
+  for (const [key, value] of extraParams) {
+    if (key === "page" || key === "per_page") return;
+    extraParamsObj[key] = value;
+  }
+
+  return extraParamsObj;
 };
 
 const fetchPosts = async (
@@ -43,17 +61,24 @@ const fetchPosts = async (
   state.isLoading = true;
 
   try {
-    const response = await fetch(
-      `${apiPaginateUrl}?page=${state.page}&per_page=${state.perPage}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
+    const params = new URLSearchParams();
 
-    const { status, html, has_next } = await response.json();
+    params.append("page", state.page);
+    params.append("per_page", state.perPage);
+
+    const extraParamsObj = getExtraParams();
+
+    Object.entries(extraParamsObj).forEach(([key, value]) => {
+      params.append(key, value);
+    });
+
+    const queryString = params.toString();
+
+    const { status, html, has_next } = await fetchAPI(
+      `${apiPaginateUrl}?${queryString}`,
+      "GET",
+      null,
+    );
 
     if (status === 200) {
       const tempDiv = document.createElement("div");

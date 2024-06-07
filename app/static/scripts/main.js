@@ -1,5 +1,6 @@
 import "./utils.js";
 import "./userProfileModal.js";
+import "./postSearch.js";
 import "./toast.js";
 
 import "./postHandler.js";

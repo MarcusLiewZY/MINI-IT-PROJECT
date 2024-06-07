@@ -51,6 +51,14 @@
   fill: var(--color---base---active);
 }
 
+.search-small {
+  height: 14px;
+  width: 14px;
+  & path {
+    fill: var(--color---neutral--neutral40);
+  }
+}
+
 [data-theme="dark"] .search.svg-fill-blue path {
   fill: var(--color---dark-mode---base---active-hover);
 }

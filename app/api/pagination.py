@@ -22,6 +22,7 @@ from app.services.admin_service import (
     get_paginate_approving_post,
     get_paginate_all_admin_notifications,
 )
+from app.services.search_service import PostSearchEngine
 from app.models import User
 from app.utils.decorators import api_login_required
 from app.utils.api_utils import error_message
@@ -62,6 +63,75 @@ def get_post_list():
                     "has_next": has_next,
                     "html": rendered_postList,
                 },
+            ),
+            responseStatus.OK,
+        )
+
+    except Exception as e:
+        print(e)
+        return error_message(
+            "Internal server error", responseStatus.INTERNAL_SERVER_ERROR
+        )
+
+
+@api.route("/paginate/search-post-list", methods=["GET"])
+def get_searched_post_list():
+    """
+    Get a list of searched posts based on infinite scrolling using server-side pagination.
+    Args:
+    search_text(str): The search text to search for.
+    updated_time_filter(str): The updated time filter to filter the posts.
+    type_filter(str): The type filter to filter the posts.
+    tag_filter(str): The tag filter to filter the posts.
+    sort_by(str): The sort by filter to sort the posts.
+    page(int): The page number of the post list.
+    per_page(int): The number of the posts per page.
+    Returns:
+    A JSON response containing the status, message, page, per_page, and the rendered post list.
+    """
+    try:
+
+        searchArgs = request.args
+
+        search_text = searchArgs.get("search_text", None, type=str)
+        updated_time_filter = searchArgs.get("updated_time_filter", None, type=str)
+        type_filter = searchArgs.get("type_filter", None, type=str)
+        tag_filter = searchArgs.getlist("tag_filter", None, type=str)
+        sort_by = searchArgs.get("sort_by", None, type=str)
+        page = searchArgs.get("page", 1, type=int)
+        per_page = searchArgs.get("per_page", 5, type=int)
+
+        search_dist = {
+            "search_text": search_text,
+            "updated_time_filter": updated_time_filter,
+            "type_filter": type_filter,
+            "tag_filter": tag_filter,
+            "sort_by": sort_by,
+        }
+
+        search_engine = PostSearchEngine()
+        has_next, postDTOs = search_engine.search_posts(
+            user=current_user,
+            isPreview=True,
+            page=page,
+            per_page=per_page,
+            search_dist=search_dist,
+        )
+
+        rendered_postList = render_template(
+            "layouts/postCardList.html", posts=postDTOs, user=current_user
+        )
+
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": "Searched post list retrieved successfully",
+                    "page": page,
+                    "per_page": per_page,
+                    "has_next": has_next,
+                    "html": rendered_postList,
+                }
             ),
             responseStatus.OK,
         )

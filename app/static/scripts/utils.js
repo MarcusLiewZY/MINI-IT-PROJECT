@@ -11,13 +11,14 @@ export const fetchAPI = async (url, method, body = null) => {
       },
     };
 
-    if (body instanceof FormData) {
-      options.body = body;
-    } else {
-      options.headers["Content-Type"] = "application/json";
-      options.body = JSON.stringify(body);
+    if (method !== "GET" && method !== "HEAD") {
+      if (body instanceof FormData) {
+        options.body = body;
+      } else {
+        options.headers["Content-Type"] = "application/json";
+        options.body = JSON.stringify(body);
+      }
     }
-
     const response = await fetch(url, options);
 
     return await response.json();

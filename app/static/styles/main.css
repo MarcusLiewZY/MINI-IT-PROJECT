@@ -453,13 +453,134 @@ form {
   }
 }
 
-.search-bar .shortcut-key {
+.shortcut-key {
   background-color: var(--color---neutral--neutral90);
   color: var(--color---neutral--neutral50);
   border-radius: 4px;
   min-width: fit-content;
   text-align: center;
   padding: 4px 8px;
+}
+
+/* post advanced search modal */
+#postAdvancedSearchModal {
+  position: fixed;
+  width: 744px;
+  max-height: 412px;
+  border-radius: 4px;
+  top: 40vh;
+  left: 50%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  transform: translate(-50%, -50%);
+  box-shadow: var(--modal-shadow);
+  background-color: var(--color---base---white);
+  animation: modalFadeIn 0.3s ease;
+}
+
+[data-theme="dark"] #postAdvancedSearchModal {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+  box-shadow: var(--dark-modal-shadow);
+}
+
+#postAdvancedSearchModal::backdrop {
+  background-color: var(--color---base---black);
+  background-blend-mode: multiply;
+  opacity: 0.6;
+}
+
+#postAdvancedSearchModal .search-bar {
+  width: 100%;
+  align-items: center;
+}
+
+#postAdvancedSearchModal .search-bar #postAdvancedSearchModalSearchField {
+  min-width: 0px;
+  flex-grow: 1;
+}
+
+#postAdvancedSearchModal .search-section {
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#postAdvancedSearchModal .col {
+  width: 20%;
+}
+
+#postAdvancedSearchModal .search-section .search-header {
+  color: var(--color---base---gray);
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color---neutral--neutral80);
+}
+
+#postAdvancedSearchModal .search-section ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  overflow-y: auto;
+}
+
+#postAdvancedSearchModal .search-section input[type="radio"] + label {
+  color: var(--color---neutral--neutral50);
+
+  &:hover {
+    color: var(--color---base---active);
+  }
+
+  &.selected {
+    color: var(--color---base---active);
+  }
+}
+
+#postAdvancedSearchModal #postAdvancedSearchTags {
+  padding-top: 0rem;
+  margin-top: 0.5rem;
+  gap: 0px;
+  overflow-y: hidden;
+  color: var(--color---neutral--neutral50);
+  max-height: 200px; /* Set a maximum height */
+  overflow-y: auto; /* Add vertical scrollbar when necessary */
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color---neutral--neutral80);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--color---neutral--neutral99);
+  }
+
+  & li {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+  }
+}
+
+#postAdvancedSearchModal #postAdvancedSearchTags li:hover,
+#postAdvancedSearchModal #postAdvancedSearchTags li.selected {
+  background-color: var(--color---neutral--neutral95);
+}
+
+#postTagsCol .search-header {
+  padding-bottom: 0.4rem !important;
+}
+
+#postAdvancedSearchModal #postTagSearchButton,
+#postAdvancedSearchModal #postTagSearchCancelButton {
+  padding: 0.5rem;
+  border-radius: 50%;
+  margin-top: -0.25rem;
+  &:hover,
+  &:active {
+    background-color: var(--color---neutral--neutral95);
+  }
 }
 
 .navbar .open-button {
@@ -824,7 +945,7 @@ form {
   background-color: var(--color---dark-mode---neutral--neutral95);
 }
 
-.post-section .create-post-card {
+.search-bar .create-post-card {
   align-items: center;
   gap: 24px;
 }

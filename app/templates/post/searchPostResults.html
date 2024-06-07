@@ -1,0 +1,18 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Search{% endblock title %}
+
+{% block content %}
+  <div class="home-page-body">
+    <div
+      class="container flex flex-col gap-12 mt-12 pb-12 post-card-container"
+      id="searchPostCardContainer"
+    >
+      {% include "layouts/postCardList.html" %}
+      <div class="">Hello world</div>
+      <div class="flex flex-center loading-container d-none">
+        {% include "svgs/infinity-loading-spinner.html" %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}

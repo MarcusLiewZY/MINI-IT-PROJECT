@@ -28,21 +28,30 @@
 
       {# search bar #}
       <div class="flex py-2 px-3 search-bar">
-        <form action="" method="" class="flex gap-2" id="postSearchForm">
-          <button type="submit" class="flex flex-center">
+        <form action="" method="GET" class="flex gap-2" id="postSearchForm">
+          <button
+            type="submit"
+            class="flex flex-center"
+            id="postSearchSubmitButton"
+          >
             {% include "svgs/search.html" %}
           </button>
           <input
             type="search"
-            name="search"
-            id="search"
+            name="search_text"
+            id="postSearchInput"
             placeholder="Search"
             class="search-bar-input"
+            maxlength="40"
           />
           <span class="inline-block px-2 py-4 text-label-sm shortcut-key"
             >Ctrl K
           </span>
-          <button type="button" class="flex flex-center">
+          <button
+            type="button"
+            class="flex flex-center"
+            id="togglePostAdvancedSearchButton"
+          >
             {% include "svgs/filter.html" %}
           </button>
         </form>
@@ -59,6 +68,8 @@
       </div>
     </div>
   </div>
+
+  {% include "layouts/postAdvancedSearchModal.html" %}
 
   <dialog class="modal" id="userProfileModal">
     <div class="flex flex-col">

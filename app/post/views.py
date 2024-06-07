@@ -10,6 +10,14 @@ from app.dto.post_dto import PostDTO
 from app.utils.decorators import login_required, require_accept_community_guideline
 
 
+@post.route("/", methods=["GET"])
+@login_required
+@require_accept_community_guideline
+def get_search_posts():
+
+    return render_template("post/searchPostResults.html", user=current_user)
+
+
 @post.route("/<post_id>", methods=["GET"])
 @login_required
 @require_accept_community_guideline
