@@ -419,7 +419,6 @@ form {
 
 .mid-col .search-bar {
   display: flex;
-  padding: 4px 16px 4px 24px;
   align-items: center;
   gap: 4px;
   align-self: stretch;
@@ -430,6 +429,12 @@ form {
   border: 1px solid var(--color---neutral--neutral70);
   background-color: var(--color---base---white);
   box-shadow: var(--card-shadow);
+  transition: box-shadow 0.3s ease;
+
+  &:focus-within,
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(0, 0, 256, 0.3);
+  }
 }
 
 [data-theme="dark"] .mid-col .search-bar {
@@ -438,8 +443,23 @@ form {
   box-shadow: var(--dark-card-shadow);
 }
 
-.mid-col .search-bar .search-bar-input {
-  width: 100%;
+.search-bar button {
+  padding: 0.25rem;
+  border-radius: 40%;
+
+  &:hover,
+  &:active {
+    background-color: var(--color---neutral--neutral95);
+  }
+}
+
+.search-bar .shortcut-key {
+  background-color: var(--color---neutral--neutral90);
+  color: var(--color---neutral--neutral50);
+  border-radius: 4px;
+  min-width: fit-content;
+  text-align: center;
+  padding: 4px 8px;
 }
 
 .navbar .open-button {
