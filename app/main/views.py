@@ -5,7 +5,7 @@ from flask_login import current_user
 
 from . import main
 from app import db
-from app.models import User, Campus
+from app.models import User
 from app.services.post_service import get_posts
 from app.utils.decorators import (
     login_required,
@@ -24,6 +24,13 @@ def index():
         "main/index.html",
         user=user,
     )
+
+
+@main.route("/results", methods=["GET"])
+@login_required
+@require_accept_community_guideline
+def get_search_posts():
+    return render_template("post/searchPostResults.html", user=current_user)
 
 
 @main.route("/landing")
