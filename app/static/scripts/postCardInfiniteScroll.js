@@ -30,7 +30,7 @@ const pageMapping = {
     postContainerId: "myPageRejectedPostCardContainer",
     apiPaginateUrl: `${meBaseUrl}/rejected-post-list`,
   },
-  "/posts": {
+  "/results": {
     postContainerId: "searchPostCardContainer",
     apiPaginateUrl: `${baseUrl}/search-post-list`,
   },
@@ -149,4 +149,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   onLoadInfiniteScroll(postContainerId, apiPaginateUrl, state);
+
+  // set the search text to the search input
+  const postSearchFormInput = document.querySelector("#postSearchInput");
+
+  if (postSearchFormInput) {
+    postSearchFormInput.value = new URLSearchParams(window.location.search).get(
+      "search_text",
+    );
+  }
 });

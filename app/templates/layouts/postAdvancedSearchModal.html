@@ -18,7 +18,7 @@
           maxlength="80"
         />
         <span class="inline-block px-2 py-4 text-label-sm shortcut-key"
-          >Ctrl K
+          >Esc
         </span>
       </div>
 
@@ -94,8 +94,8 @@
 
           <ul class="text-label-lg" id="postAdvancedSearchType">
             <li>
-              <input type="radio" id="both" name="type_filter" value="Both" />
-              <label for="both">Both</label>
+              <input type="radio" id="all" name="type_filter" value="All" />
+              <label for="all">All</label>
             </li>
             <li>
               <input
@@ -203,7 +203,13 @@
           >
             Cancel
           </button>
-          <button type="submit" class="btn">Search</button>
+          <button
+            type="submit"
+            class="btn"
+            id="postAdvancedSearchModalSubmitButton"
+          >
+            Search
+          </button>
         </div>
       </footer>
     </form>

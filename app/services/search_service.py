@@ -18,7 +18,8 @@ class PostSearchEngine:
         """
         Get ts_query for full text search.
         """
-        return func.plainto_tsqery(search_text)
+
+        return func.plainto_tsquery(search_text)
 
     def _get_rank_title(self, search_text):
         """
@@ -26,7 +27,7 @@ class PostSearchEngine:
         """
         return func.ts_rank_cd(
             func.to_tsvector("english", Post.title), self._get_ts_query(search_text)
-        )
+        ).label("rank_title")
 
     def _get_rank_content(self, search_text):
         """
@@ -34,7 +35,7 @@ class PostSearchEngine:
         """
         return func.ts_rank_cd(
             func.to_tsvector("english", Post.content), self._get_ts_query(search_text)
-        )
+        ).label("rank_content")
 
     def _get_updated_time_filter(self, updated_time_filter):
         """
@@ -60,26 +61,18 @@ class PostSearchEngine:
         """
 
         type_filters = {
-            "both": or_(
-                func.to_tsvector("english", Post.title).match(
-                    self._get_ts_query(search_text)
-                ),
+            "all": or_(
+                func.to_tsvector("english", Post.title).match(search_text),
                 Post.title.ilike(search_pattern),
-                func.to_tsvector("english", Post.content).match(
-                    self._get_ts_query(search_text)
-                ),
+                func.to_tsvector("english", Post.content).match(search_text),
                 Post.content.ilike(search_pattern),
             ),
             "post title": or_(
-                func.to_tsvector("english", Post.title).match(
-                    self._get_ts_query(search_text)
-                ),
+                func.to_tsvector("english", Post.title).match(search_text),
                 Post.title.ilike(search_pattern),
             ),
             "post content": or_(
-                func.to_tsvector("english", Post.content).match(
-                    self._get_ts_query(search_text)
-                ),
+                func.to_tsvector("english", Post.content).match(search_text),
                 Post.content.ilike(search_pattern),
             ),
         }
@@ -91,8 +84,8 @@ class PostSearchEngine:
         """
         sorting_options = {
             "relevance": text("rank_title DESC, rank_content DESC"),
-            "latest": Post.updated_time.desc(),
-            "oldest": Post.updated_time.asc(),
+            "latest": Post.updated_at.desc(),
+            "oldest": Post.updated_at.asc(),
         }
         return sorting_options.get(sort_by, None)
 
@@ -131,17 +124,17 @@ class PostSearchEngine:
             query = query.filter(Post.updated_time >= updated_time_filter)
 
         type_filters = self._get_type_filters(type_filter, search_text, search_pattern)
-        if type_filters:
+        if type_filters is not None:
             query = query.filter(type_filters)
 
         query = self._filter_by_tags(query, tag_filter)
 
         sorting_options = self._get_sorting_options(sort_by)
 
-        if sorting_options:
+        if sorting_options is not None:
             query = query.order_by(sorting_options)
 
-        results = query.paginate(page, per_page, error_out=False)
+        results = query.paginate(page=page, per_page=per_page, error_out=False)
 
         has_next = results.has_next
         searched_post_tuples = results.items

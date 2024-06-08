@@ -2,32 +2,95 @@ import { fetchAPI } from "./utils.js";
 
 class postAdvancedSearchModal {
   constructor() {
-    this.postAdvancedSearchModal = document.getElementById(
-      "postAdvancedSearchModal",
+    this.postAdvancedSearchModal = document.querySelector(
+      "#postAdvancedSearchModal",
     );
-    this.postAdvancedSearchForm = this.postAdvancedSearchModal.getElementById(
-      "postAdvancedSearchForm",
+    this.postAdvancedSearchForm = this.postAdvancedSearchModal.querySelector(
+      "#postAdvancedSearchForm",
     );
+
+    // footer buttons
+    this.postAdvancedSearchResetFilterButton =
+      this.postAdvancedSearchModal.querySelector(
+        "#postAdvancedSearchReestFilterButton",
+      );
+
+    this.postAdvancedSearchCancelButton =
+      this.postAdvancedSearchModal.querySelector(
+        "#postAdvancedSearchModalCloseButton",
+      );
+
+    this.postAdvancedSearchSubmitButton =
+      this.postAdvancedSearchModal.querySelector(
+        "#postAdvancedSearchModalSubmitButton",
+      );
+
+    this.bindAll();
+    this.init();
+  }
+
+  bindAll() {
+    this.onPostAdvancedSearchSubmit =
+      this.onPostAdvancedSearchSubmit.bind(this);
+    this.onClosePostAdvancedSearchModalClick =
+      this.onClosePostAdvancedSearchModalClick.bind(this);
+    this.enableForm = this.enableForm.bind(this);
+    this.disableForm = this.enableForm.bind(this);
+  }
+
+  init() {
+    this.postAdvancedSearchForm.addEventListener(
+      "submit",
+      this.onPostAdvancedSearchSubmit,
+    );
+    this.postAdvancedSearchCancelButton.addEventListener(
+      "click",
+      this.onClosePostAdvancedSearchModalClick,
+    );
+
+    // shortcut key to close the modal
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        this.onClosePostAdvancedSearchModalClick();
+      }
+    });
+
+    // clear the form
+    this.postAdvancedSearchForm.reset();
+  }
+
+  async onPostAdvancedSearchSubmit() {}
+
+  onClosePostAdvancedSearchModalClick() {
+    this.postAdvancedSearchModal.close();
+  }
+
+  enableForm() {
+    this.postAdvancedSearchModal
+      .querySelectorAll("input, button")
+      .forEach((el) => (el.disabled = false));
+  }
+
+  disableForm() {
+    this.postAdvancedSearchModal
+      .querySelectorAll("input, button")
+      .forEach((el) => (el.disabled = true));
   }
 }
 
 class PostSimpleSearchBar {
   constructor() {
-    this.postSearchForm = document.getElementById("postSearchForm");
-    this.postSearchSubmitButton = this.postSearchForm.getElementById(
-      "postSearchSubmitButton",
-    );
-    this.postSearchInput =
-      this.postSearchForm.getElementById("postSearchInput");
-    this.toggleAdvancedSearchButton = this.postSearchForm.getElementById(
-      "togglePostAdvancedSearchButton",
+    this.postSearchForm = document.querySelector("#postSearchForm");
+
+    this.postSearchSubmitButton = this.postSearchForm.querySelector(
+      "#postSearchSubmitButton",
     );
 
-    console.log(
-      this.postSearchForm,
-      this.postSearchSubmitButton,
-      this.postSearchInput,
-      this.toggleAdvancedSearchButton,
+    this.postSearchInput =
+      this.postSearchForm.querySelector("#postSearchInput");
+    this.toggleAdvancedSearchButton = this.postSearchForm.querySelector(
+      "#togglePostAdvancedSearchButton",
     );
 
     this.bindAll();
@@ -54,25 +117,59 @@ class PostSimpleSearchBar {
 
     // call the toggle advanced search modal when the user press ctrl + k
     document.addEventListener("keydown", (e) => {
-      if (e.ctrlKey && e.key === "k") this.onToggleAdvancedSearchModal;
+      if (e.ctrlKey && e.key === "k") {
+        e.preventDefault();
+        this.onToggleAdvancedSearchModal();
+      }
     });
+
+    // clear the form
+    this.postSearchForm.reset();
   }
 
-  async onPostSimpleSearchSubmit() {}
+  onPostSimpleSearchSubmit(e) {
+    e.preventDefault();
+    const searchText = this.postSearchInput.value;
+    this.disableForm();
+
+    try {
+      // construct the search query
+      const queryParamObj = {
+        search_text: searchText,
+        type_filter: "all",
+        sort_by: "relevance",
+      };
+
+      const queryParams = new URLSearchParams(queryParamObj).toString();
+
+      window.location.href = `results?${queryParams}`;
+    } catch (error) {
+      console.error("Error from onPostSimpleSearchSubmit", error);
+    }
+  }
 
   onToggleAdvancedSearchModal() {
-    const advancedSearchModal = document.getElementById(
-      "postAdvancedSearchModal",
+    const advancedSearchModal = document.querySelector(
+      "#postAdvancedSearchModal",
     );
 
     if (!advancedSearchModal) return;
 
+    new postAdvancedSearchModal();
     advancedSearchModal.showModal();
   }
 
-  enableForm() {}
+  enableForm() {
+    this.postSearchForm
+      .querySelectorAll("input, button")
+      .forEach((el) => (el.disabled = false));
+  }
 
-  disableForm() {}
+  disableForm() {
+    this.postSearchForm
+      .querySelectorAll("input, button")
+      .forEach((el) => (el.disabled = true));
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
