@@ -33,6 +33,16 @@ const fetchNotifications = async (
     const { status, html, has_next } = await response.json();
 
     if (status === 200) {
+      // if there is no notification
+      if (!state.has_next && state.page === 1) {
+        const notResourceHandlerContainer = notificationContainer.querySelector(
+          ".no-resource-handler-container",
+        );
+        if (notResourceHandlerContainer) {
+          notResourceHandlerContainer.classList.remove("d-none");
+        }
+      }
+
       const tempDiv = document.createElement("div");
       tempDiv.innerHTML = html;
 

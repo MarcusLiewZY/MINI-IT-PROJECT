@@ -82,6 +82,17 @@ input[type="search"] {
   /* Add additional styles as needed */
 }
 
+input[type="radio"] {
+  appearance: none;
+  display: none;
+}
+
+input[type="radio"] + label,
+input[type="checkbox"] + label {
+  display: inline-block;
+  cursor: pointer;
+}
+
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px var(--color---base---white) inset !important;

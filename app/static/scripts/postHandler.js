@@ -79,7 +79,6 @@ class MultiSelectDropdownMenu {
       badge.addEventListener("click", () => {
         checkbox.checked = false;
         this.removeBadge(checkboxId);
-        console.log(checkbox.closest("li"));
         checkbox.closest("li").classList.remove("selected");
       });
 

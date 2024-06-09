@@ -1,0 +1,215 @@
+<dialog id="postAdvancedSearchModal" class="modal">
+  <div class="flex gap-4 py-4 post-advanced-search-modal-container">
+    {# form #}
+    <form
+      class="flex flex-col gap-4"
+      action=""
+      method="GET"
+      id="postAdvancedSearchForm"
+    >
+      {# search bar #}
+      <div class="flex gap-2 px-5 search-bar">
+        {% include "svgs/search.html" %}
+        <input
+          type="search"
+          id="postAdvancedSearchModalSearchField"
+          name="search_text"
+          placeholder="Search for any posts"
+          maxlength="80"
+        />
+        <span class="inline-block text-label-sm shortcut-key">Esc </span>
+      </div>
+
+      <div class="divider"></div>
+
+      {# filter and sorting section #}
+      <section class="flex px-5 gap-8 search-section">
+        {# created date #}
+        <div class="col">
+          <div class="text-label-lg search-header">Created Date</div>
+
+          <ul class="text-label-lg" id="postAdvancedSearchUpdatedDate">
+            <li>
+              <input
+                type="radio"
+                id="lastHour"
+                name="updated_time_filter"
+                value="last hour"
+              />
+              <label for="lastHour">Last Hour</label>
+            </li>
+            <li>
+              <input
+                type="radio"
+                id="today"
+                name="updated_time_filter"
+                value="today"
+              />
+              <label for="today">Today</label>
+            </li>
+            <li>
+              <input
+                type="radio"
+                id="thisWeek"
+                name="updated_time_filter"
+                value="this week"
+              />
+              <label for="thisWeek">This week</label>
+            </li>
+            <li>
+              <input
+                type="radio"
+                id="thisMonth"
+                name="updated_time_filter"
+                value="this month"
+              />
+              <label for="thisMonth">This month</label>
+            </li>
+            <li>
+              <input
+                type="radio"
+                id="thisYear"
+                name="updated_time_filter"
+                value="this year"
+              />
+              <label for="thisYear">This year</label>
+            </li>
+            <li>
+              <input
+                type="radio"
+                id="allTime"
+                name="updated_time_filter"
+                value="all time"
+              />
+              <label for="allTime">All time</label>
+            </li>
+          </ul>
+        </div>
+
+        {# type #}
+        <div class="col">
+          <div class="text-label-lg search-header">Type</div>
+
+          <ul class="text-label-lg" id="postAdvancedSearchType">
+            <li>
+              <input type="radio" id="all" name="type_filter" value="all" />
+              <label for="all">All</label>
+            </li>
+            <li>
+              <input
+                type="radio"
+                id="postTitle"
+                name="type_filter"
+                value="post title"
+              />
+              <label for="postTitle">Post title</label>
+            </li>
+            <li>
+              <input
+                type="radio"
+                id="postContent"
+                name="type_filter"
+                value="post content"
+              />
+              <label for="postContent">Post Content</label>
+            </li>
+          </ul>
+        </div>
+
+        {# tags #}
+        <div class="col" id="postTagsCol">
+          <div class="flex flex-between px-1 search-header">
+            <div class="text-label-lg" id="postTagTitle">Tags</div>
+
+            <input
+              type="search"
+              id="postTagSearchField"
+              name="post_tags_search"
+              placeholder="Search..."
+              maxlength="10"
+              class="d-none"
+            />
+
+            <button
+              type="button"
+              class="btn btn-muted"
+              id="postTagSearchButton"
+            >
+              {% with class='search-small' %}
+                {% include "svgs/search.html" %}
+              {% endwith %}
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-muted d-none"
+              id="postTagSearchCancelButton"
+            >
+              {% include "svgs/cross.html" %}
+            </button>
+          </div>
+
+          <ul id="postAdvancedSearchTags">
+            <li>
+              <input type="checkbox" id="none" name="tag_filter" value="None" />
+              <label for="none" class="text-label-lg">( None )</label>
+            </li>
+          </ul>
+        </div>
+
+        {# sort by #}
+        <div class="col">
+          <div class="text-label-lg search-header">Sort by</div>
+
+          <ul class="text-label-lg" id="postAdvancedSearchSortBy">
+            <li>
+              <input
+                type="radio"
+                id="relevance"
+                name="sort_by"
+                value="relevance"
+              />
+              <label for="relevance">Relevance</label>
+            </li>
+            <li>
+              <input type="radio" id="latest" name="sort_by" value="latest" />
+              <label for="latest">Latest</label>
+            </li>
+            <li>
+              <input type="radio" id="oldest" name="sort_by" value="oldest" />
+              <label for="oldest">Oldest</label>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      {# footer #}
+      <footer class="flex flex-between px-5">
+        <button
+          class="btn btn-muted"
+          id="postAdvancedSearchModalResetFilterButton"
+        >
+          Reset Filter
+        </button>
+        <div class="flex gap-3 action-button-container">
+          <button
+            type="button"
+            class="btn btn-muted"
+            id="postAdvancedSearchModalCloseButton"
+          >
+            Cancel
+          </button>
+          <button
+            type="search"
+            class="btn"
+            id="postAdvancedSearchModalSubmitButton"
+          >
+            Search
+          </button>
+        </div>
+      </footer>
+    </form>
+  </div>
+</dialog>

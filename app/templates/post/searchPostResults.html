@@ -1,0 +1,24 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Search{% endblock title %}
+
+{% block content %}
+  <div class="home-page-body">
+    <div
+      class="container flex flex-col gap-12 mt-12 pb-12 post-card-container"
+      id="searchPostCardContainer"
+    >
+      {% include "layouts/postCardList.html" %}
+      <div class="flex flex-center loading-container d-none">
+        {% include "svgs/infinity-loading-spinner.html" %}
+      </div>
+      {%
+        with svgImage="svgs/postNotFound.html",
+        class = 'mt-10',notSourceHandlerMessages = notSourceHandlerMessages,
+        textContainerClass = 'post-not-found-text'
+      %}
+        {% include "layouts/noResourceHandler.html" %}
+      {% endwith %}
+    </div>
+  </div>
+{% endblock content %}
