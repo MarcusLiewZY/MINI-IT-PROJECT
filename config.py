@@ -32,8 +32,6 @@ class DevelopmentConfig(Config):
     DEBUG = True
     WTF_CSRF_ENABLED = False
     DEBUG_TB_ENABLED = True
-    CLOUDINARY_POST_IMAGE_FOLDER = "mmu-confession/dev/post-images"
-    CLOUDINARY_AVATAR_IMAGE_FOLDER = "mmu-confession/dev/avatar-images"
 
 
 class TestingConfig(Config):
@@ -45,19 +43,6 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
+    PRODUCTION = True
     DEBUG = False
     DEBUG_TB_ENABLED = False
-
-
-admin_users = [
-    {
-        "email": "lalalaa3045@gmail.com",
-        "username": "LaLaLand",
-        "password": "Pass1234",
-    },
-    {
-        "email": "lee.desmond2016@gmail.com",
-        "username": "Desmond Lee",
-        "password": "Pass1234",
-    },
-]

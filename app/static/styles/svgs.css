@@ -92,16 +92,16 @@
 }
 
 svg#mmuLogo {
-  & path#firstBlueEdge,
-  & path#secondBlueEdge,
+  & path#firstBluePin,
+  & path#secondBluePin,
   & path#firstMCharacter,
   & path#secondMCharacter {
-    fill: #064fa3;
+    fill: #0750a4;
   }
 
   & path#redCircle,
   & path#UCharacter {
-    fill: #ea2229;
+    fill: #ec232a;
   }
 }
 
