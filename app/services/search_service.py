@@ -12,7 +12,7 @@ class PostSearchEngine:
         pass
 
     def _get_search_pattern(self, search_text):
-        return f"%{search_text}%"
+        return f"{search_text}%"
 
     def _get_ts_query(self, search_text):
         """
@@ -44,11 +44,11 @@ class PostSearchEngine:
         now = datetime.now(timezone.utc)
 
         updated_time_filters = {
-            "Last hour": now - timedelta(hours=1),
-            "Today": now - timedelta(days=1),
-            "This week": now - timedelta(days=7),
-            "This month": now - timedelta(days=30),
-            "This year": now - timedelta(days=365),
+            "last hour": now - timedelta(hours=1),
+            "today": now - timedelta(days=1),
+            "this week": now - timedelta(days=7),
+            "this month": now - timedelta(days=30),
+            "this year": now - timedelta(days=365),
         }
 
         return updated_time_filters.get(updated_time_filter, None)
@@ -121,7 +121,7 @@ class PostSearchEngine:
 
         updated_time_filter = self._get_updated_time_filter(updated_time_filter)
         if updated_time_filter:
-            query = query.filter(Post.updated_time >= updated_time_filter)
+            query = query.filter(Post.updated_at >= updated_time_filter)
 
         type_filters = self._get_type_filters(type_filter, search_text, search_pattern)
         if type_filters is not None:

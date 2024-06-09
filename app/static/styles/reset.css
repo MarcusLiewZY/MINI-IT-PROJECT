@@ -82,8 +82,7 @@ input[type="search"] {
   /* Add additional styles as needed */
 }
 
-input[type="radio"],
-input[type="checkbox"] {
+input[type="radio"] {
   appearance: none;
   display: none;
 }

@@ -96,10 +96,15 @@ def get_searched_post_list():
         search_text = searchArgs.get("search_text", None, type=str)
         updated_time_filter = searchArgs.get("updated_time_filter", None, type=str)
         type_filter = searchArgs.get("type_filter", None, type=str)
-        tag_filter = searchArgs.getlist("tag_filter", None)
+        tag_filter = searchArgs.get("tag_filter", None, type=str)
         sort_by = searchArgs.get("sort_by", None, type=str)
         page = searchArgs.get("page", 1, type=int)
         per_page = searchArgs.get("per_page", 5, type=int)
+
+        if tag_filter:
+            tag_filter = tag_filter.split(",")
+        else:
+            tag_filter = []
 
         search_dist = {
             "search_text": search_text,

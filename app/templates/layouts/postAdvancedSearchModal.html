@@ -17,9 +17,7 @@
           placeholder="Search for any posts"
           maxlength="80"
         />
-        <span class="inline-block px-2 py-4 text-label-sm shortcut-key"
-          >Esc
-        </span>
+        <span class="inline-block text-label-sm shortcut-key">Esc </span>
       </div>
 
       <div class="divider"></div>
@@ -36,7 +34,7 @@
                 type="radio"
                 id="lastHour"
                 name="updated_time_filter"
-                value="Last hour"
+                value="last hour"
               />
               <label for="lastHour">Last Hour</label>
             </li>
@@ -45,7 +43,7 @@
                 type="radio"
                 id="today"
                 name="updated_time_filter"
-                value="Today"
+                value="today"
               />
               <label for="today">Today</label>
             </li>
@@ -54,7 +52,7 @@
                 type="radio"
                 id="thisWeek"
                 name="updated_time_filter"
-                value="This week"
+                value="this week"
               />
               <label for="thisWeek">This week</label>
             </li>
@@ -63,7 +61,7 @@
                 type="radio"
                 id="thisMonth"
                 name="updated_time_filter"
-                value="This month"
+                value="this month"
               />
               <label for="thisMonth">This month</label>
             </li>
@@ -72,7 +70,7 @@
                 type="radio"
                 id="thisYear"
                 name="updated_time_filter"
-                value="This year"
+                value="this year"
               />
               <label for="thisYear">This year</label>
             </li>
@@ -81,7 +79,7 @@
                 type="radio"
                 id="allTime"
                 name="updated_time_filter"
-                value="All time"
+                value="all time"
               />
               <label for="allTime">All time</label>
             </li>
@@ -94,7 +92,7 @@
 
           <ul class="text-label-lg" id="postAdvancedSearchType">
             <li>
-              <input type="radio" id="all" name="type_filter" value="All" />
+              <input type="radio" id="all" name="type_filter" value="all" />
               <label for="all">All</label>
             </li>
             <li>
@@ -102,7 +100,7 @@
                 type="radio"
                 id="postTitle"
                 name="type_filter"
-                value="Post title"
+                value="post title"
               />
               <label for="postTitle">Post title</label>
             </li>
@@ -111,7 +109,7 @@
                 type="radio"
                 id="postContent"
                 name="type_filter"
-                value="Post Content"
+                value="post content"
               />
               <label for="postContent">Post Content</label>
             </li>
@@ -121,7 +119,7 @@
         {# tags #}
         <div class="col" id="postTagsCol">
           <div class="flex flex-between px-1 search-header">
-            <div class="text-label-lg">Tags</div>
+            <div class="text-label-lg" id="postTagTitle">Tags</div>
 
             <input
               type="search"
@@ -163,22 +161,22 @@
         <div class="col">
           <div class="text-label-lg search-header">Sort by</div>
 
-          <ul class="text-label-lg" id="postAdvancedSearchType">
+          <ul class="text-label-lg" id="postAdvancedSearchSortBy">
             <li>
               <input
                 type="radio"
                 id="relevance"
                 name="sort_by"
-                value="Relevance"
+                value="relevance"
               />
               <label for="relevance">Relevance</label>
             </li>
             <li>
-              <input type="radio" id="latest" name="sort_by" value="Latest" />
+              <input type="radio" id="latest" name="sort_by" value="latest" />
               <label for="latest">Latest</label>
             </li>
             <li>
-              <input type="radio" id="oldest" name="sort_by" value="Oldest" />
+              <input type="radio" id="oldest" name="sort_by" value="oldest" />
               <label for="oldest">Oldest</label>
             </li>
           </ul>
@@ -193,7 +191,7 @@
           class="btn btn-muted"
           id="postAdvancedSearchModalResetFilterButton"
         >
-          Reset Fitler
+          Reset Filter
         </button>
         <div class="flex gap-3 action-button-container">
           <button
@@ -204,7 +202,7 @@
             Cancel
           </button>
           <button
-            type="submit"
+            type="search"
             class="btn"
             id="postAdvancedSearchModalSubmitButton"
           >
