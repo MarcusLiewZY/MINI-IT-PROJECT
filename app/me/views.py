@@ -7,6 +7,49 @@ from app.services.me_service import get_user_agg_interaction
 from app.utils.helper import upload_image, delete_image
 from app.utils.decorators import login_required, require_accept_community_guideline
 
+notSourceHandlerMessages = {
+    "postsPage": {
+        "messageTitles": [
+            "No posts yet!",
+        ],
+        "messageBodies": [
+            "Start sharing your thoughts with the world.",
+        ],
+    },
+    "likesPage": {
+        "messageTitles": [
+            "No liked posts yet!",
+        ],
+        "messageBodies": [
+            "Explore and like posts that you enjoy.",
+        ],
+    },
+    "repliesPage": {
+        "messageTitles": [
+            "No replies yet!",
+        ],
+        "messageBodies": [
+            "Join the conversation by replying to posts.",
+        ],
+    },
+    "bookmarksPage": {
+        "messageTitles": [
+            "No bookmarks yet!",
+        ],
+        "messageBodies": [
+            "Save posts that you find interesting to read later.",
+        ],
+    },
+    "rejectedPostsPage": {
+        "messageTitles": [
+            "No rejected posts yet!",
+        ],
+        "messageBodies": [
+            "All your posts are approved and visible.",
+        ],
+    },
+}
+
 
 @me_bp.route("/", methods=["GET", "POST"])
 @login_required
@@ -49,6 +92,7 @@ def posts():
         user=current_user,
         userAggInteraction=userAggInteraction,
         postContainerId="myPageCreatedPostCardContainer",
+        notSourceHandlerMessages=notSourceHandlerMessages["postsPage"],
     )
 
 
@@ -63,6 +107,7 @@ def likes():
         user=current_user,
         userAggInteraction=userAggInteraction,
         postContainerId="myPageLikedPostCardContainer",
+        notSourceHandlerMessages=notSourceHandlerMessages["likesPage"],
     )
 
 
@@ -71,9 +116,6 @@ def likes():
 @require_accept_community_guideline
 def replies():
 
-    # the user's comments to the posts that is not reported, and the replies to the comments
-    # return the posts that the user commented on and the replies to the comments
-
     userAggInteraction = get_user_agg_interaction(current_user)
 
     return render_template(
@@ -81,6 +123,7 @@ def replies():
         user=current_user,
         userAggInteraction=userAggInteraction,
         postContainerId="myPageRepliesPostCardContainer",
+        notSourceHandlerMessages=notSourceHandlerMessages["repliesPage"],
     )
 
 
@@ -96,6 +139,7 @@ def bookmarks():
         user=current_user,
         userAggInteraction=userAggInteraction,
         postContainerId="myPageBookmarkedPostCardContainer",
+        notSourceHandlerMessages=notSourceHandlerMessages["bookmarksPage"],
     )
 
 
@@ -111,5 +155,6 @@ def rejected_posts():
         user=current_user,
         userAggInteraction=userAggInteraction,
         postContainerId="myPageRejectedPostCardContainer",
+        notSourceHandlerMessages=notSourceHandlerMessages["rejectedPostsPage"],
         isRejected=True,
     )

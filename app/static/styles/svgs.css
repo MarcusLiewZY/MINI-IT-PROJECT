@@ -105,7 +105,7 @@ svg#mmuLogo {
   }
 }
 
-[data-theme="dark"] svg#mmuLogo {
+/* [data-theme="dark"] svg#mmuLogo {
   & path#firstBlueEdge,
   & path#secondBlueEdge,
   & path#firstMCharacter,
@@ -117,4 +117,4 @@ svg#mmuLogo {
   & path#UCharacter {
     fill: var(--color---dark-mode---base---error);
   }
-}
+} */

@@ -12,6 +12,13 @@
       <div class="flex flex-center loading-container d-none">
         {% include "svgs/infinity-loading-spinner.html" %}
       </div>
+      {%
+        with svgImage="svgs/postNotFound.html",
+        class = 'mt-10',notSourceHandlerMessages = notSourceHandlerMessages,
+        textContainerClass = 'post-not-found-text'
+      %}
+        {% include "layouts/noResourceHandler.html" %}
+      {% endwith %}
     </div>
   </div>
 {% endblock content %}

@@ -81,6 +81,16 @@ const fetchPosts = async (
     );
 
     if (status === 200) {
+      // if there is no result for the first page
+      if (!state.has_next && state.page === 1) {
+        const notResourceHandlerContainer = postContainer.querySelector(
+          ".no-resource-handler-container",
+        );
+        if (notResourceHandlerContainer) {
+          notResourceHandlerContainer.classList.remove("d-none");
+        }
+      }
+
       const tempDiv = document.createElement("div");
       tempDiv.innerHTML = html;
 

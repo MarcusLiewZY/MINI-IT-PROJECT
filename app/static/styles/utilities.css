@@ -16,6 +16,11 @@
   display: flex !important;
 }
 
+/* position */
+.relative {
+  position: relative !important;
+}
+
 /* background */
 .bg-white {
   background-color: var(--color---base---white);
@@ -34,6 +39,10 @@
 }
 
 /* topography */
+.text-center {
+  text-align: center;
+}
+
 .text-display-lg {
   font-size: var(--text--display--large);
   font-style: normal;

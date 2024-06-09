@@ -141,7 +141,10 @@ class PostAdvancedSearchModal {
     this.postAdvancedSearchForm.reset();
     this.setDefaultFilters();
 
-    if (window.location.search) this.setInputAndFiltersOnUrl();
+    const searchParams = new URLSearchParams(window.location.search);
+
+    if (searchParams && searchParams.has("search_text"))
+      this.setInputAndFiltersOnUrl();
     else this.resetFilters();
   }
 
@@ -341,8 +344,6 @@ class PostAdvancedSearchModal {
   }
 
   setInputAndFiltersOnUrl() {
-    if (!window.location.search) return;
-
     const searchParams = new URLSearchParams(window.location.search);
 
     // set the search text

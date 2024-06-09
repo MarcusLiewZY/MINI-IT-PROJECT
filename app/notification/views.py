@@ -17,8 +17,19 @@ def notifications():
 
     notificationsAgg = get_agg_notifications(current_user)
 
+    notSourceHandlerMessages = {
+        "messageTitles": [
+            "No notifications yet!",
+        ],
+        "messageBodies": [
+            "Check back later for new notifications.",
+            "You're all caught up for now.",
+        ],
+    }
+
     return render_template(
         "notifications/notification.html",
         user=current_user,
         notificationsAgg=notificationsAgg,
+        notSourceHandlerMessages=notSourceHandlerMessages,
     )

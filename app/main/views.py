@@ -30,7 +30,22 @@ def index():
 @login_required
 @require_accept_community_guideline
 def get_search_posts():
-    return render_template("post/searchPostResults.html", user=current_user)
+
+    notSourceHandlerMessages = {
+        "messageTitles": [
+            "OOPS! NO POSTS FOUND!",
+        ],
+        "messageBodies": [
+            "We couldn't find any results for your search.",
+            "Try adjusting your search or visit the homepage.",
+        ],
+    }
+
+    return render_template(
+        "post/searchPostResults.html",
+        user=current_user,
+        notSourceHandlerMessages=notSourceHandlerMessages,
+    )
 
 
 @main.route("/landing")
