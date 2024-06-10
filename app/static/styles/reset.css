@@ -172,8 +172,3 @@ textarea::placeholder {
 textarea::-webkit-scrollbar {
   width: 0px;
 }
-
-/* todo: set the input dark if needed */
-/* [data-theme="dark"] input:focus {
-  background-color: var(--color---dark-mode---neutral--neutral100);
-} */
