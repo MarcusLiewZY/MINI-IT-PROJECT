@@ -41,6 +41,8 @@ class PostAdvancedSearchModal {
     this.postTagCancelButton = this.postTagsSection.querySelector(
       "#postTagSearchCancelButton",
     );
+    this.postTagDisabledFilterButton =
+      this.postTagsSection.querySelector("#disable");
 
     // sort by
     this.postSortbyContainer = this.postAdvancedSearchModal.querySelector(
@@ -90,6 +92,8 @@ class PostAdvancedSearchModal {
       this.onPostTagSearchButtonClick.bind(this);
     this.onPostTagFilterKeyUp = this.onPostTagFilterKeyUp.bind(this);
     this.onPostTagCancelClick = this.onPostTagCancelClick.bind(this);
+    this.onPostTagDisabledFilterClick =
+      this.onPostTagDisabledFilterClick.bind(this);
 
     // utility methods
     this.enableForm = this.enableForm.bind(this);
@@ -112,6 +116,10 @@ class PostAdvancedSearchModal {
     this.postTagCancelButton.addEventListener(
       "click",
       this.onPostTagCancelClick,
+    );
+    this.postTagDisabledFilterButton.addEventListener(
+      "change",
+      this.onPostTagDisabledFilterClick,
     );
 
     // footer buttons
@@ -264,10 +272,18 @@ class PostAdvancedSearchModal {
       this.postTagsContainer.querySelectorAll("li");
 
     checkboxButtonsContainers.forEach((checkboxButtonContainer) => {
+      if (
+        checkboxButtonContainer.querySelector('input[type="checkbox"]')
+          .value === this.defaultFilters.tag_filter
+      )
+        return;
+
       checkboxButtonContainer.addEventListener("click", () => {
         const checkboxButton = checkboxButtonContainer.querySelector(
           'input[type="checkbox"]',
         );
+
+        if (checkboxButton.disabled) return;
 
         checkboxButton.checked = !checkboxButton.checked;
 
@@ -295,7 +311,7 @@ class PostAdvancedSearchModal {
       this.defaultFilters[filter.name] = filter.value;
     });
 
-    this.defaultFilters.tag_filter = "None";
+    this.defaultFilters.tag_filter = "Disable tag filter";
   }
 
   resetFilters() {
@@ -313,8 +329,10 @@ class PostAdvancedSearchModal {
     });
 
     allCheckboxFilters.forEach((filter) => {
+      filter.disabled = true;
       filter.checked = false;
       filter.parentNode.classList.remove("selected");
+      filter.parentNode.classList.add("disabled");
     });
 
     const defaultFilters = Object.entries(this.defaultFilters);
@@ -334,11 +352,13 @@ class PostAdvancedSearchModal {
 
     // manually set the post tag default filter
     const defaultTagFilter = this.postTagsContainer.querySelector(
-      `input[type='checkbox'][value=${this.defaultFilters.tag_filter}]`,
+      `input[type='checkbox'][value='${this.defaultFilters.tag_filter}']`,
     );
 
     if (defaultTagFilter) {
+      defaultTagFilter.disabled = false;
       defaultTagFilter.checked = true;
+      defaultTagFilter.parentNode.classList.remove("disabled");
       defaultTagFilter.parentNode.classList.add("selected");
     }
   }
@@ -391,24 +411,19 @@ class PostAdvancedSearchModal {
         `input[type="checkbox"][value="${tag}"]`,
       );
 
+      // in case the tag is not found or invalid
       if (checkbox) {
         checkbox.checked = true;
         checkbox.parentNode.classList.add("selected");
       }
     });
 
-    // if the tags are invalid, use the default tag
-    const selectedTags = [
-      ...this.postTagsContainer.querySelectorAll('input[type="checkbox"]'),
-    ].filter((checkbox) => checkbox.value !== "None" && checkbox.checked);
+    // if the tag filter is disabled, check the disable tag filter
+    const isDisableFilter = tags.includes(this.defaultFilters.tag_filter);
 
-    if (selectedTags.length < 1) {
-      const defaultPostTag = this.postTagsContainer.querySelector(
-        `input[type="checkbox"][value="${this.defaultFilters.tag_filter}"]`,
-      );
-
-      defaultPostTag.checked = true;
-      defaultPostTag.parentNode.classList.add("selected");
+    if (isDisableFilter) {
+      this.postTagDisabledFilterButton.checked = true;
+      this.onPostTagDisabledFilterClick();
     }
   }
 
@@ -438,6 +453,36 @@ class PostAdvancedSearchModal {
     tags.forEach((tag) => {
       tag.classList.remove("d-none");
     });
+  }
+
+  onPostTagDisabledFilterClick() {
+    const isDisabled = this.postTagDisabledFilterButton.checked;
+
+    const tags = [
+      ...this.postTagsContainer.querySelectorAll('input[type="checkbox"]'),
+    ].filter((tag) => tag.value !== this.defaultFilters.tag_filter);
+
+    if (isDisabled) {
+      this.postTagDisabledFilterButton.parentNode.classList.add("selected");
+      tags.forEach((tag) => {
+        // tag.checked = false;
+        tag.disabled = true;
+        // tag.parentNode.classList.remove("selected");
+        tag.parentNode.classList.add("disabled");
+      });
+    } else {
+      this.postTagDisabledFilterButton.parentNode.classList.remove("selected");
+
+      tags.forEach((tag) => {
+        tag.disabled = false;
+        tag.parentNode.classList.remove("disabled");
+
+        // apply selected class for the selected tags
+        // if (tag.checked) {
+        //   tag.parentNode.classList.add("selected");
+        // }
+      });
+    }
   }
 
   onPostTagFilterKeyUp(e) {
@@ -528,7 +573,7 @@ class PostSimpleSearchBar {
         search_text: searchText,
         updated_time_filter: "all time",
         type_filter: "post title",
-        tag_filter: "None",
+        tag_filter: "Disable tag filter",
         sort_by: "relevance",
       };
 

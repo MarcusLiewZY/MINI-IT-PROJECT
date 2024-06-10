@@ -22,8 +22,10 @@ def microsoft_login():
 def microsoft_auth():
     microsoft_client = oauth.create_client("microsoft")
     token = microsoft_client.authorize_access_token()
+
     resp = microsoft_client.get("me")
     user_info = resp.json()
+
     user = User.query.filter_by(email=user_info["mail"]).first()
 
     avatar_endpoint = (

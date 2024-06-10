@@ -75,6 +75,7 @@ def index():
                 return redirect(url_for("me.index"))
 
         current_user.avatar_url = avatar_url
+        current_user.updated_at = db.func.now()
         db.session.commit()
         flash("Avatar updated successfully", "success")
 

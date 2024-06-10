@@ -519,7 +519,7 @@ form {
 }
 
 #postAdvancedSearchModal .col {
-  width: 20%;
+  width: 25%;
 }
 
 #postAdvancedSearchModal .search-section .search-header {
@@ -618,6 +618,17 @@ form {
   }
 }
 
+#postAdvancedSearchModal #postAdvancedSearchTags li.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: transparent;
+
+  & > * {
+    cursor: not-allowed;
+    color: var(--color---neutral--neutral70);
+  }
+}
+
 [data-theme="dark"] #postAdvancedSearchModal #postAdvancedSearchTags li {
   color: var(--color---dark-mode---neutral--neutral40);
 }
@@ -631,6 +642,20 @@ form {
 
   & > * {
     color: var(--color---dark-mode---neutral---neutral40);
+  }
+}
+
+[data-theme="dark"]
+  #postAdvancedSearchModal
+  #postAdvancedSearchTags
+  li.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: transparent;
+
+  & > * {
+    cursor: not-allowed;
+    color: var(--color---dark-mode---neutral--neutral70);
   }
 }
 

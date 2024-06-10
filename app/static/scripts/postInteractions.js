@@ -8,6 +8,9 @@ postBoxes.forEach((postBox) => {
   // Span displaying the number of likes
   const likeCount = postBox.querySelector("span");
   // Event handler for clicking the like button
+
+  if (!likeButton) return;
+
   likeButton.addEventListener("click", () => {
     // If the button hasn't been clicked before
     if (!likeButton.classList.contains("liked")) {
