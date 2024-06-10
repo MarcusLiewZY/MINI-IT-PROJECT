@@ -1,4 +1,6 @@
-# hardcoded data
+# Note: This is the pre-defined data for the application
+# This data will be used to populate the database
+
 tags = [
     {
         "name": "FCA",

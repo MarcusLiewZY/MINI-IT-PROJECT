@@ -43,6 +43,5 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    PRODUCTION = True
     DEBUG = False
     DEBUG_TB_ENABLED = False

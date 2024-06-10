@@ -3,6 +3,8 @@ from http import HTTPStatus as responseStatus
 
 from flask import redirect, url_for, flash
 from flask_login import current_user
+
+from app import app
 from .api_utils import error_message
 
 
@@ -74,6 +76,17 @@ def api_is_admin(func):
     def decorated_function(*args, **kwargs):
         if not current_user.is_admin:
             return error_message("Admin role is required", responseStatus.UNAUTHORIZED)
+        return func(*args, **kwargs)
+
+    return decorated_function
+
+
+def development_only(func):
+    @wraps(func)
+    def decorated_function(*args, **kwargs):
+        if not app.config["DEBUG"]:
+            flash("This feature is only available in development mode", "warning")
+            return redirect(url_for("main.index"))
         return func(*args, **kwargs)
 
     return decorated_function
