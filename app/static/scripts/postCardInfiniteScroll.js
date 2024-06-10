@@ -42,7 +42,7 @@ const getExtraParams = () => {
   // convert the extraParams to object
   let extraParamsObj = {};
   for (const [key, value] of extraParams) {
-    if (key === "page" || key === "per_page") return;
+    if (key === "page" || key === "per_page") continue;
     extraParamsObj[key] = value;
   }
 
@@ -74,7 +74,7 @@ const fetchPosts = async (
 
     const queryString = params.toString();
 
-    const { status, html, has_next } = await fetchAPI(
+    const { status, html, has_next, page } = await fetchAPI(
       `${apiPaginateUrl}?${queryString}`,
       "GET",
       null,
@@ -82,7 +82,7 @@ const fetchPosts = async (
 
     if (status === 200) {
       // if there is no result for the first page
-      if (!state.has_next && state.page === 1) {
+      if (!has_next && page === 1 && html === "") {
         const notResourceHandlerContainer = postContainer.querySelector(
           ".no-resource-handler-container",
         );

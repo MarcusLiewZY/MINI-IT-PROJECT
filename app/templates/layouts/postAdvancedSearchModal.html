@@ -23,7 +23,7 @@
       <div class="divider"></div>
 
       {# filter and sorting section #}
-      <section class="flex px-5 gap-8 search-section">
+      <section class="flex px-8 gap-6 search-section">
         {# created date #}
         <div class="col">
           <div class="text-label-lg search-header">Created Date</div>
@@ -151,8 +151,19 @@
 
           <ul id="postAdvancedSearchTags">
             <li>
+              <input
+                type="checkbox"
+                id="disable"
+                name="tag_filter"
+                value="Disable tag filter"
+              />
+              <label for="disable" class="text-label-lg"
+                >( Disable Filter )</label
+              >
+            </li>
+            <li>
               <input type="checkbox" id="none" name="tag_filter" value="None" />
-              <label for="none" class="text-label-lg">( None )</label>
+              <label for="none" class="text-label-lg">None Tags</label>
             </li>
           </ul>
         </div>

@@ -2,10 +2,10 @@ from datetime import datetime
 from flask import url_for, redirect, flash, request, render_template
 from flask_login import login_required, login_user, logout_user
 
+from . import user
 from app import oauth, db
 from app.models import User
-from . import user
-from app.utils.decorators import logout_required
+from app.utils.decorators import logout_required, development_only
 
 
 @user.route("/sign-up")
@@ -22,8 +22,10 @@ def microsoft_login():
 def microsoft_auth():
     microsoft_client = oauth.create_client("microsoft")
     token = microsoft_client.authorize_access_token()
+
     resp = microsoft_client.get("me")
     user_info = resp.json()
+
     user = User.query.filter_by(email=user_info["mail"]).first()
 
     avatar_endpoint = (
@@ -77,6 +79,7 @@ def logout():
 
 @user.route("/faked-user-login", methods=["GET", "POST"])
 @logout_required
+@development_only
 def faked_user_login():
     if request.method == "POST":
         email = request.form.get("email")

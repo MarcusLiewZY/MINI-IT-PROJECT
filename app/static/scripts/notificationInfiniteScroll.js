@@ -30,11 +30,11 @@ const fetchNotifications = async (
       },
     );
 
-    const { status, html, has_next } = await response.json();
+    const { status, html, has_next, page } = await response.json();
 
     if (status === 200) {
       // if there is no notification
-      if (!state.has_next && state.page === 1) {
+      if (!has_next && page === 1 && html === "") {
         const notResourceHandlerContainer = notificationContainer.querySelector(
           ".no-resource-handler-container",
         );

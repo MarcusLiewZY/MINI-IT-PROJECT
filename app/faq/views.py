@@ -1,7 +1,8 @@
 from flask import render_template
 from flask_login import current_user
-from app.utils.decorators import login_required, require_accept_community_guideline
+
 from . import faq
+from app.utils.decorators import login_required, require_accept_community_guideline
 
 
 @faq.route("/faq")

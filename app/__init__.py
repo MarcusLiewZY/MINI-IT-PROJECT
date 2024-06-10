@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+
 from flask import Flask
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
@@ -13,6 +14,7 @@ load_dotenv()
 app = Flask(__name__)  # src
 app.config.from_object(os.getenv("APP_SETTINGS"))  # configuration
 app.static_folder = "static"
+app.template_folder = "templates"
 
 
 # Initialization
