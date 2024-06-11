@@ -1,4 +1,5 @@
 import os
+import config
 from dotenv import load_dotenv
 
 from flask import Flask
@@ -6,18 +7,28 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf.csrf import CSRFProtect
 from authlib.integrations.flask_client import OAuth
 import cloudinary
 
 load_dotenv()
 
 app = Flask(__name__)  # src
-app.config.from_object(os.getenv("APP_SETTINGS"))  # configuration
 app.static_folder = "static"
 app.template_folder = "templates"
 
 
+# Configuration
+if os.getenv("ENV") == "production":
+    app.config.from_object(config.ProductionConfig)
+elif os.getenv("ENV") == "testing":
+    app.config.from_object(config.TestingConfig)
+else:
+    app.config.from_object(config.DevelopmentConfig)
+
+
 # Initialization
+csrf = CSRFProtect(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 bcrypt = Bcrypt(app)

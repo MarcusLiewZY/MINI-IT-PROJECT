@@ -1,3 +1,4 @@
+import os
 import click
 from datetime import datetime
 from flask.cli import FlaskGroup
@@ -201,7 +202,11 @@ def test():
 
 
 if __name__ == "__main__":
-    # cli()
-    from waitress import serve
+    mode = os.getenv("ENV", default="development")
 
-    serve(app, host="0.0.0.0", port=8080)
+    if mode == "development":
+        cli()
+    else:
+        from waitress import serve
+
+        serve(app, host="0.0.0.0", port=8080)

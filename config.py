@@ -44,4 +44,4 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
-    DEBUG_TB_ENABLED = False
+    DEBUG_TB_ENABLED = True

@@ -22,6 +22,9 @@
           class="flex gap-2"
           id="avatarForm"
         >
+          <!-- CSRF token -->
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
           <button type="button" class="text-label-lg edit-avatar">
             Edit avatar
           </button>

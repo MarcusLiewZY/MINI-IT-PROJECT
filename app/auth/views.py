@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from flask import url_for, redirect, flash, request, render_template
 from flask_login import login_required, login_user, logout_user
@@ -12,8 +13,17 @@ from app.utils.decorators import logout_required, development_only
 @logout_required
 def microsoft_login():
     microsoft_client = oauth.create_client("microsoft")
-    # redirect_uri = url_for("user.microsoft_auth", _external=True)
-    redirect_uri = url_for("user.microsoft_auth", _external=True, _scheme="https")
+    redirect_uri = None
+
+    redirect_uri = url_for("user.microsoft_auth", _external=True, _scheme="http")
+
+    # if os.getenv("ENV") == "development":
+    #     redirect_uri = url_for("user.microsoft_auth", _external=True)
+    # elif os.getenv("ENV") == "production":
+    #     redirect_uri = url_for("user.microsoft_auth", _external=True, _scheme="https")
+    # else:
+    #     raise Exception("Invalid Environment")
+
     return microsoft_client.authorize_redirect(redirect_uri)
 
 

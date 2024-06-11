@@ -1,3 +1,5 @@
+import os
+
 from functools import wraps
 from http import HTTPStatus as responseStatus
 
@@ -84,7 +86,7 @@ def api_is_admin(func):
 def development_only(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
-        if not app.config["DEBUG"]:
+        if os.getenv("ENV") != "development":
             flash("This feature is only available in development mode", "warning")
             return redirect(url_for("main.index"))
         return func(*args, **kwargs)
