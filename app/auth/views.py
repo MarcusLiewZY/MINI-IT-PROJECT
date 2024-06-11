@@ -15,14 +15,12 @@ def microsoft_login():
     microsoft_client = oauth.create_client("microsoft")
     redirect_uri = None
 
-    redirect_uri = url_for("user.microsoft_auth", _external=True, _scheme="http")
-
-    # if os.getenv("ENV") == "development":
-    #     redirect_uri = url_for("user.microsoft_auth", _external=True)
-    # elif os.getenv("ENV") == "production":
-    #     redirect_uri = url_for("user.microsoft_auth", _external=True, _scheme="https")
-    # else:
-    #     raise Exception("Invalid Environment")
+    if os.getenv("ENV") == "development" or os.getenv("DEBUG") == "True":
+        redirect_uri = url_for("user.microsoft_auth", _external=True)
+    elif os.getenv("ENV") == "production":
+        redirect_uri = url_for("user.microsoft_auth", _external=True, _scheme="https")
+    else:
+        raise Exception("Invalid Environment")
 
     return microsoft_client.authorize_redirect(redirect_uri)
 
