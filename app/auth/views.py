@@ -12,8 +12,8 @@ from app.utils.decorators import logout_required, development_only
 @logout_required
 def microsoft_login():
     microsoft_client = oauth.create_client("microsoft")
-    redirect_uri = url_for("user.microsoft_auth", _external=True)
-
+    # redirect_uri = url_for("user.microsoft_auth", _external=True)
+    redirect_uri = url_for("user.microsoft_auth", _external=True, _scheme="https")
     return microsoft_client.authorize_redirect(redirect_uri)
 
 
