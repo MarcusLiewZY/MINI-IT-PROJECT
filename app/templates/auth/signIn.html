@@ -11,15 +11,11 @@
         {# form title #}
         <div class="text-headline-md">Sign In</div>
 
-        {# error message #}
-        {% if form.errors %}
-          <div class="text-label-lg error-message">
-            {{ list(form.errors.values())[0][0] }}
-          </div>
-        {% endif %}
-
         {# form #}
         <form action="" method="POST" class="flex flex-col gap-4">
+          {# csrf token #}
+          {{ form.csrf_token }}
+
           {# email field #}
           <div class="form-control">
             {{
