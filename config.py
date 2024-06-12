@@ -33,6 +33,7 @@ class Config(object):
     MAIL_DEBUG = False
     MAIL_USERNAME = os.getenv("EMAIL_USER")
     MAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+    MAIL_SUPRESS_SEND = False
 
     # Cloudinary configuration
     CLOUDINARY_POST_IMAGE_FOLDER = "mmu-confession/dev/post-images"
