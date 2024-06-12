@@ -1,5 +1,3 @@
-console.log("themeToggle.js loaded");
-
 const themeStorageKey = "theme-preference";
 
 const getColorPreference = () => {
@@ -20,8 +18,6 @@ const theme = {
 const reflectPreference = () => {
   document.firstElementChild.setAttribute("data-theme", theme.value);
 
-  console.log(document.querySelector("#theme-toggle"));
-
   document
     .querySelector("#theme-toggle")
     ?.setAttribute("aria-label", theme.value);
@@ -33,7 +29,6 @@ const setThemePreference = () => {
 };
 
 const onThemeToggleClick = () => {
-  console.log("theme-toggle clicked");
   theme.value = theme.value === "light" ? "dark" : "light";
 
   setThemePreference();

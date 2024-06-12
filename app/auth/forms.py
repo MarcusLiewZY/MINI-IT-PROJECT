@@ -33,7 +33,7 @@ class RegisterForm(FlaskForm):
         user = User.query.filter_by(email=self.email.data).first()
 
         if user:
-            self.email.errors.append("Email already registered")
+            self.email.errors.append("Email already registered, sign in instead")
             return False
         if self.password.data != self.confirm.data:
             self.password.errors.append("Passwords must match")

@@ -43,7 +43,7 @@ def is_admin(func):
 def require_accept_community_guideline(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
-        if current_user.is_confirmed is False:
+        if not current_user.is_confirmed:
 
             token = generate_token(current_user.email)
             confirm_url = url_for(

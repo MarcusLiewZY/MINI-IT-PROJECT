@@ -3,6 +3,7 @@ from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Message
 
 from app import mail
+from config import Config
 
 
 def generate_token(email):
@@ -34,11 +35,9 @@ def confirm_token(token, expiration=3600):
 
 
 def send_mail(to, subject, template):
+
     msg = Message(
-        subject,
-        recipients=[to],
-        html=template,
-        sender=os.getenv("MAIL_DEFAULT_SENDER"),
+        subject, recipients=[to], html=template, sender=Config.MAIL_DEFAULT_SENDER
     )
 
     mail.send(msg)

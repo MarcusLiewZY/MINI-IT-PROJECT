@@ -61,12 +61,31 @@ def sign_in():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
 
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user)
-            flash("Successfully logged in", "success")
-            return redirect(url_for("main.index"))
+        if not user:
+            flash("Invalid email", "error")
+            return redirect(url_for("user.sign_in"))
 
-        flash("Invalid email or password", "error")
+        if bcrypt.check_password_hash(user.password, form.password.data) == False:
+            flash("Invalid password", "error")
+            return redirect(url_for("user.sign_in"))
+
+        login_user(user)
+
+        if not user.is_confirmed:
+
+            token = generate_token(user.email)
+            confirm_url = url_for(
+                "user.confirm_email", token=token, _external=True
+            )  # external=True to get the full url
+            html = render_template("auth/confirmEmail.html", confirm_url=confirm_url)
+            subject = "Please confirm your email"
+            send_mail(user.email, subject, html)
+
+            flash("Please confirm your email first", "warning")
+            return redirect(url_for("user.inactive"))
+
+        flash("Successfully logged in", "success")
+        return redirect(url_for("main.index"))
 
     return render_template("auth/signIn.html", form=form)
 
@@ -95,7 +114,6 @@ def confirm_email(token):
 @user.route("/inactive")
 @login_required
 def inactive():
-    print(current_user.is_confirmed)
     if current_user.is_confirmed:
         return redirect(url_for("main.index"))
     return render_template("auth/inactive.html")

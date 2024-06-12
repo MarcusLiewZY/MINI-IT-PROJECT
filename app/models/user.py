@@ -104,7 +104,6 @@ class User(UserMixin, db.Model):
     def __init__(self, user_dict, *args, **kwargs):
         self.email = user_dict.get("email")
         self.anon_no = None  # only assign when the user accept the community guidelines
-        print(user_dict.get("password"))
         self.password = bcrypt.generate_password_hash(user_dict.get("password")).decode(
             "utf-8"
         )
