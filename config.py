@@ -32,7 +32,7 @@ class Config(object):
     MAIL_USE_SSL = False
     MAIL_DEBUG = False
     MAIL_USERNAME = os.getenv("EMAIL_USER")
-    MAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+    MAIL_PASSWORD = "iahx wpyu mtzl mxbv"
     MAIL_SUPRESS_SEND = False
 
     # Cloudinary configuration
