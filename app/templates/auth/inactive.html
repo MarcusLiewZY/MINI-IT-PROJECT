@@ -1,0 +1,32 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+  Inactive
+{% endblock title %}
+
+{% block unLoginContent %}
+  <div class="container p-16">
+    <div>
+      <h1 class="pb-4 text-headline-md">Welcome!</h1>
+      <p>
+        You have not confirmed your account. Please check your inbox (and your
+        junk folder) - you should have received an
+        <span class="text-label-lg text-active">Outlook Email</span> with a
+        confirmation link.
+      </p>
+      <p>
+        Didn't get the email?
+        <a
+          href="{{ url_for('user.resend_confirmation') }}"
+          class="text-active link"
+          >Resend</a
+        >.
+      </p>
+    </div>
+    <img
+      src="{{ url_for('static', filename='img/outllookGmail.png') }}"
+      alt="Outlook Gmail junk email section"
+      class="mt-8"
+    />
+  </div>
+{% endblock %}

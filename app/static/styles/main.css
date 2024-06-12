@@ -230,6 +230,18 @@ form {
   }
 }
 
+[data-theme="dark"] .btn {
+  background-color: var(--color---dark-mode---base---active);
+  color: var(--color---base---white);
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--color---dark-mode---base---active-hover);
+    opacity: 0.8;
+  }
+}
+
 .btn-error {
   background-color: var(--color---base---error);
 
@@ -276,6 +288,7 @@ form {
 }
 
 [data-theme="dark"] .btn-muted {
+  background-color: transparent;
   color: var(--color---dark-mode---neutral--neutral70);
 
   &:hover,
@@ -802,6 +815,41 @@ form {
   }
 }
 
+.theme-toggle-button-container {
+  position: fixed;
+  right: 8px;
+  bottom: 8px;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border-radius: 50%;
+  background-color: var(--color---neutral--neutral90);
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--color---neutral--neutral80);
+  }
+}
+
+[data-theme="dark"] .theme-toggle-button-container {
+  background-color: var(--color---dark-mode---neutral--neutral99);
+
+  &:hover {
+    background-color: var(--color---dark-mode---neutral--neutral90);
+  }
+}
+
+.auth-body {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* modal */
 .modal {
   border: 0;
@@ -817,6 +865,33 @@ form {
 .modal::-webkit-scrollbar {
   width: 0px;
 }
+
+/* sign up form */
+#signUpForm,
+#signInForm {
+  width: clamp(400px, 50%, 720px);
+  border-radius: 8px;
+}
+
+#signUpForm label,
+#signInForm label {
+  min-width: 20%;
+}
+
+#signUpForm .divider,
+#signInForm .divider {
+  width: calc(100% + 2 * 1.5rem);
+  margin-left: -1.5rem;
+}
+
+#signUpForm .text-active:hover,
+#signInForm .text-active:hover,
+#signUpForm .text-active:active,
+#signInForm .text-active:active {
+  text-decoration: underline;
+}
+
+/* user profile modal */
 
 #userProfileModal {
   position: fixed;
@@ -1290,6 +1365,7 @@ form {
   opacity: 0.3;
 }
 
+#signUpForm .error-message,
 #createPostCard .error-message,
 #editPostCard .error-message,
 #createTagModal .error-message,
@@ -1297,7 +1373,7 @@ form {
   cursor: default;
   color: var(--color---alert---error);
 }
-
+[data-theme="dark"] #signUpForm .error-message,
 [data-theme="dark"] #createPostCard .error-message,
 [data-theme="dark"] #editPostCard .error-message,
 [data-theme="dark"] #createTagModal .error-message,

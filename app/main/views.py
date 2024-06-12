@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import render_template, request, flash, redirect, url_for
-from flask_login import current_user
+from flask_login import current_user, logout_user
 
 from . import main
 from app import db
@@ -57,6 +57,11 @@ def landing():
 @main.route("/community-guideline")
 @login_required
 def community_guidelines():
+
+    if current_user.is_confirmed is False:
+        logout_user()
+        return redirect(url_for("main.landing"))
+
     user = User.query.get(current_user.id)
     need_confirm = True if user.anon_no is None else False
     return render_template(

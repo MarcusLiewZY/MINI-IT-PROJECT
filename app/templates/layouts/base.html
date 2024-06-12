@@ -40,11 +40,22 @@
       Scroll to top
     </button>
 
-    {% include "layouts/navbar.html" %}
+    {% if not user %}
+
+      {# theme toggle button #}
+      <div class="theme-toggle-button-container">
+        {% include "layouts/themeToggle.html" %}
+      </div>
+    {% endif %}
+
+    {# toast message #}
     {% include "layouts/toast.html" %}
 
-    {% block content %}
-    {% endblock content %}
+    {% block loginedBase %}
+    {% endblock loginedBase %}
+
+    {% block unLoginContent %}
+    {% endblock unLoginContent %}
 
     <!-- scripts -->
     <script></script>

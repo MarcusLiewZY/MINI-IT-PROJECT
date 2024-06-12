@@ -5,6 +5,9 @@ class PostAdvancedSearchModal {
     this.postAdvancedSearchModal = document.querySelector(
       "#postAdvancedSearchModal",
     );
+
+    if (!this.postAdvancedSearchModal) return;
+
     this.postAdvancedSearchForm = this.postAdvancedSearchModal.querySelector(
       "#postAdvancedSearchForm",
     );
@@ -517,6 +520,8 @@ class PostAdvancedSearchModal {
 class PostSimpleSearchBar {
   constructor() {
     this.postSearchForm = document.querySelector("#postSearchForm");
+
+    if (!this.postSearchForm) return;
 
     this.postSearchSubmitButton = this.postSearchForm.querySelector(
       "#postSearchSubmitButton",
