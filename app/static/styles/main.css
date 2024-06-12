@@ -230,6 +230,18 @@ form {
   }
 }
 
+[data-theme="dark"] .btn {
+  background-color: var(--color---dark-mode---base---active);
+  color: var(--color---base---white);
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--color---dark-mode---base---active-hover);
+    opacity: 0.8;
+  }
+}
+
 .btn-error {
   background-color: var(--color---base---error);
 
@@ -276,6 +288,7 @@ form {
 }
 
 [data-theme="dark"] .btn-muted {
+  background-color: transparent;
   color: var(--color---dark-mode---neutral--neutral70);
 
   &:hover,
