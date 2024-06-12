@@ -28,8 +28,8 @@ class Config(object):
     MAIL_DEFAULT_SENDER = "MMU Confessions <noreply@mmu-confession.com>"
     MAIL_SERVER = "smtp.gmail.com"
     MAIL_PORT = 465
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
     MAIL_DEBUG = False
     MAIL_USERNAME = os.getenv("EMAIL_USER")
     MAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
