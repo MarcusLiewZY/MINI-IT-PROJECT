@@ -4,12 +4,77 @@ from flask import url_for, redirect, flash, request, render_template
 from flask_login import login_required, login_user, logout_user
 
 from . import user
-from app import oauth, db
+from app import oauth, bcrypt, db
 from app.models import User
+from app.auth.forms import RegisterForm, LoginForm
+from app.services.auth_service import confirm_token, generate_token, send_mail
 from app.utils.decorators import logout_required, development_only
 
 
-@user.route("/sign-up")
+@user.route("/sign-up", methods=["GET", "POST"])
+# todo: add the decorator
+def register():
+    form = RegisterForm(request.form)
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+
+        if user:
+            flash("Email already registered, please sign in", "warning")
+            return redirect(url_for("auth.signIn"))
+
+        user = User(
+            {
+                "email": form.email.data,
+                "password": form.password.data,
+                "username": form.email.data.split("@")[0],
+                "created_at": datetime.now(),
+            }
+        )
+
+        db.session.add(user)
+        db.session.commit()
+
+        token = generate_token(user.email)
+        confirm = url_for(
+            "user.confirm_email", token=token, _external=True
+        )  # external=True to get the full url
+        html = render_template("auth/confirmEmail.html", confirm=confirm)
+        subject = "Please confirm your email"
+        send_mail(user.email, subject, html)
+
+        login_user(user)
+
+        flash("A confirmation email has been sent via email.", "success")
+
+        return redirect(url_for("auth.inactive"))
+
+    return render_template("auth/signUp.html", form=form)
+
+
+@user.route("/sign-in", methods=["GET", "POST"])
+def signIn():
+    form = LoginForm(request.form)
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user)
+            flash("Successfully logged in", "success")
+            return redirect(url_for("main.index"))
+
+        flash("Invalid email or password", "error")
+
+    return render_template("auth/signIn.html", form=form)
+
+
+@user.route("/confirm/<token>")
+def confirm_email(token):
+    pass
+
+
+@user.route("/sign-up/microsoft")
 @logout_required
 def microsoft_login():
     microsoft_client = oauth.create_client("microsoft")

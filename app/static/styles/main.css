@@ -815,6 +815,14 @@ form {
   }
 }
 
+.auth-body {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* modal */
 .modal {
   border: 0;
@@ -830,6 +838,34 @@ form {
 .modal::-webkit-scrollbar {
   width: 0px;
 }
+
+/* sign up form */
+#signUpForm,
+#signInForm {
+  width: 100%;
+  max-width: 50%;
+  border-radius: 8px;
+}
+
+#signUpForm label,
+#signInForm label {
+  min-width: 20%;
+}
+
+#signUpForm .divider,
+#signInForm .divider {
+  width: calc(100% + 2 * 1.5rem);
+  margin-left: -1.5rem;
+}
+
+#signUpForm .text-active:hover,
+#signInForm .text-active:hover,
+#signUpForm .text-active:active,
+#signInForm .text-active:active {
+  text-decoration: underline;
+}
+
+/* user profile modal */
 
 #userProfileModal {
   position: fixed;
@@ -1303,6 +1339,7 @@ form {
   opacity: 0.3;
 }
 
+#signUpForm .error-message,
 #createPostCard .error-message,
 #editPostCard .error-message,
 #createTagModal .error-message,
@@ -1310,7 +1347,7 @@ form {
   cursor: default;
   color: var(--color---alert---error);
 }
-
+[data-theme="dark"] #signUpForm .error-message,
 [data-theme="dark"] #createPostCard .error-message,
 [data-theme="dark"] #editPostCard .error-message,
 [data-theme="dark"] #createTagModal .error-message,

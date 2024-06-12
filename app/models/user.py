@@ -66,6 +66,7 @@ class User(UserMixin, db.Model):
     avatar_url = db.Column(db.String(200), nullable=True)
     campus = db.Column(db.Enum(Campus), default=Campus.NONE)
     is_admin = db.Column(db.Boolean, default=False)
+    is_confirmed = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
 
@@ -106,6 +107,7 @@ class User(UserMixin, db.Model):
         self.avatar_url = user_dict.get("avatar_url")
         self.campus = user_dict.get("campus")
         self.is_admin = user_dict.get("is_admin")
+        self.is_confirmed = user_dict.get("is_confirmed", False)
         self.created_at = user_dict.get("created_at")
         self.updated_at = self.created_at
 
