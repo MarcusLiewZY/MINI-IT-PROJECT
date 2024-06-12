@@ -26,6 +26,8 @@ def confirm_token(token, expiration=3600):
             salt=os.getenv("SECURITY_PASSWORD_SALT"),
             max_age=expiration,
         )
+
+        return email
     except Exception as e:
         print(e)
         return False

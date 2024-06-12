@@ -56,7 +56,9 @@
               <button type="submit" class="w-100 btn">Sign In</button>
               <p class="text-center ">
                 Haven't registered?
-                <a href="/" class="link text-active">Sign up now</a>
+                <a href="{{ url_for('user.sign_up') }}" class="link text-active"
+                  >Sign up now</a
+                >
               </p>
             </div>
           </footer>

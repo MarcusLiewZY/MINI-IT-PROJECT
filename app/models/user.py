@@ -4,6 +4,8 @@ from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import UUID
 from enum import Enum
 
+# from flask_bcrypt import generate_password_hash
+
 from app import db, bcrypt, login_manager
 
 
@@ -102,7 +104,10 @@ class User(UserMixin, db.Model):
     def __init__(self, user_dict, *args, **kwargs):
         self.email = user_dict.get("email")
         self.anon_no = None  # only assign when the user accept the community guidelines
-        self.password = bcrypt.generate_password_hash(user_dict.get("password"))
+        print(user_dict.get("password"))
+        self.password = bcrypt.generate_password_hash(user_dict.get("password")).decode(
+            "utf-8"
+        )
         self.username = user_dict.get("username")
         self.avatar_url = user_dict.get("avatar_url")
         self.campus = user_dict.get("campus")
