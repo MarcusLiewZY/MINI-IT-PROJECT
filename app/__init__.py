@@ -7,6 +7,7 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Mail
 from flask_wtf.csrf import CSRFProtect
 from authlib.integrations.flask_client import OAuth
 import cloudinary
@@ -34,6 +35,7 @@ login_manager.init_app(app)
 bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+mail = Mail(app)
 
 # OAuth setup
 oauth = OAuth(app)

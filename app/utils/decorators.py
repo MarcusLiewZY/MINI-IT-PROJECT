@@ -1,12 +1,11 @@
 import os
-
 from functools import wraps
 from http import HTTPStatus as responseStatus
 
-from flask import redirect, url_for, flash
+from flask import redirect, url_for, flash, render_template
 from flask_login import current_user
 
-from app import app
+from app.services.auth_service import generate_token, send_mail
 from .api_utils import error_message
 
 
@@ -44,7 +43,19 @@ def is_admin(func):
 def require_accept_community_guideline(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
-        if current_user.anon_no is None:
+        if current_user.is_confirmed is False:
+
+            token = generate_token(current_user.email)
+            confirm_url = url_for(
+                "user.confirm_email", token=token, _external=True
+            )  # external=True to get the full url
+            html = render_template("auth/confirmEmail.html", confirm_url=confirm_url)
+            subject = "Please confirm your email"
+            send_mail(current_user.email, subject, html)
+
+            flash("Please confirm your email first", "warning")
+            return redirect(url_for("user.inactive"))
+        elif current_user.anon_no is None:
             flash("Please accept the community guidelines first", "warning")
             return redirect(url_for("main.community_guidelines"))
         return func(*args, **kwargs)

@@ -23,6 +23,19 @@ class Config(object):
     SECURITY_PASSWORD_SALT = os.getenv(
         "SECURITY_PASSWORD_SALT", default="very-important"
     )
+
+    # Flask-Mail configuration
+    MAIL_DEFAULT_SENDER = "noreply@mmu-confession.com"
+    MAIL_SERVER = "smtp.gmail.com"
+    MAIL_PORT = 465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = True
+    MAIL_DEBUG = False
+    MAIL_USERNAME = os.getenv("EMAIL_USER")
+    # MAIL_USERNAME = "noreply@mmu-confession.com"
+    MAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+
+    # Cloudinary configuration
     CLOUDINARY_POST_IMAGE_FOLDER = "mmu-confession/dev/post-images"
     CLOUDINARY_AVATAR_IMAGE_FOLDER = "mmu-confession/dev/avatar-images"
 

@@ -21,6 +21,11 @@
   position: relative !important;
 }
 
+/* dimension */
+.w-100 {
+  width: 100% !important;
+}
+
 /* background */
 .bg-white {
   background-color: var(--color---base---white);
@@ -200,6 +205,10 @@
 
 .flex-between {
   justify-content: space-between;
+}
+
+.flex-end {
+  justify-content: flex-end;
 }
 
 /* inline */

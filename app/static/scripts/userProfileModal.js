@@ -1,12 +1,16 @@
-const userProfileModal = document.querySelector("#userProfileModal");
-const userProfileModalOpenButton = document.querySelector(".open-button");
+document.addEventListener("DOMContentLoaded", () => {
+  const userProfileModal = document.querySelector("#userProfileModal");
+  const userProfileModalOpenButton = document.querySelector(".open-button");
 
-userProfileModalOpenButton.addEventListener("click", () => {
-  userProfileModal.showModal();
-});
+  if (!userProfileModal || !userProfileModalOpenButton) return;
 
-userProfileModal.addEventListener("click", (e) => {
-  if (e.target === userProfileModal) {
-    userProfileModal.close();
-  }
+  userProfileModalOpenButton.addEventListener("click", () => {
+    userProfileModal.showModal();
+  });
+
+  userProfileModal.addEventListener("click", (e) => {
+    if (e.target === userProfileModal) {
+      userProfileModal.close();
+    }
+  });
 });
