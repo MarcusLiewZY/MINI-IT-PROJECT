@@ -93,11 +93,12 @@ def sign_in():
 @user.route("/confirm/<token>")
 @login_required
 def confirm_email(token):
-    if current_user.is_confirmed:
-        flash("Account already confirmed", "info")
 
     email = confirm_token(token, expiration=180)  # 3 minutes
     user = User.query.filter(User.email == email).first()
+
+    if user.is_confirmed:
+        flash("Account already confirmed", "info")
 
     if user.email == email:
         user.is_confirmed = True
@@ -114,7 +115,10 @@ def confirm_email(token):
 @user.route("/inactive")
 @login_required
 def inactive():
-    if current_user.is_confirmed:
+
+    user = User.query.filter(User.email == current_user.email).first()
+
+    if user.is_confirmed:
         return redirect(url_for("main.index"))
     return render_template("auth/inactive.html")
 
@@ -122,17 +126,19 @@ def inactive():
 @user.route("/resend")
 @login_required
 def resend_confirmation():
-    if current_user.is_confirmed:
+    user = User.query.filter(User.email == current_user.email).first()
+
+    if user.is_confirmed:
         flash("Account already confirmed", "success")
         return redirect(url_for("main.index"))
 
-    token = generate_token(current_user.email)
+    token = generate_token(user.email)
     confirm_url = url_for(
         "user.confirm_email", token=token, _external=True
     )  # external=True to get the full url
     html = render_template("auth/confirmEmail.html", confirm_url=confirm_url)
     subject = "Please confirm your email"
-    send_mail(current_user.email, subject, html)
+    send_mail(user.email, subject, html)
 
     flash("A new confirmation email has been sent via email", "success")
 
