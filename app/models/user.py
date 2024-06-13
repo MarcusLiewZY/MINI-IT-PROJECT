@@ -4,7 +4,6 @@ from flask_login import UserMixin
 from sqlalchemy.dialects.postgresql import UUID
 from enum import Enum
 
-# from flask_bcrypt import generate_password_hash
 
 from app import db, bcrypt, login_manager
 
