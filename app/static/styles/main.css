@@ -887,6 +887,13 @@ form {
   min-width: 20%;
 }
 
+#signUpForm input,
+#signInForm input,
+#forgotPasswordForm input,
+#resetPasswordForm input {
+  border: 1px solid transparent;
+}
+
 #signUpForm .divider,
 #signInForm .divider,
 #forgotPasswordForm .divider,
