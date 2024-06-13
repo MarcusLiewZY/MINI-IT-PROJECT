@@ -25,14 +25,24 @@ class Config(object):
     )
 
     # Flask-Mail configuration
-    MAIL_DEFAULT_SENDER = "MMU Confessions <noreply@mmu-confession.com>"
-    MAIL_SERVER = "smtp.gmail.com"
-    MAIL_PORT = 587
+    # MAIL_DEFAULT_SENDER = "MMU Confessions <noreply@mmu-confession.com>"
+    # MAIL_SERVER = "smtp.gmail.com"
+    # MAIL_PORT = 587
+    # MAIL_USE_TLS = True
+    # MAIL_USE_SSL = False
+    # MAIL_DEBUG = False
+    # MAIL_USERNAME = os.getenv("EMAIL_USER")
+    # MAIL_PASSWORD = "iahx wpyu mtzl mxbv"
+    # MAIL_SUPRESS_SEND = False
+
+    # Flask-Mail configuration
+    MAIL_DEFAULT_SENDER = "MMU Confessions <1221105751@student.mmu.edu.my>"
+    MAIL_SERVER = "mail.smtp2go.com"  # SMTP2GO SMTP server
+    MAIL_PORT = 2525
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
-    MAIL_DEBUG = False
-    MAIL_USERNAME = os.getenv("EMAIL_USER")
-    MAIL_PASSWORD = "iahx wpyu mtzl mxbv"
+    MAIL_USERNAME = "student.mmu.edu.my"
+    MAIL_PASSWORD = "o1cncP9r7oaNJj7s"
     MAIL_SUPRESS_SEND = False
 
     # Cloudinary configuration
