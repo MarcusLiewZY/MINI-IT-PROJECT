@@ -826,11 +826,11 @@ form {
   justify-content: center;
   padding: 0.75rem;
   border-radius: 50%;
-  background-color: var(--color---neutral--neutral90);
+  background-color: var(--color---neutral--neutral80);
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: var(--color---neutral--neutral80);
+    background-color: var(--color---neutral--neutral70);
   }
 }
 

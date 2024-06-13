@@ -48,6 +48,10 @@
   text-align: center;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .text-display-lg {
   font-size: var(--text--display--large);
   font-style: normal;
