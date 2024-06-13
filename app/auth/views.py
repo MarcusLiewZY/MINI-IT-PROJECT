@@ -22,7 +22,7 @@ def sign_up():
 
         if user:
             flash("Email already registered, please sign in", "warning")
-            return redirect(url_for("user.signIn"))
+            return redirect(url_for("user.sign_in"))
 
         user = User(
             {
