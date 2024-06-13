@@ -5,7 +5,6 @@ from http import HTTPStatus as responseStatus
 from flask import redirect, url_for, flash, render_template
 from flask_login import current_user
 
-from app.models import User
 from app.services.auth_service import generate_token, send_mail
 from .api_utils import error_message
 
@@ -13,12 +12,8 @@ from .api_utils import error_message
 def login_required(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
-        user = User.query.filter_by(id=current_user.id).first()
 
-        if not user:
-            return redirect(url_for("main.landing"))
-
-        elif user and not user.is_authenticated:
+        if not current_user.is_authenticated:
             return redirect(url_for("main.landing"))
         return func(*args, **kwargs)
 

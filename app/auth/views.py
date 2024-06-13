@@ -91,7 +91,6 @@ def sign_in():
 
 
 @user.route("/confirm/<token>")
-@login_required
 def confirm_email(token):
 
     email = confirm_token(token, expiration=180)  # 3 minutes
