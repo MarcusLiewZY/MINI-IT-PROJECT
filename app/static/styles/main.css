@@ -873,26 +873,36 @@ form {
 
 /* sign up form */
 #signUpForm,
-#signInForm {
+#signInForm,
+#forgotPasswordForm,
+#resetPasswordForm {
   width: clamp(400px, 50%, 720px);
   border-radius: 8px;
 }
 
 #signUpForm label,
-#signInForm label {
+#signInForm label,
+#forgotPasswordForm label,
+#resetPasswordForm label {
   min-width: 20%;
 }
 
 #signUpForm .divider,
-#signInForm .divider {
+#signInForm .divider,
+#forgotPasswordForm .divider,
+#resetPasswordForm .divider {
   width: calc(100% + 2 * 1.5rem);
   margin-left: -1.5rem;
 }
 
 #signUpForm .text-active:hover,
 #signInForm .text-active:hover,
+#forgotPasswordForm .text-active:hover,
+#resetPasswordForm .text-active:hover,
 #signUpForm .text-active:active,
-#signInForm .text-active:active {
+#signInForm .text-active:active,
+#forgotPasswordForm .text-active:active,
+#resetPasswordForm .text-active:active {
   text-decoration: underline;
 }
 
@@ -1371,6 +1381,9 @@ form {
 }
 
 #signUpForm .error-message,
+#signInForm .error-message,
+#forgotPasswordForm .error-message,
+#resetPasswordForm .error-message,
 #createPostCard .error-message,
 #editPostCard .error-message,
 #createTagModal .error-message,
@@ -1379,6 +1392,9 @@ form {
   color: var(--color---alert---error);
 }
 [data-theme="dark"] #signUpForm .error-message,
+[data-theme="dark"] #signInForm .error-message,
+[data-theme="dark"] #forgotPasswordForm .error-message,
+[data-theme="dark"] #resetPasswordForm .error-message,
 [data-theme="dark"] #createPostCard .error-message,
 [data-theme="dark"] #editPostCard .error-message,
 [data-theme="dark"] #createTagModal .error-message,

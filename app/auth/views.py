@@ -7,7 +7,12 @@ from flask_login import login_user, logout_user, current_user
 from . import user
 from app import oauth, bcrypt, db
 from app.models import User
-from app.auth.forms import RegisterForm, LoginForm
+from app.auth.forms import (
+    RegisterForm,
+    LoginForm,
+    ForgotPasswordForm,
+    ResetPasswordForm,
+)
 from app.services.auth_service import confirm_token, generate_token, send_mail
 from app.utils.decorators import login_required, logout_required, development_only
 
@@ -95,6 +100,11 @@ def sign_in():
 def confirm_email(token):
 
     email = confirm_token(token, expiration=180)  # 3 minutes
+
+    if not email:
+        flash("The confirmation link is invalid or expired", "error")
+        return redirect(url_for("main.landing"))
+
     user = User.query.filter(User.email == email).first()
 
     if not user:
@@ -147,6 +157,66 @@ def resend_confirmation():
     flash("A new confirmation email has been sent via email", "success")
 
     return redirect(url_for("user.inactive"))
+
+
+@user.route("/forgot-password", methods=["GET", "POST"])
+@logout_required
+def forgot_password():
+    form = ForgotPasswordForm(request.form)
+
+    if form.validate_on_submit():
+        user = User.query.filter(User.email == form.email.data).first()
+
+        if not user:
+            flash("Email not found", "error")
+            return redirect(url_for("user.forgot_password"))
+
+        token = generate_token(user.email)
+        reset_url = url_for(
+            "user.reset_password", token=token, _external=True
+        )  # external=True to get the full url
+        html = render_template("auth/confirmResetPassword.html", reset_url=reset_url)
+        subject = "Reset your password"
+        send_mail(user.email, subject, html)
+
+        # login_user(user)
+
+        flash("A password reset link has been sent via email", "success")
+
+        return redirect(url_for("user.sign_in"))
+
+    return render_template("auth/forgotPassword.html", form=form)
+
+
+@user.route("/reset-password/<token>", methods=["GET", "POST"])
+@logout_required
+def reset_password(token):
+    email = confirm_token(token, expiration=180)  # 3 minutes
+
+    if not email:
+        flash("The reset password link is invalid or expired", "error")
+        return redirect(url_for("main.landing"))
+
+    user = User.query.filter(User.email == email).first()
+
+    if not user:
+        flash("The reset password link is invalid or expired", "error")
+        return redirect(url_for("main.landing"))
+
+    form = ResetPasswordForm(request.form)
+
+    if form.validate_on_submit():
+        user.password = bcrypt.generate_password_hash(form.password.data).decode(
+            "utf-8"
+        )
+        user.updated_at = db.func.now()
+
+        db.session.commit()
+
+        flash("Password reset successfully", "success")
+        return redirect(url_for("user.sign_in"))
+
+    return render_template("auth/resetPassword.html", form=form)
 
 
 # Microsoft OAuth (Archived)
