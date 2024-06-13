@@ -1168,7 +1168,7 @@ form {
   gap: 24px;
 }
 
-.post-card__user-info-container .user-info.text .text-label-lg {
+.post-card__user-info-container .user-info-text .text-label-lg {
   font-weight: 600;
 }
 

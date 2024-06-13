@@ -22,7 +22,12 @@ PostLike = db.Table(
     db.Column(
         "post_id", UUID(as_uuid=True), db.ForeignKey("Post.id", ondelete="CASCADE")
     ),
-    db.Column("created_at", db.Text, nullable=False),
+    db.Column(
+        "created_at",
+        db.DateTime(timezone=True),
+        nullable=False,
+        server_default=db.func.now(),
+    ),
 )
 
 PostBookmark = db.Table(
@@ -33,7 +38,12 @@ PostBookmark = db.Table(
     db.Column(
         "post_id", UUID(as_uuid=True), db.ForeignKey("Post.id", ondelete="CASCADE")
     ),
-    db.Column("created_at", db.Text, nullable=False),
+    db.Column(
+        "created_at",
+        db.DateTime(timezone=True),
+        nullable=False,
+        server_default=db.func.now(),
+    ),
 )
 
 CommentLike = db.Table(
@@ -68,8 +78,12 @@ class User(UserMixin, db.Model):
     campus = db.Column(db.Enum(Campus), default=Campus.NONE)
     is_admin = db.Column(db.Boolean, default=False)
     is_confirmed = db.Column(db.Boolean, nullable=False, default=False)
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
+    created_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, server_default=db.func.now()
+    )
+    updated_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, server_default=db.func.now()
+    )
 
     # relationship
     posts = db.relationship(

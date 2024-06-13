@@ -18,8 +18,12 @@ class Tag(db.Model):
     name = db.Column(db.String(20), unique=True, nullable=False)
     color = db.Column(db.String(7), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
+    created_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, server_default=db.func.now()
+    )
+    updated_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, server_default=db.func.now()
+    )
 
     def __init__(self, tag_dist, *args, **kwargs):
         self.name = tag_dist.get("name")

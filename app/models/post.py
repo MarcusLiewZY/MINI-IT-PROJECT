@@ -40,8 +40,12 @@ class Post(db.Model):
     image_url = db.Column(db.String(120))
     is_delete = db.Column(db.Boolean, default=False)
     status = db.Column(db.Enum(PostStatus), nullable=False)
-    updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
+    updated_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, server_default=db.func.now()
+    )
+    created_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, server_default=db.func.now()
+    )
 
     # Foreign keys
     user_id = db.Column(
