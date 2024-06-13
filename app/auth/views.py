@@ -91,22 +91,27 @@ def sign_in():
 
 
 @user.route("/confirm/<token>")
+@logout_required
 def confirm_email(token):
 
     email = confirm_token(token, expiration=180)  # 3 minutes
     user = User.query.filter(User.email == email).first()
 
+    if not user:
+        flash("The confirmation link is invalid or expired", "error")
+        return redirect(url_for("main.landing"))
+
     if user.is_confirmed:
         flash("Account already confirmed", "info")
 
-    if user.email == email:
-        user.is_confirmed = True
-        user.updated_at = db.func.now()
+    user.is_confirmed = True
+    user.updated_at = db.func.now()
 
-        db.session.commit()
-        flash("Account confirmed", "success")
-    else:
-        flash("The confirmation link is invalid or expired", "error")
+    db.session.commit()
+
+    login_user(user)
+
+    flash("Account confirmed", "success")
 
     return redirect(url_for("main.community_guidelines"))
 

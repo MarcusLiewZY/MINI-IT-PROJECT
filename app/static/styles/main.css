@@ -835,7 +835,7 @@ form {
 }
 
 [data-theme="dark"] .theme-toggle-button-container {
-  background-color: var(--color---dark-mode---neutral--neutral99);
+  background-color: var(--color---dark-mode---neutral--neutral100);
 
   &:hover {
     background-color: var(--color---dark-mode---neutral--neutral90);
@@ -848,6 +848,11 @@ form {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--color---neutral--neutral95);
+}
+
+[data-theme="dark"] .auth-body {
+  background-color: var(--color---dark-mode---neutral--neutral95);
 }
 
 /* modal */
