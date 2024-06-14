@@ -54,7 +54,8 @@ The expected outcomes of this project are to develop a solution to simple IT pro
 
 1. **User Authentication**
 
-   - 🔐 Account management functionalities including registration, login, logout, and password change.
+   - 🔐 User registration, login and logout.
+   - 📧 Email verification for user registration and password reset.
 
 2. **User Profiles**
 
@@ -83,6 +84,7 @@ The expected outcomes of this project are to develop a solution to simple IT pro
 7. **Other Features**
    - 🔍 Advanced searching to assist users in finding specific confessions easily by filtering and sorting parameters.
    - 📑 Infinite scrolling pagination to simplifies navigation through numerous posts.
+   - 🎨 Theming with white and dark mode for a comfortable viewing experience.
 
 <br>
 
@@ -158,6 +160,7 @@ Before starting the installation process, please ensure you have registered for 
     FLASK_DEBUG=1
     FLASK_RUN_HOST="localhost"
     ENV=development
+    TZ=Asia/Kuala_Lumpur
 
     # Email verification
     SECURITY_PASSWORD_SALT= #your_security_salt_here
