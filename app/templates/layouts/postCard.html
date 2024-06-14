@@ -82,13 +82,15 @@
       <div class="post-content-container">
         <p class="mb-4 text-body-lg">
           {% if post.isPreview %}
-            {{ post.content[:40] | line_breaks }}
-            ...
-            <a
-              href="{{ url_for('post.get_post', post_id = post.id) }}"
-              class="link text-label-lg"
-              >see more</a
-            >
+            {{ post.content[:400] | line_breaks }}
+            {% if post.content|length  >= 400 %}
+              ...
+              <a
+                href="{{ url_for('post.get_post', post_id = post.id) }}"
+                class="link text-label-lg"
+                >see more</a
+              >
+            {% endif %}
           {% else %}
             {{ post.content | line_breaks }}
           {% endif %}
