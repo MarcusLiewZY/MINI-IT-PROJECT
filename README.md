@@ -107,7 +107,7 @@ Before starting the installation process, please ensure you have registered for 
 1. Create a new folder and clone the repository.
 
    ```bash
-   git clone https://github.com/MarcusLiewZY/MINI-IT-PROJECT .
+   git clone https://github.com/MarcusLiewZY/mmu_confessions .
    ```
 
 <br>
