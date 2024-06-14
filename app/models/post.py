@@ -5,7 +5,6 @@ from enum import Enum
 from app import db
 
 
-            
 class PostStatus(Enum):
     PENDING = "Pending"
     APPROVED = "Approved"
@@ -16,15 +15,18 @@ class PostStatus(Enum):
 
 PostTag = db.Table(
     "PostTag",
-    db.Column("post_id", UUID(as_uuid=True), db.ForeignKey("Post.id", ondelete = 'CASCADE')),
-    db.Column("tag_id", UUID(as_uuid=True), db.ForeignKey("Tag.id", ondelete = 'CASCADE')),
+    db.Column(
+        "post_id", UUID(as_uuid=True), db.ForeignKey("Post.id", ondelete="CASCADE")
+    ),
+    db.Column(
+        "tag_id", UUID(as_uuid=True), db.ForeignKey("Tag.id", ondelete="CASCADE")
+    ),
 )
-
 
 
 class Post(db.Model):
     __tablename__ = "Post"
-    
+
     id = db.Column(
         UUID(as_uuid=True),
         primary_key=True,
@@ -38,41 +40,43 @@ class Post(db.Model):
     image_url = db.Column(db.String(120))
     is_delete = db.Column(db.Boolean, default=False)
     status = db.Column(db.Enum(PostStatus), nullable=False)
-    updated_at = db.Column(db.DateTime, nullable=False, server_default= db.func.now())
-    created_at = db.Column(db.DateTime, nullable=False, server_default= db.func.now())
+    updated_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, server_default=db.func.now()
+    )
+    created_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, server_default=db.func.now()
+    )
 
     # Foreign keys
-    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey("User.id", ondelete = 'CASCADE'))
+    user_id = db.Column(
+        UUID(as_uuid=True), db.ForeignKey("User.id", ondelete="CASCADE")
+    )
 
     # relationship
     tags = db.relationship(
-        "Tag",   
+        "Tag",
         secondary=PostTag,
         backref="posts",
         lazy=True,
     )
     comments = db.relationship(
-        "Comment",
-        backref = "commented_post",
-        cascade= "all, delete-orphan",
-        lazy = True
+        "Comment", backref="commented_post", cascade="all, delete-orphan", lazy=True
     )
-    
+
     post_notifications = db.relationship(
         "PostNotification",
-        backref = "notified_post_by_post",
-        cascade = "all, delete-orphan",
-        lazy = True
+        backref="notified_post_by_post",
+        cascade="all, delete-orphan",
+        lazy=True,
     )
 
     def __init__(self, post_dist, *args, **kwargs):
-        self.title = post_dist.get("title") 
+        self.title = post_dist.get("title")
         self.content = post_dist.get("content")
         self.image_url = post_dist.get("image_url")
         self.status = PostStatus.PENDING
-        self.created_at = post_dist.get('created_at')
+        self.created_at = post_dist.get("created_at")
         self.updated_at = self.created_at
 
     def __repr__(self):
-        return f"<{self.status} - {self.title[:40]}{"..." if len(self.title) >= 40 else ""}>"
-
+        return f"<{self.status} - {self.title[:40]}{'...' if len(self.title) >= 40 else ''}>"

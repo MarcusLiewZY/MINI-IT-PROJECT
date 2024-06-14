@@ -1,11 +1,28 @@
-{% extends "layouts/base.html" %}
+<!doctype html>
+<html lang="en">
+  <head>
+    {# meta #}
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-{% block content %}
-  <div class="">
-    <h1>401</h1>
-    <p>Run along!</p>
-    <p>
-      <em>Return <a href="{{ url_for('main.index') }}">Home</a>?</em>
-    </p>
-  </div>
-{% endblock %}
+    {# favicon #}
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='favicon/favicon.ico') }}"
+      type="image/x-icon"
+    />
+
+    <title>Page Not Found</title>
+
+    {# styles #}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/main.css') }}"
+    />
+  </head>
+  <body>
+    {% include "svgs/pageNotFound.html" %}
+  </body>
+</html>

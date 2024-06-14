@@ -1,5 +1,5 @@
 from uuid import UUID
-from flask import request, jsonify
+from flask import jsonify
 from datetime import datetime
 from http import HTTPStatus as responseStatus
 

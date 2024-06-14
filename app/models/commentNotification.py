@@ -16,7 +16,9 @@ class CommentNotification(db.Model):
         server_default=db.text("(gen_random_uuid())"),
     )
     is_read = db.Column(db.Boolean, default=False)
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
+    created_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, server_default=db.func.now()
+    )
 
     # Foreign keys
     user_id = db.Column(

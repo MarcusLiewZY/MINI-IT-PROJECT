@@ -1,0 +1,16 @@
+<div
+  class="relative flex flex-col flex-center gap-6 no-resource-handler-container post-not-found-container d-none {{ class }}"
+  style="flex-direction: {{ 'column-reverse' if reverse == True else 'column' }};"
+>
+  {% with class = svgClass %}
+    {% include  svgImage %}
+  {% endwith %}
+  <div class="mt-2 text-center {{ textContainerClass }}">
+    {% for messageTitle in notSourceHandlerMessages.messageTitles %}
+      <div class="mb-2 text-headline-md">{{ messageTitle }}</div>
+    {% endfor %}
+    {% for messageBody in notSourceHandlerMessages.messageBodies %}
+      <div class="text=label-lg">{{ messageBody }}</div>
+    {% endfor %}
+  </div>
+</div>

@@ -1,5 +1,5 @@
 // navigation and filter for notification page
-import { scrollToTopElement } from "./utils.js";
+import { scrollToTopElement, fetchAPI } from "./utils.js";
 
 const notificationsMapping = [
   {
@@ -61,11 +61,10 @@ const getAllNotificationsCount = async () => {
   if (!notificationCounter) return;
 
   try {
-    const response = await fetch("/api/notifications/count", {
-      method: "GET",
-    });
-
-    const { status, notification_count } = await response.json();
+    const { status, notification_count } = await fetchAPI(
+      "/api/notifications/count",
+      "GET",
+    );
 
     if (status !== 200) return;
 
@@ -92,15 +91,11 @@ document.addEventListener("DOMContentLoaded", () => {
 // update notification status
 const updateNotificationStatus = async (notificationId, notificationType) => {
   try {
-    const response = await fetch(`/api/notifications/${notificationId}`, {
-      method: "PUT",
-      body: JSON.stringify({ type: notificationType }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const { status, post_detail_url, post_status } = await response.json();
+    const { status, post_detail_url, post_status } = await fetchAPI(
+      `/api/notifications/${notificationId}`,
+      "PUT",
+      { type: notificationType },
+    );
 
     if (status === 200) {
       window.open(post_detail_url, "_blank");
@@ -193,18 +188,11 @@ const onLoadMarkAllAsRead = () => {
 
   markAllAsReadButton?.addEventListener("click", async () => {
     try {
-      const response = await fetch(
+      const { status } = await fetchAPI(
         `/api/notifications/mark-all-as-read?filter=${filterValue}`,
-        {
-          method: "PUT",
-          body: JSON.stringify({ user_id: userId }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
+        "PUT",
+        { user_id: userId },
       );
-
-      const { status } = await response.json();
 
       if (status !== 200) {
         throw new Error("Error marking all as read from calling the API");

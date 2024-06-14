@@ -1,4 +1,4 @@
-from typing import List, Union, Tuple
+from typing import List, Union, Tuple, Dict
 
 from app.models import Post, PostStatus, Comment, CommentStatus
 from app.dto import AdminNotificationDTO
@@ -21,7 +21,7 @@ def get_reporting_comments() -> Tuple[int, List[Comment]]:
     return len(reporting_comments), reporting_comments
 
 
-def get_approving_post():
+def get_approving_post() -> Tuple[int, List[Post]]:
     """
     Get all pending posts order by updated at in ascending order.
     Args:
@@ -55,7 +55,7 @@ def get_all_admin_notifications() -> Tuple[int, List[Union[Post, Comment]]]:
     return len(all_admin_notifications), all_admin_notifications
 
 
-def get_agg_admin_notifications():
+def get_agg_admin_notifications() -> Dict[str, int]:
     """
     Get the aggregated admin notifications, including the number of reporting comments, approving posts and all admin notifications.
     Args:

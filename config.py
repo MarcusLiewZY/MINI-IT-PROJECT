@@ -23,6 +23,18 @@ class Config(object):
     SECURITY_PASSWORD_SALT = os.getenv(
         "SECURITY_PASSWORD_SALT", default="very-important"
     )
+
+    # Flask-Mail configuration
+    MAIL_DEFAULT_SENDER = "MMU Confessions <1221105751@student.mmu.edu.my>"
+    MAIL_SERVER = "mail.smtp2go.com"  # SMTP2GO SMTP server
+    MAIL_PORT = 2525
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = os.getenv("EMAIL_USER")
+    MAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+    MAIL_SUPRESS_SEND = False
+
+    # Cloudinary configuration
     CLOUDINARY_POST_IMAGE_FOLDER = "mmu-confession/dev/post-images"
     CLOUDINARY_AVATAR_IMAGE_FOLDER = "mmu-confession/dev/avatar-images"
 
@@ -32,8 +44,6 @@ class DevelopmentConfig(Config):
     DEBUG = True
     WTF_CSRF_ENABLED = False
     DEBUG_TB_ENABLED = True
-    CLOUDINARY_POST_IMAGE_FOLDER = "mmu-confession/dev/post-images"
-    CLOUDINARY_AVATAR_IMAGE_FOLDER = "mmu-confession/dev/avatar-images"
 
 
 class TestingConfig(Config):
@@ -46,18 +56,4 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
-    DEBUG_TB_ENABLED = False
-
-
-admin_users = [
-    {
-        "email": "lalalaa3045@gmail.com",
-        "username": "LaLaLand",
-        "password": "Pass1234",
-    },
-    {
-        "email": "lee.desmond2016@gmail.com",
-        "username": "Desmond Lee",
-        "password": "Pass1234",
-    },
-]
+    DEBUG_TB_ENABLED = True

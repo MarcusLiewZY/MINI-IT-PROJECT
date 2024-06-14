@@ -1,16 +1,16 @@
-import os
 from datetime import datetime
 from flask import render_template, request, flash, redirect, url_for
-from flask_login import current_user
+from flask_login import current_user, logout_user
 
 from . import main
 from app import db
-from app.models import User, Campus
-from app.services.post_service import get_posts
+from app.models import User
 from app.utils.decorators import (
     login_required,
     logout_required,
+    is_admin,
     require_accept_community_guideline,
+    development_only,
 )
 
 
@@ -26,6 +26,28 @@ def index():
     )
 
 
+@main.route("/results", methods=["GET"])
+@login_required
+@require_accept_community_guideline
+def get_search_posts():
+
+    notSourceHandlerMessages = {
+        "messageTitles": [
+            "OOPS! NO POSTS FOUND!",
+        ],
+        "messageBodies": [
+            "We couldn't find any results for your search.",
+            "Try adjusting your search or visit the homepage.",
+        ],
+    }
+
+    return render_template(
+        "post/searchPostResults.html",
+        user=current_user,
+        notSourceHandlerMessages=notSourceHandlerMessages,
+    )
+
+
 @main.route("/landing")
 @logout_required
 def landing():
@@ -35,6 +57,11 @@ def landing():
 @main.route("/community-guideline")
 @login_required
 def community_guidelines():
+
+    if current_user.is_confirmed is False:
+        logout_user()
+        return redirect(url_for("main.landing"))
+
     user = User.query.get(current_user.id)
     need_confirm = True if user.anon_no is None else False
     return render_template(
@@ -68,6 +95,9 @@ def campus_selection_handler(campus):
 
 
 @main.route("/playground")
+@login_required
+@is_admin
+@development_only
 def playground():
     # load a single file with multiple colors
     colors = [
@@ -83,36 +113,7 @@ def playground():
         "gray",
     ]
 
-    admin_svg_list = []
-
-    svg_path = "app/static/svg/Cross.svg"
-
-    with open(svg_path, "r") as svg_file:
-        svg_content = svg_file.read()
-
-    for color in colors:
-        svg = svg_content.replace('fill="black"', f'fill="{color}"')
-        admin_svg_list.append(svg)
-
-    # load multiple file from a same directory
-    svg_dir = "app/static/svg"
-    svg_files = []
-
-    for file_name in os.listdir(svg_dir):
-        if file_name.endswith(".svg"):
-            svg_path = os.path.join(svg_dir, file_name)
-
-            with open(svg_path, "r") as svg_file:
-                svg_content = svg_file.read()
-
-            svg_files.append(svg_content)
-
-    hello, postDTOs = get_posts(current_user, isPreview=False, page=1, per_page=3)
-
     return render_template(
         "other/playground.html",
-        admin_svg_list=admin_svg_list,
-        svg_files=svg_files,
-        posts=postDTOs,
         user=current_user,
     )

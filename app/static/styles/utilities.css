@@ -28,6 +28,16 @@
   display: flex !important;
 }
 
+/* position */
+.relative {
+  position: relative !important;
+}
+
+/* dimension */
+.w-100 {
+  width: 100% !important;
+}
+
 /* background */
 .bg-white {
   background-color: var(--color---base---white);
@@ -46,6 +56,14 @@
 }
 
 /* topography */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
 .text-display-lg {
   font-size: var(--text--display--large);
   font-style: normal;
@@ -203,6 +221,10 @@
 
 .flex-between {
   justify-content: space-between;
+}
+
+.flex-end {
+  justify-content: flex-end;
 }
 
 /* inline */

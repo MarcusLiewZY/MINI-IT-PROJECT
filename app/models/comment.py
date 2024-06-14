@@ -27,8 +27,12 @@ class Comment(db.Model):
         db.Enum(CommentStatus),
         nullable=False,
     )
-    created_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
-    updated_at = db.Column(db.DateTime, nullable=False, server_default=db.func.now())
+    created_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, server_default=db.func.now()
+    )
+    updated_at = db.Column(
+        db.DateTime(timezone=True), nullable=False, server_default=db.func.now()
+    )
 
     # Foreign keys
     user_id = db.Column(

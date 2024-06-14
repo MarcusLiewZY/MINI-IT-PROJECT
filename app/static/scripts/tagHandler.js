@@ -1,3 +1,5 @@
+import { fetchAPI } from "./utils.js";
+
 const tagListContainer = document.querySelector(
   ".admin-section .tag-list-container",
 );
@@ -66,7 +68,6 @@ class CreateTagModalHandler {
     this.onCreateTagClick = this.onCreateTagClick.bind(this);
 
     // utility methods
-    this.fetchAPI = this.fetchAPI.bind(this);
     this.flashMessage = this.flashMessage.bind(this);
     this.showErrorMessage = this.showErrorMessage.bind(this);
     this.clearErrorMessage = this.clearErrorMessage.bind(this);
@@ -136,22 +137,6 @@ class CreateTagModalHandler {
     } else return true;
   }
 
-  async fetchAPI(method, url, data = null) {
-    try {
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      return await response.json();
-    } catch (error) {
-      console.error("Error from fetchAPI:", error);
-    }
-  }
-
   onCreateTagClick() {
     this.createTagForm.addEventListener("submit", async (e) => {
       try {
@@ -163,11 +148,7 @@ class CreateTagModalHandler {
 
         const tagDataObj = Object.fromEntries(tagData.entries());
 
-        const { status, tag } = await this.fetchAPI(
-          "POST",
-          "/api/tags",
-          tagDataObj,
-        );
+        const { status, tag } = await fetchAPI("POST", "/api/tags", tagDataObj);
 
         if (status === 409) {
           this.showErrorMessage("Tag name already exists.");
@@ -261,7 +242,6 @@ class EditTagModalHandler {
     this.onDeleteTagClick = this.onDeleteTagClick.bind(this);
 
     // utility
-    this.fetchAPI = this.fetchAPI.bind(this);
     this.flashMessage = this.flashMessage.bind(this);
     this.clearErrorMessage = this.clearErrorMessage.bind(this);
     this.showErrorMessage = this.showErrorMessage.bind(this);
@@ -339,27 +319,9 @@ class EditTagModalHandler {
     }, duration);
   }
 
-  async fetchAPI(method, url, data = null) {
-    try {
-      const options = {
-        method,
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
-
-      if (data !== null) options.body = JSON.stringify(data);
-
-      const response = await fetch(url, options);
-      return await response.json();
-    } catch (error) {
-      console.error("Error from fetchAPI:", error);
-    }
-  }
-
   async getTag() {
     try {
-      const { status, tag } = await this.fetchAPI(
+      const { status, tag } = await fetchAPI(
         "GET",
         `/api/tags/${this.tagId}`,
         null,
@@ -401,7 +363,7 @@ class EditTagModalHandler {
       const tagData = new FormData(this.editTagForm);
       const tagDataObj = Object.fromEntries(tagData.entries());
 
-      const { status, tag } = await this.fetchAPI(
+      const { status, tag } = await fetchAPI(
         "PUT",
         `/api/tags/${this.tagId}`,
         tagDataObj,
@@ -434,7 +396,7 @@ class EditTagModalHandler {
 
   async onDeleteTagClick() {
     try {
-      const { status } = await this.fetchAPI(
+      const { status } = await fetchAPI(
         "DELETE",
         `/api/tags/${this.tagId}`,
         null,

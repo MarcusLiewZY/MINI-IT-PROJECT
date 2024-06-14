@@ -1,5 +1,6 @@
 import { setConnectionLine } from "./connectionLine.js";
 import { postCardHandler } from "./postCardHandler.js";
+import { fetchAPI } from "./utils.js";
 
 const baseUrl = "/api/paginate";
 const meBaseUrl = `${baseUrl}/me`;
@@ -29,6 +30,23 @@ const pageMapping = {
     postContainerId: "myPageRejectedPostCardContainer",
     apiPaginateUrl: `${meBaseUrl}/rejected-post-list`,
   },
+  "/results": {
+    postContainerId: "searchPostCardContainer",
+    apiPaginateUrl: `${baseUrl}/search-post-list`,
+  },
+};
+
+const getExtraParams = () => {
+  const extraParams = new URLSearchParams(window.location.search);
+
+  // convert the extraParams to object
+  let extraParamsObj = {};
+  for (const [key, value] of extraParams) {
+    if (key === "page" || key === "per_page") continue;
+    extraParamsObj[key] = value;
+  }
+
+  return extraParamsObj;
 };
 
 const fetchPosts = async (
@@ -43,19 +61,36 @@ const fetchPosts = async (
   state.isLoading = true;
 
   try {
-    const response = await fetch(
-      `${apiPaginateUrl}?page=${state.page}&per_page=${state.perPage}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
+    const params = new URLSearchParams();
+
+    params.append("page", state.page);
+    params.append("per_page", state.perPage);
+
+    const extraParamsObj = getExtraParams();
+
+    Object.entries(extraParamsObj).forEach(([key, value]) => {
+      params.append(key, value);
+    });
+
+    const queryString = params.toString();
+
+    const { status, html, has_next, page } = await fetchAPI(
+      `${apiPaginateUrl}?${queryString}`,
+      "GET",
+      null,
     );
 
-    const { status, html, has_next } = await response.json();
-
     if (status === 200) {
+      // if there is no result for the first page
+      if (!has_next && page === 1 && html === "") {
+        const notResourceHandlerContainer = postContainer.querySelector(
+          ".no-resource-handler-container",
+        );
+        if (notResourceHandlerContainer) {
+          notResourceHandlerContainer.classList.remove("d-none");
+        }
+      }
+
       const tempDiv = document.createElement("div");
       tempDiv.innerHTML = html;
 
@@ -124,4 +159,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   onLoadInfiniteScroll(postContainerId, apiPaginateUrl, state);
+
+  // set the search text to the search input
+  const postSearchFormInput = document.querySelector("#postSearchInput");
+
+  if (postSearchFormInput) {
+    postSearchFormInput.value = new URLSearchParams(window.location.search).get(
+      "search_text",
+    );
+  }
 });

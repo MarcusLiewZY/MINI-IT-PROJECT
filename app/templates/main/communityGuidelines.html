@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/loginedBase.html" %}
 
 {% block title %}Community Guidelines{% endblock title %}
 
@@ -126,6 +126,9 @@
 
       {% if need_confirm %}
         <form action="{{ url_for('main.campus_selection') }}" method="post">
+          <!-- CSRF token -->
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
           <div class="flex small-container checkbox-container">
             <input
               type="checkbox"

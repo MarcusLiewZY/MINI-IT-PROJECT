@@ -1,3 +1,5 @@
+const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
 export const insertLineBreaks = (text) => {
   return text.replace(/\n/g, "<br>");
 };
@@ -8,16 +10,18 @@ export const fetchAPI = async (url, method, body = null) => {
       method,
       headers: {
         Accept: "application/json",
+        "X-CSRFToken": csrfToken,
       },
     };
 
-    if (body instanceof FormData) {
-      options.body = body;
-    } else {
-      options.headers["Content-Type"] = "application/json";
-      options.body = JSON.stringify(body);
+    if (method !== "GET" && method !== "HEAD") {
+      if (body instanceof FormData) {
+        options.body = body;
+      } else {
+        options.headers["Content-Type"] = "application/json";
+        options.body = JSON.stringify(body);
+      }
     }
-
     const response = await fetch(url, options);
 
     return await response.json();

@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/loginedBase.html" %}
 
 {% block title %}Notification{% endblock title %}
 
@@ -89,6 +89,13 @@
         <div class="flex flex-center loading-container d-none">
           {% include "svgs/infinity-loading-spinner.html" %}
         </div>
+        {%
+          with svgImage="svgs/notificationPageNoContent.html",
+          class = 'mt-10',notSourceHandlerMessages = notSourceHandlerMessages,
+          reverse = True
+        %}
+          {% include "layouts/noResourceHandler.html" %}
+        {% endwith %}
       </div>
     </div>
   </section>
