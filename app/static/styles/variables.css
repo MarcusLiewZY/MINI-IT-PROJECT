@@ -89,4 +89,10 @@
     0px 4px 8px 3px hsla(180, 100%, 80%, 0.1);
   --dark-modal-shadow: 0px 8px 16px hsla(180, 100%, 80%, 0.1),
     0px 2px 4px hsla(180, 100%, 80%, 0.5);
+
+  /* Breakpoint */
+  --mobile-breakpoint: 600px;
+  --tablet-breakpoint: 768px;
+  --desktop-breakpoint: 992px;
+  --large-desktop-breakpoint: 1200px;
 }

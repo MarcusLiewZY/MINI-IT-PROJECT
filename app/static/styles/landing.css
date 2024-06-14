@@ -294,6 +294,61 @@ body {
 }
 
 /* Post Section Styles */
+/* .posts-section {
+  background-color: #161630; 
+  color: white;
+  text-align: center; 
+  animation: fadeInPosts 2s ease;
+  padding: 50px 0;
+}
+
+.post-text p:first-child {
+  font-size: 60px;
+  position: relative; 
+  margin-top: 20px; 
+}
+
+.post-text p:first-child::after {
+  content: ""; 
+  position: absolute; 
+  left: 0; 
+  bottom: 0px; 
+  width: 90%;
+  height: 1px; 
+  background-color: white; 
+}
+
+.post-box {
+  width: 30%; 
+  display: inline-block;
+  margin: 20px; 
+  vertical-align: top; 
+  text-align: left; 
+  padding: 20px; 
+  background-color: #fff; 
+  border-radius: 10px; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  box-sizing: border-box; 
+}
+
+.post-box img {
+  width: 100%; 
+  height: auto; 
+  border-radius: 10px; 
+}
+
+.post-box h2 {
+  font-size: 20px; 
+  margin-bottom: 10px; 
+  color: #333; 
+}
+
+.post-box p {
+  font-size: 16px; 
+  margin-bottom: 10px; 
+  color: #333; 
+} */
+
 .posts-section {
   background-color: #161630; /* Same color as the About section */
   color: white;
@@ -347,6 +402,21 @@ body {
   font-size: 16px; /* Adjust font size as needed */
   margin-bottom: 10px; /* Add space below paragraphs */
   color: #333; /* Adjust font color as needed */
+}
+
+@media (max-width: 600px) {
+  .post-text p:first-child {
+    font-size: 40px; /* Adjust font size for mobile */
+  }
+
+  .post-text p:first-child::after {
+    width: 80%; /* Adjust width for mobile */
+  }
+
+  .post-box {
+    width: 100%; /* Adjust width to full for mobile */
+    margin: 20px auto; /* Center align and adjust margin */
+  }
 }
 
 /* Like and Share Symbol Styles */
@@ -500,6 +570,15 @@ body {
 }
 
 /* Menu Styles */
+/* .menu {
+  background-color: #0b070a;
+  text-align: left;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+} */
+
 .menu {
   background-color: #0b070a;
   text-align: left;
@@ -509,7 +588,34 @@ body {
   justify-content: space-between;
 }
 
+@media (max-width: 390px) {
+  .menu {
+    padding: 10px; /* Reduce padding for smaller screens */
+    justify-content: center; /* Center items horizontally */
+  }
+}
+
 /* Menu Links Styles */
+/* .menu-links {
+  display: flex;
+  align-items: center;
+}
+
+.menu a {
+  color: #92897d;
+  text-decoration: none;
+  margin-right: 20px;
+  font-size: 24px;
+  transition:
+    color 0.3s ease,
+    border-bottom-color 0.3s ease; 
+}
+
+.menu a:hover {
+  color: #fff;
+  border-bottom-color: #fff; 
+} */
+
 .menu-links {
   display: flex;
   align-items: center;
@@ -528,6 +634,18 @@ body {
 .menu a:hover {
   color: #fff;
   border-bottom-color: #fff; /* Adding bottom border on hover */
+}
+
+@media (max-width: 390px) {
+  .menu {
+    padding: 10px; /* Reduce padding for smaller screens */
+    justify-content: center; /* Center items horizontally */
+  }
+
+  .menu a {
+    font-size: 16px; /* Further reduce font size for smaller screens */
+    margin-right: 15px; /* Adjust margin for smaller screens */
+  }
 }
 
 /* Divider Styles */
@@ -551,6 +669,26 @@ body {
 }
 
 /* Menu Link Bottom Border */
+/* .menu a {
+  position: relative; 
+}
+
+.menu a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px; 
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #fff; 
+  transition: width 0.3s ease; 
+}
+
+.menu a:hover::after,
+.menu a.active::after {
+  width: 100%; 
+} */
+
 .menu a {
   position: relative; /* Setting relative positioning */
 }
@@ -569,6 +707,18 @@ body {
 .menu a:hover::after,
 .menu a.active::after {
   width: 100%; /* Showing line on hover or active */
+}
+
+@media (max-width: 390px) {
+  .menu {
+    padding: 10px; /* Reduce padding for smaller screens */
+    justify-content: center; /* Center items horizontally */
+  }
+
+  .menu a {
+    font-size: 16px; /* Further reduce font size for smaller screens */
+    margin-right: 15px; /* Adjust margin for smaller screens */
+  }
 }
 
 /* Signup Link Animation */
@@ -706,6 +856,47 @@ body {
 }
 
 /* Pic Description Section Styles */
+/* .pic-description {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  animation: slideInLeft 1s ease;
+}
+
+.pic1 {
+  width: 50%;
+  object-fit: cover;
+  animation: fadeIn 2s ease;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.pic-text {
+  width: 40%;
+  animation: fadeIn 2s ease;
+}
+
+.pic-text p {
+  font-size: 24px;
+  line-height: 1.5;
+  color: rgb(0, 0, 0);
+}
+
+.posts-text {
+  font-size: 24px;
+} */
+
 .pic-description {
   display: flex;
   justify-content: space-between;
@@ -745,6 +936,32 @@ body {
 
 .posts-text {
   font-size: 24px;
+}
+
+@media (max-width: 600px) {
+  .pic1 {
+    width: 100%; /* Take full width */
+    max-width: 100%; /* Ensure it doesn't exceed container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover;
+    animation: fadeIn 2s ease;
+  }
+
+  .pic-text {
+    width: 100%; /* Take full width */
+    max-width: 100%; /* Ensure it doesn't exceed container */
+    animation: fadeIn 2s ease;
+  }
+
+  .pic-text p {
+    font-size: 18px; /* Adjust font size */
+    line-height: 1.6; /* Adjust line height */
+    color: #333; /* Adjust text color */
+  }
+
+  .posts-text {
+    font-size: 18px; /* Adjust font size */
+  }
 }
 
 /* Post Section Styles */
@@ -836,7 +1053,6 @@ body {
 }
 
 /* Style for FAQ Section */
-
 .faq-section {
   text-align: center;
 }
