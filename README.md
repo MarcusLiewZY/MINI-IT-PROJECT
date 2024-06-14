@@ -44,7 +44,7 @@ MMU Confessions is a web application designed to allow members of the Multimedia
 
 This project serves as a capstone for students enrolled in the Foundation in Information Technology program at MMU. As a group project, it includes three to four members who selected the web development track from the available options of game development, desktop application development, and web development.
 
-The project is conducted under the supervision of [lecturer's name], requiring regular reporting of weekly progress. The team employs an agile project management methodology, utilizing ClickUp for task management and coordination.
+The project is conducted under the supervision of lecturer, requiring regular reporting of weekly progress. The team employs an agile project management methodology, utilizing ClickUp for task management and coordination.
 
 The expected outcomes of this project are to develop a solution to simple IT problems using programming tools and to prepare students for solving real-world problems.
 
