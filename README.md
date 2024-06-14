@@ -27,6 +27,8 @@ Link: https://mmu-confession.onrender.com/
     - [Admin Panel](#admin-panel)
     - [Create A Confession](#create-a-confession)
     - [Interacting With Confessions](#interacting-with-confessions)
+  - [Project Links](#project-links)
+  - [Acknowledgements](#acknowledgements)
   - [Authors](#authors)
   - [Contacts](#contacts)
 
@@ -248,6 +250,21 @@ Users can submit anonymous confessions and tag them with relevant pre-made tags.
 Users can comment on posts, and like and reply to comments. There are also reporting features for inappropriate content.
 
 ![Comments On Post](docs/static/png/comments_on_post.png)
+
+<br>
+
+## Project Links
+
+- UI Design with [Figma](https://www.figma.com/design/iTrOc7WoVzP9QY7ADc7fHS/MMU-Confession?node-id=0-1&t=DqBYySOI8IgpUHTG-1)
+- ERD Diagram with [Lucidchart](https://lucid.app/lucidchart/3ef772a7-f5f1-4a70-82c1-72a8e38f29b4/edit?viewport_loc=-1488%2C-485%2C4904%2C2416%2C0_0&invitationId=inv_418ec412-4007-4dbf-b191-7fdca5e25e06)
+
+<br>
+
+## Acknowledgements
+
+We would like to thank the following resources and individuals for their support and guidance:
+
+- Project structure inspired by [penn-club-rating](https://github.com/abhisuri97/penn-club-ratings/tree/master)
 
 <br>
 
