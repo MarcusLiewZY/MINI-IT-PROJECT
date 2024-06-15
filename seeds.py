@@ -16,44 +16,104 @@ from app.utils.cliColor import Colors
 
 fake = Faker()
 
-# Constants
-NUM_USERS = 100
 
-NUM_USERS_CREATE_POST = 10
-MIN_POSTS_PER_USER = 1
-MAX_POSTS_PER_USER = 4
+class SeedConfig(object):
+    def __init__(self) -> None:
+        pass
 
-MIN_POST_WIDTH = 400
-MAX_POST_WIDTH = 1000
-MIN_POST_HEIGHT = 400
-MAX_POST_HEIGHT = 1000
+    def set_config(self, seeding_level):
+        if seeding_level == "simple":
+            self._set_simple_seeding_config()
+        elif seeding_level == "medium":
+            self._set_medium_seeding_config()
+        elif seeding_level == "complex":
+            self._set_complex_seeding_config()
+        else:
+            raise ValueError(
+                "Invalid seeding level. Please choose from 'simple', 'medium', 'complex'"
+            )
 
-MIN_TAGS_PER_POST = 0
-MAX_TAGS_PER_POST = 5
+    def _set_simple_seeding_config(self):
+        self.NUM_USERS = 10
+        self.NUM_USERS_CREATE_POST = 5
+        self.MIN_POSTS_PER_USER = 1
+        self.MAX_POSTS_PER_USER = 2
+        self.MIN_POST_WIDTH = 400
+        self.MAX_POST_WIDTH = 1000
+        self.MIN_POST_HEIGHT = 400
+        self.MAX_POST_HEIGHT = 1000
+        self.MIN_TAGS_PER_POST = 0
+        self.MAX_TAGS_PER_POST = 5
+        self.MIN_LIKES_PER_POST = 0
+        self.MAX_LIKES_PER_POST = 5
+        self.MIN_BOOKMARKS_PER_POST = 0
+        self.MAX_BOOKMARKS_PER_POST = 5
+        self.MIN_COMMENTS_PER_POST = 1
+        self.MAX_COMMENTS_PER_POST = 3
+        self.MIN_REPLIES_PER_COMMENT = 0
+        self.MAX_REPLIES_PER_COMMENT = 2
+        self.MIN_LIKES_PER_COMMENT = 0
+        self.MAX_LIKES_PER_COMMENT = 5
+        self.MIN_NOTIFICATIONS_PER_POST = 0
+        self.MAX_NOTIFICATIONS_PER_POST = 2
+        self.MIN_NOTIFICATIONS_PER_COMMENT = 0
+        self.MAX_NOTIFICATIONS_PER_COMMENT = 1
 
-MIN_LIKES_PER_POST = 0
-MAX_LIKES_PER_POST = 20
+    def _set_medium_seeding_config(self):
+        self.NUM_USERS = 50
+        self.NUM_USERS_CREATE_POST = 10
+        self.MIN_POSTS_PER_USER = 1
+        self.MAX_POSTS_PER_USER = 2
+        self.MIN_POST_WIDTH = 400
+        self.MAX_POST_WIDTH = 1000
+        self.MIN_POST_HEIGHT = 400
+        self.MAX_POST_HEIGHT = 1000
+        self.MIN_TAGS_PER_POST = 0
+        self.MAX_TAGS_PER_POST = 5
+        self.MIN_LIKES_PER_POST = 0
+        self.MAX_LIKES_PER_POST = 10
+        self.MIN_BOOKMARKS_PER_POST = 0
+        self.MAX_BOOKMARKS_PER_POST = 10
+        self.MIN_COMMENTS_PER_POST = 1
+        self.MAX_COMMENTS_PER_POST = 4
+        self.MIN_REPLIES_PER_COMMENT = 0
+        self.MAX_REPLIES_PER_COMMENT = 3
+        self.MIN_LIKES_PER_COMMENT = 0
+        self.MAX_LIKES_PER_COMMENT = 10
+        self.MIN_NOTIFICATIONS_PER_POST = 0
+        self.MAX_NOTIFICATIONS_PER_POST = 3
+        self.MIN_NOTIFICATIONS_PER_COMMENT = 0
+        self.MAX_NOTIFICATIONS_PER_COMMENT = 2
 
-MIN_BOOKMARKS_PER_POST = 0
-MAX_BOOKMARKS_PER_POST = 20
+    def _set_complex_seeding_config(self):
+        self.NUM_USERS = 100
+        self.NUM_USERS_CREATE_POST = 10
+        self.MIN_POSTS_PER_USER = 1
+        self.MAX_POSTS_PER_USER = 4
+        self.MIN_POST_WIDTH = 400
+        self.MAX_POST_WIDTH = 1000
+        self.MIN_POST_HEIGHT = 400
+        self.MAX_POST_HEIGHT = 1000
+        self.MIN_TAGS_PER_POST = 0
+        self.MAX_TAGS_PER_POST = 5
+        self.MIN_LIKES_PER_POST = 0
+        self.MAX_LIKES_PER_POST = 20
+        self.MIN_BOOKMARKS_PER_POST = 0
+        self.MAX_BOOKMARKS_PER_POST = 20
+        self.MIN_COMMENTS_PER_POST = 1
+        self.MAX_COMMENTS_PER_POST = 6
+        self.MIN_REPLIES_PER_COMMENT = 0
+        self.MAX_REPLIES_PER_COMMENT = 5
+        self.MIN_LIKES_PER_COMMENT = 0
+        self.MAX_LIKES_PER_COMMENT = 20
+        self.MIN_NOTIFICATIONS_PER_POST = 0
+        self.MAX_NOTIFICATIONS_PER_POST = 3
+        self.MIN_NOTIFICATIONS_PER_COMMENT = 0
+        self.MAX_NOTIFICATIONS_PER_COMMENT = 2
 
-MIN_COMMENTS_PER_POST = 1
-MAX_COMMENTS_PER_POST = 6
 
-MIN_REPLIES_PER_COMMENT = 0
-MAX_REPLIES_PER_COMMENT = 5
+def seeds(seed_config: SeedConfig):
 
-MIN_LIKES_PER_COMMENT = 0
-MAX_LIKES_PER_COMMENT = 20
-
-MIN_NOTIFICATIONS_PER_POST = 0
-MAX_NOTIFICATIONS_PER_POST = 3
-
-MIN_NOTIFICATIONS_PER_COMMENT = 0
-MAX_NOTIFICATIONS_PER_COMMENT = 2
-
-
-def seeds():
     # recreate the database
     db.drop_all()
     db.create_all()
@@ -61,7 +121,7 @@ def seeds():
 
     # Create users
     print(Colors.fg.green, "Creating users...")
-    for i in range(NUM_USERS):
+    for i in range(seed_config.NUM_USERS):
         user_name = fake.user_name()
         avatar_url = "https://source.unsplash.com/random/80x80/?anonymous-id"
         cloudinary_avatar_url = upload_image(
@@ -114,9 +174,13 @@ def seeds():
     # each user creates 1-4 posts
     print(Colors.fg.green, "Creating posts...")
     users = User.query.all()
-    for user in random.sample(users, NUM_USERS_CREATE_POST):
-        for _ in range(random.randint(MIN_POSTS_PER_USER, MAX_POSTS_PER_USER)):
-            image_url = f"https://source.unsplash.com/random/{random.randint(MIN_POST_WIDTH, MAX_POST_WIDTH)}x{random.randint(MIN_POST_HEIGHT, MAX_POST_HEIGHT)}"
+    for user in random.sample(users, seed_config.NUM_USERS_CREATE_POST):
+        for _ in range(
+            random.randint(
+                seed_config.MIN_POSTS_PER_USER, seed_config.MAX_POSTS_PER_USER
+            )
+        ):
+            image_url = f"https://source.unsplash.com/random/{random.randint(seed_config.MIN_POST_WIDTH, seed_config.MAX_POST_WIDTH)}x{random.randint(seed_config.MIN_POST_HEIGHT, seed_config.MAX_POST_HEIGHT)}"
             cloudinary_image_url = upload_image(
                 image_url, app.config["CLOUDINARY_POST_IMAGE_FOLDER"]
             )
@@ -145,7 +209,9 @@ def seeds():
 
     print(Colors.fg.green, "Assigning tags to posts...")
     for post in posts:
-        for _ in range(random.randint(MIN_TAGS_PER_POST, MAX_TAGS_PER_POST)):
+        for _ in range(
+            random.randint(seed_config.MIN_TAGS_PER_POST, seed_config.MAX_TAGS_PER_POST)
+        ):
             post.tags.append(random.choice(tags))
             db.session.add(post)
             db.session.commit()
@@ -159,7 +225,10 @@ def seeds():
     users = User.query.all()
     for post in posts:
         for user in random.sample(
-            users, random.randint(MIN_LIKES_PER_POST, MAX_LIKES_PER_POST)
+            users,
+            random.randint(
+                seed_config.MIN_LIKES_PER_POST, seed_config.MAX_LIKES_PER_POST
+            ),
         ):
             created_at = fake.date_between(
                 start_date=post.updated_at,
@@ -180,7 +249,10 @@ def seeds():
     users = User.query.all()
     for post in posts:
         for user in random.sample(
-            users, random.randint(MIN_BOOKMARKS_PER_POST, MAX_BOOKMARKS_PER_POST)
+            users,
+            random.randint(
+                seed_config.MIN_BOOKMARKS_PER_POST, seed_config.MAX_BOOKMARKS_PER_POST
+            ),
         ):
             created_at = fake.date_between(
                 start_date=post.updated_at,
@@ -201,7 +273,11 @@ def seeds():
     print(Colors.fg.green, "Creating comments...")
     posts = Post.query.all()
     for post in posts:
-        for _ in range(random.randint(MIN_COMMENTS_PER_POST, MAX_COMMENTS_PER_POST)):
+        for _ in range(
+            random.randint(
+                seed_config.MIN_COMMENTS_PER_POST, seed_config.MAX_COMMENTS_PER_POST
+            )
+        ):
             comment = Comment(
                 {
                     "content": fake.text(),
@@ -235,7 +311,9 @@ def seeds():
             return
 
         for _ in range(
-            random.randint(MIN_REPLIES_PER_COMMENT, MAX_REPLIES_PER_COMMENT)
+            random.randint(
+                seed_config.MIN_REPLIES_PER_COMMENT, seed_config.MAX_REPLIES_PER_COMMENT
+            )
         ):
             reply_comment = Comment(
                 {
@@ -269,7 +347,10 @@ def seeds():
     users = User.query.all()
     for comment in comments:
         for user in random.sample(
-            users, random.randint(MIN_LIKES_PER_COMMENT, MAX_LIKES_PER_COMMENT)
+            users,
+            random.randint(
+                seed_config.MIN_LIKES_PER_COMMENT, seed_config.MAX_LIKES_PER_COMMENT
+            ),
         ):
             comment.liked_by.append(user)
             db.session.add(comment)
@@ -288,7 +369,10 @@ def seeds():
     users = User.query.all()
     for post in posts:
         for _ in range(
-            random.randint(MIN_NOTIFICATIONS_PER_POST, MAX_NOTIFICATIONS_PER_POST)
+            random.randint(
+                seed_config.MIN_NOTIFICATIONS_PER_POST,
+                seed_config.MAX_NOTIFICATIONS_PER_POST,
+            )
         ):
             unread_comment = random.choice(post.comments)
             post_notification = PostNotification(
@@ -318,7 +402,8 @@ def seeds():
         if comment.replies:
             num_notifications = min(
                 random.randint(
-                    MIN_NOTIFICATIONS_PER_COMMENT, MAX_NOTIFICATIONS_PER_COMMENT
+                    seed_config.MIN_NOTIFICATIONS_PER_COMMENT,
+                    seed_config.MAX_NOTIFICATIONS_PER_COMMENT,
                 ),
                 len(comment.replies),
             )
