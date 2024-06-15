@@ -47,7 +47,7 @@ def get_posts():
         posts = query.order_by(Post.updated_at.desc()).all()
         postDTOs = [
             PostDTO(post, post.postCreator, post.postCreator, isPreview).to_dict()
-            for post in posts2
+            for post in posts
         ]
 
         return (

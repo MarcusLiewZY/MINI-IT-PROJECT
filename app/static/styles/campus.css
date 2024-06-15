@@ -1,6 +1,3 @@
-/* .campus-selection-section {
-  margin-top: 100px;
-} */
 .campus-selection-section {
   margin-top: 100px;
 }
@@ -23,14 +20,6 @@ ddd
 }
 
 /* Grid container styles */
-/* .grid-container {
-  display: grid; 
-  grid-template-columns: repeat(2, 1fr); 
-  grid-gap: 40px; 
-  margin-top: 20px; 
-  position: relative; 
-} */
-
 .grid-container {
   display: grid; /* Use grid layout */
   grid-template-columns: repeat(2, 1fr); /* Two columns with equal width */
@@ -48,19 +37,6 @@ ddd
 }
 
 /* Grid item styles */
-/* .grid-item {
-  border: 1px solid #ccc; 
-  text-align: center; 
-  position: relative; 
-  overflow: hidden; 
-  border-radius: 10px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  transition: transform 0.3s ease; 
-  background-color: white; 
-  color: #6b2737; 
-  margin: 20px; 
-  padding: 32px 0px;
-} */
 .grid-item {
   border: 1px solid #ccc; /* Border style */
   text-align: center; /* Center align text */
@@ -88,12 +64,6 @@ ddd
 }
 
 /* Image styles in grid item */
-/* .grid-item img {
-  width: 80%; 
-  height: 80%; 
-  object-fit: cover; 
-  border-radius: 10px; 
-} */
 .grid-item img {
   width: 80%; /* Image width */
   height: 80%; /* Image height */
@@ -132,59 +102,6 @@ ddd
 }
 
 /* About Us section styles */
-/* .about-us {
-  margin: 20px auto; 
-  max-width: 600px; 
-  padding: 20px; 
-  text-align: justify; 
-  background-color: #f9f9f9; 
-  border-radius: 10px; 
-}
-
-.about-us h2 {
-  text-align: center; 
-  color: #6b2737; 
-  margin-bottom: 20px; 
-}
-
-.about-us p {
-  line-height: 1.6; 
-  margin-bottom: 10px; 
-}
-
-.about-us ul {
-  padding-left: 20px; 
-  margin-bottom: 10px; 
-}
-
-.about-us li {
-  margin-bottom: 5px; 
-}
-
-.circle {
-  width: 50px;
-  height: 50px;
-  background-color: #ffffff;
-  border-radius: 50%;
-  position: fixed;
-  top: 10px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  color: white;
-  font-size: 24px;
-}
-
-.divider {
-  width: 100%;
-  height: 0px;
-  background-color: #cee4ff;
-  margin: 20px 0;
-  position: relative;
-} */
-
 .about-us {
   margin: 20px auto; /* Center the section horizontally */
   max-width: 600px; /* Limit the width of the section */
@@ -254,178 +171,6 @@ ddd
     margin: 10px 0; /* Reduce margin for mobile */
   }
 }
-
-/* Center align text for MMU Confession title */
-/* .confession-title {
-  text-align: center;
-}
-
-
-#welcome-message {
-  text-align: center;
-}
-
-.search-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.search-input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px;
-}
-
-.search-button {
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.search-button:hover {
-  background-color: #0056b3;
-}
-.tablehome {
-  width: 100%;
-  margin-top: 0px;
-  margin-bottom: 40px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: white;
-  color: #6b2737;
-  margin: 0 auto;
-  padding: 5px;
-}
-.imghomemmulogo {
-  max-width: 150px;
-  max-height: 400px;
-}
-.homeword {
-  font-family: Arial, sans-serif;
-  font-size: 20px;
-  color: rgb(0, 0, 0);
-  text-decoration: none;
-  position: relative;
-  display: inline-block;
-}
-
-.homeword::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -3px;
-  width: 0%;
-  height: 3px;
-  background-color: black;
-  transition: width 0.5s ease;
-}
-
-.homeword:hover::after {
-  width: 100%;
-}
-
-.hometitle {
-  font-family: Arial, sans-serif;
-  font-size: 20px;
-  color: black;
-  text-decoration: none;
-  position: relative;
-  display: inline-block;
-}
-.tablehome2 {
-  width: 35%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: white;
-  color: #6b2737;
-  margin: 0 auto;
-  padding: 5px;
-}
-
-
-.popup-container {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-}
-
-.popup-content {
-  background-color: rgb(255, 255, 255);
-  width: 300px;
-  margin: 100px auto;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 26, 255, 0);
-  border: 1px solid rgb(0, 13, 255);
-  position: relative;
-}
-
-
-.popup-btn {
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 25px; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.popup-btn:hover {
-  background-color: #0056b3;
-}
-
-.popup-close-btn {
-  
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  padding: 5px;
-  background-color: transparent;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.inputpost {
-  background-color: #f2f2f2;
-  border: 1px solid #ccc;
-  color: #333;
-  border-radius: 4px;
-  padding: 8px;
-  width: 90%;
-  height: auto;
-}
-
-.post-btn {
-  background-color: #007bff;
-  color: white;
-  border: 1px solid #ffffff;
-  border-radius: 4px;
-  /padding: 8px 16px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.post-btn:hover {
-  background-color: #0056b3;
-} */
 
 .confession-title {
   text-align: center;
