@@ -1,0 +1,89 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+  Sign in
+{% endblock title %}
+
+{% block unLoginContent %}
+  <div class="auth-body">
+    <div class="modal" id="signInForm">
+      <div class="flex flex-col gap-5 p-6">
+        {# form title #}
+        <div class="text-headline-md">Sign In</div>
+
+        {# form #}
+        <form action="" method="POST" class="flex flex-col gap-4">
+          {# csrf token #}
+          {{ form.csrf_token }}
+
+          {# email field #}
+          <div class="flex flex-col gap-2">
+            <div class="form-control">
+              {{
+                form.email.label(
+                class_='text-title-md'
+                )
+              }}
+              {{
+                form.email(
+                class_='w-100 px-4 py-2 ml-3',
+                placeholder='@email.mmu.edu.my'
+                )
+              }}
+            </div>
+            {% if form.email.errors %}
+              {% for error in form.email.errors %}
+                <div class="mb-2 text-label-lg error-message">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          {# password field #}
+          <div class="flex flex-col gap-2">
+            <div class="form-control">
+              {{
+                form.password.label(
+                class_='text-title-md'
+                )
+              }}
+              {{
+                form.password(
+                class_='w-100 px-4 py-2 ml-3',
+                placeholder='password'
+                )
+              }}
+            </div>
+            {% if form.password.errors %}
+              {% for error in form.password.errors %}
+                <div class="mb-2 text-label-lg error-message">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          {# forget password #}
+          <div class="text-right">
+            <a
+              href="{{ url_for('user.forgot_password') }}"
+              class="link text-active"
+              >Forget password?</a
+            >
+          </div>
+
+          <div class="divider mb-2"></div>
+
+          <footer>
+            <div class="flex flex-col gap-3">
+              <button type="submit" class="w-100 btn">Sign In</button>
+              <p class="text-center ">
+                Haven't registered?
+                <a href="{{ url_for('user.sign_up') }}" class="link text-active"
+                  >Sign up now</a
+                >
+              </p>
+            </div>
+          </footer>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock unLoginContent %}

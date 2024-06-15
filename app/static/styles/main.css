@@ -244,6 +244,18 @@ form {
   }
 }
 
+[data-theme="dark"] .btn {
+  background-color: var(--color---dark-mode---base---active);
+  color: var(--color---base---white);
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--color---dark-mode---base---active-hover);
+    opacity: 0.8;
+  }
+}
+
 .btn-error {
   background-color: var(--color---base---error);
 
@@ -290,6 +302,7 @@ form {
 }
 
 [data-theme="dark"] .btn-muted {
+  background-color: transparent;
   color: var(--color---dark-mode---neutral--neutral70);
 
   &:hover,
@@ -475,7 +488,6 @@ form {
 
 .mid-col .search-bar {
   display: flex;
-  padding: 4px 16px 4px 24px;
   align-items: center;
   gap: 4px;
   align-self: stretch;
@@ -486,6 +498,11 @@ form {
   border: 1px solid var(--color---neutral--neutral70);
   background-color: var(--color---base---white);
   box-shadow: var(--card-shadow);
+  transition: box-shadow 0.3s ease;
+
+  &:focus-within {
+    box-shadow: 0 0 0 2px rgba(0, 0, 256, 0.3);
+  }
 }
 
 @media (max-width: 600px) {
@@ -501,10 +518,238 @@ form {
   border: 1px solid var(--color---dark-mode---neutral--neutral70);
   background-color: var(--color---dark-mode---neutral--neutral100);
   box-shadow: var(--dark-card-shadow);
+
+  &:focus-within {
+    box-shadow: 0 0 0 2px rgba(145, 242, 255, 0.5);
+  }
 }
 
-.mid-col .search-bar .search-bar-input {
+.search-bar button {
+  padding: 0.25rem;
+  border-radius: 25%;
+
+  &:hover,
+  &:active {
+    background-color: var(--color---neutral--neutral95);
+  }
+}
+
+.shortcut-key {
+  background-color: var(--color---neutral--neutral90);
+  color: var(--color---neutral--neutral50);
+  border-radius: 4px;
+  min-width: fit-content;
+  text-align: center;
+  padding: 4px 8px;
+}
+
+[data-theme="dark"] .shortcut-key {
+  background-color: var(--color---dark-mode---neutral--neutral90);
+  color: var(--color---dark-mode---neutral--neutral50);
+}
+
+/* post advanced search modal */
+#postAdvancedSearchModal {
+  position: fixed;
+  width: 744px;
+  max-height: 460px;
+  border-radius: 4px;
+  top: 40vh;
+  left: 50%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  transform: translate(-50%, -50%);
+  box-shadow: var(--modal-shadow);
+  background-color: var(--color---base---white);
+  animation: modalFadeIn 0.3s ease;
+}
+
+[data-theme="dark"] #postAdvancedSearchModal {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+  box-shadow: var(--dark-modal-shadow);
+}
+
+#postAdvancedSearchModal::backdrop {
+  background-color: var(--color---base---black);
+  background-blend-mode: multiply;
+  opacity: 0.6;
+}
+
+[data-theme="dark"] #postAdvancedSearchModal::backdrop {
+  background-color: var(--color---dark-mode---neutral--neutral0);
+  background-blend-mode: screen;
+  opacity: 0.4;
+}
+
+#postAdvancedSearchModal .search-bar {
   width: 100%;
+  align-items: center;
+}
+
+#postAdvancedSearchModal .search-bar #postAdvancedSearchModalSearchField {
+  min-width: 0px;
+  flex-grow: 1;
+}
+
+#postAdvancedSearchModal .search-section {
+  justify-content: center;
+  align-items: flex-start;
+}
+
+#postAdvancedSearchModal .col {
+  width: 25%;
+}
+
+#postAdvancedSearchModal .search-section .search-header {
+  color: var(--color---base---gray);
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color---neutral--neutral80);
+}
+
+[data-theme="dark"] #postAdvancedSearchModal .search-section .search-header {
+  color: var(--color---dark-mode---neutral--neutral40);
+  border-bottom: 1px solid var(--color---dark-mode---neutral--neutral90);
+}
+
+#postAdvancedSearchModal .search-section ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  overflow-y: auto;
+}
+
+#postAdvancedSearchModal .search-section input[type="radio"] + label {
+  color: var(--color---neutral--neutral40);
+
+  &:hover {
+    color: var(--color---base---active);
+  }
+
+  &.selected {
+    color: var(--color---base---active);
+  }
+}
+
+[data-theme="dark"]
+  #postAdvancedSearchModal
+  .search-section
+  input[type="radio"]
+  + label {
+  color: var(--color---dark-mode---neutral--neutral40);
+
+  &:hover {
+    color: var(--color---dark-mode---base---active);
+  }
+
+  &.selected {
+    color: var(--color---dark-mode---base---active);
+  }
+}
+
+#postAdvancedSearchModal #postAdvancedSearchTags {
+  padding-top: 0rem;
+  margin-top: 0.5rem;
+  gap: 0px;
+  overflow-y: hidden;
+  color: var(--color---neutral--neutral50);
+  height: 240px;
+  overflow-y: auto; /* Add vertical scrollbar when necessary */
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color---neutral--neutral80);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--color---neutral--neutral99);
+  }
+
+  & li {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+  }
+}
+
+[data-theme="dark"] #postAdvancedSearchModal #postAdvancedSearchTags {
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color---dark-mode---neutral--neutral60);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--color---dark-mode---neutral--neutral95);
+  }
+}
+
+#postAdvancedSearchModal #postAdvancedSearchTags li:hover,
+#postAdvancedSearchModal #postAdvancedSearchTags li.selected {
+  cursor: pointer;
+  background-color: var(--color---neutral--neutral95);
+
+  & > * {
+    color: var(--color---base---black);
+  }
+}
+
+#postAdvancedSearchModal #postAdvancedSearchTags li.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: transparent;
+
+  & > * {
+    cursor: not-allowed;
+    color: var(--color---neutral--neutral70);
+  }
+}
+
+[data-theme="dark"] #postAdvancedSearchModal #postAdvancedSearchTags li {
+  color: var(--color---dark-mode---neutral--neutral40);
+}
+
+[data-theme="dark"] #postAdvancedSearchModal #postAdvancedSearchTags li:hover,
+[data-theme="dark"]
+  #postAdvancedSearchModal
+  #postAdvancedSearchTags
+  li.selected {
+  background-color: var(--color---dark-mode---neutral--neutral90);
+
+  & > * {
+    color: var(--color---dark-mode---neutral---neutral40);
+  }
+}
+
+[data-theme="dark"]
+  #postAdvancedSearchModal
+  #postAdvancedSearchTags
+  li.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: transparent;
+
+  & > * {
+    cursor: not-allowed;
+    color: var(--color---dark-mode---neutral--neutral70);
+  }
+}
+
+#postTagsCol .search-header {
+  padding-bottom: 0.4rem !important;
+}
+
+#postAdvancedSearchModal #postTagSearchButton,
+#postAdvancedSearchModal #postTagSearchCancelButton {
+  padding: 0.5rem;
+  border-radius: 50%;
+  margin-top: -0.25rem;
+  &:hover,
+  &:active {
+    background-color: var(--color---neutral--neutral95);
+  }
 }
 
 .navbar .open-button {
@@ -521,6 +766,11 @@ form {
     min-width: auto; /* Reset min-width for button on mobile */
     padding: 8px 12px; /* Example padding for button */
   }
+}
+  
+[data-theme="dark"] .navbar #postSearchSubmitButton:hover,
+[data-theme="dark"] .navbar #togglePostAdvancedSearchButton:hover {
+  background-color: var(--color---dark-mode---neutral--neutral90);
 }
 
 /* theme toggle */
@@ -642,6 +892,46 @@ form {
   }
 }
 
+.theme-toggle-button-container {
+  position: fixed;
+  right: 8px;
+  bottom: 8px;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  border-radius: 50%;
+  background-color: var(--color---neutral--neutral80);
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--color---neutral--neutral70);
+  }
+}
+
+[data-theme="dark"] .theme-toggle-button-container {
+  background-color: var(--color---dark-mode---neutral--neutral100);
+
+  &:hover {
+    background-color: var(--color---dark-mode---neutral--neutral90);
+  }
+}
+
+.auth-body {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color---neutral--neutral95);
+}
+
+[data-theme="dark"] .auth-body {
+  background-color: var(--color---dark-mode---neutral--neutral95);
+}
+
 /* modal */
 .modal {
   border: 0;
@@ -657,6 +947,50 @@ form {
 .modal::-webkit-scrollbar {
   width: 0px;
 }
+
+/* sign up form */
+#signUpForm,
+#signInForm,
+#forgotPasswordForm,
+#resetPasswordForm {
+  width: clamp(400px, 50%, 720px);
+  border-radius: 8px;
+}
+
+#signUpForm label,
+#signInForm label,
+#forgotPasswordForm label,
+#resetPasswordForm label {
+  min-width: 20%;
+}
+
+#signUpForm input,
+#signInForm input,
+#forgotPasswordForm input,
+#resetPasswordForm input {
+  border: 1px solid transparent;
+}
+
+#signUpForm .divider,
+#signInForm .divider,
+#forgotPasswordForm .divider,
+#resetPasswordForm .divider {
+  width: calc(100% + 2 * 1.5rem);
+  margin-left: -1.5rem;
+}
+
+#signUpForm .text-active:hover,
+#signInForm .text-active:hover,
+#forgotPasswordForm .text-active:hover,
+#resetPasswordForm .text-active:hover,
+#signUpForm .text-active:active,
+#signInForm .text-active:active,
+#forgotPasswordForm .text-active:active,
+#resetPasswordForm .text-active:active {
+  text-decoration: underline;
+}
+
+/* user profile modal */
 
 #userProfileModal {
   position: fixed;
@@ -931,7 +1265,7 @@ form {
   background-color: var(--color---dark-mode---neutral--neutral95);
 }
 
-.post-section .create-post-card {
+.search-bar .create-post-card {
   align-items: center;
   gap: 24px;
 }
@@ -977,7 +1311,7 @@ form {
   gap: 24px;
 }
 
-.post-card__user-info-container .user-info.text .text-label-lg {
+.post-card__user-info-container .user-info-text .text-label-lg {
   font-weight: 600;
 }
 
@@ -1304,6 +1638,10 @@ form {
   opacity: 0.3;
 }
 
+#signUpForm .error-message,
+#signInForm .error-message,
+#forgotPasswordForm .error-message,
+#resetPasswordForm .error-message,
 #createPostCard .error-message,
 #editPostCard .error-message,
 #createTagModal .error-message,
@@ -1311,7 +1649,10 @@ form {
   cursor: default;
   color: var(--color---alert---error);
 }
-
+[data-theme="dark"] #signUpForm .error-message,
+[data-theme="dark"] #signInForm .error-message,
+[data-theme="dark"] #forgotPasswordForm .error-message,
+[data-theme="dark"] #resetPasswordForm .error-message,
 [data-theme="dark"] #createPostCard .error-message,
 [data-theme="dark"] #editPostCard .error-message,
 [data-theme="dark"] #createTagModal .error-message,
@@ -2527,4 +2868,11 @@ form {
 
 [data-theme="light"] {
   --stroke-color: var(--stroke-color-light);
+}
+
+.post-not-found-text {
+  position: absolute;
+  top: 2.5rem;
+  right: 11rem;
+  z-index: 100;
 }

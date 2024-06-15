@@ -28,12 +28,14 @@ def get_tags():
         for tag in tags:
             tags_dict[tag.name] = tag.color
 
-        return jsonify(
-            {
-                "status": responseStatus.OK,
-                "message": "Tags retrieved successfully",
-                "tags": tags_dict,
-            },
+        return (
+            jsonify(
+                {
+                    "status": responseStatus.OK,
+                    "message": "Tags retrieved successfully",
+                    "tags": tags_dict,
+                },
+            ),
             responseStatus.OK,
         )
     except Exception as e:

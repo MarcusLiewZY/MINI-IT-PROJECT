@@ -1,3 +1,5 @@
+import { fetchAPI } from "./utils.js";
+
 // navigation and filter for notification page
 
 const adminNotificationsMapping = [
@@ -84,20 +86,13 @@ class ReportingCommentHandler {
   allowReportedComment(commentId) {
     return async () => {
       try {
-        const response = await fetch(
+        const { status } = await fetchAPI(
           `/api/comments/${commentId}/reporting?isReport=false`,
-          {
-            method: "PUT",
-            body: JSON.stringify({ userId: this.userId }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          },
+          "PUT",
+          { userId: this.userId },
         );
 
-        const data = await response.json();
-
-        return data.status === 200;
+        return status === 200;
       } catch (error) {
         console.error("Error allowing reported comment", error);
       }
@@ -107,15 +102,13 @@ class ReportingCommentHandler {
   deleteReportedComment(commentId) {
     return async () => {
       try {
-        const response = await fetch(`/api/comments/${commentId}`, {
-          method: "DELETE",
-          body: JSON.stringify({ userId: this.userId }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const { status } = await fetchAPI(
+          `/api/comments/${commentId}`,
+          "DELETE",
+          { userId: this.userId },
+        );
 
-        return response.status === 200;
+        return status === 200;
       } catch (error) {
         console.error("Error deleting reported comment", error);
       }
@@ -181,19 +174,13 @@ class ApprovingPostHandler {
   approvePost(postId) {
     return async () => {
       try {
-        const response = await fetch(`/api/posts/${postId}/post-status`, {
-          method: "PUT",
-          body: JSON.stringify({
-            postStatus: "unread_approved",
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const { status } = await fetchAPI(
+          `/api/posts/${postId}/post-status`,
+          "PUT",
+          { postStatus: "unread_approved" },
+        );
 
-        const data = await response.json();
-
-        return data.status === 200;
+        return status === 200;
       } catch (error) {
         console.error("Error allowing reported comment", error);
       }
@@ -203,19 +190,13 @@ class ApprovingPostHandler {
   rejectPost(postId) {
     return async () => {
       try {
-        const response = await fetch(`/api/posts/${postId}/post-status`, {
-          method: "PUT",
-          body: JSON.stringify({
-            postStatus: "unread_rejected",
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const { status } = await fetchAPI(
+          `/api/posts/${postId}/post-status`,
+          "PUT",
+          { postStatus: "unread_rejected" },
+        );
 
-        const data = await response.json();
-
-        return data.status === 200;
+        return status === 200;
       } catch (error) {
         console.error("Error deleting reported comment", error);
       }

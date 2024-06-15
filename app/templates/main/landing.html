@@ -27,7 +27,7 @@
         </div>
     </button>
 </div>
-
+<div>
     <!-- Header Section -->
     <div class="mmu-header">
         MMU Confession
@@ -37,9 +37,12 @@
     <div class="menu">
         <!-- Start Box -->
         <div class="start-box">
-            {% include "svgs/mmu-logo.html" %}
-            <a href="{{ url_for('user.microsoft_login') }}" class="signup-link">
-            {% include "svgs/microsoft-logo.html" %}
+            <img
+                src="{{ url_for('static', filename = 'img/mmu_logo.png') }}"
+                alt="MMU Logo"
+            />
+            <a href="{{ url_for('user.sign_up') }}" class="signup-link">
+            {# {% include "svgs/microsoft-logo.html" %} #}
             
             Sign up with student email</a>
         </div>

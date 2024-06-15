@@ -1,5 +1,3 @@
-import { onLoadCommentHandler } from "./commentHandler.js";
-
 export const setConnectionLine = () => {
   var commentContainers = document.querySelectorAll(".comment-container");
 

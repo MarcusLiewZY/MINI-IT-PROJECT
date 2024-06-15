@@ -212,7 +212,9 @@ export const autoResizeCommentInput = () => {
 };
 
 export const postCardHandler = () => {
-  const userId = document.querySelector(".current-user-id").dataset.userId;
+  const userId = document.querySelector(".current-user-id")?.dataset.userId;
+
+  // if (!userId) return;
 
   const postCardHandler = new PostCardHandler(userId);
   const postCards = document.querySelectorAll(".post-card");

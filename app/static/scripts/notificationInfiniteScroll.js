@@ -30,9 +30,19 @@ const fetchNotifications = async (
       },
     );
 
-    const { status, html, has_next } = await response.json();
+    const { status, html, has_next, page } = await response.json();
 
     if (status === 200) {
+      // if there is no notification
+      if (!has_next && page === 1 && html === "") {
+        const notResourceHandlerContainer = notificationContainer.querySelector(
+          ".no-resource-handler-container",
+        );
+        if (notResourceHandlerContainer) {
+          notResourceHandlerContainer.classList.remove("d-none");
+        }
+      }
+
       const tempDiv = document.createElement("div");
       tempDiv.innerHTML = html;
 

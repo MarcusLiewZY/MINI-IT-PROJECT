@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/loginedBase.html" %}
 
 {% block title %}
   Posts
@@ -22,6 +22,9 @@
           class="flex gap-2"
           id="avatarForm"
         >
+          <!-- CSRF token -->
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
           <button type="button" class="text-label-lg edit-avatar">
             Edit avatar
           </button>
@@ -95,7 +98,7 @@
       </nav>
       {% if isRejected %}
         <div class="text-label-lg rejected-page-info">
-          You can resubmit or delete the rejected post
+          Tips: You can resubmit or delete the rejected post
         </div>
       {% endif %}
     </div>
@@ -107,6 +110,9 @@
       <div class="flex flex-center loading-container d-none">
         {% include "svgs/infinity-loading-spinner.html" %}
       </div>
+      {% with svgImage="svgs/mePageNoContent.html", notSourceHandlerMessages = notSourceHandlerMessages %}
+        {% include "layouts/noResourceHandler.html" %}
+      {% endwith %}
     </div>
   </section>
 {% endblock content %}

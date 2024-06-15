@@ -51,6 +51,14 @@
   fill: var(--color---base---active);
 }
 
+.search-small {
+  height: 14px;
+  width: 14px;
+  & path {
+    fill: var(--color---neutral--neutral40);
+  }
+}
+
 [data-theme="dark"] .search.svg-fill-blue path {
   fill: var(--color---dark-mode---base---active-hover);
 }
@@ -84,20 +92,20 @@
 }
 
 svg#mmuLogo {
-  & path#firstBlueEdge,
-  & path#secondBlueEdge,
+  & path#firstBluePin,
+  & path#secondBluePin,
   & path#firstMCharacter,
   & path#secondMCharacter {
-    fill: #064fa3;
+    fill: #0750a4;
   }
 
   & path#redCircle,
   & path#UCharacter {
-    fill: #ea2229;
+    fill: #ec232a;
   }
 }
 
-[data-theme="dark"] svg#mmuLogo {
+/* [data-theme="dark"] svg#mmuLogo {
   & path#firstBlueEdge,
   & path#secondBlueEdge,
   & path#firstMCharacter,
@@ -109,4 +117,4 @@ svg#mmuLogo {
   & path#UCharacter {
     fill: var(--color---dark-mode---base---error);
   }
-}
+} */

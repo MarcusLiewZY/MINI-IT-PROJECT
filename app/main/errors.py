@@ -1,10 +1,11 @@
 from flask import render_template
 
-from . import main
+from app import app
+from flask_login import current_user
 
 
 # status code 401 - unauthorized
-@main.errorhandler(401)
+@app.errorhandler(401)
 def unauthorized_page(error):
     return render_template("errors/401.html"), 401
 
@@ -15,12 +16,12 @@ def forbidden(error):
 
 
 # status code 404 - not found
-@main.errorhandler(404)
+@app.errorhandler(404)
 def page_not_found(error):
-    return render_template("errors/404.html"), 404
+    return render_template("errors/404.html", user=current_user), 404
 
 
 # status code 500 - internal server error
-@main.errorhandler(500)
+@app.errorhandler(500)
 def server_error_page(error):
     return render_template("errors/500.html"), 500
