@@ -4,6 +4,13 @@
   padding: 0px;
 }
 
+@media (max-width: 600px) {
+  .container {
+    max-width: 100%; /* Make the container full-width on mobile */
+    padding: 0 16px; /* Add some padding for mobile devices */
+  }
+}
+
 .d-none {
   display: none !important;
 }

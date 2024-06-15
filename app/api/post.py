@@ -16,7 +16,7 @@ from app.dto.post_dto import PostDTO
 from app.utils.api_utils import error_message
 from app.utils.decorators import api_login_required, api_is_admin
 
-
+#Retrieves all posts based on optional query parameters (isPreview, isDeleted, isApproved)
 @api.route("/posts", methods=["GET"])
 @api_login_required
 def get_posts():
@@ -134,7 +134,7 @@ def create_post():
             "Internal Server Error", responseStatus.INTERNAL_SERVER_ERROR
         )
 
-
+#Retrieves a single post based on its ID, convert to DTO & return/error message
 @api.route("/posts/<post_id>", methods=["GET"])
 @api_login_required
 def get_post(post_id):

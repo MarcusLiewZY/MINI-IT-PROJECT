@@ -2,6 +2,13 @@
   margin-top: 100px;
 }
 
+@media (max-width: 600px) {
+  .campus-selection-section {
+    margin-top: 50px;
+  }
+}
+ddd
+
 /* MMU's MM text color set to blue */
 .mmu-m {
   color: blue;
@@ -21,6 +28,14 @@
   position: relative; /* Relative positioning */
 }
 
+@media (max-width: 600px) {
+  .grid-container {
+    grid-template-columns: 1fr; /* Single column for mobile */
+    grid-gap: 20px; /* Reduced gap between grids */
+    margin-top: 10px; /* Adjusted top margin for mobile */
+  }
+}
+
 /* Grid item styles */
 .grid-item {
   border: 1px solid #ccc; /* Border style */
@@ -36,6 +51,13 @@
   padding: 32px 0px;
 }
 
+@media (max-width: 600px) {
+  .grid-item {
+    margin: 10px; /* Reduce margin for mobile */
+    padding: 16px 0px; /* Adjust padding for mobile */
+  }
+}
+
 /* Hover effect on grid item */
 .grid-item:hover {
   transform: scale(1.05); /* Scale effect */
@@ -47,6 +69,14 @@
   height: 80%; /* Image height */
   object-fit: cover; /* Image fit */
   border-radius: 10px; /* Border radius for image */
+}
+
+@media (max-width: 600px) {
+  .grid-item img {
+    width: 100%; /* Make the image take full width */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Slightly reduce border radius for mobile */
+  }
 }
 
 /* Image grayscale effect */
@@ -125,7 +155,23 @@
   position: relative;
 }
 
-/* Center align text for MMU Confession title */
+@media (max-width: 600px) {
+  .about-us {
+    max-width: 100%; /* Allow the section to take full width on mobile */
+    padding: 10px; /* Reduce padding for mobile */
+  }
+
+  .circle {
+    width: 40px; /* Adjust the size for better fit on mobile */
+    height: 40px; /* Adjust the size for better fit on mobile */
+    font-size: 20px; /* Adjust font size for better fit on mobile */
+  }
+
+  .divider {
+    margin: 10px 0; /* Reduce margin for mobile */
+  }
+}
+
 .confession-title {
   text-align: center;
 }
@@ -295,4 +341,19 @@
 
 .post-btn:hover {
   background-color: #0056b3;
+}
+
+@media (max-width: 600px) {
+  .tablehome2 {
+    width: 90%; /* Adjust width for mobile */
+  }
+
+  .popup-content {
+    width: 90%; /* Make the popup width fit mobile screens */
+    margin: 50px auto; /* Adjust margin for mobile */
+  }
+
+  .inputpost {
+    width: 100%; /* Make input fields full width on mobile */
+  }
 }

@@ -26,6 +26,13 @@ body {
   justify-content: space-between;
 }
 
+@media (max-width: 600px) {
+  .menu {
+    padding: 10px;
+    justify-content: center;
+  }
+}
+
 /* Menu Links Styles */
 .menu-links {
   display: flex;
@@ -45,6 +52,13 @@ body {
 .menu a:hover {
   color: #fff;
   border-bottom-color: #fff; /* Adding bottom border on hover */
+}
+
+@media (max-width: 390px) {
+  .menu a {
+    font-size: 16px;
+    margin-right: 15px;
+  }
 }
 
 /* Divider Styles */
@@ -273,6 +287,32 @@ body {
   font-size: 24px;
 }
 
+@media (max-width: 600px) {
+  .pic1 {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    animation: fadeIn 2s ease;
+  }
+
+  .pic-text {
+    width: 100%;
+    max-width: 100%;
+    animation: fadeIn 2s ease;
+  }
+
+  .pic-text p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  .posts-text {
+    font-size: 18px;
+  }
+}
+
 /* Post Section Styles */
 .posts-section {
   background-color: #92897d; /* Same color as the About section */
@@ -349,6 +389,21 @@ body {
   color: #333; /* Adjust font color as needed */
 }
 
+@media (max-width: 600px) {
+  .post-text p:first-child {
+    font-size: 40px; /* Adjust font size for mobile */
+  }
+
+  .post-text p:first-child::after {
+    width: 80%; /* Adjust width for mobile */
+  }
+
+  .post-box {
+    width: 100%; /* Adjust width to full for mobile */
+    margin: 20px auto; /* Center align and adjust margin */
+  }
+}
+
 /* Like and Share Symbol Styles */
 .like-share {
   font-size: 16px; /* Set font size */
@@ -420,6 +475,32 @@ body {
 
 .faq-box.active .faq-answer-box {
   display: block; /* Show answer when active */
+}
+
+@media (max-width: 600px) {
+  .faq-box {
+    width: 90%;
+  }
+
+  .faq-box h3 {
+    font-size: 20px;
+  }
+
+  .faq-box p {
+    font-size: 14px;
+  }
+
+  .faq-text {
+    font-size: 20px;
+  }
+
+  .faq-text h2 {
+    font-size: 24px;
+  }
+
+  .faq-text p {
+    bottom: -20px;
+  }
 }
 
 /* Style for Privacy Policy & Terms of Service Section */
@@ -509,6 +590,13 @@ body {
   justify-content: space-between;
 }
 
+@media (max-width: 600px) {
+  .menu {
+    padding: 10px; /* Reduce padding for smaller screens */
+    justify-content: center; /* Center items horizontally */
+  }
+}
+
 /* Menu Links Styles */
 .menu-links {
   display: flex;
@@ -528,6 +616,18 @@ body {
 .menu a:hover {
   color: #fff;
   border-bottom-color: #fff; /* Adding bottom border on hover */
+}
+
+@media (max-width: 600px) {
+  .menu {
+    padding: 10px; /* Reduce padding for smaller screens */
+    justify-content: center; /* Center items horizontally */
+  }
+
+  .menu a {
+    font-size: 16px; /* Further reduce font size for smaller screens */
+    margin-right: 15px; /* Adjust margin for smaller screens */
+  }
 }
 
 /* Divider Styles */
@@ -569,6 +669,18 @@ body {
 .menu a:hover::after,
 .menu a.active::after {
   width: 100%; /* Showing line on hover or active */
+}
+
+@media (max-width: 390px) {
+  .menu {
+    padding: 10px; /* Reduce padding for smaller screens */
+    justify-content: center; /* Center items horizontally */
+  }
+
+  .menu a {
+    font-size: 16px; /* Further reduce font size for smaller screens */
+    margin-right: 15px; /* Adjust margin for smaller screens */
+  }
 }
 
 /* Signup Link Animation */
@@ -654,6 +766,12 @@ body {
 
 .connect-like {
   font-size: 60px;
+}
+
+@media (max-width: 600px) {
+  .connect-like {
+    font-size: 36px; /* Adjust font size for mobile */
+  }
 }
 
 /* About Section Styles */
@@ -747,6 +865,38 @@ body {
   font-size: 24px;
 }
 
+@media (max-width: 600px) {
+  .pic-description {
+    flex-direction: column; /* Stack items vertically */
+    padding-left: 0; /* Remove left padding */
+    padding-right: 0; /* Remove right padding */
+  }
+
+  .pic1 {
+    width: 100%; /* Take full width */
+    max-width: 100%; /* Ensure it doesn't exceed container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover;
+    animation: fadeIn 2s ease;
+  }
+
+  .pic-text {
+    width: 100%; /* Take full width */
+    max-width: 100%; /* Ensure it doesn't exceed container */
+    animation: fadeIn 2s ease;
+  }
+
+  .pic-text p {
+    font-size: 18px; /* Adjust font size */
+    line-height: 1.6; /* Adjust line height */
+    color: #333; /* Adjust text color */
+  }
+
+  .posts-text {
+    font-size: 18px; /* Adjust font size */
+  }
+}
+
 /* Post Section Styles */
 .posts-section {
   background-color: #92897d; /* Same color as the About section */
@@ -836,7 +986,6 @@ body {
 }
 
 /* Style for FAQ Section */
-
 .faq-section {
   text-align: center;
 }
