@@ -184,31 +184,7 @@ Before starting the installation process, please ensure you have registered for 
 
 <br>
 
-5. Setup the database.
-
-   Delete the [`migrations`](migrations) folder if it exists in the root directory.
-
-   Initialize the database.
-
-   ```bash
-   flask db init
-   ```
-
-   Migrate the database.
-
-   ```bash
-   flask db migrate
-   ```
-
-   Upgrade the database.
-
-   ```bash
-   flask db upgrade
-   ```
-
-   <br>
-
-6. Optional: Seed the database with sample data.
+5. Optional: Seed the database with sample data.
 
    You can seed the database with sample data by running the following command. By default, the seeding configuration level is simple.
 
@@ -232,7 +208,7 @@ Before starting the installation process, please ensure you have registered for 
 
 <br>
 
-7. Run the application 🚀
+6. Run the application 🚀
 
    Once the installation is complete, you can run the app by typing the following command in the terminal.
 
@@ -242,7 +218,7 @@ Before starting the installation process, please ensure you have registered for 
 
    <br>
 
-8. Optional: Change to admin role.
+7. Optional: Change to admin role.
 
    To access the admin panel, you need to change the role of the user to admin.
 

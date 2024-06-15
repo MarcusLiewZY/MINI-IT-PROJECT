@@ -1,11 +1,10 @@
-import os
 from datetime import datetime
 from flask import url_for, redirect, flash, request, render_template
 from flask_login import login_user, logout_user, current_user
 
 
 from . import user
-from app import oauth, bcrypt, db
+from app import bcrypt, db
 from app.models import User
 from app.auth.forms import (
     RegisterForm,
@@ -20,6 +19,7 @@ from app.utils.decorators import login_required, logout_required, development_on
 @user.route("/sign-up", methods=["GET", "POST"])
 @logout_required
 def sign_up():
+
     form = RegisterForm(request.form)
 
     if form.validate_on_submit():
@@ -79,6 +79,9 @@ def sign_in():
         if not user.is_confirmed:
 
             token = generate_token(user.email)
+
+            print(token)
+
             confirm_url = url_for(
                 "user.confirm_email", token=token, _external=True
             )  # external=True to get the full url
@@ -96,7 +99,7 @@ def sign_in():
 
 
 @user.route("/confirm/<token>")
-@logout_required
+@login_required
 def confirm_email(token):
 
     email = confirm_token(token, expiration=180)  # 3 minutes
@@ -113,6 +116,7 @@ def confirm_email(token):
 
     if user.is_confirmed:
         flash("Account already confirmed", "info")
+        return redirect(url_for("main.community_guidelines"))
 
     user.is_confirmed = True
     user.updated_at = db.func.now()
@@ -178,8 +182,6 @@ def forgot_password():
         html = render_template("auth/confirmResetPassword.html", reset_url=reset_url)
         subject = "Reset your password"
         send_mail(user.email, subject, html)
-
-        # login_user(user)
 
         flash("A password reset link has been sent via email", "success")
 
