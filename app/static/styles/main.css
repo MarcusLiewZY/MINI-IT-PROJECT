@@ -1325,7 +1325,6 @@ form {
 
 .post-card__user-info-container .user-info-text {
   display: flex;
-  flex-direction: column;
   font-size: 14px;
 }
 
