@@ -129,10 +129,14 @@ def seeds(seed_config: SeedConfig):
         )
 
         if cloudinary_avatar_url is None:
+            print(Colors.fg.cyan, "Trying to upload with another image url...")
+
             avatar_url = "https://picsum.photos/80/80"
             cloudinary_avatar_url = upload_image(
                 avatar_url, app.config["CLOUDINARY_AVATAR_IMAGE_FOLDER"]
             )
+
+            print(Colors.fg.cyan, "Image uploaded successfully!")
 
         user = User(
             {
@@ -195,10 +199,14 @@ def seeds(seed_config: SeedConfig):
             )
 
             if cloudinary_image_url is None:
+                print(Colors.fg.cyan, "Trying to upload with another image url...")
+
                 image_url = f"https://picsum.photos/{random.randint(seed_config.MIN_POST_WIDTH, seed_config.MAX_POST_WIDTH)}/{random.randint(seed_config.MIN_POST_HEIGHT, seed_config.MAX_POST_HEIGHT)}"
                 cloudinary_image_url = upload_image(
                     image_url, app.config["CLOUDINARY_POST_IMAGE_FOLDER"]
                 )
+
+                print(Colors.fg.cyan, "Image uploaded successfully!")
 
             post = Post(
                 {
