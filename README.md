@@ -153,27 +153,27 @@ Before starting the installation process, please ensure you have registered for 
 4. Create a `.env` file in the root directory and add the environment variables from the [`.env.sample`](.env.sample) file.
 
    ```env
-    SECRET_KEY= #your_secret_key_here
-    DEBUG=True
-    DATABASE_URL= #postgresql://user:password@localhost/dbname
-    FLASK_APP=app
-    FLASK_DEBUG=1
-    FLASK_RUN_HOST="localhost"
-    ENV=development
-    TZ=Asia/Kuala_Lumpur
+   SECRET_KEY= #your_secret_key_here
+   DEBUG=True
+   DATABASE_URL= #postgresql://user:password@localhost/dbname
+   FLASK_APP=app
+   FLASK_DEBUG=1
+   FLASK_RUN_HOST="localhost"
+   ENV=development
+   TZ=Asia/Kuala_Lumpur
 
-    # Email verification
-    SECURITY_PASSWORD_SALT= #your_security_salt_here
-    EMAIL_USER= #get_this_from_smtp2go
-    EMAIL_PASSWORD= #get_this_from_smtp2go
+   # Email verification
+   SECURITY_PASSWORD_SALT= #your_security_salt_here
+   EMAIL_USER= #get_this_from_smtp2go
+   EMAIL_PASSWORD= #get_this_from_smtp2go
 
-    # Cloudinary
-    CLOUDINARY_CLOUD_NAME=#get_this_from_cloudinary
-    CLOUDINARY_API_KEY= #get_this_from_cloudinary
-    CLOUDINARY_API_SECRET= #get_this_from_cloudinary
+   # Cloudinary
+   CLOUDINARY_CLOUD_NAME=#get_this_from_cloudinary
+   CLOUDINARY_API_KEY= #get_this_from_cloudinary
+   CLOUDINARY_API_SECRET= #get_this_from_cloudinary
 
-    # Supabase
-    SUPABASE_PASSWORD= #get_this_from_supabase
+   # Supabase
+   SUPABASE_PASSWORD= #get_this_from_supabase
    ```
 
    After that, run the following command to set the environment variables.
