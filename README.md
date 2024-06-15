@@ -184,19 +184,53 @@ Before starting the installation process, please ensure you have registered for 
 
 <br>
 
-5. Optional: Seed the database with sample data.
+5. Setup the database.
 
-   You can seed the database with sample data by running the following command.
+   Initialize the database.
 
    ```bash
-   python manage.py seeds
+   flask db init
    ```
 
-   **Note:** The estimated time for seeding the database is approximately 15-30 minutes. Make sure you have a stable internet connection.
+   Migrate the database.
+
+   ```bash
+   flask db migrate
+   ```
+
+   Upgrade the database.
+
+   ```bash
+   flask db upgrade
+   ```
+
+   <br>
+
+6. Optional: Seed the database with sample data.
+
+   You can seed the database with sample data by running the following command. By default, the seeding configuration level is simple.
+
+   ```bash
+   python manage.py seeds --simple
+   ```
+
+   If you want to seed the database with more data, you can specify the configuration level as follows:
+
+   ```bash
+   python manage.py seeds --medium
+   ```
+
+   or
+
+   ```bash
+   python manage.py seeds --complex
+   ```
+
+   **Note:** The estimated time for complex seeding level is approximately 15-30 minutes. Make sure you have a stable internet connection.
 
 <br>
 
-6. Run the application 🚀
+7. Run the application 🚀
 
    Once the installation is complete, you can run the app by typing the following command in the terminal.
 

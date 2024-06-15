@@ -70,17 +70,21 @@ def recreate_db():
     help="Seed the database with complex seeding configuration.",
 )
 def seed(simple, medium, complex):
+    """
+    By default, seeds the database with simple seeding configuration.
+    """
+
     from seeds import seeds, SeedConfig
 
     try:
         seed_config = SeedConfig()
 
-        if simple:
-            seed_config.set_config("simple")
-        elif medium:
+        if medium:
             seed_config.set_config("medium")
         elif complex:
             seed_config.set_config("complex")
+        else:
+            seed_config.set_config("simple")
 
         seeds(seed_config=seed_config)
 
