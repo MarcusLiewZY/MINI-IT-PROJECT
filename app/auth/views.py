@@ -80,8 +80,6 @@ def sign_in():
 
             token = generate_token(user.email)
 
-            print(token)
-
             confirm_url = url_for(
                 "user.confirm_email", token=token, _external=True
             )  # external=True to get the full url
@@ -99,7 +97,6 @@ def sign_in():
 
 
 @user.route("/confirm/<token>")
-@login_required
 def confirm_email(token):
 
     email = confirm_token(token, expiration=180)  # 3 minutes
