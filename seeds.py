@@ -127,6 +127,13 @@ def seeds(seed_config: SeedConfig):
         cloudinary_avatar_url = upload_image(
             avatar_url, app.config["CLOUDINARY_AVATAR_IMAGE_FOLDER"]
         )
+
+        if cloudinary_avatar_url is None:
+            avatar_url = "https://picsum.photos/80/80"
+            cloudinary_avatar_url = upload_image(
+                avatar_url, app.config["CLOUDINARY_AVATAR_IMAGE_FOLDER"]
+            )
+
         user = User(
             {
                 "email": f"{user_name}@mmu.edu.my",
@@ -134,6 +141,7 @@ def seeds(seed_config: SeedConfig):
                 "username": user_name,
                 "avatar_url": cloudinary_avatar_url,
                 "campus": random.choice(["CYBERJAYA", "MALACCA"]),
+                "is_confirmed": True,
                 "is_admin": False,
                 "created_at": fake.date_between(
                     start_date=datetime(2020, 1, 1),
@@ -181,9 +189,17 @@ def seeds(seed_config: SeedConfig):
             )
         ):
             image_url = f"https://source.unsplash.com/random/{random.randint(seed_config.MIN_POST_WIDTH, seed_config.MAX_POST_WIDTH)}x{random.randint(seed_config.MIN_POST_HEIGHT, seed_config.MAX_POST_HEIGHT)}"
+
             cloudinary_image_url = upload_image(
                 image_url, app.config["CLOUDINARY_POST_IMAGE_FOLDER"]
             )
+
+            if cloudinary_image_url is None:
+                image_url = f"https://picsum.photos/{random.randint(seed_config.MIN_POST_WIDTH, seed_config.MAX_POST_WIDTH)}/{random.randint(seed_config.MIN_POST_HEIGHT, seed_config.MAX_POST_HEIGHT)}"
+                cloudinary_image_url = upload_image(
+                    image_url, app.config["CLOUDINARY_POST_IMAGE_FOLDER"]
+                )
+
             post = Post(
                 {
                     "title": fake.text(max_nb_chars=120),

@@ -186,6 +186,8 @@ Before starting the installation process, please ensure you have registered for 
 
 5. Setup the database.
 
+   Delete the [`migrations`](migrations) folder if it exists in the root directory.
+
    Initialize the database.
 
    ```bash
@@ -239,6 +241,14 @@ Before starting the installation process, please ensure you have registered for 
    ```
 
    <br>
+
+8. Optional: Change to admin role.
+
+   To access the admin panel, you need to change the role of the user to admin.
+
+   ```bash
+   python manage.py role --admin
+   ```
 
 ## Usage
 
