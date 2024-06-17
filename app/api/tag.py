@@ -111,6 +111,8 @@ def get_tag(tag_id):
         A JSON object with the tag name, color, and description, and an HTTP status code.
     """
     try:
+        print(tag_id)
+        print(type(tag_id))
         tag = Tag.query.filter(Tag.id == UUID(tag_id)).first()
 
         if tag is None:

@@ -148,7 +148,7 @@ class CreateTagModalHandler {
 
         const tagDataObj = Object.fromEntries(tagData.entries());
 
-        const { status, tag } = await fetchAPI("POST", "/api/tags", tagDataObj);
+        const { status, tag } = await fetchAPI("/api/tags", "POST", tagDataObj);
 
         if (status === 409) {
           this.showErrorMessage("Tag name already exists.");
@@ -322,8 +322,8 @@ class EditTagModalHandler {
   async getTag() {
     try {
       const { status, tag } = await fetchAPI(
-        "GET",
         `/api/tags/${this.tagId}`,
+        "GET",
         null,
       );
 
@@ -364,8 +364,8 @@ class EditTagModalHandler {
       const tagDataObj = Object.fromEntries(tagData.entries());
 
       const { status, tag } = await fetchAPI(
-        "PUT",
         `/api/tags/${this.tagId}`,
+        "PUT",
         tagDataObj,
       );
 
@@ -397,8 +397,8 @@ class EditTagModalHandler {
   async onDeleteTagClick() {
     try {
       const { status } = await fetchAPI(
-        "DELETE",
         `/api/tags/${this.tagId}`,
+        "DELETE",
         null,
       );
 
