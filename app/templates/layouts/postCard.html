@@ -134,15 +134,13 @@
       {# comment section #}
       <div class="flex flex-col post-card__post-comment-container">
         {% if post.isPreview %}
-          {% if post.userInteraction.comments > 12 %}
-            <div class="mb-5 view-more-comment">
-              <a
-                href="{{ url_for('post.get_post', post_id = post.id) }}"
-                class="link text-label-lg"
-                >View more comments</a
-              >
-            </div>
-          {% endif %}
+          <div class="mb-5 view-more-comment">
+            <a
+              href="{{ url_for('post.get_post', post_id = post.id) }}"
+              class="link text-label-lg"
+              >View more comments</a
+            >
+          </div>
         {% endif %}
 
         <div class="flex flex-col comment-group-container">
