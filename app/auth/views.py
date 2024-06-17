@@ -298,7 +298,7 @@ def logout():
 
 @user.route("/faked-user-login", methods=["GET", "POST"])
 @logout_required
-@development_only
+# @development_only
 def faked_user_login():
     if request.method == "POST":
         email = request.form.get("email")
