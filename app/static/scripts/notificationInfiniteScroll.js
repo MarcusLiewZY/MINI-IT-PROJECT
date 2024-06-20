@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (notificationContainer.offsetHeight <= window.innerHeight) return;
 
       postElement.scrollIntoView({ behavior: "smooth" });
-      scrollToTopElement(document, 0, 5000);
+      scrollToTopElement(document, 0, 8000);
     } catch (error) {
       console.error("Error from onLoadAllPostStatus: ", error);
     }

@@ -505,7 +505,7 @@ const onCreateCommentHandlerSubmit = async (
       // navigate to the newly created comment
       newComment.scrollIntoView({ behavior: "smooth" });
 
-      scrollToTopElement(createCommentFormContainer, 20);
+      scrollToTopElement(createCommentFormContainer, 0, 8000);
     }
 
     return newComment;

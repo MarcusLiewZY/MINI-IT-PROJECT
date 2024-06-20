@@ -182,10 +182,6 @@ const onLoadMarkAllAsRead = () => {
     ".notification-section #notificationPageMarkAsReadButton",
   );
 
-  // button onclick event
-  // call the api by passing the filter value based on the param
-  // reload the page if success
-
   markAllAsReadButton?.addEventListener("click", async () => {
     try {
       const { status } = await fetchAPI(
@@ -217,7 +213,6 @@ document.addEventListener("notificationPaginationLoaded", () => {
 
   if (newPostId) {
     const newPost = document.getElementById(newPostId);
-    console.log(newPost);
     if (newPost) {
       scrollToTopElement(newPost);
       sessionStorage.removeItem("newPostId");
