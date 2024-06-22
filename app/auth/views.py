@@ -6,7 +6,7 @@ from flask_login import login_user, logout_user, current_user
 from . import user
 from app import bcrypt, db
 from app.models import User
-from app.auth.forms import (
+from app.forms.authForms import (
     RegisterForm,
     LoginForm,
     ForgotPasswordForm,
@@ -298,7 +298,7 @@ def logout():
 
 @user.route("/faked-user-login", methods=["GET", "POST"])
 @logout_required
-# @development_only
+@development_only
 def faked_user_login():
     if request.method == "POST":
         email = request.form.get("email")
