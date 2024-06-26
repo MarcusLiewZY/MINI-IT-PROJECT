@@ -14,6 +14,18 @@ class Campus(Enum):
     NONE = "None"
 
 
+BlacklistUser = db.Table(
+    "BlacklistUser",
+    db.Column("email", db.String(60), unique=True, nullable=False, primary_key=True),
+    db.Column(
+        "created_at",
+        db.DateTime(timezone=True),
+        nullable=False,
+        server_default=db.func.now(),
+    ),
+)
+
+
 PostLike = db.Table(
     "PostLike",
     db.Column(

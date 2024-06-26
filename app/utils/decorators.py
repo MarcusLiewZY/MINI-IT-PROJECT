@@ -6,15 +6,15 @@ from flask import redirect, url_for, flash, render_template
 from flask_login import current_user
 
 from app.services.auth_service import generate_token, send_mail
-from .api_utils import error_message
+from app.utils.api_utils import error_message
 
 
 def login_required(func):
     @wraps(func)
     def decorated_function(*args, **kwargs):
-
         if not current_user.is_authenticated:
             return redirect(url_for("main.landing"))
+
         return func(*args, **kwargs)
 
     return decorated_function

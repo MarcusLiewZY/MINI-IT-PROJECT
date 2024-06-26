@@ -3,6 +3,8 @@ from cloudinary import uploader as cloudinary_uploader
 from datetime import datetime
 from werkzeug.datastructures import FileStorage
 import humanize
+from app import db
+from app.models import BlacklistUser
 
 
 def format_datetime(value: datetime) -> str:
@@ -43,3 +45,11 @@ def delete_image(image_url: str) -> bool:
     except Exception as e:
         print(e)
         return False
+
+
+def validate_blacklist(email: str) -> bool:
+    blackListed_user = (
+        db.session.query(BlacklistUser).filter(BlacklistUser.c.email == email).first()
+    )
+
+    return blackListed_user is not None

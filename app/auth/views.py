@@ -14,6 +14,7 @@ from app.forms.authForms import (
 )
 from app.services.auth_service import confirm_token, generate_token, send_mail
 from app.utils.decorators import login_required, logout_required, development_only
+from app.utils.helper import validate_blacklist
 
 
 @user.route("/sign-up", methods=["GET", "POST"])
@@ -23,6 +24,11 @@ def sign_up():
     form = RegisterForm(request.form)
 
     if form.validate_on_submit():
+
+        if validate_blacklist(form.email.data):
+            flash("Your account has been blacklisted", "error")
+            return redirect(url_for("main.landing"))
+
         user = User.query.filter_by(email=form.email.data).first()
 
         if user:
@@ -64,6 +70,10 @@ def sign_in():
     form = LoginForm(request.form)
 
     if form.validate_on_submit():
+        if validate_blacklist(form.email.data):
+            flash("Your account has been blacklisted", "error")
+            return redirect(url_for("main.landing"))
+
         user = User.query.filter_by(email=form.email.data).first()
 
         if not user:
@@ -298,7 +308,7 @@ def logout():
 
 @user.route("/faked-user-login", methods=["GET", "POST"])
 @logout_required
-@development_only
+# @development_only
 def faked_user_login():
     if request.method == "POST":
         email = request.form.get("email")
